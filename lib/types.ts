@@ -16,9 +16,12 @@ type Schedule = {
 
 type LessonLength = "30" | "60"
 
-type StudentSchedule = Schedule & {
+type StudentSchedule = {
     student: Student;
+    schedule: Schedule;
 }
+
+type State = "teacher" | "student" | "result"
 
 type Student = {
     name: string;

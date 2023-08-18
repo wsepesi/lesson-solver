@@ -13,24 +13,36 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+import { useToast } from "./ui/use-toast"
 
 type Props = {
-    students: Student[]
-    setStudents: (students: Student[]) => void
+    addStudentSchedule: (student: Student, buttonStates: boolean[][]) => void
+    buttonStates: boolean[][]
+    minutes: LessonLength
+    setMinutes: (minutes: LessonLength) => void
+    setState: (state: State) => void
+    reset: (func: () => void) => void
 }
 
 export function CardWithForm(props: Props) {
+    const { minutes, setMinutes } = props
     const [formData, setFormData] = React.useState<Student>({
         name: "",
         email: "",
-        lessonLength: "30",
+        lessonLength: minutes,
     })
+    const { toast } = useToast()
+
+    const handleClick = (minutes: LessonLength) => {
+        setFormData({ ...formData, lessonLength: minutes })
+        setMinutes(minutes)
+    }
 
     return (
         <Card className="w-[350px]">
             <CardHeader>
                 <CardTitle>Add new student</CardTitle>
-                <CardDescription>Fill out student details here</CardDescription>
+                <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription>
             </CardHeader>
             <CardContent>
                 <form
@@ -65,13 +77,13 @@ export function CardWithForm(props: Props) {
                     </div>
                     <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="framework">Lesson length</Label>
-                    <RadioGroup defaultValue="30" value={formData.lessonLength}>
+                    <RadioGroup defaultValue="30" value={minutes}>
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="30" id="r1" onClick={() => setFormData({ ...formData, lessonLength: "30"})}/>
+                            <RadioGroupItem value="30" id="r1" onClick={() => handleClick("30")}/>
                             <Label htmlFor="r1">30 mins</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="60" id="r2" onClick={() => setFormData({ ...formData, lessonLength: "60"})}/>
+                            <RadioGroupItem value="60" id="r2" onClick={() => handleClick("60")}/>
                             <Label htmlFor="r2">60 mins</Label>
                         </div>
                     </RadioGroup>
@@ -80,8 +92,28 @@ export function CardWithForm(props: Props) {
                 </form>
             </CardContent>
             <CardFooter className="flex justify-between">
-                <Button variant="outline">Cancel</Button>
-                <Button onClick={() => props.setStudents([...props.students, formData])}>Submit</Button>
+                <Button onClick={() => {
+                    props.addStudentSchedule(formData, props.buttonStates)
+                    props.setState("result")
+                    toast({
+                        title: "Student added!",
+                        description: "Submitting data...",
+                    })
+                }
+                }>Add and End</Button>
+                <Button onClick={() => {
+                    props.addStudentSchedule(formData, props.buttonStates)
+                    props.reset(() => setFormData({
+                        name: "",
+                        email: "",
+                        lessonLength: minutes,
+                    }))
+                    toast({
+                        title: "Student added!",
+                        description: "You can add another student or end.",
+                    })
+                }
+                }>Add and Continue</Button>
             </CardFooter>
         </Card>
     )
