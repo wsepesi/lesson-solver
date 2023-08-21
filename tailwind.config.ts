@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
+  safelist: [
+    "data-[state='on']:bg-emerald-600",
+    "bg-emerald-600"
+  ],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
