@@ -34,7 +34,7 @@ export default function Calendar(props: Props) {
                             {Days.map((_, j) => (
                                 <TableCell key={j} className="">
                                     <Toggle 
-                                        className="data-[state='on']:bg-emerald-600 w-full rounded-none"
+                                        className="data-[state=on]:bg-emerald-600 w-full rounded-none"
                                         pressed={buttonStates[j]![i]}
                                         onClick={() => {
                                             const newButtonStates = [...buttonStates]
