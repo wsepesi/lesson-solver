@@ -34,6 +34,7 @@ export default function Home() {
         }
         setFinalSchedule(finalSchedule)
       } catch (e) {
+        alert(e)
         console.log(e)
         console.log(studentSchedules, "studentSchedules")
         console.log(teacherSchedule, "teacherSchedule")
@@ -60,12 +61,6 @@ export default function Home() {
           setMinutes={setMinutes}
           setState={setState}
         />}
-        {/* {state === "result" && } */}
-        {/* <Button onClick={() => {
-          console.log(studentSchedules)
-          console.log(teacherSchedule)
-          runTests()
-        }}>Log</Button> */}
         {state === "result" && <ResultsTable
           scheduled={finalSchedule}
         />}
