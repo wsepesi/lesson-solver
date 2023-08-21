@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
+import type { Schedule, State } from "lib/types"
 
 import { Button } from "~/components/ui/button"
 import { buttonsToSchedule } from "lib/utils"

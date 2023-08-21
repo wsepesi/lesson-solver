@@ -1,3 +1,5 @@
+import type { LessonLength, Schedule, State } from "lib/types"
+
 import Calendar from "./Calendar"
 import { CardWithSubmit } from "./CardWithSubmit"
 import { Days } from "lib/utils"

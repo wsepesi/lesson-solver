@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
+import type { LessonLength, State, Student } from "lib/types"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 
 import { Button } from "~/components/ui/button"

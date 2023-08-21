@@ -1,4 +1,5 @@
 import { Days, buttonsToSchedule } from "lib/utils";
+import type { LessonLength, State, Student, StudentSchedule } from "lib/types";
 
 import Calendar from "./Calendar";
 import { CardWithForm } from "./CardWithForm";
