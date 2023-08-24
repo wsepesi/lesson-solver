@@ -16,4 +16,4 @@
 
 - Stronger error handling / front end reporting
 - Optimize scheduling loop
-- Clean up code in general (embarassingly messy rn)
+- Clean up code in general (embarassingly messy rn -- lots of this was an experiment in using GPT agents to write code.... not particularly worth it with the current workflow)
