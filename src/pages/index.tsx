@@ -1,13 +1,13 @@
-import type { LessonLength, Schedule, State, StudentSchedule } from "lib/types";
-import { type StudentAvailability, schedule, type Scheduled } from "lib/solver";
+import type { LessonLength, Schedule, Scheduled, State, StudentAvailability, StudentSchedule } from "lib/types";
 import { useEffect, useState } from "react"
 
 import CalendarHandler from "~/components/CalendarHandler";
 import { CardAndCalendar } from "~/components/CardAndCalendar";
+import { FailAlert } from "~/components/FailAlert";
 import { ResultsTable } from "~/components/ResultsTable";
 import { Toaster } from "~/components/ui/toaster";
+import { schedule } from "lib/solver";
 import { scheduleToAvailability } from "lib/utils";
-import { FailAlert } from "~/components/FailAlert";
 
 export default function Home() {
   const [studentSchedules, setStudentSchedules] = useState<StudentSchedule[]>([])
@@ -26,12 +26,13 @@ export default function Home() {
             availability: scheduleToAvailability(studentSchedule.schedule)
           }
         })
-        const finalSchedule = schedule(teacherAvailability, studentAvailabilities).sort((a, b) => {
-          return a.interval.start.valueOf() - b.interval.start.valueOf()
-        })
-        if (finalSchedule.length === 0) {
+        const scheduled = schedule(teacherAvailability, studentAvailabilities)
+        if (scheduled === null || scheduled.length === 0) {
           throw new Error("No schedule found")
         }
+        const finalSchedule = scheduled.sort((a, b) => {
+          return a.interval.start.valueOf() - b.interval.start.valueOf()
+        })
         setFinalSchedule(finalSchedule)
       } catch (e) {
         console.log(e)
@@ -60,12 +61,6 @@ export default function Home() {
           setMinutes={setMinutes}
           setState={setState}
         />}
-        {/* {state === "result" && } */}
-        {/* <Button onClick={() => {
-          console.log(studentSchedules)
-          console.log(teacherSchedule)
-          runTests()
-        }}>Log</Button> */}
         {state === "result" && <ResultsTable
           scheduled={finalSchedule}
         />}

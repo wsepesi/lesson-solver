@@ -1,7 +1,6 @@
-import { type Scheduled } from "lib/solver"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import { blockOfTimeToSchedule } from "lib/utils"
-import { blockOfTimeToString } from "lib/types"
+import { blockOfTimeToString, type Scheduled } from "lib/types"
 
 type Props = {
     scheduled: Scheduled[]
@@ -11,7 +10,7 @@ type Props = {
     const { scheduled } = props
     return (
       <Table className="mx-[25vw] max-w-[50vw] my-[25vh]">
-        <TableCaption>Final schedules:</TableCaption>
+        <TableCaption>Final schedules</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>

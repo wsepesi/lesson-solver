@@ -1,6 +1,8 @@
-import { type Scheduled, type StudentAvailability, schedule } from "./solver";
-import { Time } from "./types";
 import type { BlockOfTime, LessonLength } from "./types";
+import type { Scheduled, StudentAvailability } from "./types";
+
+import { Time } from "./types";
+import { schedule } from "./solver";
 const getIntervals = (arrs: number[][]): BlockOfTime[] => {
    return arrs.map((arr) => {
         return { start: new Time(arr[0]!, 0), end: new Time(arr[1]!, 0)}

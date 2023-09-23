@@ -2,6 +2,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { Days } from "lib/utils"
 import { Toggle } from "./ui/toggle"
+import { useState } from "react"
 
 type Props = {
     minutes: number
@@ -12,6 +13,26 @@ type Props = {
 
 export default function Calendar(props: Props) {
     const { minutes, buttonStates, setButtonStates, blocks } = props
+    const [isSelecting, setSelecting] = useState(false)
+
+    const handleClick = (i: number, j: number) => {
+        const newButtonStates = [...buttonStates]
+        newButtonStates[j]![i] = !newButtonStates[j]![i]
+        setButtonStates(newButtonStates)
+    }
+
+    const handleMouseDown = (i: number, j: number) => {
+        handleClick(i, j)
+        setSelecting(true)
+    }
+
+    const handleMouseUp = () => {
+        setSelecting(false)
+    }
+
+    const handleMouseOver = (i: number, j: number) => {
+        if (isSelecting) handleClick(i, j)
+    }
     
     return (
         <div className="p-5">
@@ -36,11 +57,9 @@ export default function Calendar(props: Props) {
                                     <Toggle 
                                         className="data-[state=on]:bg-emerald-600 w-full rounded-none"
                                         pressed={buttonStates[j]![i]}
-                                        onClick={() => {
-                                            const newButtonStates = [...buttonStates]
-                                            newButtonStates[j]![i] = !newButtonStates[j]![i]
-                                            setButtonStates(newButtonStates)
-                                        }}
+                                        onMouseDown={() => handleMouseDown(i, j)}
+                                        onMouseUp={handleMouseUp}
+                                        onMouseOver={() => handleMouseOver(i, j)}
                                     >
                                     </Toggle>
                                 </TableCell>

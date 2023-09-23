@@ -94,6 +94,14 @@ export function CardWithForm(props: Props) {
             </CardContent>
             <CardFooter className="flex justify-between">
                 <Button onClick={() => {
+                    // check we have a name and email
+                    if (formData.name === "" || formData.email === "") {
+                        toast({
+                            title: "Please fill out all fields",
+                            description: "Name and email are required",
+                        })
+                        return
+                    }
                     props.addStudentSchedule(formData, props.buttonStates)
                     props.setState("result")
                     toast({
@@ -103,6 +111,14 @@ export function CardWithForm(props: Props) {
                 }
                 }>Add and End</Button>
                 <Button onClick={() => {
+                    // check we have a name and email
+                    if (formData.name === "" || formData.email === "") {
+                        toast({
+                            title: "Please fill out all fields",
+                            description: "Name and email are required",
+                        })
+                        return
+                    }
                     props.addStudentSchedule(formData, props.buttonStates)
                     props.reset(() => setFormData({
                         name: "",

@@ -77,3 +77,21 @@ export type Student = {
 export type StudentWithSchedule = Student & {
     schedule: Schedule
 }
+
+export type Interval = {
+    start: number,
+    end: number
+}
+export type StudentAvailability =  {
+    student: Student,
+    availability: BlockOfTime[]
+}
+export type Scheduled =  {
+    student: StudentAvailability,
+    interval: BlockOfTime
+}
+
+export type ScheduleAndScore = {
+    schedule: Scheduled[],
+    score: number
+}

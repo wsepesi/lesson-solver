@@ -1,24 +1,6 @@
-import type { BlockOfTime, LessonLength, Student } from "./types";
+import type { BlockOfTime, LessonLength, ScheduleAndScore, Scheduled, StudentAvailability } from "./types";
 
 import { Time } from "./types";
-
-export type Interval = { // [number, number]
-    start: number,
-    end: number
-}
-export type StudentAvailability =  { //[number, Interval[]];
-    student: Student,
-    availability: BlockOfTime[]
-}
-export type Scheduled =  { //[Stud, Interval];
-    student: StudentAvailability,
-    interval: BlockOfTime
-}
-
-type ScheduleAndScore = {
-    schedule: Scheduled[],
-    score: number
-}
 
 const blockIsIn = (interval: BlockOfTime, intervals: BlockOfTime[]) => {
     for (const block of intervals) {
@@ -89,22 +71,6 @@ const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: n
                 curCount = 1
             }
         })
-        // for (let i = 0; i < sortedIntervals.length; i++) {
-        //     const interval = sortedIntervals[i]!
-        //     if (interval.start.equals(cur.end)) {
-        //         curCount++
-        //     }
-        //     else {
-        //         if (curCount > 1) {
-        //             score += curCount * curCount
-        //         }
-        //         if (curCount * toNum(scheduled[0]!.student.student.lessonLength) > 120) {
-        //             score -= 1000
-        //         }
-        //         cur = interval
-        //         curCount = 1
-        //     }
-        // }
         if (curCount > 1) {
             score += curCount * curCount
         }
@@ -152,9 +118,7 @@ const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: n
     }
 
     const minIntervals = legal.get(minStudent)!
-    // console.log(minStudent)
     const idx = Math.floor(Math.random() * minIntervals.length)
-    // console.log(idx, minIntervals.length)
     if (idx >= minIntervals.length) {
         throw new Error("idx is too big")
     }
@@ -246,28 +210,30 @@ const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: n
     }
 }
 
-export const schedule = (A_me: BlockOfTime[], S: StudentAvailability[]): Scheduled[] => {
-    // ensure inputs are sorted
-    A_me.sort((a, b) => compareTimes(a.start, b.start))
-    S.forEach((student) => {
-        student.availability = student.availability.sort((a, b) => compareTimes(a.start, b.start))
-    })
+export const schedule = (A_me: BlockOfTime[], S: StudentAvailability[]): Scheduled[] | null => {
+    try {
+        // ensure inputs are sorted
+        A_me.sort((a, b) => compareTimes(a.start, b.start))
+        S.forEach((student) => {
+            student.availability = student.availability.sort((a, b) => compareTimes(a.start, b.start))
+        })
 
-    // solve all possible legal states
-    const legal: Map<StudentAvailability, BlockOfTime[]> = new Map<StudentAvailability, BlockOfTime[]>()
+        // solve all possible legal states
+        const legal: Map<StudentAvailability, BlockOfTime[]> = new Map<StudentAvailability, BlockOfTime[]>()
 
-    S.forEach((studentAvailability) => {
-        const { student, availability } = studentAvailability
-        const legalForStudent = getLegalIntervals(toNum(student.lessonLength), availability, A_me)
-        if (legalForStudent.length === 0) {
-            throw new Error("No legal intervals")
-        }
-        legal.set(studentAvailability, legalForStudent) 
-    })
+        S.forEach((studentAvailability) => {
+            const { student, availability } = studentAvailability
+            const legalForStudent = getLegalIntervals(toNum(student.lessonLength), availability, A_me)
+            if (legalForStudent.length === 0) {
+                throw new Error("No legal intervals")
+            }
+            legal.set(studentAvailability, legalForStudent) 
+        })
 
-    // console.log(legal, "legal")
-
-    const res = scheduleHelper(legal, legal.size, [], true)
-    console.log(res.score)
-    return res.schedule
+        const res = scheduleHelper(legal, legal.size, [], true)
+        console.log(res.score)
+        return res.schedule
+    } catch (e) {
+        return null
+    }
 }
