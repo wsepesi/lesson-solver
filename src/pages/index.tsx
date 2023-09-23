@@ -35,6 +35,7 @@ export default function Home() {
         })
         setFinalSchedule(finalSchedule)
       } catch (e) {
+        alert(e)
         console.log(e)
         console.log(studentSchedules, "studentSchedules")
         console.log(teacherSchedule, "teacherSchedule")
