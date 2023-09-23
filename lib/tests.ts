@@ -3,6 +3,7 @@ import type { Scheduled, StudentAvailability } from "./types";
 
 import { Time } from "./types";
 import { schedule } from "./solver";
+
 const getIntervals = (arrs: number[][]): BlockOfTime[] => {
    return arrs.map((arr) => {
         return { start: new Time(arr[0]!, 0), end: new Time(arr[1]!, 0)}
@@ -26,9 +27,12 @@ const getStudents = (arrs: [number, [number, number][]][]): StudentAvailability[
     })
 }
 
-const checker = (result: Scheduled[], A_me: BlockOfTime[], S: StudentAvailability[], testNum: number) => {
+const checker = (result: Scheduled[] | null, A_me: BlockOfTime[], S: StudentAvailability[], testNum: number) => {
     // check if each student is scheduled at a time they are available, and that the teacher is available, and the scheduled blocks are non-overlapping
-    
+    if (result === null) {
+        console.log("No solution found")
+        return
+    }
     // check if each student is scheduled at a time they are available
     result.forEach((scheduled) => {
         const avail = scheduled.student.availability
