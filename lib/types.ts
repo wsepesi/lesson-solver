@@ -95,3 +95,16 @@ export type ScheduleAndScore = {
     schedule: Scheduled[],
     score: number
 }
+
+export type NewStudioInfo = {
+    name: string
+}
+
+export type StudioProgress = "Not Started" | "In Progress" | "Done"
+
+export type StudioInfo = {
+    name: string,
+    numEnrolled: number,
+    code: string
+    progress: StudioProgress
+}
