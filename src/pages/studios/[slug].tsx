@@ -1,6 +1,7 @@
 import { MyStudio } from "~/components/my-studio"
 import type { StudioInfo } from "lib/types"
 import { getURL } from "next/dist/shared/lib/utils"
+import { useRouter } from "next/router"
 
 type demoStudent = {
     name: string,
@@ -10,8 +11,9 @@ type demoStudent = {
 
 export default function Studio() {
     // make variable thats the slug, pulled from the url
-    const URL = getURL()
-    const slug = URL.split("/")[2]!
+    const router = useRouter()
+    const q = router.query
+    const slug = q.slug as string
 
     const studio: StudioInfo = {
         name: slug,
