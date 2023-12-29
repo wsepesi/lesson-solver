@@ -55,9 +55,9 @@ export default function Calendar(props: Props) {
                                 {minutes === 60 ? `${9 + i}:00` : `${!(i % 2) ? `${9 + (i / 2)}:00` : `${9 + Math.floor(i / 2)}:30`}`}
                             </TableCell>
                             {Days.map((_, j) => (
-                                <TableCell key={j} className="">
+                                <TableCell key={j} className="p-0 m-0 h-full">
                                     <Toggle 
-                                        className="data-[state=on]:bg-emerald-600 w-full rounded-none"
+                                        className="data-[state=on]:bg-emerald-600 w-full rounded-none px-0 m-0 py-0 min-h-full"
                                         pressed={buttonStates[j]![i]}
                                         onMouseDown={() => handleMouseDown(i, j)}
                                         onMouseUp={handleMouseUp}
