@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 import { Button } from "./ui/button";
-import CalendarHandler from "./CalendarHandler";
 import { Label } from "./ui/label";
 import ManualStudentCalendarHandler from "./ManualStudentCalendarHandler";
 import { useState } from "react";
