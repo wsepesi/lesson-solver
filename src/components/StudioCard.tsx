@@ -7,9 +7,9 @@ import type { StudioInfo } from "lib/types";
 export default function StudioCard(props: StudioInfo) {
     const { name, numEnrolled, code, progress } = props
     return (
-        <Card>
+        <Card className="cursor-pointer">
             <Link href={`/studios/${code}`}>
-                <CardContent className="grid gap-2 p-4">
+                <CardContent className="grid gap-2 p-4  hover:bg-gray-100">
                     <CardTitle>Studio {name}</CardTitle>
                     <CardDescription>Students Enrolled: {numEnrolled}</CardDescription>
                     <CardDescription>Studio Code: {code}</CardDescription>

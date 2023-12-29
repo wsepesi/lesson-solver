@@ -1,6 +1,5 @@
 import { MyStudio } from "~/components/my-studio"
 import type { StudioInfo } from "lib/types"
-import { getURL } from "next/dist/shared/lib/utils"
 import { useRouter } from "next/router"
 
 type demoStudent = {
@@ -31,6 +30,11 @@ export default function Studio() {
         {
             name: "Student 2",
             email: "s2@gmail.com",
+            progress: "Completed",
+        },
+        {
+            name: "Student 3",
+            email: "s3@gmail.com",
             progress: "In Progress",
         },
     ]

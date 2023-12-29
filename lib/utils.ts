@@ -7,6 +7,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const DayLength = 12 * 60
+
 export const Days: Day[] = [
   "Monday",
   "Tuesday",
@@ -135,3 +137,51 @@ export function scheduleToButtons(schedule: Schedule, lessonLength: LessonLength
   })
   return buttons
 }
+
+export const buttonStatesToText = (buttonStates: boolean[][]): string => {
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  let scheduleText = "";
+
+  for (let i = 0; i < buttonStates.length; i++) {
+      const day = daysOfWeek[i];
+      const intervals = buttonStates[i];
+
+      const availableIntervals = [];
+      let startInterval = -1;
+      let endInterval = -1;
+
+      for (let j = 0; j < intervals!.length; j++) {
+          if (intervals![j]) {
+              if (startInterval === -1) {
+                  startInterval = j;
+              }
+              endInterval = j;
+          } else {
+              if (startInterval !== -1) {
+                  availableIntervals.push(`${formatTime(startInterval)}-${formatTime(endInterval + 1)}`);
+                  startInterval = -1;
+                  endInterval = -1;
+              }
+          }
+      }
+
+      if (startInterval !== -1) {
+          availableIntervals.push(`${formatTime(startInterval)}-${formatTime(endInterval + 1)}`);
+      }
+
+      if (availableIntervals.length > 0) {
+          scheduleText += `${day}; ${availableIntervals.join(", ")}\n`;
+      }
+  }
+
+  return scheduleText !== "" ? scheduleText : "No availabilities entered";
+}
+
+export const formatTime = (interval: number): string => {
+  const hour = Math.floor(interval / 2) + 9;
+  const minute = interval % 2 === 0 ? "00" : "30";
+  const period = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour > 12 ? hour - 12 : hour;
+  return `${formattedHour}:${minute} ${period}`;
+}
+

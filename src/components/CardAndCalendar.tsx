@@ -1,8 +1,8 @@
-import { Days, buttonsToSchedule } from "lib/utils";
+import { DayLength, Days, buttonsToSchedule } from "lib/utils";
 import type { LessonLength, State, Student, StudentSchedule } from "lib/types";
 
 import Calendar from "./Calendar";
-import { CardWithForm } from "./CardWithForm";
+import { OnboardStudentsCard } from "./OnboardStudentsCard";
 import { useState } from "react";
 
 type Props = {
@@ -13,13 +13,13 @@ type Props = {
     setState: (state: State) => void
 }
 
-const dayLength: number = 12 * 60
+
 
 export function CardAndCalendar(props: Props) {
     const { studentSchedules, setStudentSchedules } = props
 
     const minutes = props.minutes === "30" ? 30 : 60
-    const blocks = dayLength / (minutes)
+    const blocks = DayLength / (minutes)
     const [buttonStates, setButtonStates] = useState<boolean[][]>(
         Array.from({ length: Days.length }, () => 
             Array.from({ length: blocks }, () => false)
@@ -46,7 +46,7 @@ export function CardAndCalendar(props: Props) {
 
     return(
         <div className="flex flex-row w-full">
-            <CardWithForm 
+            <OnboardStudentsCard 
                 addStudentSchedule={addStudentSchedule} 
                 buttonStates={buttonStates}
                 minutes={props.minutes}

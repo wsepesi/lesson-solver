@@ -35,14 +35,16 @@ export default function Calendar(props: Props) {
     }
     
     return (
-        <div className="p-5">
-            <Table className="max-w-[50vw]">
+        <div className="px-5 overflow-auto h-full mr-4">
+            {/* <Table className="max-w-[50vw]">
+             */}
+             <Table className="w-full">
                 <TableCaption>Calendar</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead></TableHead>
                         {Days.map((day, i) => (
-                            <TableHead className={`w-[6rem] px-2 ${i === Days.length ? "text-right" : ""} text-center`} key={i}>{day}</TableHead>
+                            <TableHead className={`w-[7rem] px-2 ${i === Days.length ? "text-right" : ""} text-center`} key={i}>{day}</TableHead>
                         ))}
                     </TableRow>
                 </TableHeader>     

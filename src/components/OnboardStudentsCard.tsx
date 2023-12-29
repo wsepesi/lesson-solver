@@ -14,6 +14,8 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+import { buttonStatesToText } from "lib/utils"
+import { formatter } from "./CardWithSubmit"
 import { useToast } from "./ui/use-toast"
 
 type Props = {
@@ -25,7 +27,7 @@ type Props = {
     reset: (func: () => void) => void
 }
 
-export function CardWithForm(props: Props) {
+export function OnboardStudentsCard(props: Props) {
     const { minutes, setMinutes } = props
     const [formData, setFormData] = React.useState<Student>({
         name: "",
@@ -40,12 +42,13 @@ export function CardWithForm(props: Props) {
     }
 
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[350px] overflow-auto">
             <CardHeader>
                 <CardTitle>Add new student</CardTitle>
                 <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription>
             </CardHeader>
             <CardContent>
+                <div className="pb-5">{formatter(buttonStatesToText(props.buttonStates))}</div>
                 <form
                     onSubmit={() => console.log(formData)}
                 >
@@ -92,8 +95,8 @@ export function CardWithForm(props: Props) {
                 </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex justify-between">
-                <Button onClick={() => {
+            <CardFooter className="flex justify-between px-3">
+                <Button className="" onClick={() => {
                     // check we have a name and email
                     if (formData.name === "" || formData.email === "") {
                         toast({
