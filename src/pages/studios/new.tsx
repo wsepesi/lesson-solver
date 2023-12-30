@@ -9,6 +9,7 @@ import {
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+import Navbar from "~/components/Navbar"
 import type { NewStudioInfo } from "lib/types"
 import { useState } from "react";
 import { useToast } from "../../components/ui/use-toast"
@@ -19,8 +20,9 @@ export default function NewStudio() {
     })
     const { toast } = useToast()
     return (
-        <>
-        <div className="flex justify-center items-center w-full min-h-screen">
+        <div className="h-screen">
+        <Navbar />
+        <div className="flex justify-center items-center w-full h-full max-h-[90vh]">
         <Card className="w-[350px]">
             <CardHeader>
                 <CardTitle>Create new Studio</CardTitle>
@@ -70,6 +72,6 @@ export default function NewStudio() {
         </Card>
         </div>
             
-        </>
+        </div>
     )
 }

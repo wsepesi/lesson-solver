@@ -1,4 +1,5 @@
 import { MyStudio } from "~/components/my-studio"
+import Navbar from "~/components/Navbar"
 import type { StudioInfo } from "lib/types"
 import { useRouter } from "next/router"
 
@@ -40,6 +41,7 @@ export default function Studio() {
     ]
     return (
         <>
+            <Navbar />
             <MyStudio name={studio.name} students={demoStudents} />
         </>
     )

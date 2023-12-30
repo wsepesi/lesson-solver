@@ -32,11 +32,11 @@ const DemoCardInfo: StudioInfo[] = [
 export function TeacherDashboard() {
   const isPaid = true
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full h-full">
       <main className="flex min-h-[calc(100vh - _theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-        <h1 className="text-4xl font-semibold text-center">Studios</h1>
-        <hr />
-        <p className="text-gray-500 text-right font-medium my-0 py-0 px-[7vw]">{DemoCardInfo.length} / {isPaid ? 50 : 5} Studios Created</p>
+        {/* <h1 className="text-4xl font-semibold text-center">Studios</h1>
+        <hr /> */}
+        <p className="text-gray-500 text-right font-medium my-0 py-0 px-[7vw]">{DemoCardInfo.length} / {isPaid ? 50 : 1} Studios Created</p>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl w-full mx-auto">
           <Card className="bg-black text-white flex items-center justify-center w-full">
             <Link className="w-full h-full flex items-center justify-center" href="/studios/new">
