@@ -19,6 +19,16 @@ export default function NewStudio() {
         name: "",
     })
     const { toast } = useToast()
+
+    const handleClick =  async() => {
+        try {
+            console.log("here")
+            const data = await fetch("/api/hello")
+            console.log(await data.json())
+        } catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <div className="h-screen">
         <Navbar />
@@ -51,6 +61,8 @@ export default function NewStudio() {
             </CardContent>
             <CardFooter className="flex justify-between">
                 <Button onClick={() => {
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                    void handleClick()
                     // check we have a name and email
                     if (formData.name === "") {
                         toast({
@@ -65,7 +77,6 @@ export default function NewStudio() {
                     }) // FIXME: not showing up for whatever reason idk
                     // TODO: await send to DB
                     // redirect to studio page
-
                 }
                 }>Continue</Button>
             </CardFooter>
