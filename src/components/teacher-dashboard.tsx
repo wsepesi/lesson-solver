@@ -6,30 +6,17 @@ import { Card, CardContent, CardTitle } from "src/components/ui/card"
 
 import Link from "next/link"
 import StudioCard from "./StudioCard"
-import type { StudioInfo } from "lib/types"
+import { type User } from "@supabase/auth-helpers-react"
+import { type StudioWithStudents } from "~/pages/studios"
 
-const DemoCardInfo: StudioInfo[] = [
-  {
-    name: "Alpha",
-    numEnrolled: 50,
-    code: "ALPHA123",
-    progress: "Not Started",
-  },
-  {
-    name: "Beta",
-    numEnrolled: 35,
-    code: "BETA456",
-    progress: "In Progress",
-  },
-  {
-    name: "Gamma",
-    numEnrolled: 70,
-    code: "GAMMA789",
-    progress: "Done",
-  },
-]
 
-export function TeacherDashboard() {
+type Props = {
+  studios: StudioWithStudents[],
+  user: User
+}
+
+export function TeacherDashboard(props: Props) {
+  const { user, studios } = props
   const isPaid = true
   return (
     <div className="flex flex-col w-full h-full">
@@ -39,11 +26,11 @@ export function TeacherDashboard() {
         <div className="font-medium my-0 py-0 px-[7vw] flex flex-row justify-end w-full">
           {/* TODO: username on signup and display here */}
           {/* <p className="text-xl">Welcome</p> */}
-          <p className="text-gray-500 text-right">{DemoCardInfo.length} / {isPaid ? 50 : 1} Studios Created</p>
+          <p className="text-gray-500 text-right">{studios.length} / {isPaid ? 50 : 1} Studios Created</p>
         </div>
         
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl w-full mx-auto">
-          <Card className="bg-black text-white flex items-center justify-center w-full">
+          <Card className="bg-black text-white flex items-center justify-center w-full h-[20vh]">
             <Link className="w-full h-full flex items-center justify-center" href="/studios/new">
               <CardContent className="flex items-center justify-center p-0">
                 <PlusIcon className="w-4 h-4 mx-1" />
@@ -51,9 +38,10 @@ export function TeacherDashboard() {
               </CardContent>
             </Link>
           </Card>
-          {DemoCardInfo.map((info) => (
-            <StudioCard key={info.code} {...info} />
+          {studios.map((studio) => (
+            <StudioCard key={studio.code} studio={studio} />
           ))}
+          {/* TODO: loading skeleton */}
         </div>
       </main>
     </div>

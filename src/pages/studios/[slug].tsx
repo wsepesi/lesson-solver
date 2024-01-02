@@ -1,50 +1,52 @@
+import type { StudentSchema, StudioSchema } from "lib/schema"
+import { useEffect, useState } from "react"
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
+
 import { MyStudio } from "~/components/my-studio"
 import Navbar from "~/components/Navbar"
-import type { StudioInfo } from "lib/types"
 import { useRouter } from "next/router"
 
-type demoStudent = {
-    name: string,
-    email: string,
-    progress: "Not Started" | "In Progress" | "Completed",
+export type StudioWithStudents = StudioSchema & {
+    students: StudentSchema[]
 }
 
 export default function Studio() {
+    const user = useUser()
+    const supabaseClient = useSupabaseClient()
     // make variable thats the slug, pulled from the url
     const router = useRouter()
-    const q = router.query
-    const slug = q.slug as string
+    const slug = router.query.slug as string
 
-    const studio: StudioInfo = {
-        name: slug,
-        numEnrolled: 0,
-        code: "string",
-        progress: "Not Started",
-    }
+    const [studio, setStudio] = useState<StudioWithStudents | null>(null)
 
-    const demoStudents: demoStudent[] = [
-        {
-            name: "Student 1",
-            email: "s1@gmail.com",
-            progress: "Not Started",
-        },
-        {
-            name: "Student 2",
-            email: "s2@gmail.com",
-            progress: "Completed",
-        },
-        {
-            name: "Student 3",
-            email: "s3@gmail.com",
-            progress: "In Progress",
-        },
-    ]
+    useEffect(() => {
+        // get studio from db and check if session user is the owner FIXME: maybe like set this up w RLS instead of this janky way of doing it
+        const getStudio = async () => {
+            const res = await supabaseClient.from("studios").select(`
+                *,
+                students (
+                    *
+                )
+            `).eq("code", slug)
+            if (res.error ?? !res.data) { //TODO: HANDLE
+                console.log(res.error)
+                return
+            }
+            const studio = res.data[0] as StudioWithStudents
+            
+            if (user!.id !== studio.user_id) {
+                await router.push("/studios") // TODO: do this more ceremoniously
+            }
+
+            setStudio(studio)
+        }
+        if (user) void getStudio()
+    }, [supabaseClient, user, router, slug])
+
     return (
         <>
             <Navbar />
-            <MyStudio name={studio.name} students={demoStudents} />
+            {studio ? <MyStudio studio={studio} /> : <p>Loading...</p>}
         </>
     )
 }
-
-export type {demoStudent}

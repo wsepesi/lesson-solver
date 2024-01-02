@@ -13,20 +13,71 @@ import Navbar from "~/components/Navbar"
 import type { NewStudioInfo } from "lib/types"
 import { useState } from "react";
 import { useToast } from "../../components/ui/use-toast"
+import { type User, useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
+import { useRouter } from "next/router"
+
+const generateRandomCode = (len = 5) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    let code = ""
+    for (let i = 0; i < len; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)]
+    }
+    return code
+}
 
 export default function NewStudio() {
+    const supabaseClient = useSupabaseClient()
+    const user: User | null = useUser()
+    const router = useRouter()
+
     const [formData, setFormData] = useState<NewStudioInfo>({
         name: "",
     })
     const { toast } = useToast()
 
     const handleClick =  async() => {
+        if (formData.name === "") {
+            toast({
+                title: "Please fill out all fields",
+                description: "Naming the Studio is required",
+            })
+            return
+        }
         try {
-            console.log("here")
-            const data = await fetch("/api/hello")
-            console.log(await data.json())
+            if (user) {
+                let success = false
+
+                // try generating a unique code until we get one
+                while (!success) {
+                    const res = await supabaseClient.from("studios").insert({
+                        studio_name: formData.name,
+                        user_id: user.id,
+                        code: generateRandomCode(),
+                    })
+                    switch (res.status) {
+                        case 201:
+                            success = true
+                            break
+                        case 409:
+                            // code already exists, try again
+                            break
+                        default:
+                            console.log(res)
+                            alert("error, please try again")
+                            return
+                    }
+                }
+
+                // confirm success with user and redirect
+                toast({
+                    title: "Studio created!",
+                    description: "Redirecting...",
+                })
+                void router.push("/studios")
+            }
         } catch (e) {
             console.log(e)
+            alert("error, please try again")
         }
     }
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +19,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { CheckIcon } from "@radix-ui/react-icons"
-import { Days } from "lib/utils"
+import { Days, buttonsToSchedule, scheduleToButtons } from "lib/utils"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import ManualScheduleDialog from "./ManualScheduleDialog"
@@ -27,14 +28,14 @@ import SendToStudentsDialog from "./SendToStudentsDialog"
 import { Separator } from "./ui/separator"
 import SetAvailabilityDialog from "./SetAvailabilityDialog"
 import SolveScheduleDialog from "./SolveScheduleDialog"
-import type { StudioInfo } from "lib/types"
 import { Task } from "./Task"
-import type { demoStudent } from "~/pages/studios/[slug]"
+import type { StudioWithStudents } from "~/pages/studios/[slug]"
 import { useState } from "react"
+import { type StudentSchema } from "lib/schema"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 
 type Props = {
-  name: StudioInfo["name"],
-  students: demoStudent[],
+  studio: StudioWithStudents
 }
 
 type Task = {
@@ -51,25 +52,60 @@ const minutes = 30
 const dayLength: number = 12 * 60
 const blocks = dayLength / (minutes)
 
-export function MyStudio(props: Props) {
-  // TODO: populate this from DB on boot
-  const [taskStatus, setTaskStatus] = useState<boolean[]>([false, false, false])
-  const [taskOpen, setTaskOpen] = useState<boolean[]>([false, false, false])
-  const [editAvailability, setEditAvailability] = useState<boolean>(false)
+type Progress = "Not Started" | "In Progress" | "Completed"
 
-  const [myAvailability, setMyAvailability] = useState<boolean[][]>(
+const getStudentProgress = (student: StudentSchema) => {
+  return student.schedule === null ?  "Not Started" : "Completed"
+}
+
+export function MyStudio(props: Props) {
+  const supabaseClient = useSupabaseClient()
+
+  const { studio } = props
+
+  // TODO: populate this from DB on boot
+  const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, false])
+  const [myAvailability, setMyAvailability] = useState<boolean[][]>((studio.owner_schedule !== null && studio.owner_schedule !== undefined) ?
+    scheduleToButtons(studio.owner_schedule, '60') :
     Array.from({ length: Days.length }, () => 
         Array.from({ length: blocks }, () => false)
     )
   )
 
-  const handleAvailabilitySubmit = () => {
+  const [taskOpen, setTaskOpen] = useState<boolean[]>([false, false, false])
+  const [editAvailability, setEditAvailability] = useState<boolean>(false)
+
+  const handleAvailabilitySubmit = async () => {
+    const calendarJson = buttonsToSchedule(myAvailability, '30')
+    const res = await supabaseClient.from("studios").update({
+      owner_schedule: calendarJson
+    }).eq("id", studio.id)
+
+    if (res.error) {
+      console.log(res.error)
+      alert("error, please try again")
+    }
+
     setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? true : status))
     setTaskOpen(taskOpen.map((status, i) => AVAILABILITY === i ? false : status))
   }
 
-  const handleEditAvailability = () => {
+  const handleEditAvailability = async () => {
+    const calendarJson = buttonsToSchedule(myAvailability, '30')
+    const res = await supabaseClient.from("studios").update({
+      owner_schedule: calendarJson
+    }).eq("id", studio.id)
+
+    if (res.error) {
+      console.log(res.error)
+      alert("error, please try again")
+    }
+
     setEditAvailability(false)
+    // if schedule is empty, set task status to false
+    if (myAvailability.every((day) => day.every((block) => !block))) {
+      setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? false : status))
+    }
   }
 
   const tasks: Task[] = [
@@ -109,9 +145,9 @@ export function MyStudio(props: Props) {
         (taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0) / taskStatus.length) * 100
       }/>
       </section>
-     
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight">{props.name}</h1>
+      <header className="mb-8 flex flex-row items-end justify-between">
+        <h1 className="text-4xl font-bold tracking-tight">{studio.studio_name}</h1>
+        <h3 className="text-xl tracking-tight font-light text-gray-500">Studio Code: {studio.code}</h3>
       </header>
       <div className="flex space-x-10">
         <section className="space-y-6 w-2/3">
@@ -135,26 +171,46 @@ export function MyStudio(props: Props) {
           <section className="bg-gray-100 p-4 rounded-md">
             <div className="flex flex-row w-full mb-4">
               <h2 className="text-xl font-bold w-full">Enrolled Students</h2>
-              <p className="text-right w-full">{props.students.length} / {isPaid ? 50 : 5} students</p>
+              <p className="text-right w-full">{studio.students.length} / {isPaid ? 50 : 5} students</p>
               {/* TODO: add a tooltip to explain the limit if the user isnt premium */}
             </div>
             <ul className="space-y-2 flex flex-col">
-              {props.students.map((student) => (
-                <li key={student.name} className="flex flex-row w-full justify-between">
-                  <p className="font-mono">{student.name}, {student.email}</p>
+              {studio.students.length ? (studio.students.map((student) => {
+                const progress = getStudentProgress(student)
+                return (
+                <li key={student.id} className="flex flex-row w-full justify-between">
+                  <p className="font-mono">{student.first_name} {student.last_name}, {student.email}</p>
                   <Badge 
                   className={`w-[6.5vw] flex flex-row justify-center mx-4 
-                  ${student.progress === "Completed" && "bg-emerald-600"}
-                  ${student.progress === "In Progress" && "bg-yellow-500"}
-                  `}
-                  >{student.progress}</Badge>
+                  ${progress === "Completed" && "bg-emerald-600"}
+                  `} // ${progress === "In Progress" && "bg-yellow-500"}
+                  >{progress}</Badge>
                 </li>
-              ))} 
+              )})) : <p className="text-center">No students have been invited or enrolled yet!</p>}
             </ul>
           </section>
           <section className="bg-gray-100 p-4 rounded-md">
             <h2 className="text-xl font-bold mb-4">Admin Tasks</h2>
             <div className="space-y-2">
+            <Dialog 
+              open={taskOpen[SEND_CODE]} 
+              onOpenChange={(input: boolean) => {
+                setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
+              }}
+            >
+              <DialogTrigger asChild>
+                <Button className="w-full">Invite Students</Button>
+              </DialogTrigger>
+              <SendToStudentsDialog 
+                taskStatus={taskStatus} 
+                setTaskStatus={setTaskStatus}
+                taskIdx={SEND_CODE}
+                setOpen={(input: boolean) => {
+                  setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
+                }}
+              />
+            </Dialog>
+              
               <ManualScheduleDialog />
               {taskStatus[AVAILABILITY] && 
               // <Button className="w-full">Edit Your Availability</Button>
