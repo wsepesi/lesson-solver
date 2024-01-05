@@ -18,10 +18,6 @@ import { useState } from "react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-// check if we are on the dev env or prod, and assign BASE accordingly
-// const BASE = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "TODO" //FIXME:
-// console.log(BASE)
-
 const formSchema = z.object({
     first_name: z.string().min(2).max(50),
     last_name: z.string().min(2).max(50),
