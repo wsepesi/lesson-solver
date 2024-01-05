@@ -15,6 +15,11 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react"
 const BASE = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "TODO" //FIXME:
 console.log(BASE)
 
+const validEmail = (email: string): boolean => {
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return regex.test(email)
+}
+
 export default function Login() {
     const supabaseClient = useSupabaseClient()
     const router = useRouter()
@@ -63,18 +68,35 @@ export default function Login() {
                 alert("Please enter an email.")
                 return
             }
+            if (!validEmail(email)) {
+                alert("Please enter a valid email.")
+                return
+            }
             setLoading(true)
             const { data, error } = await supabaseClient.auth.signInWithOtp({
                 email: email,
+                options: {
+                    shouldCreateUser: false
+                }
             })
             if (error) {
-                alert("There was an error. Please try again.") // TODO: make better
+                switch (error.message) {
+                    case "Signups not allowed for otp":
+                        alert("No account exists. Please sign up") //FIXME:
+                        break
+                    default:
+                        alert("There was an error. Please try again.") // TODO: make better
+                        break
+                }
+                setLoading(false)
+                setEmail("")
                 return
             }
             setLoading(false)
             setSent(true)
         } catch (e) {
-            alert("There was an error. Please try again.") // TODO: make better
+            // alert("There was an error. Please try again.") // TODO: make better
+            setLoading(false)
         }
     }
 
@@ -82,9 +104,9 @@ export default function Login() {
     <div className="bg-gray-100 min-h-screen flex items-center justify-center ">
         <div className="max-w-sm rounded-lg shadow-lg bg-white p-6 space-y-6 border border-gray-200 dark:border-gray-700 w-[40vw]">
             <div className="space-y-2 text-center">
-                <h1 className="text-3xl font-bold">Log In or Sign Up</h1>
+                <h1 className="text-3xl font-bold">Log In</h1>
                 <p className="text-zinc-500 dark:text-zinc-400">
-                {sent ? "Enter the one-time code sent to your email" : "Enter your email to log in or sign up."}
+                {sent ? "Enter the one-time code sent to your email" : "Enter your email to log in"}
                 </p>
             </div>
             <div className="space-y-4">

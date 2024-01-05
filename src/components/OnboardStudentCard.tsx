@@ -38,7 +38,7 @@ export function OnboardStudentCard(props: Props) {
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Welcome {props.studentInfo.name}</CardTitle>
+                <CardTitle>Welcome {props.studentInfo.first_name} {props.studentInfo.last_name}</CardTitle>
                 <CardDescription>Fill out your availability on the calendar</CardDescription>
             </CardHeader>
             <CardContent>

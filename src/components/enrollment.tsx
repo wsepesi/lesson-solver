@@ -16,7 +16,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const formSchema = z.object({
-    name: z.string().min(2).max(50),
+    first_name: z.string().min(2).max(50),
+    last_name: z.string().min(2).max(50),
     email: z.string().email(),
     studioCode: z.string().min(5).max(5)
 });
@@ -43,7 +44,8 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      first_name: "",
+      last_name: "",
       email: "",
       studioCode: code,
     },
@@ -64,60 +66,76 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
         </CardHeader>
         <CardContent className="">
           <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
+            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
                 control={form.control}
-                name="name"
+                name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="First Last" {...field} />
+                      <Input placeholder="First" {...field} />
                     </FormControl>
-                    <FormDescription>
+                    {/* <FormDescription>
                       Your full name as you would like it to appear to the studio.
-                    </FormDescription>
+                    </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
-                />
-            <FormField
+              />
+              <FormField
               control={form.control}
-              name="email"
+              name="last_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="name@gmail.com" {...field} />
+                    <Input placeholder="Last" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Your email to save for future communication.
+                    Your full name as you would like it to appear to the studio.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
               />
               <FormField
-              control={form.control}
-              name="studioCode"
-              defaultValue={defaultCode}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Studio Code</FormLabel>
-                  <FormControl>
-                    <Input placeholder="12345" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    The 5 digit studio code sent to you by your teacher.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-              />
-            <Button className="w-full" type="submit">
-              Go
-            </Button>
-          </form>
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="name@gmail.com" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Your email to save for future communication.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="studioCode"
+                defaultValue={defaultCode}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Studio Code</FormLabel>
+                    <FormControl>
+                      <Input placeholder="12345" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      The 5 digit studio code sent to you by your teacher.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+                />
+              <Button className="w-full" type="submit">
+                Go
+              </Button>
+            </form>
           </Form>
         </CardContent>
       </Card>

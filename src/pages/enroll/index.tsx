@@ -34,7 +34,8 @@ export type OnboardingState = "enroll" | "schedule" | "done";
 export default function Enroll() {
     const [state, setState] = useState<OnboardingState>("enroll");
     const [formData, setFormData] = useState<FormSchema>({
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
         studioCode: ""
     });
