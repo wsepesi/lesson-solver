@@ -46,7 +46,11 @@ export default function Studio() {
     return (
         <>
             <Navbar />
-            {studio ? <MyStudio studio={studio} /> : <p>Loading...</p>}
+            {studio ? 
+                <MyStudio 
+                    studio={studio} 
+                    setStudio={setStudio}
+                /> : <p>Loading...</p>}
         </>
     )
 }

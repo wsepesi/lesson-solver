@@ -59,7 +59,8 @@ export type Schedule = {
     [day in Day]?: BlockOfTime[];
 }
 
-export type LessonLength = "30" | "60"
+// export type LessonLength = "30" | "60"
+export type LessonLength = 30 | 60
 
 export type StudentSchedule = {
     student: Student;

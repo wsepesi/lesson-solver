@@ -47,13 +47,13 @@ export function OnboardStudentCard(props: Props) {
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="framework">Lesson length</Label>
-                        <RadioGroup defaultValue="30" value={minutes}>
+                        <RadioGroup defaultValue="30" value={minutes === 30 ? "30" : "60"}>
                             <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="30" id="r1" onClick={() => handleClick("30")}/>
+                                <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
                                 <Label htmlFor="r1">30 mins</Label>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="60" id="r2" onClick={() => handleClick("60")}/>
+                                <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
                                 <Label htmlFor="r2">60 mins</Label>
                             </div>
                         </RadioGroup>

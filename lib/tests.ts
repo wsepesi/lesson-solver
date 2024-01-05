@@ -10,15 +10,15 @@ const getIntervals = (arrs: number[][]): BlockOfTime[] => {
     })
 }
 
-const toStr = (lessonLength: number): LessonLength => {
-    return lessonLength === 30 ? "30" : "60"
-}
+// const toStr = (lessonLength: number): "30" | "60" => {
+//     return lessonLength === 30 ? "30" : "60"
+// }
 
 const getStudents = (arrs: [number, [number, number][]][]): StudentAvailability[] => {
     return arrs.map((arr) => {
         return {
             student: {
-                lessonLength: toStr(arr[0]),
+                lessonLength: arr[0] as LessonLength,
                 name: "test",
                 email: "test"
             },
@@ -80,8 +80,7 @@ const checker = (result: Scheduled[] | null, A_me: BlockOfTime[], _S: StudentAva
     result.forEach((scheduled) => {
         const interval = scheduled.interval
         const lessonLength = scheduled.student.student.lessonLength
-        const length = lessonLength === "30" ? 30 : 60
-        if (interval.end.valueOf() - interval.start.valueOf() !== length) {
+        if (interval.end.valueOf() - interval.start.valueOf() !== lessonLength) {
             console.log("Incorrect length of scheduled block")
         }
     })

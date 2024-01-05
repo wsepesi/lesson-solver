@@ -21,16 +21,6 @@ export default function Studios() {
 
     useEffect(() => {
         const loadData = async () => {
-            // const res = await supabaseClient.from("studios").select("*")
-            // if (res.error ?? !res.data) {
-            //     console.log(res.error)
-            //     return
-            // }
-            // const data = res.data as StudioSchema[]
-            // console.log(data)
-            // setStudios(data)
-
-
             const studiosWithStudentsQuery = supabaseClient.from("studios").select(`
                 *,
                 students (

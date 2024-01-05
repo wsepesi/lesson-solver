@@ -61,7 +61,7 @@ export function CardWithSubmit(props: Props) {
                 className="w-full"
                 onClick={() => {
                     props.setTeacherSchedule(
-                        buttonsToSchedule(props.buttonStates, "30")
+                        buttonsToSchedule(props.buttonStates, 30)
                     )
                     props.setState("student")
                     toast({

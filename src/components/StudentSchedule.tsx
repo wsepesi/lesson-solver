@@ -17,7 +17,7 @@ const dayLength: number = 12 * 60
 
 export default function StudentSchedule(props: Props) {
     const { buttonStates, setButtonStates, setState, minutes, setMinutes } = props
-    const numMinutes = minutes === "30" ? 30 : 60
+    const numMinutes = minutes
     const blocks = dayLength / (numMinutes)
     return (
         <>

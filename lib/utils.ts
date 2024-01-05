@@ -67,7 +67,7 @@ export const blockOfTimeToSchedule = (block: BlockOfTime): Schedule => {
 
 //TODO: refactor
 export function buttonsToSchedule(buttons: boolean[][], lessonLength: LessonLength): Schedule {
-  const isThirty = lessonLength === "30";
+  const isThirty = lessonLength === 30;
   const schedule: Schedule = {}
   Days.forEach((day, i) => {
     const dayBlocks: BlockOfTime[] = []
@@ -120,7 +120,7 @@ export function buttonsToSchedule(buttons: boolean[][], lessonLength: LessonLeng
 }
 
 export function scheduleToButtons(schedule: Schedule, lessonLength: LessonLength): boolean[][] {
-  const isThirty = lessonLength === "30";
+  const isThirty = lessonLength === 30;
   const buttons: boolean[][] = []
   Days.forEach((day, i) => {
     buttons[i] = []
@@ -130,7 +130,8 @@ export function scheduleToButtons(schedule: Schedule, lessonLength: LessonLength
     schedule[day]?.forEach(block => {
       const start = isThirty ? block.start.hour * 2 + block.start.minute / 30 : block.start.hour
       const end = isThirty ? block.end.hour * 2 + block.end.minute / 30 : block.end.hour
-      for (let j = start; j < end; j++) {
+      const offset = isThirty ? 18 : 9 // adjust for 9am start
+      for (let j = start - offset; j < end - offset; j++) {
         buttons[i]![j] = true
       }
     })
@@ -185,3 +186,10 @@ export const formatTime = (interval: number): string => {
   return `${formattedHour}:${minute} ${period}`;
 }
 
+export const lessonLengthToString = (lessonLength: LessonLength): string => {
+  return lessonLength === 30 ? "30" : "60"
+}
+
+export const stringToLessonLength = (lessonLength: string): LessonLength => {
+  return lessonLength === "30" ? 30 : 60
+}

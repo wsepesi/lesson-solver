@@ -3,22 +3,37 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import ManualStudentCalendarHandler from "./ManualStudentCalendarHandler";
+import type { StudioWithStudents } from "~/pages/studios/[slug]"
 import { useState } from "react";
 
-export default function ManualScheduleDialog() {
+type Props = {
+  studio: StudioWithStudents
+  setStudio: (studio: StudioWithStudents) => void
+}
+export default function ManualScheduleDialog(props: Props) {
   const [uploading, setUploading] = useState(false)
+  const [open, setOpen] = useState(false)
 
     return (
-      <Dialog>
+      <Dialog
+        open={open}
+        onOpenChange={() => {
+          setOpen(!open)
+          if (uploading === true) setUploading(false)
+        }}
+      >
         <DialogTrigger asChild>
           <Button className="w-full">Add Student Schedules Manually</Button>
         </DialogTrigger>
         {uploading ? (
           <DialogContent className="min-w-[80vw] max-h-[90vh]">
             <ManualStudentCalendarHandler 
-              minutes={"30"}
-              setState={() => console.log("hello")}
-              handleSubmit={() => console.log("hello")}
+              studio={props.studio}
+              setStudio={props.setStudio}
+              setOpen={() => {
+                setOpen(false)
+                setUploading(false)
+              }}
             />
           </DialogContent>
           ) : 

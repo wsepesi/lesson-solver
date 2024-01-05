@@ -8,23 +8,22 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
-import type { LessonLength, State, Student } from "lib/types"
+import type { LessonLength, Schedule, State, Student } from "lib/types"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
+import { buttonStatesToText, buttonsToSchedule, lessonLengthToString } from "lib/utils"
 
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
-import { buttonStatesToText } from "lib/utils"
 import { formatter } from "./CardWithSubmit"
 import { useToast } from "./ui/use-toast"
 
 type Props = {
-    addStudentSchedule: (student: Student, buttonStates: boolean[][]) => void
+    addStudentSchedule: (student: Student, schedule: Schedule) => void
     buttonStates: boolean[][]
     minutes: LessonLength
     setMinutes: (minutes: LessonLength) => void
-    setState: (state: State) => void
-    reset: (func: () => void) => void
+    setOpen: (open: boolean) => void
 }
 
 export function OnboardStudentsCard(props: Props) {
@@ -49,7 +48,7 @@ export function OnboardStudentsCard(props: Props) {
             </CardHeader>
             <CardContent>
                 <div className="pb-5">{formatter(buttonStatesToText(props.buttonStates))}</div>
-                <form
+                <form //TODO: rework as zod form
                     onSubmit={() => console.log(formData)}
                 >
                 <div className="grid w-full items-center gap-4">
@@ -81,13 +80,13 @@ export function OnboardStudentsCard(props: Props) {
                     </div>
                     <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="framework">Lesson length</Label>
-                    <RadioGroup defaultValue="30" value={minutes}>
+                    <RadioGroup defaultValue={"30"} value={lessonLengthToString(minutes)}>
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="30" id="r1" onClick={() => handleClick("30")}/>
+                            <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
                             <Label htmlFor="r1">30 mins</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="60" id="r2" onClick={() => handleClick("60")}/>
+                            <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
                             <Label htmlFor="r2">60 mins</Label>
                         </div>
                     </RadioGroup>
@@ -105,12 +104,21 @@ export function OnboardStudentsCard(props: Props) {
                         })
                         return
                     }
-                    props.addStudentSchedule(formData, props.buttonStates)
-                    props.setState("result")
-                    toast({
-                        title: "Student added!",
-                        description: "Submitting data...",
-                    })
+                    else if (props.buttonStates.every((row) => row.every((item) => item === false))) {
+                        toast({
+                            title: "Please fill out the calendar",
+                            description: "You can't submit an empty calendar",
+                        })
+                        return
+                    }
+                    else {
+                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, minutes))
+                        props.setOpen(false)
+                        toast({
+                            title: "Student added!",
+                            description: "Submitting data...",
+                        })
+                    }
                 }
                 }>Add and End</Button>
                 <Button onClick={() => {
@@ -122,16 +130,26 @@ export function OnboardStudentsCard(props: Props) {
                         })
                         return
                     }
-                    props.addStudentSchedule(formData, props.buttonStates)
-                    props.reset(() => setFormData({
-                        name: "",
-                        email: "",
-                        lessonLength: minutes,
-                    }))
-                    toast({
-                        title: "Student added!",
-                        description: "You can add another student or end.",
-                    })
+                    else if (props.buttonStates.every((row) => row.every((item) => item === false))) {
+                        toast({
+                            title: "Please fill out the calendar",
+                            description: "You can't submit an empty calendar",
+                        })
+                        return
+                    }
+                    else {
+                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, minutes))
+                        setFormData({
+                            name: "",
+                            email: "",
+                            lessonLength: minutes,
+                        })
+                        toast({
+                            title: "Student added!",
+                            description: "You can add another student or end.",
+                        })
+                    }
+                    
                 }
                 }>Add and Continue</Button>
             </CardFooter>

@@ -38,7 +38,7 @@ export default function Enroll() {
         email: "",
         studioCode: ""
     });
-    const [minutes, setMinutes] = useState<LessonLength>("30");
+    const [minutes, setMinutes] = useState<LessonLength>(30);
     const [buttonStates, setButtonStates] = useState<boolean[][]>(
         Array.from({ length: Days.length }, () => 
         Array.from({ length: DayLength }, () => false)
