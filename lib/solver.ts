@@ -34,12 +34,12 @@ const compareTimes = (a: Time, b: Time) => {
     return a.hour - b.hour || a.minute - b.minute
 }
 
-const toNum = (length: LessonLength) => {
-    return length === "30" ? 30 : 60
-    }
+// const toNum = (length: LessonLength) => {
+//     return length === "30" ? 30 : 60
+//     }
 
 const isLegal = (lessonLength: LessonLength, start: Time, end: Time): boolean => {
-    return toNum(lessonLength) > end.valueOf() - start.valueOf()
+    return lessonLength > end.valueOf() - start.valueOf()
 }
 
 const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: number, scheduled: Scheduled[] = [], first=false): ScheduleAndScore => {
@@ -64,7 +64,7 @@ const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: n
                 if (curCount > 1) {
                     score += curCount * curCount
                 }
-                if (curCount * toNum(scheduled[0]!.student.student.lessonLength) > 120) {
+                if (curCount * scheduled[0]!.student.student.lessonLength > 120) {
                     score -= 1000
                 }
                 cur = interval
@@ -74,7 +74,7 @@ const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: n
         if (curCount > 1) {
             score += curCount * curCount
         }
-        if (curCount * toNum(scheduled[0]!.student.student.lessonLength) > 120) {
+        if (curCount * scheduled[0]!.student.student.lessonLength > 120) {
             score -= 1000
         }
 
@@ -223,7 +223,7 @@ export const schedule = (A_me: BlockOfTime[], S: StudentAvailability[]): Schedul
 
         S.forEach((studentAvailability) => {
             const { student, availability } = studentAvailability
-            const legalForStudent = getLegalIntervals(toNum(student.lessonLength), availability, A_me)
+            const legalForStudent = getLegalIntervals(student.lessonLength, availability, A_me)
             if (legalForStudent.length === 0) {
                 throw new Error("No legal intervals")
             }
