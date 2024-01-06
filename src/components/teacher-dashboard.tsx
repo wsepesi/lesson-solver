@@ -23,9 +23,9 @@ export function TeacherDashboard(props: Props) {
       <main className="flex min-h-[calc(100vh - _theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
         {/* <h1 className="text-4xl font-semibold text-center">Studios</h1>
         <hr /> */}
-        <div className="font-medium my-0 py-0 px-[7vw] flex flex-row justify-end w-full">
+        <div className="font-medium my-0 py-0 px-[7vw] flex flex-row justify-between w-full">
           {/* TODO: username on signup and display here */}
-          {/* <p className="text-xl">Welcome</p> */}
+          <p className="text-2xl">Welcome{(user.user_metadata?.first_name) ? ` ${user.user_metadata.first_name}!` : ""}</p>
           <p className="text-gray-500 text-right">{studios.length} / {isPaid ? 50 : 1} Studios Created</p>
         </div>
         

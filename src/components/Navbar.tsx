@@ -2,6 +2,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { ProfileDropdown } from "./ProfileDropdown";
 
 export default function Navbar() {
     return (
@@ -27,7 +28,7 @@ export default function Navbar() {
             </NavigationMenu> */}
             <div className="flex flex-row items-center">
                 <div className="flex flex-row items-center mr-4">
-                    <Button>Settings</Button>
+                    <ProfileDropdown />
                 </div>
             </div>
         </div>

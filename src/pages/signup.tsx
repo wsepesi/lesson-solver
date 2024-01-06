@@ -22,7 +22,6 @@ const formSchema = z.object({
     first_name: z.string().min(2).max(50),
     last_name: z.string().min(2).max(50),
     email: z.string().email(),
-    studioCode: z.string().min(5).max(5)
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -30,18 +29,11 @@ type FormSchema = z.infer<typeof formSchema>;
 export default function Signup() {
     const supabaseClient = useSupabaseClient()
     const router = useRouter()
-    // const user = useUser()
 
     const [sent, setSent] = useState(false)
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState<FormSchema>({
-        first_name: "",
-        last_name: "",
-        email: "",
-        studioCode: ""
-    });
 
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
@@ -49,13 +41,8 @@ export default function Signup() {
             first_name: "",
             last_name: "",
             email: "",
-            studioCode: code,
         },
       });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value)
-    }
 
     const handleCodeSubmit = async () => {
         if (code === "") {
@@ -74,56 +61,37 @@ export default function Signup() {
 
         if (error) {
             alert("There was an error. Please try again.") // TODO: make better
+            setLoading(false)
             return
         }
         setLoading(false)
         if (session) {
-            // set session
-            // redirect to /studios
             await supabaseClient.auth.setSession(session)
             await router.push("/studios")
         }
     }
 
-    const onSubmit = (values: FormSchema) => {
-        // setLoading(true)
-        console.log("AAHHH")
-        console.log(values)
-        setFormData(values)
-        console.log(formData)
+    const onSubmit = async (values: FormSchema) => {
+        setLoading(true)
         
-    }
-
-    const handleClick = async () => {
-        try {
-            if (email === "") {
-                alert("Please enter an email.")
-                return
-            }
-            setLoading(true)
-            const { data, error } = await supabaseClient.auth.signInWithOtp({
-                email: email,
-                options: {
-                    data: {
-                        first_name: formData.first_name,
-                        last_name: formData.last_name,
-                    }
+        const { data, error } = await supabaseClient.auth.signInWithOtp({
+            email: values.email,
+            options: {
+                data: {
+                    first_name: values.first_name,
+                    last_name: values.last_name,
                 }
-            })
-            if (error) {
-                
-                alert("There was an error. Please try again.") // TODO: make better
-                // console.log(data, error)
-                setLoading(false)
-                setEmail("")
-                return
             }
+        })
+        if (error) {
+            alert("There was an error. Please try again.") // TODO: make better
+            console.log(data, error)
             setLoading(false)
-            setSent(true)
-        } catch (e) {
-            // alert("There was an error. Please try again.") // TODO: make better
-            setLoading(false)
+            return
         }
+        setLoading(false)
+        setSent(true)
+        setEmail(values.email)
     }
 
     return (
