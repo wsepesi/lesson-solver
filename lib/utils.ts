@@ -7,6 +7,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const DayLength = 12 * 60
+
 export const Days: Day[] = [
   "Monday",
   "Tuesday",
@@ -65,7 +67,7 @@ export const blockOfTimeToSchedule = (block: BlockOfTime): Schedule => {
 
 //TODO: refactor
 export function buttonsToSchedule(buttons: boolean[][], lessonLength: LessonLength): Schedule {
-  const isThirty = lessonLength === "30";
+  const isThirty = lessonLength === 30;
   const schedule: Schedule = {}
   Days.forEach((day, i) => {
     const dayBlocks: BlockOfTime[] = []
@@ -118,7 +120,7 @@ export function buttonsToSchedule(buttons: boolean[][], lessonLength: LessonLeng
 }
 
 export function scheduleToButtons(schedule: Schedule, lessonLength: LessonLength): boolean[][] {
-  const isThirty = lessonLength === "30";
+  const isThirty = lessonLength === 30;
   const buttons: boolean[][] = []
   Days.forEach((day, i) => {
     buttons[i] = []
@@ -128,10 +130,66 @@ export function scheduleToButtons(schedule: Schedule, lessonLength: LessonLength
     schedule[day]?.forEach(block => {
       const start = isThirty ? block.start.hour * 2 + block.start.minute / 30 : block.start.hour
       const end = isThirty ? block.end.hour * 2 + block.end.minute / 30 : block.end.hour
-      for (let j = start; j < end; j++) {
+      const offset = isThirty ? 18 : 9 // adjust for 9am start
+      for (let j = start - offset; j < end - offset; j++) {
         buttons[i]![j] = true
       }
     })
   })
   return buttons
+}
+
+export const buttonStatesToText = (buttonStates: boolean[][]): string => {
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  let scheduleText = "";
+
+  for (let i = 0; i < buttonStates.length; i++) {
+      const day = daysOfWeek[i];
+      const intervals = buttonStates[i];
+
+      const availableIntervals = [];
+      let startInterval = -1;
+      let endInterval = -1;
+
+      for (let j = 0; j < intervals!.length; j++) {
+          if (intervals![j]) {
+              if (startInterval === -1) {
+                  startInterval = j;
+              }
+              endInterval = j;
+          } else {
+              if (startInterval !== -1) {
+                  availableIntervals.push(`${formatTime(startInterval)}-${formatTime(endInterval + 1)}`);
+                  startInterval = -1;
+                  endInterval = -1;
+              }
+          }
+      }
+
+      if (startInterval !== -1) {
+          availableIntervals.push(`${formatTime(startInterval)}-${formatTime(endInterval + 1)}`);
+      }
+
+      if (availableIntervals.length > 0) {
+          scheduleText += `${day}; ${availableIntervals.join(", ")}\n`;
+      }
+  }
+
+  return scheduleText !== "" ? scheduleText : "No availabilities entered";
+}
+
+export const formatTime = (interval: number): string => {
+  const hour = Math.floor(interval / 2) + 9;
+  const minute = interval % 2 === 0 ? "00" : "30";
+  const period = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour > 12 ? hour - 12 : hour;
+  return `${formattedHour}:${minute} ${period}`;
+}
+
+export const lessonLengthToString = (lessonLength: LessonLength): string => {
+  return lessonLength === 30 ? "30" : "60"
+}
+
+export const stringToLessonLength = (lessonLength: string): LessonLength => {
+  return lessonLength === "30" ? 30 : 60
 }

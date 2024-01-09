@@ -2,7 +2,7 @@ import type { BlockOfTime, LessonLength } from "./types";
 import type { Scheduled, StudentAvailability } from "./types";
 
 import { Time } from "./types";
-import { schedule } from "./solver";
+import { schedule } from "./old_solver";
 
 const getIntervals = (arrs: number[][]): BlockOfTime[] => {
    return arrs.map((arr) => {
@@ -10,15 +10,15 @@ const getIntervals = (arrs: number[][]): BlockOfTime[] => {
     })
 }
 
-const toStr = (lessonLength: number): LessonLength => {
-    return lessonLength === 30 ? "30" : "60"
-}
+// const toStr = (lessonLength: number): "30" | "60" => {
+//     return lessonLength === 30 ? "30" : "60"
+// }
 
 const getStudents = (arrs: [number, [number, number][]][]): StudentAvailability[] => {
     return arrs.map((arr) => {
         return {
             student: {
-                lessonLength: toStr(arr[0]),
+                lessonLength: arr[0] as LessonLength,
                 name: "test",
                 email: "test"
             },
@@ -27,7 +27,7 @@ const getStudents = (arrs: [number, [number, number][]][]): StudentAvailability[
     })
 }
 
-const checker = (result: Scheduled[] | null, A_me: BlockOfTime[], S: StudentAvailability[], testNum: number) => {
+const checker = (result: Scheduled[] | null, A_me: BlockOfTime[], _S: StudentAvailability[], _testNum: number) => {
     // check if each student is scheduled at a time they are available, and that the teacher is available, and the scheduled blocks are non-overlapping
     if (result === null) {
         console.log("No solution found")
@@ -80,8 +80,7 @@ const checker = (result: Scheduled[] | null, A_me: BlockOfTime[], S: StudentAvai
     result.forEach((scheduled) => {
         const interval = scheduled.interval
         const lessonLength = scheduled.student.student.lessonLength
-        const length = lessonLength === "30" ? 30 : 60
-        if (interval.end.valueOf() - interval.start.valueOf() !== length) {
+        if (interval.end.valueOf() - interval.start.valueOf() !== lessonLength) {
             console.log("Incorrect length of scheduled block")
         }
     })
