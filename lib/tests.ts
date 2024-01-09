@@ -2,7 +2,7 @@ import type { BlockOfTime, LessonLength } from "./types";
 import type { Scheduled, StudentAvailability } from "./types";
 
 import { Time } from "./types";
-import { schedule } from "./solver";
+import { schedule } from "./old_solver";
 
 const getIntervals = (arrs: number[][]): BlockOfTime[] => {
    return arrs.map((arr) => {

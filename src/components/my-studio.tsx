@@ -18,14 +18,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
  */
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
-import { CheckIcon, Cross1Icon } from "@radix-ui/react-icons"
+import { Cross1Icon } from "@radix-ui/react-icons"
 import { Days, buttonsToSchedule, scheduleToButtons } from "lib/utils"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
 import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
 import SendToStudentsDialog from "./SendToStudentsDialog"
-import { Separator } from "./ui/separator"
 import SetAvailabilityDialog from "./SetAvailabilityDialog"
 import SolveScheduleDialog from "./SolveScheduleDialog"
 import { Task } from "./Task"
@@ -34,6 +31,8 @@ import { useState } from "react"
 import { type StudentSchema } from "lib/schema"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { useRouter } from "next/router"
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import MiniStudentSchedule from "./MiniStudentSchedule"
 
 type Props = {
   studio: StudioWithStudents,
@@ -215,10 +214,17 @@ export function MyStudio(props: Props) {
                     >
                       <Cross1Icon className="" />
                     </div>
-                    <p className="font-mono px-1">{student.first_name} {student.last_name}, {student.email}</p>
+                    <Popover>
+                      <PopoverTrigger>
+                        <p className="font-mono px-1 border rounded-md border-black cursor-pointer">{student.first_name} {student.last_name}, {student.email}</p>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <MiniStudentSchedule student={student} />
+                      </PopoverContent>
+                    </Popover>
                   </div>
                   <Badge 
-                  className={`w-[6.5vw] flex flex-row justify-center ml-4 
+                  className={`min-w-[6.5vw] flex flex-row justify-center ml-4 h-6 self-center
                   ${progress === "Completed" && "bg-emerald-600"}
                   `} // ${progress === "In Progress" && "bg-yellow-500"}
                   >{progress}</Badge>
@@ -274,14 +280,14 @@ export function MyStudio(props: Props) {
                       Change your studio info, or delete the studio.
                     </DialogDescription>
                   </DialogHeader>
-                  <div>
+                  {/* <div>
                     <Label>Studio Name</Label>
                     <div className="flex flex-row justify-center items-center">
                       <Input className="w-[20vw]" placeholder="Studio Name" />
                       <Button className="mx-2"><CheckIcon className="w-4 h-4" /></Button>
                     </div>
-                  </div>
-                  <Separator />
+                  </div> */}
+                  {/* <Separator /> */}
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button className="w-[10vw]"variant="destructive">Delete Studio</Button>

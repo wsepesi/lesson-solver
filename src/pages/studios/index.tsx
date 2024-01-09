@@ -18,9 +18,11 @@ export default function Studios() {
     const user: User | null = useUser()
 
     const [studios, setStudios] = useState<StudioWithStudents[]>([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const loadData = async () => {
+            setLoading(true)
             const studiosWithStudentsQuery = supabaseClient.from("studios").select(`
                 *,
                 students (
@@ -30,23 +32,25 @@ export default function Studios() {
             const res = await studiosWithStudentsQuery
             if (res.error ?? !res.data) {
                 console.log(res.error)
+                alert("There was an error. Please try again later.")
                 return
             }
             const data = res.data as StudioWithStudents[]
             console.log(data)
             setStudios(data)
+            setLoading(false)
         }
         if (user) void loadData()
     }, [supabaseClient, user])
 
     return (
         <>
-            {/* {user && <p>{user.email}</p>} */}
             <Navbar />
+            {(loading || !user) ? <p className="w-full h-[80vh] flex flex-row items-center justify-center">Loading...</p> : 
             <TeacherDashboard 
                 studios={studios}
-                user={user!}
-            />
+                user={user}
+            />}
         </>
     )
 }

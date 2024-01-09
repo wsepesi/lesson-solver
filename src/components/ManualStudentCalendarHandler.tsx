@@ -1,4 +1,4 @@
-import type { LessonLength, Schedule, State, Student } from "lib/types"
+import type { LessonLength, Schedule, Student } from "lib/types"
 
 import Calendar from "./Calendar"
 import { Days } from "lib/utils"
@@ -30,11 +30,13 @@ const getCleanButtonStates = (minutes: LessonLength): boolean[][] => {
     )
 }
 
+const SET_MINUTES = 30
+
 export default function ManualStudentCalendarHandler(props: Props) {
     const sb = useSupabaseClient()
     const [minutes, setMinutes] = useState<LessonLength>(30)
-    const blocks = dayLength / (minutes)
-    const [buttonStates, setButtonStates] = useState<boolean[][]>(getCleanButtonStates(minutes))
+    const blocks = dayLength / (SET_MINUTES)
+    const [buttonStates, setButtonStates] = useState<boolean[][]>(getCleanButtonStates(SET_MINUTES))
 
     const handleAddStudentSchedule = async (student: Student, schedule: Schedule) => {
         
@@ -52,7 +54,7 @@ export default function ManualStudentCalendarHandler(props: Props) {
         if (res.error) {
             alert("there was an error. try again later.") // FIXME:
         }
-        setButtonStates(getCleanButtonStates(minutes))
+        setButtonStates(getCleanButtonStates(SET_MINUTES))
         const newStudents = [...props.studio.students, res.data![0] as StudentSchema]
         props.setStudio({...props.studio, students: newStudents})
     }

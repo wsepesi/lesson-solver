@@ -1,239 +1,47 @@
-import type { BlockOfTime, LessonLength, ScheduleAndScore, Scheduled, StudentAvailability } from "./types";
+import type { BlockOfTime, Scheduled, StudentAvailability } from "./types";
 
-import { Time } from "./types";
-
-const blockIsIn = (interval: BlockOfTime, intervals: BlockOfTime[]) => {
-    for (const block of intervals) {
-        if (interval.start.geq(block.start) && interval.end.leq(block.end)) {
-            return true
-        }
-    }
-    return false
+export type Heuristics = {
+    numConsequtive: number,
+    breakLength: number,
 }
 
-const getLegalIntervals = (lessonLength: number, availability: BlockOfTime[], A_me: BlockOfTime[]): BlockOfTime[] => {
-    const legal: BlockOfTime[] = []
-
-    // iterate over availability by intervals of lessonLength
-    for (const interval of availability) {
-        let cur = interval.start
-        while (interval.end.greaterThan(cur)) {
-            const block = { start: cur, end: Time.fromValue(cur.valueOf() + lessonLength) }
-            cur = Time.fromValue(cur.valueOf() + lessonLength)
-
-            if (blockIsIn(block, A_me)) {
-                legal.push(block)
-            }
-        }
-    }
-
-    return legal
-}
-
-const compareTimes = (a: Time, b: Time) => {
-    return a.hour - b.hour || a.minute - b.minute
-}
-
-// const toNum = (length: LessonLength) => {
-//     return length === "30" ? 30 : 60
-//     }
-
-const isLegal = (lessonLength: LessonLength, start: Time, end: Time): boolean => {
-    return lessonLength > end.valueOf() - start.valueOf()
-}
-
-const scheduleHelper = (legal: Map<StudentAvailability, BlockOfTime[]>, toHit: number, scheduled: Scheduled[] = [], first=false): ScheduleAndScore => {
-    // base cases:
-    // if scheduled is all booked up, return scheduled
-    if (scheduled.length === toHit) {
-        let score = 0
-        const sortedIntervals: BlockOfTime[] = scheduled.map((s) => s.interval).sort((a, b) => compareTimes(a.start, b.start))
-        // console.log(sortedIntervals.length)
-        // calculate a score in the following manner: for each concurrent interval (ie the end of one is the start of the next), add n^2 to the score, where n is the number of intervals in a row. however, if the concurrent interval streches over 120 minutes without a break of at least 30 minutes, subtract 1000 from the score
-        let cur = sortedIntervals[0]!
-        let curCount = 1
-        // console.log(sortedIntervals)
-        sortedIntervals.map((interval, idx) => {
-            if (idx === 0) {
-                return
-            }
-            if (interval.start.equals(cur.end)) {
-                curCount++
-            }
-            else {
-                if (curCount > 1) {
-                    score += curCount * curCount
+const getTeacherCompatibleTimes = (T: BlockOfTime[], S: StudentAvailability[]): StudentAvailability[] => {
+    const S_legal: StudentAvailability[] = []
+    S.forEach((student) => {
+        const legal: BlockOfTime[] = []
+        student.availability.forEach((interval) => {
+            T.forEach((teacherInterval) => {
+                if (interval.start.geq(teacherInterval.start) && interval.end.leq(teacherInterval.end)) {
+                    legal.push(interval)
                 }
-                if (curCount * scheduled[0]!.student.student.lessonLength > 120) {
-                    score -= 1000
-                }
-                cur = interval
-                curCount = 1
-            }
+            })
         })
-        if (curCount > 1) {
-            score += curCount * curCount
-        }
-        if (curCount * scheduled[0]!.student.student.lessonLength > 120) {
-            score -= 1000
-        }
-
-        return { schedule: scheduled, score}
-    }
-    if (scheduled && scheduled.length === 0 && !first) {
-        return { schedule: [], score: -1 }
-    }
-    if (legal.size === 0) {
-        return { schedule: [], score: -1 }
-    }
-
-    // remove students from legal that have no legal intervals
-    const delete2: StudentAvailability[] = []
-    legal.forEach((intervals, student) => {
-        if (intervals.length === 0) {
-            delete2.push(student)
+        if (legal.length !== 0) {
+            S_legal.push({ student: student.student, availability: legal })
         }
     })
-    delete2.forEach((student) => {
-        legal.delete(student)
-    })
-
-    // if there are no legal students remaining, return
-    if (legal.size === 0) {
-        return { schedule: [], score: -1 }
+    if (S_legal.length === 0) {
+        throw new Error("No students available at times teacher is available")
     }
-
-    // find student with least legal intervals to heuristically assign
-    let min = Infinity
-    let minStudent: StudentAvailability | undefined
-    legal.forEach((intervals, student) => {
-        if (intervals.length < min) {
-            min = intervals.length
-            minStudent = student
-        }
-    })
-
-    if (!minStudent) {
-        throw new Error("minStudent is undefined")
-    }
-
-    const minIntervals = legal.get(minStudent)!
-    const idx = Math.floor(Math.random() * minIntervals.length)
-    if (idx >= minIntervals.length) {
-        throw new Error("idx is too big")
-    }
-    const minInterval = minIntervals[idx]! // random initializiation
-
-    // now assign this interval to the student OR not
-    const newScheduled = [...scheduled, { student: minStudent, interval: minInterval }]
-    const newLegal = new Map<StudentAvailability, BlockOfTime[]>(legal)
-    newLegal.delete(minStudent)
-
-    
-
-    // update legal intervals to remove this timeframe, splitting if necessary
-    newLegal.forEach((intervals, student) => {
-        const newIntervals = []
-
-        for (const interval of intervals) {
-            // if the intervals are disjoint, do nothing
-            if (interval.start.geq(minInterval.end) || minInterval.start.geq(interval.end)) {
-                newIntervals.push(interval)
-            }
-            // if the intervals are the same, remove the interval
-            else if (interval.start.equals(minInterval.start) && interval.end.equals(minInterval.end)) { // IS == MS | ME == IE
-                // do nothing
-            }
-            // if the intervals overlap, split the interval such that any overlap with minInterval is removed
-            else if (interval.start.geq(minInterval.start) && minInterval.end.geq(interval.start) && interval.end.geq(minInterval.end)) { // MS  |=  IS  |=  ME |=  IE
-                if (!interval.end.equals(minInterval.end) && isLegal(minStudent!.student.lessonLength, minInterval.end, interval.end)) {
-                    newIntervals.push({ start: minInterval.end, end: interval.end })
-                }
-            }
-            else if (minInterval.start.geq(interval.start) && interval.end.geq(minInterval.start) && interval.end.geq(minInterval.start)) { // IS  |=  MS  |= IE |=  ME 
-                if (!interval.start.equals(minInterval.start) && isLegal(minStudent!.student.lessonLength, interval.start, minInterval.start)) {
-                    newIntervals.push({ start: interval.start, end: minInterval.start })
-                }
-            }
-            else if (minInterval.start.geq(interval.start) && interval.end.geq(minInterval.end)) { // IS  |=  MS  |  ME  |=  IE
-                if (!interval.start.equals(minInterval.start) && isLegal(minStudent!.student.lessonLength, interval.start, minInterval.start)) {
-                    newIntervals.push({ start: interval.start, end: minInterval.start })
-                }
-                if (!interval.end.equals(minInterval.end) && isLegal(minStudent!.student.lessonLength, minInterval.end, interval.end)) {
-                    newIntervals.push({ start: minInterval.end, end: interval.end })
-                }
-            }
-            else if (interval.start.geq(minInterval.start) && minInterval.end.geq(interval.end)) { // MS |= IS | IE |= ME
-                // do nothing
-            }
-            else {
-                console.log(interval, minInterval)
-                throw new Error("unreachable")
-            }
-        }
-        if (newIntervals.length !== 0) {
-            newLegal.set(student, newIntervals)
-        }
-    })
-    // remove empty students
-    const toDelete: StudentAvailability[] = []
-    newLegal.forEach((intervals, student) => {
-        if (intervals.length === 0) {
-            toDelete.push(student)
-        }
-    })
-    toDelete.forEach((student) => {
-        newLegal.delete(student)
-    })
-
-    const removedFromLegal = new Map<StudentAvailability, BlockOfTime[]>(legal)
-    removedFromLegal.set(minStudent, minIntervals.filter((_, i) => i !== idx))
-
-    const doAssign = scheduleHelper(newLegal, toHit, newScheduled, false)
-    // if (doAssign.schedule.length === toHit) { // bias towards assigning
-    //     return { schedule: doAssign.schedule, score: doAssign.score }
-    // }
-    const dontAssign = scheduleHelper(removedFromLegal, toHit, scheduled, false)
-
-    if (dontAssign.schedule.length === 0 && doAssign.schedule.length === 0) {
-        return { schedule: [], score: -1 }
-    }
-    else if (dontAssign.schedule.length === 0) {
-        return { schedule: doAssign.schedule, score: doAssign.score }
-    }
-    else if (doAssign.schedule.length === 0) {
-        return { schedule: dontAssign.schedule, score: dontAssign.score }
-    }
-    else {
-        // tiebreak on score
-        return dontAssign.score > doAssign.score ? dontAssign : doAssign
-    }
-}
-
-export const schedule = (A_me: BlockOfTime[], S: StudentAvailability[]): Scheduled[] | null => {
-    try {
-        // ensure inputs are sorted
-        A_me.sort((a, b) => compareTimes(a.start, b.start))
+    if (S_legal.length !== S.length) {
+        const mismatchedStudents: StudentAvailability[] = []
         S.forEach((student) => {
-            student.availability = student.availability.sort((a, b) => compareTimes(a.start, b.start))
-        })
-
-        // solve all possible legal states
-        const legal: Map<StudentAvailability, BlockOfTime[]> = new Map<StudentAvailability, BlockOfTime[]>()
-
-        S.forEach((studentAvailability) => {
-            const { student, availability } = studentAvailability
-            const legalForStudent = getLegalIntervals(student.lessonLength, availability, A_me)
-            if (legalForStudent.length === 0) {
-                throw new Error("No legal intervals")
+            let found = false
+            S_legal.forEach((legal) => {
+                if (legal.student === student.student) {
+                    found = true
+                }
+            })
+            if (!found) {
+                mismatchedStudents.push(student)
             }
-            legal.set(studentAvailability, legalForStudent) 
         })
-
-        const res = scheduleHelper(legal, legal.size, [], true)
-        console.log(res.score)
-        return res.schedule
-    } catch (e) {
-        return null
+        throw new Error("Students not available at times teacher is available: " + mismatchedStudents.map((student) => student.student.name).join(", "))
     }
+    return S_legal
+}
+
+const solve = (T: BlockOfTime[], S: StudentAvailability[], heuristics: Heuristics): Scheduled[] | null => {
+    const S_legal = getTeacherCompatibleTimes(T, S)
+    return null
 }

@@ -73,7 +73,7 @@ export default function Login() {
                 return
             }
             setLoading(true)
-            const { data, error } = await supabaseClient.auth.signInWithOtp({
+            const { error } = await supabaseClient.auth.signInWithOtp({
                 email: email,
                 options: {
                     shouldCreateUser: false

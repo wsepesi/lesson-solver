@@ -1,4 +1,5 @@
 import { integer, json, pgEnum, pgTable, serial, text, uuid, varchar } from "drizzle-orm/pg-core";
+import { type Schedule } from "./types";
 
 export const lessonLengthEnum = pgEnum('lesson_length', ['30', '60'])
 
@@ -29,5 +30,6 @@ export const studios = pgTable('studios', {
 // })
 
 export type StudioSchema = typeof studios.$inferSelect
-export type StudentSchema = typeof students.$inferSelect
+// studentSchema, but replace the 'schedule' field with 'schedule: Schedule'
+export type StudentSchema = Omit<typeof students.$inferSelect, 'schedule'> & { schedule: Schedule }
 // export type ScheduleSchema = typeof schedules.$inferSelect

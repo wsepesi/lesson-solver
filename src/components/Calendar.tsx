@@ -12,7 +12,8 @@ type Props = {
 }
 
 export default function Calendar(props: Props) {
-    const { minutes, buttonStates, setButtonStates, blocks } = props
+    const { buttonStates, setButtonStates, blocks } = props
+    // const minutes = 30
     const [isSelecting, setSelecting] = useState(false)
 
     const handleClick = (i: number, j: number) => {
@@ -52,7 +53,8 @@ export default function Calendar(props: Props) {
                     {Array.from({ length: blocks }).map((_, i) => (
                         <TableRow key={i} className="">
                             <TableCell className="">
-                                {minutes === 60 ? `${9 + i}:00` : `${!(i % 2) ? `${9 + (i / 2)}:00` : `${9 + Math.floor(i / 2)}:30`}`}
+                                {/* {minutes === 60 ? `${9 + i}:00` : `${!(i % 2) ? `${9 + (i / 2)}:00` : `${9 + Math.floor(i / 2)}:30`}`} */}
+                                {`${!(i % 2) ? `${9 + (i / 2)}:00` : `${9 + Math.floor(i / 2)}:30`}`}
                             </TableCell>
                             {Days.map((_, j) => (
                                 <TableCell key={j} className="p-0 m-0 h-full">

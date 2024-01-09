@@ -26,6 +26,8 @@ type Props = {
     setOpen: (open: boolean) => void
 }
 
+const SET_MINUTES = 30
+
 export function OnboardStudentsCard(props: Props) {
     const { minutes, setMinutes } = props
     const [formData, setFormData] = React.useState<Student>({
@@ -112,7 +114,7 @@ export function OnboardStudentsCard(props: Props) {
                         return
                     }
                     else {
-                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, minutes))
+                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, SET_MINUTES))
                         props.setOpen(false)
                         toast({
                             title: "Student added!",
@@ -138,7 +140,7 @@ export function OnboardStudentsCard(props: Props) {
                         return
                     }
                     else {
-                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, minutes))
+                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, SET_MINUTES))
                         setFormData({
                             name: "",
                             email: "",

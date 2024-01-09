@@ -1,6 +1,7 @@
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "./ui/navigation-menu";
+// import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "./ui/navigation-menu";
 
-import { Button } from "./ui/button";
+// import { Button } from "./ui/button";
+import { Home } from "lucide-react";
 import Link from "next/link";
 import { ProfileDropdown } from "./ProfileDropdown";
 
@@ -11,7 +12,7 @@ export default function Navbar() {
                 <div className="flex flex-row items-center ml-4">
                     {/* <img className="h-8 w-8 mr-2" src="/images/logo.svg" alt="logo" /> */}
                     <Link href="/studios">
-                        <div className="text-2xl font-bold ml-4">T</div>
+                        <div className="text-2xl font-bold ml-4"><Home /></div>
                     </Link>
                 </div>
             </div>

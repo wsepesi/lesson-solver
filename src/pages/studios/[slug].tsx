@@ -50,7 +50,7 @@ export default function Studio() {
                 <MyStudio 
                     studio={studio} 
                     setStudio={setStudio}
-                /> : <p>Loading...</p>}
+                /> : <p className="w-full h-[80vh] flex flex-row items-center justify-center">Loading...</p>}
         </>
     )
 }
