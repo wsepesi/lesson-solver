@@ -206,7 +206,7 @@ export function MyStudio(props: Props) {
                 const progress = getStudentProgress(student)
                 return (
                 <li key={student.id} className="flex flex-row w-full justify-between">
-                  <div className="flex flex-row justify-center items-center">
+                  <div className="flex flex-row justify-start items-center">
                     {/* make sure the border has a thin radius and is a circle */}
                     <div 
                       className="w-5 h-5 cursor-pointer hover:bg-slate-200 flex flex-row items-center p-1 border border-gray-300 rounded-full mr-1"
@@ -216,7 +216,7 @@ export function MyStudio(props: Props) {
                     </div>
                     <Popover>
                       <PopoverTrigger>
-                        <p className="font-mono px-1 border rounded-md border-black cursor-pointer">{student.first_name} {student.last_name}, {student.email}</p>
+                        <p className="font-mono px-1 border rounded-md border-black cursor-pointer self-start text-left">{student.first_name} {student.last_name}, {student.email}</p>
                       </PopoverTrigger>
                       <PopoverContent>
                         <MiniStudentSchedule student={student} />

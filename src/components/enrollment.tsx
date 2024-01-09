@@ -14,6 +14,8 @@ import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { type StudioSchema } from 'lib/schema';
 
 const formSchema = z.object({
     first_name: z.string().min(2).max(50),
@@ -28,9 +30,12 @@ type Props = {
     query: RouterSchema | undefined,
     setFormData: (data: FormSchema) => void,
     setState: (state: OnboardingState) => void,
+    setStudio: (studio: StudioSchema) => void,
+    studio: StudioSchema | null
 }
 
 export function Enrollment(props: Props) { // TODO: fix code autopopulation
+  const sb = useSupabaseClient();
   const code = props.query ? props.query.code : "";
 
   const [defaultCode, setDefaultCode] = useState<string>("");
@@ -51,9 +56,35 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
     },
   });
 
-  const onSubmit = (data: FormSchema) => {
+  const onSubmit = async (data: FormSchema) => {
     props.setFormData(data);
-    props.setState("schedule");
+    // get studio from code, if it exists. throw an alert if it doesn't
+    // first check if the code is valid
+    // console.log(data.studioCode)
+    const codeRes = await sb.from("studios").select("*").eq("code", data.studioCode);
+    // console.log(codeRes)
+    if (codeRes.error) {
+      alert("error with fetching the studio code");
+      console.log(codeRes.error);
+      return;
+    } else {
+      const resdata = codeRes.data;
+      if (resdata.length === 0) {
+        alert("Invalid code, please check that it's correct"); //FIXME:
+        return;
+      }
+
+      const res = await sb.from("studios").select("*").eq("code", data.studioCode)
+      if (res.error) {
+        alert("error with fetching the studio code")
+        console.log(res.error)
+        return
+    } else {
+      props.setState("schedule");
+      props.setStudio(res.data[0] as StudioSchema)
+    }
+    }
+    
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

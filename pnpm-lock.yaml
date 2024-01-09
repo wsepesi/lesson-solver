@@ -36,6 +36,7 @@ specifiers:
   cmdk: ^0.2.0
   drizzle-kit: ^0.20.9
   drizzle-orm: ^0.29.2
+  drizzle-zod: ^0.5.1
   eslint: ^8.40.0
   eslint-config-next: ^13.4.2
   lucide-react: ^0.268.0
@@ -80,6 +81,7 @@ dependencies:
   clsx: 2.1.0
   cmdk: 0.2.0_yok4whjnfjlfyjmdmcaku5uzjq
   drizzle-orm: 0.29.3_ldu74ez5s6mzolg2f3ongygpiq
+  drizzle-zod: 0.5.1_dyoionzj5r5jdahnttwt72drk4
   lucide-react: 0.268.0_react@18.2.0
   next: 13.5.6_biqbaboplfbrettd7655fr4n2y
   postgres: 3.4.3
@@ -3234,6 +3236,16 @@ packages:
       '@types/react': 18.2.46
       postgres: 3.4.3
       react: 18.2.0
+    dev: false
+
+  /drizzle-zod/0.5.1_dyoionzj5r5jdahnttwt72drk4:
+    resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
+    peerDependencies:
+      drizzle-orm: '>=0.23.13'
+      zod: '*'
+    dependencies:
+      drizzle-orm: 0.29.3_ldu74ez5s6mzolg2f3ongygpiq
+      zod: 3.22.4
     dev: false
 
   /eastasianwidth/0.2.0:

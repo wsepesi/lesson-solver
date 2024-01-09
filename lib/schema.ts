@@ -1,5 +1,6 @@
 import { integer, json, pgEnum, pgTable, serial, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { type Schedule } from "./types";
+import { createInsertSchema } from 'drizzle-zod'
 
 export const lessonLengthEnum = pgEnum('lesson_length', ['30', '60'])
 
@@ -30,6 +31,7 @@ export const studios = pgTable('studios', {
 // })
 
 export type StudioSchema = typeof studios.$inferSelect
-// studentSchema, but replace the 'schedule' field with 'schedule: Schedule'
 export type StudentSchema = Omit<typeof students.$inferSelect, 'schedule'> & { schedule: Schedule }
-// export type ScheduleSchema = typeof schedules.$inferSelect
+export type StudentInsertSchema = typeof students.$inferInsert
+
+export const insertStudentSchema = createInsertSchema(students)

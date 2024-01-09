@@ -7,6 +7,7 @@ import StudentSchedule from '~/components/StudentSchedule';
 import type { LessonLength } from 'lib/types';
 import { DayLength, Days } from '../../../lib/utils'
 import { DoneEnrolling } from '~/components/DoneEnrolling';
+import { type StudioSchema } from 'lib/schema';
 
 export const useTypedRouter = <T extends z.Schema>(schema: T) => {
     const { query, ...router } = useRouter();
@@ -45,7 +46,8 @@ export default function Enroll() {
         Array.from({ length: DayLength }, () => false)
     )
     );
-    
+    const [studio, setStudio] = useState<StudioSchema | null>(null);
+
     const { query } = useTypedRouter(routerSchema);
     return (
         <>
@@ -53,6 +55,8 @@ export default function Enroll() {
                 query={query.success ? query.data : undefined}
                 setFormData={setFormData}
                 setState={setState}
+                studio={studio}
+                setStudio={setStudio}
             />}
             {state === "schedule" && <StudentSchedule 
                 setState={setState}
@@ -61,6 +65,7 @@ export default function Enroll() {
                 minutes={minutes}
                 setMinutes={setMinutes}
                 studentInfo={formData}
+                studio={studio}
             />}
             {state === "done" && <DoneEnrolling />}
         </>
