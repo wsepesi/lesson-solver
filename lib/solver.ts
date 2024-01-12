@@ -1,8 +1,8 @@
 import type { BlockOfTime, Scheduled, StudentAvailability } from "./types";
 
 export type Heuristics = {
-    numConsequtive: number,
-    breakLength: number,
+    numConsecHalfHours: number,
+    breakLenInHalfHours: number,
 }
 
 const getTeacherCompatibleTimes = (T: BlockOfTime[], S: StudentAvailability[]): StudentAvailability[] => {
