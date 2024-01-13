@@ -9,6 +9,9 @@ import {
 import { Button } from "./ui/button"
 import { Combobox, type Option } from "./Combobox"
 import { useState } from "react"
+import solve, { FinalSchedule } from "lib/heur_solver"
+import { StudioWithStudents } from "~/pages/studios/[slug]"
+import { finalScheduleToString } from "lib/utils"
 
 const isPaid = true
 
@@ -21,36 +24,81 @@ const lengthOptions: Option[] = [
 ]
 
 const breakOptions: Option[] = [
-    { label: "15", value: "15" },
+    // { label: "15", value: "15" },
     { label: "30", value: "30" },
-    { label: "45", value: "45" },
+    // { label: "45", value: "45" },
     { label: "60", value: "60" },
 ]
 
-export default function SolveScheduleDialog() {
+type Props = {
+    studio: StudioWithStudents
+}
+
+export default function SolveScheduleDialog(props: Props) {
     const [config, setConfig] = useState(true)
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("15")
+    const [loading, setLoading] = useState(false)
+    const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
+
+    const handleClick = () => {
+        setLoading(true)
+        const res = solve(
+            props.studio.students.map((student) => (
+                {
+                student: {
+                    email: student.email,
+                    name: student.first_name!,
+                    lessonLength: student.lesson_length === "30" ? 30 : 60,
+                },
+                schedule: student.schedule,
+                }
+            )), 
+            props.studio.owner_schedule, 
+            {
+                numConsecHalfHours: Number(length) * 2,
+                breakLenInHalfHours: Number(breakLength) / 30
+            }
+        )
+        setSchedule(res)
+        setLoading(false)
+    }
+    
     return(
         <>
             <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]">
-                <DialogHeader>
-                <DialogTitle>Schedule your bookings</DialogTitle>
-                <DialogDescription>
-                    Make sure you&apos;ve onboarded all of your students before you finalize your schedule!
-                    {!isPaid && (
-                        <p className="my-2">On a free plan you only have <strong>ONE</strong> free schedule solve!</p>)}
-                </DialogDescription>
-                </DialogHeader>
-                <div className="">
-                    <p>Create a schedule with no more than <Combobox value={length} setValue={setLength} options={lengthOptions} /> hours of back-to-back events without a <Combobox value={breakLength} setValue={setBreakLength} options={breakOptions} /> minutes break.</p>
-                </div>
-                <DialogFooter>
-                    <Button 
-                        type="submit"
-                        onClick={() => console.log("hello")}
-                    >Schedule</Button>
-                </DialogFooter>
+                {!schedule &&
+                <>
+                    <DialogHeader>
+                    <DialogTitle>Schedule your bookings</DialogTitle>
+                    <DialogDescription>
+                        Make sure you&apos;ve onboarded all of your students before you finalize your schedule!
+                        {!isPaid && (
+                            <p className="my-2">On a free plan you only have <strong>ONE</strong> free schedule solve!</p>)}
+                    </DialogDescription>
+                    </DialogHeader>
+                    <div className="">
+                        <p>Create a schedule with no more than <Combobox value={length} setValue={setLength} options={lengthOptions} /> hours of back-to-back events without a <Combobox value={breakLength} setValue={setBreakLength} options={breakOptions} /> minutes break.</p>
+                    </div>
+                    <DialogFooter>
+                        <Button 
+                            type="submit"
+                            onClick={() => console.log("hello")}
+                        >Schedule</Button>
+                    </DialogFooter>
+                </>
+                }
+                {loading && <p>Loading...</p>}
+                {schedule && 
+                    <div>
+                        <p>Schedule:</p>
+                        <div className="flex flex-col">
+                            {finalScheduleToString(schedule).map((str) => (
+                                <p key={str}>{str}</p>
+                            ))}
+                        </div>
+                    </div>
+                }
             </DialogContent>
         </>
     )

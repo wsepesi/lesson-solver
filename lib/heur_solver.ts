@@ -1,8 +1,8 @@
-import type { BlockOfTime, Schedule, Scheduled, StudentSchedule } from "./types";
+import type { Day, Schedule, StudentSchedule } from "./types";
 
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { type Heuristics } from "./solver";
-import { scheduleToButtons } from "./utils";
+// import { scheduleToButtons } from "./utils";
 
 type StudentWithButtons = StudentSchedule & {
     bsched: boolean[][];
@@ -13,14 +13,14 @@ type Block = {
     end: Slot
 }
 
-type FinalSchedule = {
+export type FinalSchedule = {
     assignments: {
         student: StudentWithButtons
         time: Block
     }[]
 }
 
-type Slot = {
+export type Slot = {
     i: number
     j: number
 }
@@ -36,33 +36,115 @@ const enforceLessonLength = (students: StudentWithButtons[]) => {
         if (student.student.lessonLength === 30) return
         else {
             // if there are isolated buttons (eg a 30 min slot on a 60 min student), set to false
-            throw new Error("not yet implemented") 
+            for (let i = 0; i < student.bsched.length; i++) {
+                for (let j = 0; j < student.bsched[i]!.length; j++) {
+                    if (student.bsched[i]![j]) {
+                        if (student.bsched[i]![j + 1] ?? false) {
+                            student.bsched[i]![j] = false
+                        }
+                    }
+                }
+            }
         }
     })
 }
 
 const isScheduleEmpty = (sched: boolean[][]): boolean => {
     // true if all are false, else otherwise
-    throw new Error("not yet implemented") 
+    for (let i = 0; i < sched.length; i++) {
+        for (let j = 0; j < sched[i]!.length; j++) {
+            if (sched[i]![j]) return false
+        }
+    }
+    return true
 }
 
-const solve = (students: StudentSchedule[], availability: Schedule, heuristics: Heuristics) => {
-    // convert to buttons to operate over the grind
-    const studentsB: StudentWithButtons[] = []
-    students.forEach((std) => {
-        const newStudent: StudentWithButtons = {
-            ...std,
-            bsched: scheduleToButtons(std.schedule, 30)
+function scheduleToButtons(schedule: Schedule) {
+    // Define the boolean 2D array with 7 days, each with 24 half-hour blocks for 9am to 9pm
+    const booleanArray: boolean[][] = [] //new Array(7).fill([]).map(() => new Array<boolean>(24).fill(false));
+  
+    // Convert the day names to an array to map to array indexes
+    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as Day[];
+  
+    // Iterate over each day of the week
+    for (const [dayIndex, dayName] of daysOfWeek.entries()) {
+        // Check if the schedule has entries for the current day
+        if (schedule[dayName] && schedule[dayName]!.length > 0) {
+            const day: boolean[] = new Array<boolean>(24).fill(false);
+            // Loop through each period in the day
+            for (const period of schedule[dayName]!) {
+                const { start, end } = period;
+                // Map the start and end times to indices in the boolean array
+                const startIndex = timeToIndex(start.hour, start.minute);
+                const endIndex = timeToIndex(end.hour, end.minute); // inclusive end
+                
+                for (let index = startIndex; index < endIndex; index++) {
+                    // Set the corresponding time blocks to true
+                    day[index] = true
+                }
+                
+            }
+            booleanArray.push(day);
+        } else {
+            const day: boolean[] = new Array<boolean>(24).fill(false);
+            booleanArray.push(day);
         }
-        studentsB.push(newStudent)
-    })
-    const availAsButtons = scheduleToButtons(availability, 30)
+    }
+    return booleanArray;
+}
+  
+  // Helper function to convert hours and minutes into half-hour block index
+  function timeToIndex(hour: number, minute: number) {
+    // minute should be 0 or 30
+    if (minute !== 0 && minute !== 30) {
+        throw new Error('Invalid time (min)');
+    }
+
+    const index = (hour - 9) * 2 + (minute / 30);
+    if (index < 0 || index > 24) {
+        console.log('err', hour, minute, index)
+        throw new Error('Invalid time (idx)');
+    }
+
+    return index;
+  }
+
+const solve = (students: StudentSchedule[], availability: Schedule, heuristics: Heuristics): FinalSchedule => {
+    // convert to buttons to operate over the grind
+    const studentsB: StudentWithButtons[] = students.map((std) => ({ ...std, bsched: scheduleToButtons(std.schedule)}));
+    const availAsButtons = scheduleToButtons(availability);
+
+    console.log("total students", studentsB.length)
+
+    // solver loop
+    const schedule = solverHelper(studentsB, availAsButtons, heuristics, { assignments: []});
+    if (!schedule) throw new Error("unsolvable schedule");
+
+    return schedule;
+}
+
+const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuristics: Heuristics, schedule: FinalSchedule): FinalSchedule | null => {
+    if (schedule.assignments.length > 10) throw new Error("too many assignments")
+    console.log(schedule.assignments.length, 'assigned')
+    if (schedule.assignments.length === 8 || schedule.assignments.length === 10) {
+        console.log(schedule, '?')
+    }
+    console.log(students.length, 'remaining')
+
+    if (schedule.assignments.length === 9) {
+        console.log("done", schedule)
+    }
+    // base case:
+    // 1) students are empty, we are done
+    // 2) schedule is exhausted, we fail
+    if (students.length === 0) return schedule
+    if (isScheduleEmpty(avail)) return null
 
     // eliminate all illegal times on the students
-    for (let i = 0; i < availAsButtons.length; i++) {
-        for (let j = 0; j < availAsButtons[i]!.length; j++) {
-            if (!availAsButtons[i]![j]) {
-                studentsB.forEach((std) => {
+    for (let i = 0; i < avail.length; i++) {
+        for (let j = 0; j < avail[i]!.length; j++) {
+            if (!avail[i]![j]) {
+                students.forEach((std) => {
                     std.bsched[i]![j] = false
                 })
             }
@@ -70,26 +152,12 @@ const solve = (students: StudentSchedule[], availability: Schedule, heuristics: 
     }
 
     // consistency, check if problem is impossible
-    enforceLessonLength(studentsB)
-    studentsB.forEach((std) => {
-        if (isScheduleEmpty(std.bsched)) throw new Error(`student ${std.student.name} has no overlap with teacher times`)
-    })
-
-    // solver loop
-    const schedule = solverHelper(studentsB, availAsButtons, heuristics, { assignments: []})
-    if (!schedule) throw new Error("unsolvable schedule")
-
-    return schedule
-}
-
-const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuristics: Heuristics, schedule: FinalSchedule): FinalSchedule | null => {
-    // base case:
-    // 1) students are empty, we are done
-    // 2) schedule is exhausted, we fail
-    if (students.length === 0) return schedule
-    if (isScheduleEmpty(avail)) return null
-
-    let done = false
+    enforceLessonLength(students)
+    for (const std of students) {
+        if (isScheduleEmpty(std.bsched)) {
+           return null
+        }
+    }
 
     // check if we have heuristics to fulfill
     const candidates = getPrioritySlots(avail, schedule, heuristics)
@@ -99,20 +167,149 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
         const remainingVals = getRemainingValuesForStudents(students) 
         remainingVals.sort((a,b) => a.numRemaining - b.numRemaining)
 
-        candidates.forEach((candidate) => {
+        for (const candidate of candidates) {
             const validStudents = getStudentsAtSlot(remainingVals, candidate) as StudentWithNumRemaining[]
             validStudents.sort((a,b) => a.numRemaining - b.numRemaining)
 
-            validStudents.forEach((student) => {
-                const newSched = solverHelper(students, avail, heuristics, schedule) // TODO: change the vars
-                // TODO: think about when to order the "skip this slot" on the priority. think I wanna do it after trying everything else, but like when exactly? need to exhaust all choices.
-            })
-        })
+            for (const student of validStudents) {
+                // pick the student at the time
+                if (student.student.lessonLength === 60 && (!candidate.afterOpen && !candidate.beforeOpen)) continue
+
+                const availC = copyAvail(avail)
+                const schedC = copyS(schedule)
+                availC[candidate.i]![candidate.j] = false
+                if (student.student.lessonLength === 60) {
+                    if (candidate.afterOpen) {
+                        availC[candidate.i]![candidate.j + 1] = false
+                        schedC.assignments.push({
+                            student,
+                            time: {
+                                start: { i: candidate.i, j: candidate.j },
+                                end: { i: candidate.i, j: candidate.j + 1}
+                            }
+                        })
+                    }
+                    else if (candidate.beforeOpen) {
+                        availC[candidate.i]![candidate.j - 1] = false
+                        schedC.assignments.push({
+                            student,
+                            time: {
+                                start: { i: candidate.i, j: candidate.j - 1},
+                                end: { i: candidate.i, j: candidate.j}
+                            }
+                        })
+                    }
+                } else {
+                    schedC.assignments.push({
+                        student,
+                        time: {
+                            start: { i: candidate.i, j: candidate.j },
+                            end: { i: candidate.i, j: candidate.j }
+                        }
+                    })
+                }
+
+                // do search
+                const studC = structuredClone(students).filter((std) => std.student.email !== student.student.email)
+                if (studC.length >= students.length) throw new Error("student not removed")
+                const newSched = solverHelper(studC, availC, heuristics, schedC) 
+                if (newSched !== null) {
+                    return newSched
+                }
+            }
+
+            // assign nobody FIXME: this might not work. i dont actually branch? think about when to order the "skip this slot" on the priority. think I wanna do it after trying everything else, but like when exactly? need to exhaust all choices.
+            avail[candidate.i]![candidate.j] = false
+        }
     }
 
-    // next work heuristically by 
+    // no subsequent candidates, so try max degree slot and then min avail student
+    const remainingCandidates = availToSlots(avail)
+    remainingCandidates.sort((a,b) => calculateNumStudentsAtSlot(students, b) - calculateNumStudentsAtSlot(students, a))
+    const remainingVals = getRemainingValuesForStudents(students) 
+    remainingVals.sort((a,b) => a.numRemaining - b.numRemaining)
 
-    return schedule
+    for (const candidate of remainingCandidates) {
+        const validStudents = getStudentsAtSlot(remainingVals, candidate) as StudentWithNumRemaining[]
+        validStudents.sort((a,b) => a.numRemaining - b.numRemaining)
+
+        for (const student of validStudents) {
+            // pick the student at the time
+            let afterOpen = false
+            let beforeOpen = false
+            if (student.student.lessonLength === 60) {
+                // check if the slot before or after is open, i.e. does j - 1 or j + 1 exist in remainingCandidates
+                const beforeOpenCandidate = remainingCandidates.find((c) => c.i === candidate.i && c.j === candidate.j - 1)
+                const afterOpenCandidate = remainingCandidates.find((c) => c.i === candidate.i && c.j === candidate.j + 1)
+                if (beforeOpenCandidate) beforeOpen = true
+                if (afterOpenCandidate) afterOpen = true
+
+                if (!afterOpen && !beforeOpen) continue
+            }
+
+            const availC = copyAvail(avail)
+            const schedC = copyS(schedule)
+            availC[candidate.i]![candidate.j] = false
+            if (student.student.lessonLength === 60) {
+                if (afterOpen) {
+                    availC[candidate.i]![candidate.j + 1] = false
+                    schedC.assignments.push({
+                        student,
+                        time: {
+                            start: { i: candidate.i, j: candidate.j },
+                            end: { i: candidate.i, j: candidate.j + 1}
+                        }
+                    })
+                }
+                else if (beforeOpen) {
+                    availC[candidate.i]![candidate.j - 1] = false
+                    schedC.assignments.push({
+                        student,
+                        time: {
+                            start: { i: candidate.i, j: candidate.j - 1},
+                            end: { i: candidate.i, j: candidate.j}
+                        }
+                    })
+                }
+            } else {
+                schedC.assignments.push({
+                    student,
+                    time: {
+                        start: { i: candidate.i, j: candidate.j },
+                        end: { i: candidate.i, j: candidate.j }
+                    }
+                })
+            }
+
+            // do search
+            const studC = structuredClone(students).filter((std) => std.student.email !== student.student.email)
+            if (studC.length >= students.length) throw new Error("student not removed")
+            const newSched = solverHelper(studC, availC, heuristics, schedC) 
+            if (newSched !== null) {
+                return newSched
+            }
+        }
+
+        // no student assigned, so set to false
+        avail[candidate.i]![candidate.j] = false
+    }
+    
+    // that exhausts everything, so we need to backtrack
+    return null
+}
+
+const availToSlots = (avail: boolean[][]): Slot[] => {
+    const slots: Slot[] = []
+    for (let i = 0; i < avail.length; i++) {
+        for (let j = 0; j < avail[i]!.length; j++) {
+            if (avail[i]![j]) slots.push({ i, j })
+        }
+    }
+    return slots
+}
+
+const copyAvail = (avail: boolean[][]): boolean[][] => {
+    return structuredClone(avail)
 }
 
 const getStudentsAtSlot = (students: StudentWithButtons[] | StudentWithNumRemaining[], slot: Slot): StudentWithButtons[] | StudentWithNumRemaining[] => {
@@ -128,9 +325,7 @@ const calculateNumStudentsAtSlot = (students: StudentWithButtons[], slot: Slot):
 }
 
 const copyS = (sched: FinalSchedule): FinalSchedule => {
-    // make deep copy of sched
-    throw new Error("not implemented")
-    return sched
+    return structuredClone(sched)
 }
 
 type StudentWithNumRemaining = StudentWithButtons & {
@@ -192,6 +387,26 @@ const getPrioritySlots = (avail: boolean[][], schedule: FinalSchedule, heuristic
 }
 
 const groupConsecutiveTimes = (schedule: FinalSchedule): Block[] => {
-    // block are consecutive if i's are equal and js are +- 1
-    throw new Error("Not yet implemented")
+    const groups: Block[] = []
+    let start: Slot | null = null
+    let end: Slot | null = null
+    for (const assignment of schedule.assignments) {
+        const slot = assignment.time.start
+        if (start === null) {
+            start = slot
+            end = slot
+        } else {
+            if (slot.i === end!.i && slot.j === end!.j + 1) {
+                end = slot
+            } else {
+                groups.push({ start, end: end! })
+                start = slot
+                end = slot
+            }
+        }
+    }
+    if (start !== null && end !== null) groups.push({ start, end })
+    return groups
 }
+
+export default solve
