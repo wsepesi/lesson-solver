@@ -9,8 +9,8 @@ import {
 import { Button } from "./ui/button"
 import { Combobox, type Option } from "./Combobox"
 import { useState } from "react"
-import solve, { FinalSchedule } from "lib/heur_solver"
-import { StudioWithStudents } from "~/pages/studios/[slug]"
+import solve, { type FinalSchedule } from "lib/heur_solver"
+import { type StudioWithStudents } from "~/pages/studios/[slug]"
 import { finalScheduleToString } from "lib/utils"
 
 const isPaid = true
@@ -37,7 +37,7 @@ type Props = {
 export default function SolveScheduleDialog(props: Props) {
     const [config, setConfig] = useState(true)
     const [length, setLength] = useState("1")
-    const [breakLength, setBreakLength] = useState("15")
+    const [breakLength, setBreakLength] = useState("30")
     const [loading, setLoading] = useState(false)
     const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
 
@@ -83,7 +83,7 @@ export default function SolveScheduleDialog(props: Props) {
                     <DialogFooter>
                         <Button 
                             type="submit"
-                            onClick={() => console.log("hello")}
+                            onClick={handleClick}
                         >Schedule</Button>
                     </DialogFooter>
                 </>

@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import type { BlockOfTime, Day, LessonLength, Schedule } from "./types"
 import { Time } from "./types"
-import { FinalSchedule, Slot } from "./heur_solver"
+import type { FinalSchedule, Slot } from "./heur_solver"
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
