@@ -145,7 +145,9 @@ export function MyStudio(props: Props) {
     },
     {
       name: "Create your schedule",
-      dialogComponent: <SolveScheduleDialog />
+      dialogComponent: <SolveScheduleDialog 
+        studio={studio}
+      />
     },
   ]
 

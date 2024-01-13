@@ -30,7 +30,7 @@ export const studios = pgTable('studios', {
 //     lesson_length: lessonLengthEnum('lesson_length'),
 // })
 
-export type StudioSchema = typeof studios.$inferSelect
+export type StudioSchema = Omit<typeof studios.$inferSelect, 'owner_schedule'> & { owner_schedule: Schedule }
 export type StudentSchema = Omit<typeof students.$inferSelect, 'schedule'> & { schedule: Schedule }
 export type StudentInsertSchema = typeof students.$inferInsert
 
