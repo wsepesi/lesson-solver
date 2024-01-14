@@ -220,7 +220,7 @@ export function MyStudio(props: Props) {
                       <PopoverTrigger>
                         <p className="font-mono px-1 border rounded-md border-black cursor-pointer self-start text-left">{student.first_name} {student.last_name}, {student.email}</p>
                       </PopoverTrigger>
-                      <PopoverContent>
+                      <PopoverContent className="min-w-[20vw]">
                         <MiniStudentSchedule student={student} />
                       </PopoverContent>
                     </Popover>
