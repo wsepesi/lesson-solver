@@ -1,1 +1,1 @@
-# Lightweight lesson scheduling tool
+many to one lesson scheduling made easy
