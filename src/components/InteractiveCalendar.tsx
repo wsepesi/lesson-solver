@@ -98,8 +98,8 @@ const CalendarCell: React.FC<{
   );
 };
 
-const InteractiveCalendar: React.FC<{ initialEvents: Event[]; mySchedule: Schedule }> = ({ initialEvents, mySchedule }) => {
-  const [events, setEvents] = useState(initialEvents);
+const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, setEvents: React.Dispatch<React.SetStateAction<Event[]>> }> = ({ events, mySchedule, setEvents }) => {
+  // const [events, setEvents] = useState(initialEvents);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [dragOverCell, setDragOverCell] = useState<{ day: string; time: string } | null>(null);
 

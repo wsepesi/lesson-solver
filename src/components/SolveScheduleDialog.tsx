@@ -9,9 +9,13 @@ import {
 import { Button } from "./ui/button"
 import { Combobox, type Option } from "./Combobox"
 import { useState } from "react"
-import solve, { type FinalSchedule } from "lib/heur_solver"
 import { type StudioWithStudents } from "~/pages/studios/[slug]"
+import type { StudentSchema } from "lib/schema"
+import type { Student } from "lib/types"
+import { type FinalSchedule, scheduleToButtons, solve } from "lib/heur_solver"
 
+import type { Event } from "src/components/InteractiveCalendar"
+import { finalScheduleToEventList } from "lib/utils"
 const isPaid = true
 
 const lengthOptions: Option[] = [
@@ -36,45 +40,73 @@ type Props = {
     taskIdx: number,
     schedule: FinalSchedule | null,
     setSchedule: React.Dispatch<React.SetStateAction<FinalSchedule | null>>,
+    setEvents: React.Dispatch<React.SetStateAction<Event[]>>,
+}
+
+const getOriginalStudentSchemaMatchByEmail = (student: Student, students: StudentSchema[]): StudentSchema => {
+    const filtered = students.filter((s) => s.email === student.email)
+    if (filtered.length > 1) {
+        throw new Error(`Multiple students with email ${student.email} found in the studio`)
+    }
+    if (filtered.length === 0) {
+        throw new Error(`No student with email ${student.email} found in the studio`)
+    }
+    return filtered[0] ? filtered[0] : students[0]!
 }
 
 export default function SolveScheduleDialog(props: Props) {
-    const { schedule, setSchedule } = props
-    // const [config, setConfig] = useState(true)
+    const { schedule, setSchedule, setEvents } = props
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("30")
     const [loading, setLoading] = useState(false)
-    // const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
+    const [isError, setIsError] = useState(false)
 
     const handleClick = () => {
         setLoading(true)
-        const res = solve(
-            props.studio.students.map((student) => (
+        try {
+            const res = solve(
+                props.studio.students.map((student) => (
+                    {
+                    student: {
+                        email: student.email,
+                        name: student.first_name!,
+                        lessonLength: student.lesson_length === "30" ? 30 : 60,
+                    },
+                    schedule: student.schedule,
+                    }
+                )), 
+                props.studio.owner_schedule, 
                 {
-                student: {
-                    email: student.email,
-                    name: student.first_name!,
-                    lessonLength: student.lesson_length === "30" ? 30 : 60,
-                },
-                schedule: student.schedule,
+                    numConsecHalfHours: Number(length) * 2,
+                    breakLenInHalfHours: Number(breakLength) / 30
                 }
-            )), 
-            props.studio.owner_schedule, 
-            {
-                numConsecHalfHours: Number(length) * 2,
-                breakLenInHalfHours: Number(breakLength) / 30
+            )
+            const finalSchedOriginalAvail: FinalSchedule = {
+                assignments: res.assignments.map((assignment, i) => ({
+                    student: {
+                        ...assignment.student,
+                        schedule: getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule,
+                        bsched: scheduleToButtons(getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule)
+                    },
+                    time: assignment.time
+                }))
             }
-        )
-        setSchedule(res)
+            setSchedule(finalSchedOriginalAvail)
+            setEvents(finalScheduleToEventList(finalSchedOriginalAvail))
+        } catch (error) {
+            setIsError(true)
+        }
+        
         setLoading(false)
-        props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
+        if (!isError) {
+            props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
+        }
     }
     
     return(
         <>
-            {/* <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]"> */}
-            <DialogContent className="min-w-[100vw] h-[100vh]">
-                {!schedule &&
+            <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]">
+                {(!schedule && !isError) &&
                 <>
                     <DialogHeader>
                     <DialogTitle>Schedule your bookings</DialogTitle>
@@ -95,6 +127,7 @@ export default function SolveScheduleDialog(props: Props) {
                     </DialogFooter>
                 </>
                 }
+                {isError && <p className="flex items-center h-full">There was an error creating your schedule. This is likely due to an impossible configuration of your availabilty and student availability, so please try to add more time and try again.</p>}
             </DialogContent>
         </>
     )

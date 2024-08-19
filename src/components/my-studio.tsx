@@ -20,7 +20,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
-import { Days, buttonsToSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
+import { Days, buttonsToSchedule, eventListToString, finalScheduleToEventList, finalScheduleToString, scheduleToButtons, transpose } from "lib/utils"
 import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
 import SendToStudentsDialog from "./SendToStudentsDialog"
@@ -36,6 +36,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import MiniStudentSchedule from "./MiniStudentSchedule"
 import InteractiveCalendar from "./InteractiveCalendar"
 import type { FinalSchedule } from "lib/heur_solver"
+
+import type { Event } from "src/components/InteractiveCalendar"
 
 
 
@@ -83,6 +85,7 @@ export function MyStudio(props: Props) {
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
 
   const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
+  const [events, setEvents] = useState<Event[]>([])
 
   const handleAvailabilitySubmit = async () => {
     const calendarJson = buttonsToSchedule(myAvailability, 30)
@@ -159,6 +162,7 @@ export function MyStudio(props: Props) {
         taskIdx={CREATE_SCHEDULE}
         schedule={schedule}
         setSchedule={setSchedule}
+        setEvents={setEvents}
       />
     },
   ]
@@ -196,13 +200,24 @@ export function MyStudio(props: Props) {
       </header>
       <div className="flex space-x-10">
         {isDoneWithTasks ? 
-        (
+        ( <>
           <div className="space-y-6 w-2/3">
             {schedule && <InteractiveCalendar 
-              initialEvents={finalScheduleToEventList(schedule)} 
+              // events={finalScheduleToEventList(schedule)} 
+              events={events}
               mySchedule={transpose(myAvailability)}
+              setEvents={setEvents}
             />}
           </div>
+          {schedule && <div>
+          <p>Schedule:</p>
+              <div className="flex flex-col">
+                  {eventListToString(events ? events : finalScheduleToEventList(schedule)).map((str) => (
+                      <p key={str}>{str}</p>
+                  ))}
+              </div>
+          </div>}
+          </>
         ) : 
         (<section className="space-y-6 w-2/3">
           {tasks.map((task, i) => (

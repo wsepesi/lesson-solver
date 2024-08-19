@@ -2,7 +2,6 @@ import type { Day, Schedule, StudentSchedule } from "./types";
 
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { type Heuristics } from "./solver";
-// import { scheduleToButtons } from "./utils";
 
 type StudentWithButtons = StudentSchedule & {
     bsched: boolean[][];
@@ -33,20 +32,22 @@ type SlotWithData = Slot & {
 // operates in place
 const enforceLessonLength = (students: StudentWithButtons[]) => {
     students.forEach((student) => {
-        if (student.student.lessonLength === 30) return
-        else {
-            // if there are isolated buttons (eg a 30 min slot on a 60 min student), set to false
+        if (student.student.lessonLength === 60) {
             for (let i = 0; i < student.bsched.length; i++) {
                 for (let j = 0; j < student.bsched[i]!.length; j++) {
                     if (student.bsched[i]![j]) {
-                        if (student.bsched[i]![j + 1] ?? false) {
-                            student.bsched[i]![j] = false
+                        // Check if this is an isolated 30-minute slot
+                        if (j === student.bsched[i]!.length - 1 || !student.bsched[i]![j + 1]) {
+                            student.bsched[i]![j] = false;
+                        } else {
+                            // This is the start of a 60-minute block, skip the next slot
+                            j++;
                         }
                     }
                 }
             }
         }
-    })
+    });
 }
 
 const isScheduleEmpty = (sched: boolean[][]): boolean => {
@@ -59,7 +60,7 @@ const isScheduleEmpty = (sched: boolean[][]): boolean => {
     return true
 }
 
-function scheduleToButtons(schedule: Schedule) {
+export const scheduleToButtons = (schedule: Schedule): boolean[][] =>{
     // Define the boolean 2D array with 7 days, each with 24 half-hour blocks for 9am to 9pm
     const booleanArray: boolean[][] = [] //new Array(7).fill([]).map(() => new Array<boolean>(24).fill(false));
   
@@ -82,7 +83,6 @@ function scheduleToButtons(schedule: Schedule) {
                     // Set the corresponding time blocks to true
                     day[index] = true
                 }
-                
             }
             booleanArray.push(day);
         } else {
@@ -109,15 +109,12 @@ function scheduleToButtons(schedule: Schedule) {
     return index;
   }
 
-const solve = (students: StudentSchedule[], availability: Schedule, heuristics: Heuristics): FinalSchedule => {
+export const solve = (students: StudentSchedule[], availability: Schedule, heuristics: Heuristics): FinalSchedule => {
     // convert to buttons to operate over the grind
     const studentsB: StudentWithButtons[] = students.map((std) => ({ ...std, bsched: scheduleToButtons(std.schedule)}));
     const availAsButtons = scheduleToButtons(availability);
-
-    console.log("total students", studentsB.length)
-
     // solver loop
-    const schedule = solverHelper(studentsB, availAsButtons, heuristics, { assignments: []});
+    const schedule = solverHelper(structuredClone(studentsB), structuredClone(availAsButtons), heuristics, { assignments: []});
     if (!schedule) throw new Error("unsolvable schedule");
 
     return schedule;
@@ -125,15 +122,7 @@ const solve = (students: StudentSchedule[], availability: Schedule, heuristics: 
 
 const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuristics: Heuristics, schedule: FinalSchedule): FinalSchedule | null => {
     if (schedule.assignments.length > 10) throw new Error("too many assignments")
-    console.log(schedule.assignments.length, 'assigned')
-    if (schedule.assignments.length === 8 || schedule.assignments.length === 10) {
-        console.log(schedule, '?')
-    }
-    console.log(students.length, 'remaining')
 
-    if (schedule.assignments.length === 9) {
-        console.log("done", schedule)
-    }
     // base case:
     // 1) students are empty, we are done
     // 2) schedule is exhausted, we fail
@@ -408,5 +397,3 @@ const groupConsecutiveTimes = (schedule: FinalSchedule): Block[] => {
     if (start !== null && end !== null) groups.push({ start, end })
     return groups
 }
-
-export default solve

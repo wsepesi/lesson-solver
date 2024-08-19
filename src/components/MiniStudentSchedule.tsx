@@ -41,17 +41,15 @@ const formatSchedule = (schedule: Schedule): React.ReactElement[] => {
         for (let j = 0; j < times.length; j++) {
             const time = times[j]!;
             if (j === 0) {
-                formattedParts.push(<p key={j}><strong>{day}</strong>:</p>)
+                formattedParts.push(<p key={`f${i}s${j}`}><strong>{day}</strong>:</p>)
                 formattedParts.push(<p>{formatTime(time.start)} - {formatTime(time.end)}</p>)
             } else {
-                formattedParts.push(<p key={j}>{formatTime(time.start)} - {formatTime(time.end)}</p>);
+                formattedParts.push(<p key={`${i}${j}`}>{formatTime(time.start)} - {formatTime(time.end)}</p>);
             }
         }
   
         ps.push(<div className="mt-2" key={i}>{formattedParts}</div>);
     }
-
-    
 
     return ps;
 }

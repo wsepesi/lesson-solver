@@ -240,7 +240,6 @@ export const stringToLessonLength = (lessonLength: string): LessonLength => {
 
 
 export const slotToTime = (slot: Slot, end?: boolean): { hrs: number, mins: number, day: Day } => {
-  // console.log(slot, 'stt')
   if (end) {
       slot.j += 1
   }
@@ -269,7 +268,6 @@ const sortSlots = (a: Slot, b: Slot): number => {
 }
 
 export const finalScheduleToString = (sched: FinalSchedule): string[] => {
-  console.log(JSON.stringify(sched), 'sched')
   const res: string[] = []
   sched.assignments.sort((a,b) => sortSlots(a.time.start, b.time.start))
   for (const assignment of sched.assignments) {
@@ -278,6 +276,15 @@ export const finalScheduleToString = (sched: FinalSchedule): string[] => {
       const mins = time.mins === 0 ? "00" : String(time.mins)
       res.push(assignment.student.student.name + " -> " + time.day + " " + String(time.hrs) + ":" + mins + " - " + end)
   }
+  return res
+}
+
+export const eventListToString = (events: Event[]): string[] => {
+  const res: string[] = []
+  events.forEach(event => {
+    const time = event.booking
+    res.push(event.name + " -> " + time.day + " " + time.time_start + " - " + time.time_end)
+  })
   return res
 }
 
@@ -350,6 +357,8 @@ export const finalScheduleToEventList = (finalSchedule: FinalSchedule): Event[] 
     const mins = time.mins === 0 ? "00" : String(time.mins)
     const start = String(time.hrs) + ":" + mins
 
+    const other_avail_times = transpose(schedule.student.bsched)
+
     return {
       id: i.toString(),
       name: schedule.student.student.name,
@@ -358,7 +367,7 @@ export const finalScheduleToEventList = (finalSchedule: FinalSchedule): Event[] 
         time_start: militaryToStandard(start),
         time_end: militaryToStandard(end),
       },
-      other_avail_times: transpose(schedule.student.bsched),
+      other_avail_times: other_avail_times,
     }
   })
   return mapRes
