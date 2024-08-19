@@ -11,7 +11,6 @@ import { Combobox, type Option } from "./Combobox"
 import { useState } from "react"
 import solve, { type FinalSchedule } from "lib/heur_solver"
 import { type StudioWithStudents } from "~/pages/studios/[slug]"
-import { finalScheduleToString } from "lib/utils"
 
 const isPaid = true
 
@@ -31,15 +30,21 @@ const breakOptions: Option[] = [
 ]
 
 type Props = {
-    studio: StudioWithStudents
+    studio: StudioWithStudents,
+    taskStatus: boolean[],
+    setTaskStatus: React.Dispatch<React.SetStateAction<boolean[]>>,
+    taskIdx: number,
+    schedule: FinalSchedule | null,
+    setSchedule: React.Dispatch<React.SetStateAction<FinalSchedule | null>>,
 }
 
 export default function SolveScheduleDialog(props: Props) {
-    const [config, setConfig] = useState(true)
+    const { schedule, setSchedule } = props
+    // const [config, setConfig] = useState(true)
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("30")
     const [loading, setLoading] = useState(false)
-    const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
+    // const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
 
     const handleClick = () => {
         setLoading(true)
@@ -62,11 +67,13 @@ export default function SolveScheduleDialog(props: Props) {
         )
         setSchedule(res)
         setLoading(false)
+        props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
     }
     
     return(
         <>
-            <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]">
+            {/* <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]"> */}
+            <DialogContent className="min-w-[100vw] h-[100vh]">
                 {!schedule &&
                 <>
                     <DialogHeader>
@@ -87,17 +94,6 @@ export default function SolveScheduleDialog(props: Props) {
                         >Schedule</Button>
                     </DialogFooter>
                 </>
-                }
-                {loading && <p>Loading...</p>}
-                {schedule && 
-                    <div>
-                        <p>Schedule:</p>
-                        <div className="flex flex-col">
-                            {finalScheduleToString(schedule).map((str) => (
-                                <p key={str}>{str}</p>
-                            ))}
-                        </div>
-                    </div>
                 }
             </DialogContent>
         </>

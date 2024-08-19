@@ -43,13 +43,13 @@ export function OnboardStudentsCard(props: Props) {
     }
 
     return (
-        <Card className="w-[350px] overflow-auto">
+        <Card className="w-[350px]"> {/* overflow-auto"> */}
             <CardHeader>
                 <CardTitle>Add new student</CardTitle>
                 <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="pb-5">{formatter(buttonStatesToText(props.buttonStates))}</div>
+                <div className="mb-3 max-h-[27vh] overflow-auto">{formatter(buttonStatesToText(props.buttonStates))}</div>
                 <form //TODO: rework as zod form
                     onSubmit={() => console.log(formData)}
                 >
@@ -96,7 +96,7 @@ export function OnboardStudentsCard(props: Props) {
                 </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex justify-between px-3">
+            <CardFooter className="flex justify-between px-4">
                 <Button className="" onClick={() => {
                     // check we have a name and email
                     if (formData.name === "" || formData.email === "") {

@@ -67,7 +67,7 @@ function scheduleToButtons(schedule: Schedule) {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as Day[];
   
     // Iterate over each day of the week
-    for (const [dayIndex, dayName] of daysOfWeek.entries()) {
+    for (const [_, dayName] of daysOfWeek.entries()) {
         // Check if the schedule has entries for the current day
         if (schedule[dayName] && schedule[dayName]!.length > 0) {
             const day: boolean[] = new Array<boolean>(24).fill(false);

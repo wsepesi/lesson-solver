@@ -26,7 +26,7 @@ export default function ManualScheduleDialog(props: Props) {
           <Button className="w-full">Add Student Schedules Manually</Button>
         </DialogTrigger>
         {uploading ? (
-          <DialogContent className="min-w-[80vw] max-h-[90vh]">
+          <DialogContent className="min-w-[90vw] max-h-[90vh]">
             <ManualStudentCalendarHandler 
               studio={props.studio}
               setStudio={props.setStudio}
