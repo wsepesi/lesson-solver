@@ -15,6 +15,7 @@ import {
 } from "~/components/ui/popover"
 
 import { Button } from "~/components/ui/button"
+import { CommandList } from "cmdk"
 import { cn } from "lib/utils"
 
 export type Option = {
@@ -30,7 +31,7 @@ type Props = {
 
 export function Combobox(props: Props) {
     const { options } = props
-  const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false)
 //   const [value, setValue] = React.useState(options[0]!.value)
     const { value, setValue } = props
 
@@ -45,15 +46,16 @@ export function Combobox(props: Props) {
         >
           {value
             ? options.find((option) => option.value === value)?.label
-            : "Select framework..."}
+            : "Select option..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[75px] p-0">
         <Command>
           <CommandInput placeholder={value} />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandEmpty>No matches found.</CommandEmpty>
           <CommandGroup>
+            <CommandList>
             {options.map((option) => (
               <CommandItem
                 key={option.value}
@@ -74,6 +76,7 @@ export function Combobox(props: Props) {
                 {option.label}
               </CommandItem>
             ))}
+            </CommandList>
           </CommandGroup>
         </Command>
       </PopoverContent>
