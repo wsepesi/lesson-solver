@@ -145,9 +145,8 @@ export default function ManualStudentCalendarHandler(props: Props) {
         const newStudents = [...props.studio.students, studentSchema]
         props.setStudio({...props.studio, students: newStudents})
 
-        const potentialBooking = getPotentialBooking(student, buttons, props.studio)
-
         if (props.events && props.events.length >= 1) {
+            const potentialBooking = getPotentialBooking(student, buttons, props.studio)
             props.setEvents([...props.events, {
                 id: Math.random().toString(36).substring(7),
                 name: student.name,
