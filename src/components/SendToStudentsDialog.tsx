@@ -22,14 +22,16 @@ type Props = {
 export default function SendToStudentsDialog(props: Props) {
     const [emails, setEmails] = useState<string[]>([])
     const handleClick = () => {
-        if (emails.length === 0) {
-            alert("Please enter at least one email")
-        } else {
-            console.log(emails)
-            props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
-            setEmails([])
-            props.setOpen(false)
-        }
+        // if (emails.length === 0) {
+        //     alert("Please enter at least one email")
+        // } else {
+        //     console.log(emails)
+        //     props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
+        //     setEmails([])
+        //     props.setOpen(false)
+        // }
+        props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
+        props.setOpen(false)
     }
     return(
         <>
@@ -59,7 +61,7 @@ export default function SendToStudentsDialog(props: Props) {
                     <Button 
                         type="submit"
                         onClick={handleClick}
-                    >Send</Button>
+                    >Done!</Button>
                 </DialogFooter>
             </DialogContent>
         </>
