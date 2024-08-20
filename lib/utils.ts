@@ -1,9 +1,9 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import type { BlockOfTime, Day, LessonLength, Schedule } from "./types"
+import type { BlockOfTime, Day, LessonLength, Schedule, StudentSchedule } from "./types"
 import { Time } from "./types"
-import type { FinalSchedule, Slot } from "./heur_solver"
-import type { Event } from "src/components/InteractiveCalendar"
+import type { Block, FinalSchedule, Slot, StudentWithButtons } from "./heur_solver"
+import { getTimeIndex, type Event } from "src/components/InteractiveCalendar"
 import { StudioWithStudents } from "~/pages/studios/[slug]"
  
 export function cn(...inputs: ClassValue[]) {
@@ -348,6 +348,31 @@ export const finalScheduleToEventList = (finalSchedule: FinalSchedule, studio: S
     }
   })
   return mapRes
+}
+
+export const eventListToFinalSchedule = (events: Event[], studio: StudioWithStudents): FinalSchedule => {
+  const assignments = events.map((event) => {
+    const student = studio.students.find((student) => student.id === event.student_id)
+    if (!student) {
+      throw new Error("Student not found in studio")
+    }
+    const day = abbrDaytoFull(event.booking.day)
+    const start = event.booking.time_start
+    const end = event.booking.time_end
+    const startSlot = getTimeIndex(start)
+    const endSlot = getTimeIndex(end)
+    const time: Block = { start: { i: Days.indexOf(day), j: startSlot }, end: { i: Days.indexOf(day), j: endSlot } }
+    const newStudentSchedule: StudentSchedule = { 
+      student: { email: student.email, name: student.first_name!, lessonLength: resolveLessonLength(student.lesson_length) }, 
+      schedule: student.schedule
+    }
+    const newStudent: StudentWithButtons = { 
+      ...newStudentSchedule,
+      bsched: scheduleToButtons(student.schedule, 30) // ALWAYS 30
+     }
+    return { student: newStudent, time }
+  })
+  return { assignments }
 }
 
 export const resolveLessonLength = (input: "30" | "60" | null): LessonLength => {

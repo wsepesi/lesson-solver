@@ -3,11 +3,11 @@ import type { Day, Schedule, StudentSchedule } from "./types";
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { type Heuristics } from "./solver";
 
-type StudentWithButtons = StudentSchedule & {
+export type StudentWithButtons = StudentSchedule & {
     bsched: boolean[][];
 }
 
-type Block = {
+export type Block = {
     start: Slot
     end: Slot
 }

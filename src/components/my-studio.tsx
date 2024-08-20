@@ -20,7 +20,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
-import { Days, abbrDaytoFull, buttonsToSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
+import { Days, abbrDaytoFull, buttonsToSchedule, eventListToFinalSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
 import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
 import SendToStudentsDialog from "./SendToStudentsDialog"
@@ -88,7 +88,7 @@ export function MyStudio(props: Props) {
   const { studio, setStudio } = props
 
   // TODO: populate this from DB on boot
-  const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, false])
+  const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, studio.events !== null])
   const [myAvailability, setMyAvailability] = useState<boolean[][]>((studio.owner_schedule !== null && studio.owner_schedule !== undefined) ?
     scheduleToButtons(studio.owner_schedule, 30) :
     Array.from({ length: Days.length }, () => 
@@ -97,10 +97,30 @@ export function MyStudio(props: Props) {
   )
 
   const [taskOpen, setTaskOpen] = useState<boolean[]>([false, false, false])
+  const [resolveOpen, setResolveOpen] = useState<boolean>(false)
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
 
-  const [schedule, setSchedule] = useState<FinalSchedule | null>(null)
-  const [events, setEvents] = useState<Event[]>([])
+  const [schedule, setSchedule] = useState<FinalSchedule | null>(studio.events ? eventListToFinalSchedule(studio.events, studio) : null)
+  const [events, setEvents] = useState<Event[]>(studio.events ? studio.events : [])
+
+  const handleSaveSchedule = async () => {
+    if (!events) {
+      console.log("events is null")
+      return
+    }
+    const res = await supabaseClient.from("studios").update({
+      events: events
+    }).eq("id", studio.id)
+
+    if (res.error) {
+      console.log(res.error)
+      alert("error, please try again")
+    }
+
+    setStudio({ ...studio, events: events })
+  }
+
+  const hasScheduleChanged = JSON.stringify(events) !== JSON.stringify(studio.events)
 
   const handleAvailabilitySubmit = async () => {
     const calendarJson = buttonsToSchedule(myAvailability, 30)
@@ -178,6 +198,7 @@ export function MyStudio(props: Props) {
         taskIdx={CREATE_SCHEDULE}
         schedule={schedule}
         setSchedule={setSchedule}
+        setStudio={setStudio}
         setEvents={setEvents}
       />
     },
@@ -225,13 +246,23 @@ export function MyStudio(props: Props) {
               studio={studio}
             />}
           </div>
-          {schedule && <div className="w-1/4">
-          <h3 className="text-lg font-light ">Schedule:</h3>
-              <div className="flex flex-col">
-                  {eventListToEltList(events ? events : finalScheduleToEventList(schedule, studio)).map((elt) => (
-                      elt
-                  ))}
-              </div>
+          {schedule && 
+          <div className="w-1/4">
+            <h3 className="text-lg font-light ">Schedule:</h3>
+            <div className="flex flex-col">
+                {eventListToEltList(events ? events : finalScheduleToEventList(schedule, studio)).map((elt) => (
+                    elt
+                ))}
+            </div>
+            {/* <Button className="mt-4">Download Schedule</Button> */}
+            {hasScheduleChanged && 
+              <Button 
+                className={`mt-4`}
+                onClick={handleSaveSchedule}
+              >
+                Save Changes
+              </Button>
+            }
           </div>}
           </>
         ) : 
@@ -367,6 +398,24 @@ export function MyStudio(props: Props) {
                   </AlertDialog>
                 </DialogContent>
               </Dialog>
+              {taskStatus[CREATE_SCHEDULE] && 
+                <Dialog open={resolveOpen} onOpenChange={setResolveOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="w-full">Re-Solve Schedule</Button>
+                  </DialogTrigger>
+                  <SolveScheduleDialog 
+                    studio={studio}
+                    setTaskStatus={setTaskStatus}
+                    taskStatus={taskStatus}
+                    taskIdx={CREATE_SCHEDULE}
+                    schedule={schedule}
+                    setSchedule={setSchedule}
+                    setEvents={setEvents}
+                    setStudio={setStudio}
+                    setResolveOpen={setResolveOpen}
+                  />
+                </Dialog>
+              }
             </div>
           </section>
         </aside>

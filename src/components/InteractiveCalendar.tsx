@@ -28,8 +28,8 @@ const hours = Array.from({ length: 24 }, (_, i) => i + 9)
   .filter(hour => hour >= 9 && hour <= 21)
   .flatMap(hour => [`${hour % 12 || 12}:00${hour < 12 ? 'am' : 'pm'}`, `${hour % 12 || 12}:30${hour < 12 ? 'am' : 'pm'}`]);
 
-const getDayIndex = (day: string) => days.indexOf(day);
-const getTimeIndex = (time: string) => hours.indexOf(time);
+export const getDayIndex = (day: string) => days.indexOf(day);
+export const getTimeIndex = (time: string) => hours.indexOf(time);
 const getEventDurationInCells = (event: Event) => {
   const startIndex = getTimeIndex(event.booking.time_start);
   const endIndex = getTimeIndex(event.booking.time_end);

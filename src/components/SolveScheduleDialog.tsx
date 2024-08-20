@@ -16,6 +16,7 @@ import { type FinalSchedule, scheduleToButtons, solve } from "lib/heur_solver"
 
 import type { Event } from "src/components/InteractiveCalendar"
 import { finalScheduleToEventList } from "lib/utils"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 const isPaid = true
 
 const lengthOptions: Option[] = [
@@ -41,6 +42,8 @@ type Props = {
     schedule: FinalSchedule | null,
     setSchedule: React.Dispatch<React.SetStateAction<FinalSchedule | null>>,
     setEvents: React.Dispatch<React.SetStateAction<Event[]>>,
+    setStudio: (studio: StudioWithStudents) => void,
+    setResolveOpen?: (open: boolean) => void
 }
 
 const getOriginalStudentSchemaMatchByEmail = (student: Student, students: StudentSchema[]): StudentSchema => {
@@ -55,13 +58,14 @@ const getOriginalStudentSchemaMatchByEmail = (student: Student, students: Studen
 }
 
 export default function SolveScheduleDialog(props: Props) {
+    const supabaseClient = useSupabaseClient()
     const { schedule, setSchedule, setEvents } = props
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("30")
     const [loading, setLoading] = useState(false)
     const [isError, setIsError] = useState(false)
 
-    const handleClick = () => {
+    const handleClick = async () => {
         setLoading(true)
         try {
             const res = solve(
@@ -92,7 +96,26 @@ export default function SolveScheduleDialog(props: Props) {
                 }))
             }
             setSchedule(finalSchedOriginalAvail)
-            setEvents(finalScheduleToEventList(finalSchedOriginalAvail, props.studio))
+            const eventList = finalScheduleToEventList(finalSchedOriginalAvail, props.studio)
+            setEvents(eventList)
+            const updateRes = await supabaseClient
+                .from("studios")
+                .update({ events: eventList })
+                .eq("id", props.studio.id)
+            if (updateRes.error) {
+                console.error(updateRes.error)
+                throw new Error("Error updating studio with new events")
+            }
+
+            props.setStudio({
+                ...props.studio,
+                events: eventList
+            })
+
+            if (props.setResolveOpen) {
+                props.setResolveOpen(false)
+            }
+
         } catch (error) {
             setIsError(true)
         }
@@ -106,7 +129,7 @@ export default function SolveScheduleDialog(props: Props) {
     return(
         <>
             <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]">
-                {(!schedule && !isError) &&
+                {(!isError) ?
                 <>
                     <DialogHeader>
                     <DialogTitle>Schedule your bookings</DialogTitle>
@@ -126,8 +149,8 @@ export default function SolveScheduleDialog(props: Props) {
                         >Schedule</Button>
                     </DialogFooter>
                 </>
-                }
-                {isError && <p className="flex items-center h-full">There was an error creating your schedule. This is likely due to an impossible configuration of your availabilty and student availability, so please try to add more time and try again.</p>}
+                :
+                <p className="flex items-center h-full">There was an error creating your schedule. This is likely due to an impossible configuration of your availabilty and student availability, so please try to add more time and try again.</p>}
             </DialogContent>
         </>
     )

@@ -1,6 +1,7 @@
-import { integer, json, pgEnum, pgTable, serial, text, uuid, varchar } from "drizzle-orm/pg-core";
+import { integer, json, jsonb, pgEnum, pgTable, serial, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { type Schedule } from "./types";
 import { createInsertSchema } from 'drizzle-zod'
+import { type Event } from "../src/components/InteractiveCalendar";
 
 export const lessonLengthEnum = pgEnum('lesson_length', ['30', '60'])
 
@@ -20,6 +21,7 @@ export const studios = pgTable('studios', {
     code: varchar('code', { length: 5 }).unique().notNull(),
     owner_schedule: json('owner_schedule'),
     studio_name: text('studio_name'),
+    events: jsonb('events').$type<Event[]>()
 })
 
 // export const schedules = pgTable('schedules', {
