@@ -151,6 +151,7 @@ export function MyStudio(props: Props) {
         setOpen={(input: boolean) => {
           setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
         }}
+        studio={studio}
         />
     },
     {
@@ -293,6 +294,7 @@ export function MyStudio(props: Props) {
                   setOpen={(input: boolean) => {
                     setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
                   }}
+                  studio={studio}
                 />
               </Dialog>
               <ManualScheduleDialog 
