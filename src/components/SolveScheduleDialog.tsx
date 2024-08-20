@@ -92,7 +92,7 @@ export default function SolveScheduleDialog(props: Props) {
                 }))
             }
             setSchedule(finalSchedOriginalAvail)
-            setEvents(finalScheduleToEventList(finalSchedOriginalAvail))
+            setEvents(finalScheduleToEventList(finalSchedOriginalAvail, props.studio))
         } catch (error) {
             setIsError(true)
         }

@@ -20,7 +20,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
-import { Days, buttonsToSchedule, eventListToString, finalScheduleToEventList, finalScheduleToString, scheduleToButtons, transpose } from "lib/utils"
+import { Days, abbrDaytoFull, buttonsToSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
 import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
 import SendToStudentsDialog from "./SendToStudentsDialog"
@@ -38,8 +38,6 @@ import InteractiveCalendar from "./InteractiveCalendar"
 import type { FinalSchedule } from "lib/heur_solver"
 
 import type { Event } from "src/components/InteractiveCalendar"
-
-
 
 type Props = {
   studio: StudioWithStudents,
@@ -62,6 +60,23 @@ const blocks = dayLength / (minutes)
 
 type Progress = "Not Started" | "In Progress" | "Completed"
 
+export const eventListToEltList = (events: Event[]): React.JSX.Element[] => {
+  const res = []
+  const daysOfWeekAbbv = ["M", "Tu", "W", "Th", "F", "Sa", "Su"];
+  
+  for (let i = 0; i < 7; i++) {
+    const day = daysOfWeekAbbv[i]!
+    const dayEvents = events.filter(event => event.booking.day === day);
+    if (dayEvents.length > 0) {
+      res.push(<p className="font-bold">{abbrDaytoFull(day)}:</p>);
+      dayEvents.forEach(event => {
+        res.push(<div>{event.name}: {event.booking.time_start} - {event.booking.time_end}</div>);
+      });
+    }
+  }
+  return res
+}
+
 const getStudentProgress = (student: StudentSchema) => {
   return student.schedule === null ?  "Not Started" : "Completed"
 }
@@ -70,7 +85,7 @@ export function MyStudio(props: Props) {
   const supabaseClient = useSupabaseClient()
   const router = useRouter()
 
-  const { studio } = props
+  const { studio, setStudio } = props
 
   // TODO: populate this from DB on boot
   const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, false])
@@ -204,17 +219,17 @@ export function MyStudio(props: Props) {
         ( <>
           <div className="space-y-6 w-2/3">
             {schedule && <InteractiveCalendar 
-              // events={finalScheduleToEventList(schedule)} 
               events={events}
               mySchedule={transpose(myAvailability)}
               setEvents={setEvents}
+              studio={studio}
             />}
           </div>
-          {schedule && <div>
-          <p>Schedule:</p>
+          {schedule && <div className="w-1/4">
+          <h3 className="text-lg font-light ">Schedule:</h3>
               <div className="flex flex-col">
-                  {eventListToString(events ? events : finalScheduleToEventList(schedule)).map((str) => (
-                      <p key={str}>{str}</p>
+                  {eventListToEltList(events ? events : finalScheduleToEventList(schedule, studio)).map((elt) => (
+                      elt
                   ))}
               </div>
           </div>}
@@ -262,7 +277,7 @@ export function MyStudio(props: Props) {
                         <p className="font-mono px-1 border rounded-md border-black cursor-pointer self-start text-left">{student.first_name} {student.last_name}, {student.email}</p>
                       </PopoverTrigger>
                       <PopoverContent className="min-w-[20vw]">
-                        <MiniStudentSchedule student={student} />
+                        <MiniStudentSchedule student={student} studio={studio} setStudio={setStudio}/>
                       </PopoverContent>
                     </Popover>
                   </div>

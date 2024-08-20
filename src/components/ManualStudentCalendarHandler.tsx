@@ -39,8 +39,6 @@ export default function ManualStudentCalendarHandler(props: Props) {
     const [buttonStates, setButtonStates] = useState<boolean[][]>(getCleanButtonStates(SET_MINUTES))
 
     const handleAddStudentSchedule = async (student: Student, schedule: Schedule) => {
-        
-
         const [first, last] = getSplitName(student.name)
         const dbStudent: Omit<StudentSchema, "id"> = {
             email: student.email,

@@ -47,7 +47,6 @@ export function CardWithSubmit(props: Props) {
     const { toast } = useToast()
 
     return (
-        // <Card className="w-[350px]">
         <Card className="w-[16vw] flex flex-col justify-between overflow-auto">
             <CardHeader>
                 <CardTitle>Add availablilty</CardTitle>

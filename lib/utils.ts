@@ -4,6 +4,7 @@ import type { BlockOfTime, Day, LessonLength, Schedule } from "./types"
 import { Time } from "./types"
 import type { FinalSchedule, Slot } from "./heur_solver"
 import type { Event } from "src/components/InteractiveCalendar"
+import { StudioWithStudents } from "~/pages/studios/[slug]"
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -163,26 +164,6 @@ export const finalScheduleToButtons = (schedule: FinalSchedule): string[][] => {
   return buttons
 }
 
-// export function scheduleToButtons(schedule: Schedule, lessonLength: LessonLength): boolean[][] {
-//   const isThirty = lessonLength === 30;
-//   const buttons: boolean[][] = []
-//   Days.forEach((day, i) => {
-//     buttons[i] = []
-//     for (let j = 0; j < (isThirty ? 24 : 12); j++) {
-//       buttons[i]![j] = false
-//     }
-//     schedule[day]?.forEach(block => {
-//       const start = isThirty ? block.start.hour * 2 + block.start.minute / 30 : block.start.hour
-//       const end = isThirty ? block.end.hour * 2 + block.end.minute / 30 : block.end.hour
-//       const offset = isThirty ? 18 : 9 // adjust for 9am start
-//       for (let j = start - offset; j < end - offset; j++) {
-//         buttons[i]![j] = true
-//       }
-//     })
-//   })
-//   return buttons
-// }
-
 export const buttonStatesToText = (buttonStates: boolean[][]): string => {
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   let scheduleText = "";
@@ -279,15 +260,6 @@ export const finalScheduleToString = (sched: FinalSchedule): string[] => {
   return res
 }
 
-export const eventListToString = (events: Event[]): string[] => {
-  const res: string[] = []
-  events.forEach(event => {
-    const time = event.booking
-    res.push(event.name + " -> " + time.day + " " + time.time_start + " - " + time.time_end)
-  })
-  return res
-}
-
 
 export function transpose(matrix: boolean[][]): boolean[][] {
   const matlen = matrix.length
@@ -350,14 +322,18 @@ const militaryToStandard = (time: string): string => {
 }
 
 
-export const finalScheduleToEventList = (finalSchedule: FinalSchedule): Event[] => {
+export const finalScheduleToEventList = (finalSchedule: FinalSchedule, studio: StudioWithStudents): Event[] => {
   const mapRes = finalSchedule.assignments.map((schedule, i) => {
     const time = slotToTime(schedule.time.start)
     const end: string = schedule.student.student.lessonLength === 30 ? ( time.mins === 30 ? `${time.hrs + 1}:00` : `${time.hrs}:${rectifyMins(time.mins + 30)}`) : `${time.hrs + 1}:${rectifyMins(time.mins)}`
     const mins = time.mins === 0 ? "00" : String(time.mins)
     const start = String(time.hrs) + ":" + mins
 
-    const other_avail_times = transpose(schedule.student.bsched)
+    const student = studio.students.find((student) => student.email === schedule.student.student.email)
+    if (!student) {
+      throw new Error("Student not found in studio")
+    }
+    const other_avail_times = transpose(scheduleToButtons(student.schedule, 30))
 
     return {
       id: i.toString(),
@@ -368,7 +344,14 @@ export const finalScheduleToEventList = (finalSchedule: FinalSchedule): Event[] 
         time_end: militaryToStandard(end),
       },
       other_avail_times: other_avail_times,
+      student_id: student.id
     }
   })
   return mapRes
+}
+
+export const resolveLessonLength = (input: "30" | "60" | null): LessonLength => {
+  if (input === "30") return 30
+  if (input === "60") return 60
+  throw new Error("Invalid lesson length")
 }

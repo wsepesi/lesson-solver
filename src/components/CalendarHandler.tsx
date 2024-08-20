@@ -17,11 +17,6 @@ const dayLength: number = 12 * 60
 export default function CalendarHandler(props: Props) {
     const minutes = props.minutes
     const blocks = dayLength / (minutes)
-    // const [buttonStates, setButtonStates] = useState<boolean[][]>(
-    //     Array.from({ length: Days.length }, () => 
-    //         Array.from({ length: blocks }, () => false)
-    //     )
-    // )
 
     const { buttonStates, setButtonStates } = props
 

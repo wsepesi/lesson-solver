@@ -18,8 +18,8 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { type StudioSchema } from 'lib/schema';
 
 const formSchema = z.object({
-    first_name: z.string().min(2).max(50),
-    last_name: z.string().min(2).max(50),
+    first_name: z.string().min(1).max(50),
+    last_name: z.string().min(1).max(50),
     email: z.string().email(),
     studioCode: z.string().min(5).max(5)
 });
@@ -62,7 +62,7 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
     // first check if the code is valid
     // console.log(data.studioCode)
     const codeRes = await sb.from("studios").select("*").eq("code", data.studioCode);
-    // console.log(codeRes)
+    console.log(codeRes)
     if (codeRes.error) {
       alert("error with fetching the studio code");
       console.log(codeRes.error);

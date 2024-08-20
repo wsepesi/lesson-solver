@@ -1,6 +1,9 @@
 import { DndContext, type DragEndEvent, type DragOverEvent, DragOverlay, type DragStartEvent, type UniqueIdentifier, useDraggable, useDroppable } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import { Card } from "./ui/card";
+import { type StudioWithStudents } from '~/pages/studios/[slug]';
+import { scheduleToButtons } from 'lib/heur_solver';
+import { resolveLessonLength, transpose } from 'lib/utils';
 
 type Schedule = boolean[][];
 
@@ -15,6 +18,7 @@ export interface Event {
   name: string;
   booking: Booking;
   other_avail_times: Schedule;
+  student_id: number
 }
 
 const days = ['M', 'Tu', 'W', 'Th', 'F'];
@@ -98,23 +102,29 @@ const CalendarCell: React.FC<{
   );
 };
 
-const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, setEvents: React.Dispatch<React.SetStateAction<Event[]>> }> = ({ events, mySchedule, setEvents }) => {
-  // const [events, setEvents] = useState(initialEvents);
+const getStudentByEvent = (event: Event, studio: StudioWithStudents) => {
+  return studio.students.find(student => student.id === event.student_id);
+}
+
+const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, setEvents: React.Dispatch<React.SetStateAction<Event[]>>, studio: StudioWithStudents }> = ({ events, mySchedule, setEvents, studio }) => {
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [dragOverCell, setDragOverCell] = useState<{ day: string; time: string } | null>(null);
 
   const isTimeAvailable = (event: Event, day: string, time: string, duration: number) => {
+    const student = getStudentByEvent(event, studio)
+    if (!student) return false;
+    const studentSchedule = transpose(scheduleToButtons(student.schedule))
     const dayIndex = getDayIndex(day);
     const startTimeIndex = getTimeIndex(time);
     for (let i = 0; i < duration; i++) {
       if (startTimeIndex + i >= hours.length || 
-          !event.other_avail_times?.[startTimeIndex + i]?.[dayIndex] ||
+          !studentSchedule[startTimeIndex + i]?.[dayIndex] ||
           !mySchedule?.[startTimeIndex + i]?.[dayIndex]) {
         return false;
       }
       if (startTimeIndex + i + 1 < hours.length && startTimeIndex + i - 1 >= 0) {
-        if ((!event.other_avail_times[startTimeIndex + i + 1]![dayIndex] || !mySchedule[startTimeIndex + i + 1]![dayIndex]) && 
-            (!event.other_avail_times[startTimeIndex + i - 1]![dayIndex] || !mySchedule[startTimeIndex + i - 1]![dayIndex])) {
+        if ((!studentSchedule[startTimeIndex + i + 1]![dayIndex] || !mySchedule[startTimeIndex + i + 1]![dayIndex]) && 
+            (!studentSchedule[startTimeIndex + i - 1]![dayIndex] || !mySchedule[startTimeIndex + i - 1]![dayIndex])) {
           return false
         }
       }
@@ -185,7 +195,7 @@ const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, set
 
   return (
     <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-      <Card className="py-3 w-[60vw]">
+      <Card className="py-3 w-[55vw]">
         <div className="overflow-auto max-h-[70vh]">
           <div className="grid grid-cols-6 gap-0 min-w-[600px] pr-[3vw]">
             <div className="col-span-1 sticky top-0 bg-white z-10"></div>
