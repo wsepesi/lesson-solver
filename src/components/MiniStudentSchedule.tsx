@@ -77,7 +77,10 @@ export default function MiniStudentSchedule(props: Props) {
         setStudio({ ...studio, students: newStudents })
 
         // update students in database
-        const res = await supabaseClient.from("students").update(newStudent).eq("id", student.id)
+        const res = await supabaseClient
+            .from("students")
+            .update({ schedule: newSchedule })
+            .eq("id", student.id)
         if (res.error) {
             console.error(res.error)
         }

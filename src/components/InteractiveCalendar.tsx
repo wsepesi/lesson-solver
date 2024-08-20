@@ -5,6 +5,8 @@ import { type StudioWithStudents } from '~/pages/studios/[slug]';
 import { scheduleToButtons } from 'lib/heur_solver';
 import { resolveLessonLength, transpose } from 'lib/utils';
 
+// NOTE: VERY IMPORTANT. ALL BUTTON GRIDS SHOULD BE **TRANSPOSED** ON THIS FILE, REMEMBER THIS WHEN YOU USE SCHEDULETOBUTTONS
+
 type Schedule = boolean[][];
 
 interface Booking {
@@ -39,14 +41,20 @@ const CalendarEvent: React.FC<{
   isDragging: boolean; 
   isDroppable: boolean;
   dragOverCell: { day: string; time: string } | null;
-}> = ({ event, isDragging, isDroppable }) => {
+  studio: StudioWithStudents
+}> = ({ event, isDragging, isDroppable, studio }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: event.id,
   });
 
+  const student = getStudentByEvent(event, studio)
+  if (!student) {throw new Error("Student not found")}
+  const isCurrentTimeAvailable = transpose(scheduleToButtons(student.schedule))[getTimeIndex(event.booking.time_start)]![getDayIndex(event.booking.day)]
+  // const isCurrentTimeAvailable = event.other_avail_times[getTimeIndex(event.booking.time_start)]![getDayIndex(event.booking.day)]
+
   const style = {
     height: `${getEventDurationInCells(event) * 30}px`,
-    backgroundColor: 'black',
+    backgroundColor: isCurrentTimeAvailable ? 'black' : 'red',
     opacity: isDragging ? (isDroppable ? 0.7 : 0.5) : 1,
     zIndex: 3,
   }; 
@@ -71,7 +79,8 @@ const CalendarCell: React.FC<{
   isAvailable: boolean;
   isHourMark: boolean;
   potentialEventOutline: { start: boolean; end: boolean; isDroppable: boolean } | null;
-}> = ({ day, time, events, isAvailable, isHourMark, potentialEventOutline }) => {
+  studio: StudioWithStudents
+}> = ({ day, time, events, isAvailable, isHourMark, potentialEventOutline, studio }) => {
   const { setNodeRef } = useDroppable({
     id: `${day}-${time}`,
     data: { day, time },
@@ -96,6 +105,7 @@ const CalendarCell: React.FC<{
           isDragging={false}
           isDroppable={true}
           dragOverCell={null}
+          studio={studio}
         />
       ))}
     </div>
@@ -227,6 +237,7 @@ const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, set
                         }
                       : null
                     }
+                    studio={studio}
                   />
                 ))}
               </React.Fragment>
@@ -241,6 +252,7 @@ const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, set
             isDragging={true}
             isDroppable={isCellDroppable(dragOverCell.day, dragOverCell.time)}
             dragOverCell={dragOverCell}
+            studio={studio}
           />
         ) : null}
       </DragOverlay>

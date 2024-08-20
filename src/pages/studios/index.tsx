@@ -30,6 +30,7 @@ export default function Studios() {
                 )
             `)
             const res = await studiosWithStudentsQuery
+        
             if (res.error ?? !res.data) {
                 console.log(res.error)
                 alert("There was an error. Please try again later.")
@@ -37,7 +38,10 @@ export default function Studios() {
             }
             const data = res.data as StudioWithStudents[]
             console.log(data)
-            setStudios(data)
+
+            // filter to only matching the user id
+            const filteredData = data.filter(d => d.user_id === user!.id)
+            setStudios(filteredData)
             setLoading(false)
         }
         if (user) void loadData()
