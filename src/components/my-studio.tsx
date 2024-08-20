@@ -346,6 +346,8 @@ export function MyStudio(props: Props) {
               <ManualScheduleDialog 
                 studio={studio}
                 setStudio={props.setStudio}
+                events={events}
+                setEvents={setEvents}
               />
               {taskStatus[AVAILABILITY] && 
               <Dialog open={editAvailability} onOpenChange={setEditAvailability}>

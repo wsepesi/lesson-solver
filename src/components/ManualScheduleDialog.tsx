@@ -5,10 +5,13 @@ import { Label } from "./ui/label";
 import ManualStudentCalendarHandler from "./ManualStudentCalendarHandler";
 import type { StudioWithStudents } from "~/pages/studios/[slug]"
 import { useState } from "react";
+import { type Event } from "./InteractiveCalendar";
 
 type Props = {
   studio: StudioWithStudents
   setStudio: (studio: StudioWithStudents) => void
+  events: Event[]
+  setEvents: (events: Event[]) => void
 }
 export default function ManualScheduleDialog(props: Props) {
   const [uploading, setUploading] = useState(false)
@@ -34,6 +37,8 @@ export default function ManualScheduleDialog(props: Props) {
                 setOpen(false)
                 setUploading(false)
               }}
+              events={props.events}
+              setEvents={props.setEvents}
             />
           </DialogContent>
           ) : 

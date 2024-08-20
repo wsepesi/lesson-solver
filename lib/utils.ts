@@ -4,10 +4,50 @@ import type { BlockOfTime, Day, LessonLength, Schedule, StudentSchedule } from "
 import { Time } from "./types"
 import type { Block, FinalSchedule, Slot, StudentWithButtons } from "./heur_solver"
 import { getTimeIndex, type Event } from "src/components/InteractiveCalendar"
-import { StudioWithStudents } from "~/pages/studios/[slug]"
+import { type StudioWithStudents } from "~/pages/studios/[slug]"
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function xorBooleanArrays(arr1: boolean[][], arr2: boolean[][]): boolean[][] {
+  // Ensure the arrays have the same dimensions
+  if (arr1.length !== arr2.length || !arr1[0] || !arr2[0] || arr1[0].length !== arr2[0].length) {
+    throw new Error("Arrays must have the same dimensions");
+  }
+
+  const result: boolean[][] = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    result[i] = [];
+    for (let j = 0; j < arr1[i]!.length; j++) {
+      result[i]![j] = arr1[i]![j] !== arr2[i]![j];
+    }
+  }
+
+  return result;
+}
+
+export function andBooleanArrays(arr1: boolean[][], arr2: boolean[][]): boolean[][] {
+  // Ensure the arrays have the same dimensions
+  if (arr1.length !== arr2.length || !arr1[0] || !arr2[0] || arr1[0].length !== arr2[0].length) {
+    throw new Error("Arrays must have the same dimensions");
+  }
+
+  const result: boolean[][] = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    result[i] = [];
+    for (let j = 0; j < arr1[i]!.length; j++) {
+      result[i]![j] = (arr1[i]![j] ?? false) && (arr2[i]![j] ?? false);
+    }
+  }
+
+  return result;
+}
+
+export function andNBooleanArrays(arrays: boolean[][][]): boolean[][] {
+  return arrays.reduce((acc, curr) => andBooleanArrays(acc, curr));
 }
 
 export const DayLength = 12 * 60

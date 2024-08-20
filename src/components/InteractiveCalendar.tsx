@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { Card } from "./ui/card";
 import { type StudioWithStudents } from '~/pages/studios/[slug]';
 import { scheduleToButtons } from 'lib/heur_solver';
-import { resolveLessonLength, transpose } from 'lib/utils';
+import { transpose } from 'lib/utils';
 
 // NOTE: VERY IMPORTANT. ALL BUTTON GRIDS SHOULD BE **TRANSPOSED** ON THIS FILE, REMEMBER THIS WHEN YOU USE SCHEDULETOBUTTONS
 
 type Schedule = boolean[][];
 
-interface Booking {
+export interface Booking {
   day: string;
   time_start: string;
   time_end: string;
@@ -30,6 +30,19 @@ const hours = Array.from({ length: 24 }, (_, i) => i + 9)
 
 export const getDayIndex = (day: string) => days.indexOf(day);
 export const getTimeIndex = (time: string) => hours.indexOf(time);
+export const twoDimIdxToBooking = (idx: [number, number], lesson_length: 30 | 60): Booking => {
+  const day = days[idx[1]];
+  const time = hours[idx[0]];
+  const time_end = hours[idx[0] + (lesson_length / 30)];
+  if (!day || !time || !time_end) throw new Error("Invalid booking");
+  return { day, time_start: time, time_end };
+}
+export const eventToIdxs = (event: Event): [number, number][] => {
+  const dayIdx = getDayIndex(event.booking.day);
+  const timeIdx = getTimeIndex(event.booking.time_start);
+  const duration = getEventDurationInCells(event);
+  return Array.from({ length: duration }, (_, i) => [timeIdx, dayIdx + i]);
+}
 const getEventDurationInCells = (event: Event) => {
   const startIndex = getTimeIndex(event.booking.time_start);
   const endIndex = getTimeIndex(event.booking.time_end);
