@@ -1,5 +1,5 @@
 import { type StudentSchema } from "lib/schema"
-import type { Day, LessonLength, Schedule, Time } from "lib/types"
+import type { Day, Schedule, Time } from "lib/types"
 import { Button } from "./ui/button"
 import { Dialog, DialogTrigger } from "./ui/dialog"
 import SetAvailabilityDialog from "./SetAvailabilityDialog"
@@ -7,7 +7,7 @@ import { useState } from "react"
 import { scheduleToButtons } from "lib/heur_solver"
 import { type StudioWithStudents } from "~/pages/studios/[slug]"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { buttonsToSchedule, resolveLessonLength } from "lib/utils"
+import { buttonsToSchedule } from "lib/utils"
 
 type Props = {
     student: StudentSchema
@@ -70,7 +70,6 @@ export default function MiniStudentSchedule(props: Props) {
     const supabaseClient = useSupabaseClient()
     const handleEditAvailability = async () => {
         // update studio with new availability
-        console.log(studio)
         const newSchedule: Schedule = buttonsToSchedule(myAvailability, 30) // HAS TO BE 30. EVEN IF HOUR LONG LESSON. THIS IS ACTUALLY BETTER BECAUSE LESSONS CAN START ON THE 30 ANYWAY
         const newStudent = { ...student, schedule: newSchedule }
         const newStudents = studio.students.map(s => s.id === student.id ? newStudent : s)

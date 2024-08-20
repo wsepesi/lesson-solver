@@ -37,10 +37,9 @@ export default function Studios() {
                 return
             }
             const data = res.data as StudioWithStudents[]
-            console.log(data)
 
-            // filter to only matching the user id
-            const filteredData = data.filter(d => d.user_id === user!.id)
+            // filter to only matching the user id, sort by creation date
+            const filteredData = data.filter(d => d.user_id === user!.id).sort((a, b) => b.id - a.id)
             setStudios(filteredData)
             setLoading(false)
         }

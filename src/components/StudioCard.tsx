@@ -10,10 +10,20 @@ type Props = {
 
 type Progress = "Not Started" | "In Progress" | "Done"
 
+const determineProgress = (studio: StudioWithStudents): Progress => {
+    if (studio.events && studio.events.length > 0) {
+        return "Done"
+    }
+    if (studio.owner_schedule) {
+        return "In Progress"
+    }
+    return "Not Started"
+}
+
 export default function StudioCard(props: Props) {
-    const { studio_name, code, owner_schedule } = props.studio
+    const { studio_name, code } = props.studio
     const numEnrolled = props.studio.students.length
-    const progress: Progress = owner_schedule ? "In Progress" : "Not Started"
+    const progress: Progress = determineProgress(props.studio)
     return (
         <Card className="cursor-pointer">
             <Link href={`/studios/${code}`}>
