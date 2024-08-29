@@ -6,3 +6,4 @@ many to one lesson scheduling made easy
 - install [pnpm](https://pnpm.io/installation)
 - `pnpm i`
 - create a `.env.local` in the format of `.env.example` with your supabase db keys
+- `pnpm run dev` to start
