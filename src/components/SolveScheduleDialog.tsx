@@ -58,6 +58,14 @@ const getOriginalStudentSchemaMatchByEmail = (student: Student, students: Studen
     return filtered[0] ? filtered[0] : students[0]!
 }
 
+const readyToSolve = (taskStatus: boolean[]): boolean => {
+    // true if 0 and 1 are true
+    if (taskStatus.length < 2) {
+        throw new Error("Task status must have length 2")
+    }
+    return !!taskStatus[0] && !!taskStatus[1]
+}
+
 export default function SolveScheduleDialog(props: Props) {
     const supabaseClient = useSupabaseClient()
     const { schedule, setSchedule, setEvents } = props
@@ -67,6 +75,10 @@ export default function SolveScheduleDialog(props: Props) {
     const [isError, setIsError] = useState(false)
 
     const handleClick = async () => {
+        if (!readyToSolve(props.taskStatus)) {
+            alert("Please fill out student schedules and your schedule before generating a final schedule.")
+            return
+        }
         setLoading(true)
         try {
             const res = solve(

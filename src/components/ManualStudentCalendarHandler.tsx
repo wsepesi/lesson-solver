@@ -1,13 +1,14 @@
 import type { LessonLength, Schedule, Student } from "lib/types"
 
 import Calendar from "./Calendar"
-import { Days, transpose, xorBooleanArrays } from "lib/utils"
+import { Days, transpose } from "lib/utils"
 import { OnboardStudentsCard } from "./OnboardStudentsCard"
 import type { StudentSchema } from "lib/schema"
 import { useState } from "react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { type StudioWithStudents } from "~/pages/studios/[slug]"
-import { Booking, eventToIdxs, twoDimIdxToBooking, type Event } from "./InteractiveCalendar"
+import { type Booking, eventToIdxs, twoDimIdxToBooking, type Event } from "./InteractiveCalendar"
+import { SEND_CODE } from "./my-studio"
 
 type Props = {
     setStudio: (studio: StudioWithStudents) => void
@@ -15,6 +16,8 @@ type Props = {
     setOpen: (open: boolean) => void
     setEvents: (events: Event[]) => void
     events: Event[]
+    taskStatus: boolean[]
+    setTaskStatus: (taskStatus: boolean[]) => void
 }
 const dayLength: number = 12 * 60
 
@@ -43,6 +46,8 @@ const getTrueCleanButtonStates = (minutes: LessonLength): boolean[][] => {
 const SET_MINUTES = 30
 
 export default function ManualStudentCalendarHandler(props: Props) {
+    const taskStatus = props.taskStatus
+    const setTaskStatus = props.setTaskStatus
     const sb = useSupabaseClient()
     const [minutes, setMinutes] = useState<LessonLength>(30)
     const blocks = dayLength / (SET_MINUTES)
@@ -144,6 +149,7 @@ export default function ManualStudentCalendarHandler(props: Props) {
         setButtonStates(getCleanButtonStates(SET_MINUTES))
         const newStudents = [...props.studio.students, studentSchema]
         props.setStudio({...props.studio, students: newStudents})
+        setTaskStatus(taskStatus.map((status, i) => SEND_CODE === i ? true : status))
 
         if (props.events && props.events.length >= 1) {
             const potentialBooking = getPotentialBooking(student, buttons, props.studio)

@@ -12,6 +12,8 @@ type Props = {
   setStudio: (studio: StudioWithStudents) => void
   events: Event[]
   setEvents: (events: Event[]) => void
+  taskStatus: boolean[]
+  setTaskStatus: (taskStatus: boolean[]) => void
 }
 export default function ManualScheduleDialog(props: Props) {
   const [uploading, setUploading] = useState(false)
@@ -39,6 +41,8 @@ export default function ManualScheduleDialog(props: Props) {
               }}
               events={props.events}
               setEvents={props.setEvents}
+              taskStatus={props.taskStatus}
+              setTaskStatus={props.setTaskStatus}
             />
           </DialogContent>
           ) : 

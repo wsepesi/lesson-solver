@@ -49,9 +49,9 @@ type Task = {
   dialogComponent: React.ReactNode,
 }
 
-const AVAILABILITY = 0
-const SEND_CODE = 1
-const CREATE_SCHEDULE = 2
+export const AVAILABILITY = 0
+export const SEND_CODE = 1
+export const CREATE_SCHEDULE = 2
 const isPaid = true
 
 const minutes = 30
@@ -348,6 +348,8 @@ export function MyStudio(props: Props) {
                 setStudio={props.setStudio}
                 events={events}
                 setEvents={setEvents}
+                taskStatus={taskStatus}
+                setTaskStatus={setTaskStatus}
               />
               {taskStatus[AVAILABILITY] && 
               <Dialog open={editAvailability} onOpenChange={setEditAvailability}>
