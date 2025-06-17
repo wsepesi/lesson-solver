@@ -2,7 +2,7 @@ import type { BlockOfTime, LessonLength } from "./types";
 import type { Scheduled, StudentAvailability } from "./types";
 
 import { Time } from "./types";
-import { schedule } from "./old_solver";
+// import { schedule } from "./old_solver"; // Removed - old solver no longer exists
 
 const getIntervals = (arrs: number[][]): BlockOfTime[] => {
    return arrs.map((arr) => {
@@ -94,7 +94,8 @@ export const runTests = () => {
     let A_me: BlockOfTime[] = getIntervals([[8, 10], [13, 16], [18, 21]])
     let S: StudentAvailability[] = getStudents([[60, [[7, 9], [10, 13]]]]);
 
-    let result = schedule(A_me, S);
+    // let result = schedule(A_me, S); // Commented out - old solver removed
+    let result: Scheduled[] | null = null; // Old solver removed
     console.log(result, "res")
     checker(result, A_me, S, 1);
     result = []
@@ -103,7 +104,8 @@ export const runTests = () => {
     A_me = getIntervals([[8, 22]]);
     S = getStudents([[30, [[6, 20]]], [60, [[12, 13], [15, 16]]], [60, [[9, 11], [17, 19]]]]);
 
-    result = schedule(A_me, S);
+    // result = schedule(A_me, S); // Commented out - old solver removed
+    result = null; // Old solver removed
     console.log(result, 'Test 2 Result')
     checker(result, A_me, S, 2);
    
@@ -111,7 +113,8 @@ export const runTests = () => {
     A_me = getIntervals([[8, 22]]);
     S = getStudents([[30, [[8, 10], [12, 13]]], [60, [[11, 20]]], [60, [[8, 22]]], [60, [[8, 22]]], [60, [[8, 22]]]]);
 
-    result = schedule(A_me, S);
+    // result = schedule(A_me, S); // Commented out - old solver removed
+    result = null; // Old solver removed
     console.log(result, 'Test 3 Result');
     checker(result, A_me, S, 3);
     // checker(result, 3);
@@ -127,7 +130,8 @@ export const runTests = () => {
     [30, [[8, 10], [12, 15], [17, 21], [22, 24]]]])
         
 
-    result = schedule(A_me, S);
+    // result = schedule(A_me, S); // Commented out - old solver removed
+    result = null; // Old solver removed
     console.log(result, 'Test 4 Result');
     checker(result, A_me, S, 4);
 

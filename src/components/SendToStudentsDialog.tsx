@@ -7,8 +7,6 @@ import {
 } from "./ui/dialog"
 
 import { Button } from "./ui/button"
-import EmailsInput from "./EmailsInput"
-import { useState } from "react"
 import { type StudioWithStudents } from "~/pages/studios/[slug]"
 
 type Props = {
@@ -20,7 +18,6 @@ type Props = {
 }
 
 export default function SendToStudentsDialog(props: Props) {
-    const [emails, setEmails] = useState<string[]>([])
     const handleClick = () => {
         // if (emails.length === 0) {
         //     alert("Please enter at least one email")

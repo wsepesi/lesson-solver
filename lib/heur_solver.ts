@@ -68,7 +68,7 @@ export const scheduleToButtons = (schedule: Schedule): boolean[][] =>{
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as Day[];
   
     // Iterate over each day of the week
-    for (const [_, dayName] of daysOfWeek.entries()) {
+    for (const [, dayName] of daysOfWeek.entries()) {
         // Check if the schedule has entries for the current day
         if (schedule[dayName] && schedule[dayName]!.length > 0) {
             const day: boolean[] = new Array<boolean>(24).fill(false);
@@ -121,7 +121,8 @@ export const solve = (students: StudentSchedule[], availability: Schedule, heuri
 }
 
 const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuristics: Heuristics, schedule: FinalSchedule): FinalSchedule | null => {
-    if (schedule.assignments.length > 10) throw new Error("too many assignments")
+    // Remove artificial limit - allow realistic class sizes
+    if (schedule.assignments.length > 100) throw new Error("too many assignments - possible infinite loop")
 
     // base case:
     // 1) students are empty, we are done
@@ -174,7 +175,7 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
                             student,
                             time: {
                                 start: { i: candidate.i, j: candidate.j },
-                                end: { i: candidate.i, j: candidate.j + 1}
+                                end: { i: candidate.i, j: candidate.j + 2}
                             }
                         })
                     }
@@ -184,7 +185,7 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
                             student,
                             time: {
                                 start: { i: candidate.i, j: candidate.j - 1},
-                                end: { i: candidate.i, j: candidate.j}
+                                end: { i: candidate.i, j: candidate.j + 1}
                             }
                         })
                     }
@@ -193,7 +194,7 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
                         student,
                         time: {
                             start: { i: candidate.i, j: candidate.j },
-                            end: { i: candidate.i, j: candidate.j }
+                            end: { i: candidate.i, j: candidate.j + 1 }
                         }
                     })
                 }
@@ -246,7 +247,7 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
                         student,
                         time: {
                             start: { i: candidate.i, j: candidate.j },
-                            end: { i: candidate.i, j: candidate.j + 1}
+                            end: { i: candidate.i, j: candidate.j + 2}
                         }
                     })
                 }
@@ -256,7 +257,7 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
                         student,
                         time: {
                             start: { i: candidate.i, j: candidate.j - 1},
-                            end: { i: candidate.i, j: candidate.j}
+                            end: { i: candidate.i, j: candidate.j + 1}
                         }
                     })
                 }
@@ -265,7 +266,7 @@ const solverHelper = (students: StudentWithButtons[], avail: boolean[][], heuris
                     student,
                     time: {
                         start: { i: candidate.i, j: candidate.j },
-                        end: { i: candidate.i, j: candidate.j }
+                        end: { i: candidate.i, j: candidate.j + 1 }
                     }
                 })
             }

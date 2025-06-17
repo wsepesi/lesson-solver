@@ -68,10 +68,10 @@ const readyToSolve = (taskStatus: boolean[]): boolean => {
 
 export default function SolveScheduleDialog(props: Props) {
     const supabaseClient = useSupabaseClient()
-    const { schedule, setSchedule, setEvents } = props
+    const { setSchedule, setEvents } = props
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("30")
-    const [loading, setLoading] = useState(false)
+    const [, setLoading] = useState(false)
     const [isError, setIsError] = useState(false)
 
     const handleClick = async () => {
@@ -99,7 +99,7 @@ export default function SolveScheduleDialog(props: Props) {
                 }
             )
             const finalSchedOriginalAvail: FinalSchedule = {
-                assignments: res.assignments.map((assignment, i) => ({
+                assignments: res.assignments.map((assignment, _i) => ({
                     student: {
                         ...assignment.student,
                         schedule: getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule,

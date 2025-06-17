@@ -52,7 +52,7 @@ const formatSchedule = (schedule: Schedule): React.ReactElement[] => {
             const time = times[j]!;
             if (j === 0) {
                 formattedParts.push(<p key={`f${i}s${j}`}><strong>{day}</strong>:</p>)
-                formattedParts.push(<p>{formatTime(time.start)} - {formatTime(time.end)}</p>)
+                formattedParts.push(<p key={`t${i}s${j}`}>{formatTime(time.start)} - {formatTime(time.end)}</p>)
             } else {
                 formattedParts.push(<p key={`${i}${j}`}>{formatTime(time.start)} - {formatTime(time.end)}</p>);
             }

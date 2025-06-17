@@ -2,7 +2,6 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { Days, finalScheduleToButtons } from "lib/utils"
 import { Toggle } from "./ui/toggle"
-import { useState } from "react"
 import { type FinalSchedule } from "lib/heur_solver"
 import type { Schedule } from "lib/types"
 
