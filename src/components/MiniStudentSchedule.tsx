@@ -1,13 +1,15 @@
+"use client";
+
 import { type StudentSchema } from "lib/schema"
 import type { Day, Schedule, Time } from "lib/types"
 import { Button } from "./ui/button"
-import { Dialog, DialogTrigger } from "./ui/dialog"
-import SetAvailabilityDialog from "./SetAvailabilityDialog"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 import { useState } from "react"
 import { scheduleToButtons } from "lib/heur_solver"
-import { type StudioWithStudents } from "~/pages/studios/[slug]"
+import { type StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { buttonsToSchedule } from "lib/utils"
+import CalendarHandler from "./CalendarHandler"
 
 type Props = {
     student: StudentSchema
@@ -96,12 +98,19 @@ export default function MiniStudentSchedule(props: Props) {
                 <DialogTrigger asChild>
                   <Button className="w-full">Edit Availability</Button>
                 </DialogTrigger>
-                <SetAvailabilityDialog 
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                  handleSubmit={handleEditAvailability}
-                  myAvailability={myAvailability}
-                  setMyAvailability={setMyAvailability}
-                />
+                <DialogContent className="min-w-[80vw] max-h-[90vh]">
+                    <DialogHeader>
+                        <DialogTitle>Edit Student Availability</DialogTitle>
+                    </DialogHeader>
+                    <CalendarHandler 
+                        minutes={30}
+                        setState={() => console.log("hello")}
+                        setTeacherSchedule={() => console.log("hello")}
+                        handleSubmit={() => { void handleEditAvailability() }}
+                        buttonStates={myAvailability}
+                        setButtonStates={setMyAvailability}
+                    />
+                </DialogContent>
             </Dialog>
         </div>
     )

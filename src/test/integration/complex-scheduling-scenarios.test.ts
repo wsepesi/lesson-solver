@@ -1,6 +1,7 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { solve } from '../../../lib/heur_solver'
-import type { StudentSchedule, Schedule, Heuristics } from '../../../lib/types'
+import type { StudentSchedule, Schedule } from '../../../lib/types'
+import type { Heuristics } from '../../../lib/solver'
 import { scheduleToButtons } from '../../../lib/heur_solver'
 
 /**
@@ -20,12 +21,12 @@ const generateStudent = (
 ): StudentSchedule => ({
   student: { name, email, lessonLength },
   schedule,
-  bsched: scheduleToButtons(schedule) as boolean[][]
+  bsched: scheduleToButtons(schedule)
 })
 
 // Helper function to create teacher availability grid
 const createTeacherGrid = (schedule: Schedule): boolean[][] => {
-  return scheduleToButtons(schedule) as boolean[][]
+  return scheduleToButtons(schedule)
 }
 
 // Realistic teacher schedule - Monday through Friday, 9am-6pm with lunch break
@@ -64,7 +65,7 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     // Each test should complete within reasonable time
   })
 
-  test('handles 30 students with varied availability - realistic scenario', async () => {
+  test('handles 30 students with varied availability - realistic scenario', () => {
     // Generate 30 students with realistic but varied availability
     const students: StudentSchedule[] = []
     
@@ -73,7 +74,7 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
       const timePreference = i % 3 // Morning (0), afternoon (1), or flexible (2)
       const lessonLength = i % 4 === 0 ? 60 : 30 // 25% want 60-min lessons
       
-      let schedule: Schedule = {
+      const schedule: Schedule = {
         Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
       }
       
@@ -110,19 +111,19 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     
     // Solve with realistic heuristics
     const startTime = Date.now()
-    const result = await solve(students, teacherGrid, defaultHeuristics)
+    const result = solve(students, teacherGrid, defaultHeuristics)
     const solveTime = Date.now() - startTime
     
     // Should find a solution within reasonable time
     expect(solveTime).toBeLessThan(30000) // 30 seconds max
     expect(result).not.toBeNull()
-    expect(result!.assignments).toHaveLength(30)
+    expect(result.assignments).toHaveLength(30)
     
     // Verify no scheduling conflicts
     const timeSlotUsage = new Map<string, number>()
-    result!.assignments.forEach(assignment => {
+    result.assignments.forEach(assignment => {
       const key = `${assignment.time.start.i}-${assignment.time.start.j}`
-      timeSlotUsage.set(key, (timeSlotUsage.get(key) || 0) + 1)
+      timeSlotUsage.set(key, (timeSlotUsage.get(key) ?? 0) + 1)
     })
     
     // No time slot should be used more than once
@@ -131,7 +132,7 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     })
   }, 60000) // 60 second timeout
 
-  test('single solution puzzle - 25 students with minimal overlap', async () => {
+  test('single solution puzzle - 25 students with minimal overlap', () => {
     // Create a scenario designed to have exactly one valid solution
     const students: StudentSchedule[] = []
     
@@ -196,20 +197,20 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     
     const teacherGrid = createTeacherGrid(realisticTeacherSchedule)
     
-    const result = await solve(students, teacherGrid, defaultHeuristics)
+    const result = solve(students, teacherGrid, defaultHeuristics)
     
     expect(result).not.toBeNull()
-    expect(result!.assignments).toHaveLength(25)
+    expect(result.assignments).toHaveLength(25)
     
     // Verify the solution uses all Monday slots and some Tuesday slots
-    const mondaySlots = result!.assignments.filter(a => a.time.start.i === 0).length
-    const tuesdaySlots = result!.assignments.filter(a => a.time.start.i === 1).length
+    const mondaySlots = result.assignments.filter(a => a.time.start.i === 0).length
+    const tuesdaySlots = result.assignments.filter(a => a.time.start.i === 1).length
     
     expect(mondaySlots).toBe(16) // All Monday slots filled
     expect(tuesdaySlots).toBe(9)  // Remaining students on Tuesday
   }, 60000)
 
-  test('stress test with competing peak time preferences', async () => {
+  test('stress test with competing peak time preferences', () => {
     // 20 students all wanting the same popular time slots
     const students: StudentSchedule[] = []
     const popularTimes: Schedule = {
@@ -230,14 +231,14 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     
     const teacherGrid = createTeacherGrid(realisticTeacherSchedule)
     
-    const result = await solve(students, teacherGrid, defaultHeuristics)
+    const result = solve(students, teacherGrid, defaultHeuristics)
     
     // Should still find a solution, but only some students get their preferred times
     expect(result).not.toBeNull()
-    expect(result!.assignments.length).toBeGreaterThan(0)
+    expect(result.assignments.length).toBeGreaterThan(0)
     
     // Count how many got their preferred times (Mon/Wed/Fri 4-6pm)
-    const preferredSlots = result!.assignments.filter(assignment => {
+    const preferredSlots = result.assignments.filter(assignment => {
       const day = assignment.time.start.i
       const hour = 9 + Math.floor(assignment.time.start.j / 2)
       return (day === 0 || day === 2 || day === 4) && hour >= 16 && hour < 18
@@ -247,7 +248,7 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     expect(preferredSlots.length).toBeLessThanOrEqual(12) // 3 days × 4 slots = 12 max
   }, 60000)
 
-  test('mixed lesson lengths with complex packing', async () => {
+  test('mixed lesson lengths with complex packing', () => {
     const students: StudentSchedule[] = []
     
     // 15 students wanting 60-minute lessons
@@ -259,7 +260,6 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
         `long${i + 1}@test.com`,
         60,
         {
-          [day]: [{ start: { hour: 9, minute: 0 }, end: { hour: 18, minute: 0 } }],
           Monday: day === 'Monday' ? [{ start: { hour: 9, minute: 0 }, end: { hour: 18, minute: 0 } }] : [],
           Tuesday: day === 'Tuesday' ? [{ start: { hour: 9, minute: 0 }, end: { hour: 18, minute: 0 } }] : [],
           Wednesday: day === 'Wednesday' ? [{ start: { hour: 9, minute: 0 }, end: { hour: 18, minute: 0 } }] : [],
@@ -293,22 +293,22 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     
     const teacherGrid = createTeacherGrid(realisticTeacherSchedule)
     
-    const result = await solve(students, teacherGrid, defaultHeuristics)
+    const result = solve(students, teacherGrid, defaultHeuristics)
     
     expect(result).not.toBeNull()
     
     // Verify lesson length constraints are respected
-    result!.assignments.forEach(assignment => {
+    result.assignments.forEach(assignment => {
       const duration = assignment.time.end.j - assignment.time.start.j
       const expectedDuration = assignment.student.student.lessonLength === 60 ? 2 : 1
       expect(duration).toBe(expectedDuration)
     })
     
     // Should achieve good packing efficiency
-    expect(result!.assignments.length).toBeGreaterThan(20)
+    expect(result.assignments.length).toBeGreaterThan(20)
   }, 60000)
 
-  test('edge case - insufficient teacher availability', async () => {
+  test('edge case - insufficient teacher availability', () => {
     // 20 students, but teacher only available 2 hours per day
     const limitedTeacherSchedule: Schedule = {
       Monday: [{ start: { hour: 14, minute: 0 }, end: { hour: 16, minute: 0 } }],
@@ -334,7 +334,7 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     
     const teacherGrid = createTeacherGrid(limitedTeacherSchedule)
     
-    const result = await solve(students, teacherGrid, defaultHeuristics)
+    const result = solve(students, teacherGrid, defaultHeuristics)
     
     if (result) {
       // If a solution is found, it should fit within available slots
@@ -346,7 +346,7 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
     }
   }, 30000)
 
-  test('performance degrades linearly with student count', async () => {
+  test('performance degrades linearly with student count', () => {
     const times: number[] = []
     const studentCounts = [10, 20, 30]
     
@@ -375,13 +375,13 @@ describe('Complex Scheduling Scenarios - Scale Testing', () => {
       const teacherGrid = createTeacherGrid(realisticTeacherSchedule)
       
       const startTime = Date.now()
-      const result = await solve(students, teacherGrid, defaultHeuristics)
+      const result = solve(students, teacherGrid, defaultHeuristics)
       const endTime = Date.now()
       
       times.push(endTime - startTime)
       
       expect(result).not.toBeNull()
-      expect(result!.assignments.length).toBe(count)
+      expect(result.assignments.length).toBe(count)
     }
     
     // Performance should not explode exponentially

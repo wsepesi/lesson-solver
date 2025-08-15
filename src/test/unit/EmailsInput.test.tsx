@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import EmailsInput from '../../components/EmailsInput'
 
 // Mock console.log to prevent test output noise
-vi.spyOn(console, 'log').mockImplementation(() => {})
+vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
 describe('EmailsInput Component', () => {
   const mockSetEmails = vi.fn()
@@ -90,7 +90,7 @@ describe('EmailsInput Component', () => {
     expect(mockSetEmails).not.toHaveBeenCalled()
   })
 
-  test('removes email when badge is clicked', async () => {
+  test('removes email when badge is clicked', () => {
     const emails = ['alice@test.com', 'bob@test.com', 'carol@test.com']
     
     render(
@@ -142,7 +142,7 @@ describe('EmailsInput Component', () => {
     ]
 
     for (const testCase of testCases) {
-      const { rerender } = render(
+      const { unmount } = render(
         <EmailsInput 
           emails={[]}
           setEmails={mockSetEmails}
@@ -166,13 +166,8 @@ describe('EmailsInput Component', () => {
       }
 
       // Clean up for next iteration
+      unmount()
       vi.clearAllMocks()
-      rerender(
-        <EmailsInput 
-          emails={[]}
-          setEmails={mockSetEmails}
-        />
-      )
     }
   })
 
@@ -184,11 +179,12 @@ describe('EmailsInput Component', () => {
       />
     )
 
-    const badge = screen.getByText('test@example.com').closest('div')
-    expect(badge).toHaveClass('hover:cursor-pointer')
+    // Check that badge button exists
+    const badgeButton = screen.getByText('test@example.com').closest('button')
+    expect(badgeButton).toBeInTheDocument()
+    expect(badgeButton).toHaveClass('hover:cursor-pointer')
     
     // Cross icon should be present (imported from @radix-ui/react-icons)
-    const badgeButton = screen.getByText('test@example.com').closest('button')
     expect(badgeButton).toBeInTheDocument()
   })
 
@@ -253,7 +249,8 @@ describe('EmailsInput Component', () => {
 
     const input = screen.getByPlaceholderText('student@xyz.com')
     
-    // Press Enter without typing anything
+    // Focus the input and press Enter without typing anything
+    await user.click(input)
     await user.keyboard('{Enter}')
 
     // Should show validation error
@@ -284,7 +281,7 @@ describe('EmailsInput Component', () => {
       const calls = mockSetEmails.mock.calls
       if (calls.length > 0) {
         // If it was called, check what value was passed
-        expect(calls[0][0]).toContain('trimmed@test.com')
+        expect(calls[0]![0]).toContain('trimmed@test.com')
       } else {
         // If validation failed due to spaces, that's also valid behavior
         expect(screen.getByText(/invalid email/i)).toBeInTheDocument()

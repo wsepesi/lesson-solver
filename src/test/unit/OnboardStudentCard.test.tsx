@@ -6,7 +6,19 @@ import type { StudioSchema } from 'lib/schema'
 import type { LessonLength } from 'lib/types'
 
 // Mock Supabase client
-const mockSupabaseClient = {
+interface MockInsertResponse {
+  error: { message: string } | null
+}
+
+interface MockInsert {
+  insert: () => Promise<MockInsertResponse>
+}
+
+interface MockSupabaseClient {
+  from: (table: string) => MockInsert
+}
+
+const mockSupabaseClient: MockSupabaseClient = {
   from: vi.fn(() => ({
     insert: vi.fn(() => Promise.resolve({ error: null }))
   }))
@@ -27,14 +39,14 @@ vi.mock('../../components/ui/use-toast', () => ({
 vi.mock('lib/utils', async (importOriginal) => {
   const actual = await importOriginal()
   return {
-    ...actual,
-    cn: (...inputs: any[]) => inputs.join(' '), // Mock cn function
+    ...(actual as Record<string, unknown>),
+    cn: (...inputs: string[]) => inputs.join(' '), // Mock cn function
   }
 })
 
 describe('OnboardStudentCard Component', () => {
-  let mockSetMinutes: any
-  let mockSetState: any
+  let mockSetMinutes: (minutes: LessonLength) => void
+  let mockSetState: (state: string) => void
   let mockButtonStates: boolean[][]
   let mockStudentInfo: FormSchema
   let mockStudio: StudioSchema
@@ -47,7 +59,7 @@ describe('OnboardStudentCard Component', () => {
     mockMinutes = 30
     
     // Create sample button states (student availability)
-    mockButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     // Set some availability (Monday 10am-12pm)
     mockButtonStates[0]![2] = true  // 10:00am
     mockButtonStates[0]![3] = true  // 10:30am
@@ -195,7 +207,7 @@ describe('OnboardStudentCard Component', () => {
 
   test('prevents submission with empty availability', () => {
     // STEP 1: Create empty button states
-    const emptyButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const emptyButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     
     // STEP 2: Render with empty availability
     render(
@@ -220,7 +232,7 @@ describe('OnboardStudentCard Component', () => {
     expect(mockSupabaseClient.from).not.toHaveBeenCalled()
   })
 
-  test('handles null studio correctly', async () => {
+  test('handles null studio correctly', () => {
     // STEP 1: Render with null studio
     render(
       <OnboardStudentCard 
@@ -247,7 +259,8 @@ describe('OnboardStudentCard Component', () => {
   test('creates correct database student object', async () => {
     // STEP 1: Setup mock to capture insert data
     const mockInsert = vi.fn(() => Promise.resolve({ error: null }))
-    mockSupabaseClient.from.mockReturnValue({ insert: mockInsert })
+    const mockFrom = mockSupabaseClient.from as unknown as ReturnType<typeof vi.fn>
+    mockFrom.mockReturnValue({ insert: mockInsert })
     
     // STEP 2: Render component with 60min lesson
     render(
@@ -266,22 +279,25 @@ describe('OnboardStudentCard Component', () => {
     
     // STEP 4: Verify insert was called with correct student data
     await waitFor(() => {
-      expect(mockInsert).toHaveBeenCalledWith({
-        email: 'alice.smith@test.com',
-        first_name: 'Alice',
-        last_name: 'Smith',
-        lesson_length: '60',
-        schedule: expect.objectContaining({
-          Monday: expect.any(Array),
-          Tuesday: expect.any(Array),
-          Wednesday: expect.any(Array),
-          Thursday: expect.any(Array),
-          Friday: expect.any(Array),
-          Saturday: expect.any(Array),
-          Sunday: expect.any(Array)
-        }),
-        studio_id: 1
-      })
+      expect(mockInsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'alice.smith@test.com',
+          first_name: 'Alice',
+          last_name: 'Smith',
+          lesson_length: '60',
+          studio_id: 1
+        })
+      )
+      // Verify schedule exists and has the right structure
+      const callArgs = mockInsert.mock.calls[0]?.[0] as { schedule?: Record<string, unknown> }
+      expect(callArgs?.schedule).toBeDefined()
+      expect(callArgs?.schedule).toHaveProperty('Monday')
+      expect(callArgs?.schedule).toHaveProperty('Tuesday')
+      expect(callArgs?.schedule).toHaveProperty('Wednesday')
+      expect(callArgs?.schedule).toHaveProperty('Thursday')
+      expect(callArgs?.schedule).toHaveProperty('Friday')
+      expect(callArgs?.schedule).toHaveProperty('Saturday')
+      expect(callArgs?.schedule).toHaveProperty('Sunday')
     })
   })
 
@@ -290,10 +306,11 @@ describe('OnboardStudentCard Component', () => {
     const mockInsert = vi.fn(() => Promise.resolve({ 
       error: { message: 'Database error' } 
     }))
-    mockSupabaseClient.from.mockReturnValue({ insert: mockInsert })
+    const mockFrom = mockSupabaseClient.from as unknown as ReturnType<typeof vi.fn>
+    mockFrom.mockReturnValue({ insert: mockInsert })
     
     // STEP 2: Mock console.log to avoid test output noise
-    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
     
     // STEP 3: Render and click confirm
     render(

@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { solve } from '../../../lib/heur_solver'
-import type { StudentSchedule, Schedule, Heuristics } from '../../../lib/types'
+import type { StudentSchedule, Schedule } from '../../../lib/types'
+import type { Heuristics } from '../../../lib/solver'
 import { scheduleToButtons } from '../../../lib/heur_solver'
 
 /**
@@ -19,16 +20,17 @@ const generateStudent = (
 ): StudentSchedule => ({
   student: { name, email, lessonLength },
   schedule,
-  bsched: scheduleToButtons(schedule) as boolean[][]
+  bsched: scheduleToButtons(schedule)
 })
 
-const createTeacherGrid = (schedule: Schedule): boolean[][] => {
-  return scheduleToButtons(schedule) as boolean[][]
-}
+// Unused helper function - keeping for potential future use
+// const _createTeacherGrid = (schedule: Schedule): boolean[][] => {
+//   return scheduleToButtons(schedule)
+// }
 
 describe('Break Requirements Edge Cases', () => {
   
-  test('enforces minimum break between lesson groups', async () => {
+  test('enforces minimum break between lesson groups', () => {
     const students: StudentSchedule[] = []
     
     // Create 8 students all available Monday 9am-5pm
@@ -55,12 +57,12 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 2  // 1 hour break required
     }
     
-    const result = await solve(students, teacherSchedule, strictBreakHeuristics)
+    const result = solve(students, teacherSchedule, strictBreakHeuristics)
     
     expect(result).not.toBeNull()
     
     // Verify break requirements are enforced
-    const assignments = result!.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
+    const assignments = result.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
     
     let consecutiveCount = 0
     let lastEndSlot = -1
@@ -95,10 +97,10 @@ describe('Break Requirements Edge Cases', () => {
     
     // Should fit fewer students due to break requirements
     // 8 hours = 16 slots, with breaks should fit less than 8 students
-    expect(result!.assignments.length).toBeLessThan(8)
+    expect(result.assignments.length).toBeLessThan(8)
   })
 
-  test('handles impossible break requirements gracefully', async () => {
+  test('handles impossible break requirements gracefully', () => {
     const students: StudentSchedule[] = []
     
     // 10 students wanting short window
@@ -125,7 +127,7 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 4  // 2 hour break required (impossible in 2-hour window)
     }
     
-    const result = await solve(students, teacherSchedule, impossibleHeuristics)
+    const result = solve(students, teacherSchedule, impossibleHeuristics)
     
     if (result) {
       // If any solution is found, it should respect the constraints
@@ -136,7 +138,7 @@ describe('Break Requirements Edge Cases', () => {
     }
   })
 
-  test('optimizes break placement for natural times', async () => {
+  test('optimizes break placement for natural times', () => {
     const students: StudentSchedule[] = []
     
     // Create students available all day
@@ -163,12 +165,12 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 2  // 1 hour break
     }
     
-    const result = await solve(students, teacherSchedule, naturalBreakHeuristics)
+    const result = solve(students, teacherSchedule, naturalBreakHeuristics)
     
     expect(result).not.toBeNull()
     
     // Check if breaks occur at natural times (e.g., around lunch)
-    const assignments = result!.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
+    const assignments = result.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
     
     let foundLunchBreak = false
     for (let i = 0; i < assignments.length - 1; i++) {
@@ -189,7 +191,7 @@ describe('Break Requirements Edge Cases', () => {
     expect(foundLunchBreak).toBe(true)
   })
 
-  test('handles different break requirements per day', async () => {
+  test('handles different break requirements per day', () => {
     const students: StudentSchedule[] = []
     
     // Students available Monday and Tuesday
@@ -217,13 +219,13 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 1  // 30 min break
     }
     
-    const result = await solve(students, teacherSchedule, heuristics)
+    const result = solve(students, teacherSchedule, heuristics)
     
     expect(result).not.toBeNull()
     
     // Verify breaks are enforced consistently across days
-    const mondayAssignments = result!.assignments.filter(a => a.time.start.i === 0)
-    const tuesdayAssignments = result!.assignments.filter(a => a.time.start.i === 1)
+    const mondayAssignments = result.assignments.filter(a => a.time.start.i === 0)
+    const tuesdayAssignments = result.assignments.filter(a => a.time.start.i === 1)
     
     // Both days should have some assignments
     expect(mondayAssignments.length).toBeGreaterThan(0)
@@ -256,7 +258,7 @@ describe('Break Requirements Edge Cases', () => {
     }
   })
 
-  test('60-minute lessons with break requirements', async () => {
+  test('60-minute lessons with break requirements', () => {
     const students: StudentSchedule[] = []
     
     // 6 students wanting 60-minute lessons
@@ -283,22 +285,22 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 2  // 1 hour break
     }
     
-    const result = await solve(students, teacherSchedule, heuristics)
+    const result = solve(students, teacherSchedule, heuristics)
     
     expect(result).not.toBeNull()
     
     // Verify 60-minute lesson constraints
-    result!.assignments.forEach(assignment => {
+    result.assignments.forEach(assignment => {
       const duration = assignment.time.end.j - assignment.time.start.j
       expect(duration).toBe(2) // 60 minutes = 2 slots
     })
     
     // With break requirements, should fit fewer than 6 lessons
     // 8 hours = 4 lessons max without breaks, fewer with breaks
-    expect(result!.assignments.length).toBeLessThan(6)
+    expect(result.assignments.length).toBeLessThan(6)
   })
 
-  test('mixed lesson lengths with complex break patterns', async () => {
+  test('mixed lesson lengths with complex break patterns', () => {
     const students: StudentSchedule[] = []
     
     // Mix of 30 and 60 minute lessons
@@ -336,15 +338,15 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 1  // 30 min break
     }
     
-    const result = await solve(students, teacherSchedule, heuristics)
+    const result = solve(students, teacherSchedule, heuristics)
     
     expect(result).not.toBeNull()
     
     // Verify mixed lengths work with break requirements
-    const shortLessons = result!.assignments.filter(a => 
+    const shortLessons = result.assignments.filter(a => 
       a.student.student.lessonLength === 30
     )
-    const longLessons = result!.assignments.filter(a => 
+    const longLessons = result.assignments.filter(a => 
       a.student.student.lessonLength === 60
     )
     
@@ -352,7 +354,7 @@ describe('Break Requirements Edge Cases', () => {
     expect(longLessons.length).toBeGreaterThan(0)
     
     // Verify break requirements with mixed lengths
-    const assignments = result!.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
+    const assignments = result.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
     
     let consecutiveSlots = 0
     let lastEndSlot = -1
@@ -377,7 +379,7 @@ describe('Break Requirements Edge Cases', () => {
     }
   })
 
-  test('break requirements with minimal teacher availability', async () => {
+  test('break requirements with minimal teacher availability', () => {
     const students: StudentSchedule[] = []
     
     // 4 students, teacher only available 3 hours with break requirements
@@ -403,7 +405,7 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 1  // 30 min break
     }
     
-    const result = await solve(students, teacherSchedule, heuristics)
+    const result = solve(students, teacherSchedule, heuristics)
     
     if (result) {
       // With these constraints, can fit at most 2 lessons
@@ -419,7 +421,7 @@ describe('Break Requirements Edge Cases', () => {
     }
   })
 
-  test('no break requirements allows maximum packing', async () => {
+  test('no break requirements allows maximum packing', () => {
     const students: StudentSchedule[] = []
     
     // 16 students for 8-hour day (should all fit without breaks)
@@ -445,13 +447,13 @@ describe('Break Requirements Edge Cases', () => {
       breakLenInHalfHours: 0   // No break required
     }
     
-    const result = await solve(students, teacherSchedule, noBreakHeuristics)
+    const result = solve(students, teacherSchedule, noBreakHeuristics)
     
     expect(result).not.toBeNull()
-    expect(result!.assignments.length).toBe(16) // All should fit
+    expect(result.assignments.length).toBe(16) // All should fit
     
     // Verify they're scheduled consecutively
-    const assignments = result!.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
+    const assignments = result.assignments.sort((a, b) => a.time.start.j - b.time.start.j)
     
     for (let i = 0; i < assignments.length - 1; i++) {
       const current = assignments[i]

@@ -1,38 +1,39 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../test/utils'
 import SetAvailabilityDialog from '../../components/SetAvailabilityDialog'
-import type { Schedule } from '../../../lib/types'
 
 // Mock the CalendarHandler component
+interface MockCalendarHandlerProps {
+  handleSubmit: () => void
+  buttonStates: boolean[][]
+  setButtonStates: (states: boolean[][]) => void
+}
+
 vi.mock('../../components/CalendarHandler', () => ({
-  default: ({ onSubmit, schedule }: any) => (
+  default: ({ handleSubmit, buttonStates, setButtonStates }: MockCalendarHandlerProps) => (
     <div data-testid="calendar-handler">
-      <div data-testid="current-schedule">{JSON.stringify(schedule)}</div>
+      <div data-testid="current-schedule">{JSON.stringify(buttonStates)}</div>
       <button 
         onClick={() => {
-          // Simulate setting availability for Monday 9-5 and Wednesday 10-2
-          const newSchedule = {
-            Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
-            Tuesday: [],
-            Wednesday: [{ start: { hour: 10, minute: 0 }, end: { hour: 14, minute: 0 } }],
-            Thursday: [],
-            Friday: [],
-            Saturday: [],
-            Sunday: []
-          }
-          onSubmit(newSchedule)
+          // Simulate setting availability - create a grid with some slots filled
+          const newGrid = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
+          // Set Monday 9am-12pm (slots 0-5) and Wednesday 10am-2pm (slots 2-7)
+          newGrid[0][0] = true // Monday 9am
+          newGrid[0][1] = true // Monday 9:30am
+          newGrid[2][2] = true // Wednesday 10am
+          newGrid[2][3] = true // Wednesday 10:30am
+          setButtonStates(newGrid)
+          handleSubmit()
         }}
       >
         Save Availability
       </button>
       <button 
         onClick={() => {
-          // Test with empty schedule
-          const emptySchedule = {
-            Monday: [], Tuesday: [], Wednesday: [], Thursday: [],
-            Friday: [], Saturday: [], Sunday: []
-          }
-          onSubmit(emptySchedule)
+          // Test with empty grid
+          const emptyGrid = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
+          setButtonStates(emptyGrid)
+          handleSubmit()
         }}
       >
         Clear Availability
@@ -41,304 +42,255 @@ vi.mock('../../components/CalendarHandler', () => ({
   )
 }))
 
+interface MockDialogContentProps {
+  children: React.ReactNode
+  className?: string
+}
+
 vi.mock('../../components/ui/dialog', () => ({
-  Dialog: ({ children, open }: any) => open ? <div data-testid="dialog">{children}</div> : null,
-  DialogContent: ({ children, className }: any) => (
+  DialogContent: ({ children, className }: MockDialogContentProps) => (
     <div data-testid="dialog-content" className={className}>{children}</div>
   ),
-  DialogDescription: ({ children }: any) => <div>{children}</div>,
-  DialogHeader: ({ children }: any) => <div>{children}</div>,
-  DialogTitle: ({ children }: any) => <h2>{children}</h2>,
-  DialogTrigger: ({ children, asChild }: any) => <div>{children}</div>,
 }))
 
 // Mock lib/utils
-vi.mock('lib/utils', async (importOriginal) => {
-  const actual = await importOriginal()
+vi.mock('lib/utils', () => {
   return {
-    ...actual,
-    cn: (...inputs: any[]) => inputs.join(' '), // Mock cn function
+    cn: (...inputs: unknown[]) => inputs.join(' '), // Mock cn function
   }
 })
 
 describe('SetAvailabilityDialog Component', () => {
-  const mockHandleEvent = vi.fn()
-  const mockSetEditAvailability = vi.fn()
+  const mockHandleSubmit = vi.fn()
+  const mockSetMyAvailability = vi.fn()
   
-  const defaultAvailability: Schedule = {
-    Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 12, minute: 0 } }],
-    Tuesday: [],
-    Wednesday: [],
-    Thursday: [],
-    Friday: [],
-    Saturday: [],
-    Sunday: []
-  }
+  const defaultAvailability = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
+  // Set Monday 9am slot (index 0,0)
+  defaultAvailability[0][0] = true
 
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  test('renders trigger button with correct icon and text', () => {
+  test('renders dialog content with calendar handler', () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    const button = screen.getByRole('button', { name: /set availability/i })
-    expect(button).toBeInTheDocument()
-    expect(button).toHaveClass('hover:bg-accent')
+    const dialogContent = screen.getByTestId('dialog-content')
+    expect(dialogContent).toBeInTheDocument()
+    expect(dialogContent).toHaveClass('min-w-[80vw]')
+    expect(dialogContent).toHaveClass('max-h-[90vh]')
   })
 
-  test('opens dialog when trigger button is clicked', async () => {
+  test('renders calendar handler within dialog content', () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    // Dialog should not be visible initially
-    expect(screen.queryByTestId('dialog')).not.toBeInTheDocument()
-
-    // Click trigger button
-    const triggerButton = screen.getByRole('button', { name: /set availability/i })
-    fireEvent.click(triggerButton)
-
-    // Dialog should now be visible
-    await waitFor(() => {
-      expect(screen.getByTestId('dialog')).toBeInTheDocument()
-    })
+    // Calendar handler should be visible
+    const calendarHandler = screen.getByTestId('calendar-handler')
+    expect(calendarHandler).toBeInTheDocument()
+    
+    // Should have Save and Clear buttons
+    expect(screen.getByText('Save Availability')).toBeInTheDocument()
+    expect(screen.getByText('Clear Availability')).toBeInTheDocument()
   })
 
-  test('displays dialog header and description', async () => {
+  test('passes correct props to CalendarHandler', () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
-
-    await waitFor(() => {
-      expect(screen.getByText('Set Your Availability')).toBeInTheDocument()
-      expect(screen.getByText(/click on the calendar to select your available time slots/i)).toBeInTheDocument()
-    })
+    // Check that current schedule is passed to CalendarHandler
+    const scheduleDisplay = screen.getByTestId('current-schedule')
+    expect(scheduleDisplay).toBeInTheDocument()
+    
+    // Should contain the grid data
+    const scheduleData = scheduleDisplay.textContent ?? ''
+    expect(scheduleData).toContain('true') // Monday 9am slot should be true
   })
 
-  test('renders CalendarHandler with current availability', async () => {
+  test('renders CalendarHandler with current availability grid', () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
-
-    await waitFor(() => {
-      const calendarHandler = screen.getByTestId('calendar-handler')
-      expect(calendarHandler).toBeInTheDocument()
-      
-      // Check that current schedule is passed to CalendarHandler
-      const scheduleDisplay = screen.getByTestId('current-schedule')
-      expect(scheduleDisplay.textContent).toContain('Monday')
-      expect(scheduleDisplay.textContent).toContain('"hour":9')
-      expect(scheduleDisplay.textContent).toContain('"hour":12')
-    })
+    const calendarHandler = screen.getByTestId('calendar-handler')
+    expect(calendarHandler).toBeInTheDocument()
+    
+    // Check that current schedule grid is passed to CalendarHandler
+    const scheduleDisplay = screen.getByTestId('current-schedule')
+    const scheduleData = scheduleDisplay.textContent ?? ''
+    expect(scheduleData).toContain('[') // Should contain array structure
+    expect(scheduleData).toContain('true') // Should contain the set availability
   })
 
   test('updates availability when calendar is submitted', async () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
+    const saveButton = screen.getByText('Save Availability')
+    fireEvent.click(saveButton)
 
+    // Verify setMyAvailability was called with new grid
     await waitFor(() => {
-      const saveButton = screen.getByText('Save Availability')
-      fireEvent.click(saveButton)
+      expect(mockSetMyAvailability).toHaveBeenCalled()
+      const callArgs = mockSetMyAvailability.mock.calls[0]?.[0] as boolean[][]
+      expect(Array.isArray(callArgs)).toBe(true)
+      expect(callArgs.length).toBe(7) // 7 days
+      expect(Array.isArray(callArgs[0])).toBe(true)
+      expect(callArgs[0]?.length).toBe(24) // 24 half-hour slots
     })
 
-    // Verify setEditAvailability was called with new schedule
-    await waitFor(() => {
-      expect(mockSetEditAvailability).toHaveBeenCalledWith({
-        Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
-        Tuesday: [],
-        Wednesday: [{ start: { hour: 10, minute: 0 }, end: { hour: 14, minute: 0 } }],
-        Thursday: [],
-        Friday: [],
-        Saturday: [],
-        Sunday: []
-      })
-    })
-
-    // Verify event was triggered
-    expect(mockHandleEvent).toHaveBeenCalledWith('availability')
+    // Verify handleSubmit was called
+    expect(mockHandleSubmit).toHaveBeenCalled()
   })
 
   test('handles empty availability submission', async () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
+    const clearButton = screen.getByText('Clear Availability')
+    fireEvent.click(clearButton)
 
+    // Should call setMyAvailability with empty grid
     await waitFor(() => {
-      const clearButton = screen.getByText('Clear Availability')
-      fireEvent.click(clearButton)
+      expect(mockSetMyAvailability).toHaveBeenCalled()
+      const callArgs = mockSetMyAvailability.mock.calls[0]?.[0] as boolean[][]
+      expect(Array.isArray(callArgs)).toBe(true)
+      expect(callArgs.length).toBe(7) // 7 days
+      // Check that all slots are false
+      const allFalse = callArgs.every((day: boolean[]) => 
+        day.every((slot: boolean) => slot === false)
+      )
+      expect(allFalse).toBe(true)
     })
 
-    // Should still call setEditAvailability even with empty schedule
-    await waitFor(() => {
-      expect(mockSetEditAvailability).toHaveBeenCalledWith({
-        Monday: [], Tuesday: [], Wednesday: [], Thursday: [],
-        Friday: [], Saturday: [], Sunday: []
-      })
-    })
-
-    expect(mockHandleEvent).toHaveBeenCalledWith('availability')
+    expect(mockHandleSubmit).toHaveBeenCalled()
   })
 
-  test('dialog has correct max width class', async () => {
+  test('dialog has correct styling classes', () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
-
-    await waitFor(() => {
-      const dialogContent = screen.getByTestId('dialog-content')
-      expect(dialogContent).toHaveClass('max-w-3xl')
-    })
+    const dialogContent = screen.getByTestId('dialog-content')
+    expect(dialogContent).toHaveClass('min-w-[80vw]')
+    expect(dialogContent).toHaveClass('max-h-[90vh]')
   })
 
-  test('maintains state between dialog open/close', async () => {
+  test('maintains state when props are updated', () => {
     const { rerender } = render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    // Open dialog
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
-
     // Save new availability
-    await waitFor(() => {
-      fireEvent.click(screen.getByText('Save Availability'))
-    })
+    fireEvent.click(screen.getByText('Save Availability'))
 
-    // Update props with new availability
-    const newAvailability = {
-      Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
-      Tuesday: [],
-      Wednesday: [{ start: { hour: 10, minute: 0 }, end: { hour: 14, minute: 0 } }],
-      Thursday: [],
-      Friday: [],
-      Saturday: [],
-      Sunday: []
-    }
+    // Update props with new availability grid
+    const newAvailability = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
+    newAvailability[0][2] = true // Monday 10am
+    newAvailability[2][4] = true // Wednesday 11am
 
     rerender(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={newAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={newAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    // Open dialog again
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
-
     // Should show updated availability
-    await waitFor(() => {
-      const scheduleDisplay = screen.getByTestId('current-schedule')
-      expect(scheduleDisplay.textContent).toContain('"hour":17')
-      expect(scheduleDisplay.textContent).toContain('Wednesday')
-    })
+    const scheduleDisplay = screen.getByTestId('current-schedule')
+    const scheduleData = scheduleDisplay.textContent ?? ''
+    expect(scheduleData).toContain('true') // Should contain the updated slots
   })
 
   test('handles rapid submit clicks gracefully', async () => {
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={defaultAvailability}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={defaultAvailability}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
+    const saveButton = screen.getByText('Save Availability')
+    // Click multiple times rapidly
+    fireEvent.click(saveButton)
+    fireEvent.click(saveButton)
+    fireEvent.click(saveButton)
 
+    // Should call handlers for each click
     await waitFor(() => {
-      const saveButton = screen.getByText('Save Availability')
-      // Click multiple times rapidly
-      fireEvent.click(saveButton)
-      fireEvent.click(saveButton)
-      fireEvent.click(saveButton)
-    })
-
-    // Should only call handlers once per submit
-    await waitFor(() => {
-      expect(mockSetEditAvailability).toHaveBeenCalledTimes(3)
-      expect(mockHandleEvent).toHaveBeenCalledTimes(3)
+      expect(mockSetMyAvailability).toHaveBeenCalledTimes(3)
+      expect(mockHandleSubmit).toHaveBeenCalledTimes(3)
     })
   })
 
-  test('preserves existing schedule when reopening dialog', async () => {
-    const complexSchedule: Schedule = {
-      Monday: [
-        { start: { hour: 9, minute: 0 }, end: { hour: 12, minute: 0 } },
-        { start: { hour: 14, minute: 0 }, end: { hour: 17, minute: 0 } }
-      ],
-      Tuesday: [{ start: { hour: 10, minute: 30 }, end: { hour: 15, minute: 30 } }],
-      Wednesday: [],
-      Thursday: [{ start: { hour: 11, minute: 0 }, end: { hour: 13, minute: 0 } }],
-      Friday: [],
-      Saturday: [],
-      Sunday: []
-    }
+  test('preserves existing schedule grid when rendering', () => {
+    const complexSchedule = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
+    // Monday 9am-12pm and 2pm-5pm
+    complexSchedule[0][0] = true // 9am
+    complexSchedule[0][1] = true // 9:30am
+    complexSchedule[0][10] = true // 2pm
+    complexSchedule[0][11] = true // 2:30pm
+    // Tuesday 10:30am-3:30pm
+    complexSchedule[1][3] = true // 10:30am
+    complexSchedule[1][4] = true // 11am
+    // Thursday 11am-1pm
+    complexSchedule[3][4] = true // 11am
+    complexSchedule[3][5] = true // 11:30am
 
     render(
       <SetAvailabilityDialog 
-        handleEvent={mockHandleEvent}
-        editAvailability={complexSchedule}
-        setEditAvailability={mockSetEditAvailability}
+        handleSubmit={mockHandleSubmit}
+        myAvailability={complexSchedule}
+        setMyAvailability={mockSetMyAvailability}
       />
     )
 
-    fireEvent.click(screen.getByRole('button', { name: /set availability/i }))
-
-    await waitFor(() => {
-      const scheduleDisplay = screen.getByTestId('current-schedule')
-      const scheduleData = scheduleDisplay.textContent || ''
-      
-      // Verify all time blocks are preserved
-      expect(scheduleData).toContain('Monday')
-      expect(scheduleData).toContain('Tuesday')
-      expect(scheduleData).toContain('Thursday')
-      expect(scheduleData).toContain('"hour":14')
-      expect(scheduleData).toContain('"minute":30')
-    })
+    const scheduleDisplay = screen.getByTestId('current-schedule')
+    const scheduleData = scheduleDisplay.textContent ?? ''
+    
+    // Verify the grid structure is preserved
+    expect(scheduleData).toContain('[') // Array structure
+    expect(scheduleData).toContain('true') // Has some availability set
+    expect(scheduleData).toContain('false') // Has some slots empty
   })
 })

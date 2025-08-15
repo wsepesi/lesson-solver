@@ -8,10 +8,14 @@ vi.mock('lib/utils', async (importOriginal) => {
   const actual = await importOriginal()
   return {
     ...actual,
-    cn: (...inputs: any[]) => inputs.join(' '), // Mock cn function
+    cn: (...inputs: string[]) => inputs.join(' '), // Mock cn function
     blockOfTimeToSchedule: (interval: BlockOfTime) => {
       // Mock implementation that converts BlockOfTime to Schedule format
-      const day = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][interval.start.i]
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const
+      const day = days[interval.start.i as number]
+      if (!day) {
+        throw new Error(`Invalid day index: ${interval.start.i}`)
+      }
       return {
         [day]: [{
           start: { 
@@ -25,15 +29,20 @@ vi.mock('lib/utils', async (importOriginal) => {
         }]
       }
     }
-  }
+  } as Record<string, unknown>
 })
 
+interface MockTimeObject {
+  start: { hour: number; minute: number }
+  end: { hour: number; minute: number }
+}
+
 vi.mock('lib/types', () => ({
-  blockOfTimeToString: (time: any) => {
+  blockOfTimeToString: (time: MockTimeObject) => {
     // Mock implementation that formats time
-    const formatTime = (h: number, m: number) => {
+    const formatTime = (h: number, m: number): string => {
       const hour = h > 12 ? h - 12 : h
-      const minute = m === 0 ? '00' : m
+      const minute = m === 0 ? '00' : m.toString()
       const ampm = h >= 12 ? 'PM' : 'AM'
       return `${hour}:${minute} ${ampm}`
     }
@@ -165,16 +174,22 @@ describe('ResultsTable Component', () => {
     // Check table positioning classes
     const table = container.querySelector('.mx-\\[25vw\\]')
     expect(table).toBeInTheDocument()
-    expect(table).toHaveClass('max-w-[50vw]')
-    expect(table).toHaveClass('my-[25vh]')
+    if (table) {
+      expect(table).toHaveClass('max-w-[50vw]')
+      expect(table).toHaveClass('my-[25vh]')
+    }
 
     // Check header width class
     const nameHeader = screen.getByText('Name').closest('th')
-    expect(nameHeader).toHaveClass('w-[100px]')
+    if (nameHeader) {
+      expect(nameHeader).toHaveClass('w-[100px]')
+    }
 
     // Check text alignment
     const timeHeader = screen.getByText('Time').closest('th')
-    expect(timeHeader).toHaveClass('text-right')
+    if (timeHeader) {
+      expect(timeHeader).toHaveClass('text-right')
+    }
   })
 
   test('renders time cells with right alignment', () => {
@@ -182,7 +197,10 @@ describe('ResultsTable Component', () => {
 
     const timeCells = screen.getAllByText(/\d+:\d+ [AP]M - \d+:\d+ [AP]M/)
     timeCells.forEach(cell => {
-      expect(cell.closest('td')).toHaveClass('text-right')
+      const tableCell = cell.closest('td')
+      if (tableCell) {
+        expect(tableCell).toHaveClass('text-right')
+      }
     })
   })
 
@@ -237,9 +255,8 @@ describe('ResultsTable Component', () => {
   })
 
   test('handles different days of the week', () => {
-    const allDays: Scheduled[] = [
-      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-    ].map((day, index) => ({
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const
+    const allDays: Scheduled[] = dayNames.map((day, index) => ({
       student: {
         student: { name: `${day} Student`, email: `${day.toLowerCase()}@test.com`, lessonLength: 30 },
         schedule: {
@@ -254,7 +271,7 @@ describe('ResultsTable Component', () => {
     render(<ResultsTable scheduled={allDays} />)
 
     // Verify all days are displayed
-    ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].forEach(day => {
+    dayNames.forEach((day: string) => {
       expect(screen.getByText(day)).toBeInTheDocument()
       expect(screen.getByText(`${day} Student`)).toBeInTheDocument()
     })

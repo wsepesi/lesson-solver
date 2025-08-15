@@ -55,9 +55,7 @@ export const blockOfTimeToString = (block: BlockOfTime) => {
 
 export type Day = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
 
-export type Schedule = {
-    [day in Day]?: BlockOfTime[];
-}
+export type Schedule = Record<Day, BlockOfTime[] | undefined>
 
 // export type LessonLength = "30" | "60"
 export type LessonLength = 30 | 60

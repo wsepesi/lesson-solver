@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { students, studios } from '../../../lib/schema'
 import { Time, type Schedule } from '../../../lib/types'
 
@@ -79,7 +79,7 @@ describe('Database Integration', () => {
           Friday: [],
           Saturday: [],
           Sunday: []
-        } as Schedule,
+        } satisfies Schedule,
         events: [
           {
             id: '1',
@@ -113,7 +113,7 @@ describe('Database Integration', () => {
           Friday: [],
           Saturday: [],
           Sunday: []
-        } as Schedule,
+        } satisfies Schedule,
         lesson_length: '30' as const
       }
 
@@ -345,8 +345,8 @@ describe('Database Integration', () => {
       expect(() => JSON.stringify(eventsJson)).not.toThrow()
 
       // STEP 3: Verify deserialization works
-      const parsedSchedule = JSON.parse(JSON.stringify(scheduleJson))
-      const parsedEvents = JSON.parse(JSON.stringify(eventsJson))
+      const parsedSchedule = JSON.parse(JSON.stringify(scheduleJson)) as typeof scheduleJson
+      const parsedEvents = JSON.parse(JSON.stringify(eventsJson)) as typeof eventsJson
       
       expect(parsedSchedule).toEqual(scheduleJson)
       expect(parsedEvents).toEqual(eventsJson)

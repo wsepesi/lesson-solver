@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -7,13 +9,12 @@ import * as z from "zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { type UseFormReturn, useForm } from "react-hook-form"
 
-import { Badge } from "./ui/badge"
 import { Input } from "./ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Cross2Icon } from "@radix-ui/react-icons"
 
 const FormSchema = z.object({
-  email: z.string().email(),
+  email: z.string().trim().email(),
 })
 
 type Props = {
@@ -48,15 +49,16 @@ export default function EmailsInput(props: Props) {
                     <FormLabel>Emails</FormLabel>
                     <div className="flex flex-row">
                         {emails.map((email) => (
-                            <Badge 
-                                key={email} 
-                                className="mr-2 my-2 hover:cursor-pointer" 
+                            <button
+                                key={email}
+                                type="button"
+                                className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80 mr-2 my-2 hover:cursor-pointer"
                                 onClick={() => {
                                     setEmails(emails.filter((e) => e !== email))
                                 }}
                             >
                                 {email} <Cross2Icon className="ml-1" />
-                                </Badge>
+                            </button>
                             ))}
                     </div>
                 </div>

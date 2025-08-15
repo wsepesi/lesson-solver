@@ -1,0 +1,37 @@
+
+> lesson-solver@0.1.0 build /Users/wsepesi/lib/lesson-solver
+> next build
+
+   ▲ Next.js 15.3.4
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ⚠ Compiled with warnings in 0ms
+
+./node_modules/.pnpm/@supabase+realtime-js@2.11.10/node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/.pnpm/@supabase+realtime-js@2.11.10/node_modules/@supabase/realtime-js/dist/main/RealtimeClient.js
+./node_modules/.pnpm/@supabase+realtime-js@2.11.10/node_modules/@supabase/realtime-js/dist/main/index.js
+./node_modules/.pnpm/@supabase+supabase-js@2.50.0/node_modules/@supabase/supabase-js/dist/module/index.js
+./node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.50.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+./node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.50.0/node_modules/@supabase/ssr/dist/module/index.js
+./src/app/(protected)/studios/layout.tsx
+
+ ✓ Compiled successfully in 0ms
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/hooks/useScheduleDemo.tsx:54:7
+Type error: Object is possibly 'undefined'.
+
+[0m [90m 52 |[39m       [36mif[39m ([33m![39mprev) [36mreturn[39m createEmptyWeekSchedule()[33m;[39m[0m
+[0m [90m 53 |[39m       [36mconst[39m newSchedule [33m=[39m cloneWeekSchedule(prev)[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 54 |[39m       newSchedule[33m.[39mdays[dayIndex][33m.[39mblocks [33m=[39m [][33m;[39m[0m
+[0m [90m    |[39m       [31m[1m^[22m[39m[0m
+[0m [90m 55 |[39m       [36mreturn[39m newSchedule[33m;[39m[0m
+[0m [90m 56 |[39m     })[33m;[39m[0m
+[0m [90m 57 |[39m   }[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null
+ ELIFECYCLE  Command failed with exit code 1.

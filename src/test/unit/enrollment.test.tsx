@@ -2,7 +2,6 @@ import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../test/utils'
 import userEvent from '@testing-library/user-event'
 import { Enrollment } from '../../components/enrollment'
-import type { OnboardingState } from '../../pages/enroll'
 import type { StudioSchema } from 'lib/schema'
 
 // Mock Supabase client
@@ -17,8 +16,8 @@ vi.mock('@supabase/auth-helpers-react', () => ({
 }))
 
 // Mock console methods
-vi.spyOn(console, 'log').mockImplementation(() => {})
-vi.spyOn(window, 'alert').mockImplementation(() => {})
+vi.spyOn(console, 'log').mockImplementation(() => { /* no-op */ })
+vi.spyOn(window, 'alert').mockImplementation(() => { /* no-op */ })
 
 describe('Enrollment Component', () => {
   const mockSetFormData = vi.fn()
@@ -31,9 +30,10 @@ describe('Enrollment Component', () => {
     user_id: 'user-123',
     studio_name: 'Test Music Studio',
     code: 'ABC12',
-    students_have_schedules: false,
-    schedule: null,
-    created_at: '2024-01-01'
+    owner_schedule: {
+      Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
+    },
+    events: null
   }
 
   beforeEach(() => {
@@ -294,6 +294,8 @@ describe('Enrollment Component', () => {
 
     // Test very long names (over 50 characters)
     const longName = 'A'.repeat(51)
+    await user.clear(screen.getByLabelText('First Name'))
+    await user.clear(screen.getByLabelText('Last Name'))
     await user.type(screen.getByLabelText('First Name'), longName)
     await user.type(screen.getByLabelText('Last Name'), longName)
 

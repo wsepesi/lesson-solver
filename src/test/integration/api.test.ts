@@ -1,5 +1,60 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { type NextApiRequest, type NextApiResponse } from 'next'
+
+// Type definitions for test data
+interface TimeSlot {
+  hour: number
+  minute: number
+}
+
+interface BlockOfTime {
+  start: TimeSlot
+  end: TimeSlot
+}
+
+interface Schedule {
+  Monday: BlockOfTime[]
+  Tuesday: BlockOfTime[]
+  Wednesday: BlockOfTime[]
+  Thursday: BlockOfTime[]
+  Friday: BlockOfTime[]
+  Saturday: BlockOfTime[]
+  Sunday: BlockOfTime[]
+}
+
+interface SignupRequestBody {
+  email: string
+  password: string
+}
+
+interface LoginRequestBody {
+  email: string
+  password: string
+}
+
+interface StudioCreationBody {
+  studio_name: string
+  user_id: string
+  owner_schedule: Schedule
+}
+
+interface StudentEnrollmentBody {
+  email: string
+  first_name: string
+  last_name: string
+  studio_code: string
+  lesson_length: string
+}
+
+interface ScheduleUpdateBody {
+  schedule: Schedule
+}
+
+interface ValidationTestBody {
+  email: string
+  studio_name: string
+  lesson_length: string
+}
 
 /**
  * API Route Integration Tests
@@ -61,7 +116,7 @@ describe('API Route Integration', () => {
   })
 
   describe('Authentication Flow Tests', () => {
-    test('should handle user signup request', async () => {
+    test('should handle user signup request', () => {
       // STEP 1: Mock signup request
       mockReq.method = 'POST'
       mockReq.body = {
@@ -79,8 +134,9 @@ describe('API Route Integration', () => {
       })
 
       // STEP 3: Verify signup data structure
-      expect(mockReq.body.email).toContain('@')
-      expect(mockReq.body.password).toHaveLength(17)
+      const signupBody = mockReq.body as SignupRequestBody
+      expect(signupBody.email).toContain('@')
+      expect(signupBody.password).toHaveLength(17)
       
       // STEP 4: Verify response would contain user data
       const expectedResponse = {
@@ -91,7 +147,7 @@ describe('API Route Integration', () => {
       expect(expectedResponse.session.access_token).toBeDefined()
     })
 
-    test('should handle user login request', async () => {
+    test('should handle user login request', () => {
       // STEP 1: Mock login request
       mockReq.method = 'POST'
       mockReq.body = {
@@ -109,8 +165,9 @@ describe('API Route Integration', () => {
       })
 
       // STEP 3: Verify login credentials format
-      expect(mockReq.body.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
-      expect(mockReq.body.password).toHaveLength(17)
+      const loginBody = mockReq.body as LoginRequestBody
+      expect(loginBody.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+      expect(loginBody.password).toHaveLength(17)
 
       // STEP 4: Verify session structure
       const mockSession = {
@@ -121,7 +178,7 @@ describe('API Route Integration', () => {
       expect(mockSession.refresh_token).toBeDefined()
     })
 
-    test('should handle logout request', async () => {
+    test('should handle logout request', () => {
       // STEP 1: Mock logout request with authorization header
       mockReq.method = 'POST'
       mockReq.headers = {
@@ -141,7 +198,7 @@ describe('API Route Integration', () => {
       expect(logoutResponse.success).toBe(true)
     })
 
-    test('should handle authentication errors', async () => {
+    test('should handle authentication errors', () => {
       // STEP 1: Mock invalid login request
       mockReq.method = 'POST'
       mockReq.body = {
@@ -164,7 +221,7 @@ describe('API Route Integration', () => {
       expect(errorResponse.status).toBe(401)
     })
 
-    test('should validate session tokens', async () => {
+    test('should validate session tokens', () => {
       // STEP 1: Mock request with session token
       mockReq.headers = {
         authorization: 'Bearer valid-token-123'
@@ -192,7 +249,7 @@ describe('API Route Integration', () => {
   })
 
   describe('Data Validation Tests', () => {
-    test('should validate studio creation data', async () => {
+    test('should validate studio creation data', () => {
       // STEP 1: Mock studio creation request
       mockReq.method = 'POST'
       mockReq.body = {
@@ -210,20 +267,22 @@ describe('API Route Integration', () => {
       }
 
       // STEP 2: Validate required fields
-      expect(mockReq.body.studio_name).toBeDefined()
-      expect(mockReq.body.user_id).toBeDefined()
-      expect(mockReq.body.owner_schedule).toBeDefined()
+      const studioBody = mockReq.body as StudioCreationBody
+      expect(studioBody.studio_name).toBeDefined()
+      expect(studioBody.user_id).toBeDefined()
+      expect(studioBody.owner_schedule).toBeDefined()
 
       // STEP 3: Validate studio name format
-      expect(mockReq.body.studio_name).toHaveLength(17)
-      expect(mockReq.body.studio_name).not.toContain('<script>')
+      expect(studioBody.studio_name).toHaveLength(17)
+      expect(studioBody.studio_name).not.toContain('<script>')
+      expect(studioBody.studio_name.length).toBeLessThanOrEqual(50)
 
       // STEP 4: Validate schedule structure
-      expect(mockReq.body.owner_schedule).toHaveProperty('Monday')
-      expect(Array.isArray(mockReq.body.owner_schedule.Monday)).toBe(true)
+      expect(studioBody.owner_schedule).toHaveProperty('Monday')
+      expect(Array.isArray(studioBody.owner_schedule.Monday)).toBe(true)
     })
 
-    test('should validate student enrollment data', async () => {
+    test('should validate student enrollment data', () => {
       // STEP 1: Mock student enrollment request
       mockReq.method = 'POST'
       mockReq.body = {
@@ -235,23 +294,28 @@ describe('API Route Integration', () => {
       }
 
       // STEP 2: Validate email format
-      expect(mockReq.body.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+      const enrollmentBody = mockReq.body as StudentEnrollmentBody
+      expect(enrollmentBody.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
 
       // STEP 3: Validate name fields
-      expect(mockReq.body.first_name).toHaveLength(4)
-      expect(mockReq.body.last_name).toHaveLength(3)
-      expect(mockReq.body.first_name).toMatch(/^[A-Za-z]+$/)
-      expect(mockReq.body.last_name).toMatch(/^[A-Za-z]+$/)
+      expect(enrollmentBody.first_name).toHaveLength(4)
+      expect(enrollmentBody.last_name).toHaveLength(3)
+      expect(enrollmentBody.first_name).toMatch(/^[A-Za-z]+$/)
+      expect(enrollmentBody.last_name).toMatch(/^[A-Za-z]+$/)
+      expect(enrollmentBody.first_name.length).toBeGreaterThanOrEqual(1)
+      expect(enrollmentBody.first_name.length).toBeLessThanOrEqual(50)
+      expect(enrollmentBody.last_name.length).toBeGreaterThanOrEqual(1)
+      expect(enrollmentBody.last_name.length).toBeLessThanOrEqual(50)
 
       // STEP 4: Validate studio code format
-      expect(mockReq.body.studio_code).toHaveLength(5)
-      expect(mockReq.body.studio_code).toMatch(/^[A-Z0-9]+$/)
+      expect(enrollmentBody.studio_code).toHaveLength(5)
+      expect(enrollmentBody.studio_code).toMatch(/^[A-Z0-9]+$/)
 
       // STEP 5: Validate lesson length
-      expect(['30', '60']).toContain(mockReq.body.lesson_length)
+      expect(['30', '60']).toContain(enrollmentBody.lesson_length)
     })
 
-    test('should validate schedule update data', async () => {
+    test('should validate schedule update data', () => {
       // STEP 1: Mock schedule update request
       mockReq.method = 'PUT'
       mockReq.body = {
@@ -270,13 +334,14 @@ describe('API Route Integration', () => {
       }
 
       // STEP 2: Validate schedule structure
-      const schedule = mockReq.body.schedule
+      const scheduleBody = mockReq.body as ScheduleUpdateBody
+      const schedule = scheduleBody.schedule
       expect(schedule).toHaveProperty('Monday')
       expect(schedule).toHaveProperty('Sunday')
       expect(Object.keys(schedule)).toHaveLength(7)
 
       // STEP 3: Validate time blocks
-      schedule.Monday.forEach((block: any) => {
+      schedule.Monday.forEach((block: BlockOfTime) => {
         expect(block).toHaveProperty('start')
         expect(block).toHaveProperty('end')
         expect(block.start.hour).toBeGreaterThanOrEqual(0)
@@ -286,7 +351,7 @@ describe('API Route Integration', () => {
       })
     })
 
-    test('should reject invalid data formats', async () => {
+    test('should reject invalid data formats', () => {
       // STEP 1: Mock request with invalid email
       mockReq.body = {
         email: 'invalid-email',
@@ -295,13 +360,14 @@ describe('API Route Integration', () => {
       }
 
       // STEP 2: Validate rejection of invalid email
-      expect(mockReq.body.email).not.toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+      const validationBody = mockReq.body as ValidationTestBody
+      expect(validationBody.email).not.toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
 
       // STEP 3: Validate rejection of empty studio name
-      expect(mockReq.body.studio_name).toHaveLength(0)
+      expect(validationBody.studio_name).toHaveLength(0)
 
       // STEP 4: Validate rejection of invalid lesson length
-      expect(['30', '60']).not.toContain(mockReq.body.lesson_length)
+      expect(['30', '60']).not.toContain(validationBody.lesson_length)
 
       // STEP 5: Expected validation errors
       const validationErrors = [
@@ -314,7 +380,7 @@ describe('API Route Integration', () => {
   })
 
   describe('Error Handling Tests', () => {
-    test('should handle method not allowed errors', async () => {
+    test('should handle method not allowed errors', () => {
       // STEP 1: Mock invalid HTTP method
       mockReq.method = 'DELETE'
 
@@ -326,7 +392,7 @@ describe('API Route Integration', () => {
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Method not allowed' })
     })
 
-    test('should handle missing authentication errors', async () => {
+    test('should handle missing authentication errors', () => {
       // STEP 1: Mock request without authorization header
       mockReq.method = 'POST'
       mockReq.headers = {} // No authorization header
@@ -342,7 +408,7 @@ describe('API Route Integration', () => {
       expect(authError.status).toBe(401)
     })
 
-    test('should handle database connection errors', async () => {
+    test('should handle database connection errors', () => {
       // STEP 1: Mock database error
       mockSupabaseClient.from().select().eq().single.mockRejectedValue(
         new Error('Database connection failed')
@@ -360,7 +426,7 @@ describe('API Route Integration', () => {
       expect(dbError.error).toBe('Internal server error')
     })
 
-    test('should handle validation errors with details', async () => {
+    test('should handle validation errors with details', () => {
       // STEP 1: Mock request with multiple validation issues
       mockReq.body = {
         email: 'invalid',
@@ -385,7 +451,7 @@ describe('API Route Integration', () => {
       expect(validationError.details[0].field).toBe('email')
     })
 
-    test('should handle rate limiting errors', async () => {
+    test('should handle rate limiting errors', () => {
       // STEP 1: Mock rate limit exceeded scenario
       const rateLimitError = {
         error: 'Too many requests',
@@ -400,7 +466,7 @@ describe('API Route Integration', () => {
   })
 
   describe('Response Format Tests', () => {
-    test('should return consistent success response format', async () => {
+    test('should return consistent success response format', () => {
       // STEP 1: Mock successful API response
       const successResponse = {
         success: true,
@@ -418,7 +484,7 @@ describe('API Route Integration', () => {
       expect(successResponse.timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
     })
 
-    test('should return consistent error response format', async () => {
+    test('should return consistent error response format', () => {
       // STEP 1: Mock error API response
       const errorResponse = {
         success: false,
@@ -434,7 +500,7 @@ describe('API Route Integration', () => {
       expect(errorResponse.timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
     })
 
-    test('should return paginated data correctly', async () => {
+    test('should return paginated data correctly', () => {
       // STEP 1: Mock paginated response
       const paginatedResponse = {
         success: true,
@@ -458,7 +524,7 @@ describe('API Route Integration', () => {
       expect(paginatedResponse.pagination.hasNext).toBe(true)
     })
 
-    test('should return proper HTTP status codes', async () => {
+    test('should return proper HTTP status codes', () => {
       // STEP 1: Define status code mappings
       const statusCodes = {
         success: 200,
@@ -480,7 +546,7 @@ describe('API Route Integration', () => {
       expect(statusCodes.internalError).toBe(500)
     })
 
-    test('should include proper CORS headers', async () => {
+    test('should include proper CORS headers', () => {
       // STEP 1: Mock CORS headers
       const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
@@ -497,7 +563,7 @@ describe('API Route Integration', () => {
   })
 
   describe('API Integration Readiness', () => {
-    test('should be ready for Next.js API routes', async () => {
+    test('should be ready for Next.js API routes', () => {
       // STEP 1: Verify Next.js types are available
       expect(typeof mockReq).toBe('object')
       expect(typeof mockRes).toBe('object')
@@ -507,7 +573,7 @@ describe('API Route Integration', () => {
       expect(mockRes.json).toBeDefined()
     })
 
-    test('should be ready for Supabase integration', async () => {
+    test('should be ready for Supabase integration', () => {
       // STEP 1: Verify Supabase client structure
       expect(mockSupabaseClient.auth).toBeDefined()
       expect(mockSupabaseClient.from).toBeDefined()

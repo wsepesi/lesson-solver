@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardTitle } from "src/components/ui
 
 import { Badge } from "src/components/ui/badge"
 import Link from "next/link";
-import { type StudioWithStudents } from "~/pages/studios";
+import { type StudioWithStudents } from "@/app/(protected)/studios/page";
 
 type Props = {
     studio: StudioWithStudents
@@ -25,9 +25,9 @@ export default function StudioCard(props: Props) {
     const numEnrolled = props.studio.students.length
     const progress: Progress = determineProgress(props.studio)
     return (
-        <Card className="cursor-pointer">
-            <Link href={`/studios/${code}`}>
-                <CardContent className="grid gap-2 p-4  hover:bg-gray-100">
+        <Link href={`/studios/${code}`}>
+            <Card className="cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-gray-50">
+                <CardContent className="grid gap-2 p-4">
                     <CardTitle>{studio_name}</CardTitle>
                     <CardDescription>Students Enrolled: {numEnrolled}</CardDescription>
                     <CardDescription>Studio Code: {code}</CardDescription>
@@ -35,7 +35,7 @@ export default function StudioCard(props: Props) {
                         <Badge variant="outline">{progress}</Badge>
                     </div>
                 </CardContent>
-            </Link>
-        </Card>
+            </Card>
+        </Link>
     )
 }

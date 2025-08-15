@@ -1,4 +1,7 @@
+"use client";
+
 import * as React from "react"
+import { useState } from "react"
 
 import {
   Card,
@@ -7,22 +10,24 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card"
+} from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 import type { StudentInsertSchema, StudioSchema } from "lib/schema"
-import { buttonStatesToText, buttonsToSchedule } from "lib/utils"
-
-import { Button } from "~/components/ui/button"
-import type { FormSchema } from "./enrollment"
-import { Label } from "~/components/ui/label"
-import type { LessonLength } from "lib/types"
-import type { OnboardingState } from "~/pages/enroll"
 import { formatter } from "./CardWithSubmit"
+
+import { Button } from "@/components/ui/button"
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
+import type { FormSchema } from "./enrollment"
+import { Label } from "@/components/ui/label"
+import type { LessonLength } from "lib/types"
+import type { OnboardingState } from "@/app/enroll/page"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { useToast } from "./ui/use-toast"
+import type { WeekSchedule } from "lib/scheduling/types"
+import { weekScheduleToLegacySchedule, formatWeekScheduleDisplay } from "lib/scheduling/utils"
 
 type Props = {
-    buttonStates: boolean[][]
+    schedule: WeekSchedule
     minutes: LessonLength
     setMinutes: (minutes: LessonLength) => void
     setState: (state: OnboardingState) => void
@@ -36,31 +41,62 @@ export function OnboardStudentCard(props: Props) {
     const sb = useSupabaseClient()
     const { minutes, setMinutes } = props
     const { toast } = useToast()
+    const [loading, setLoading] = useState(false)
 
     const handleClick = (minutes: LessonLength) => {
         setMinutes(minutes)
     }
 
-    const handleSubmitStudent = async (studentInfo: FormSchema, buttonStates: boolean[][], minutes: LessonLength, studio: StudioSchema | null) => {
+    const handleSubmitStudent = async (studentInfo: FormSchema, schedule: WeekSchedule, minutes: LessonLength, studio: StudioSchema | null) => {
         if (!studio) {
-            alert("studio is null")
+            toast({
+                variant: "destructive",
+                title: "Studio error",
+                description: "Studio information is missing. Please try again."
+            })
             return
         }
 
-        const dbStudent: InsertStudent = {
-            email: studentInfo.email,
-            first_name: studentInfo.first_name,
-            last_name: studentInfo.last_name,
-            lesson_length: minutes === 30 ? "30": "60",
-            schedule: buttonsToSchedule(buttonStates, minutes),
-            studio_id: studio.id,
-        }
+        setLoading(true)
 
-        const { error } = await sb.from("students").insert(dbStudent)
-        if (error) {
-            alert("error with inserting student")
-            console.log(error)
-            return
+        try {
+            // Convert WeekSchedule to legacy format for database storage
+            const legacySchedule = weekScheduleToLegacySchedule(schedule);
+
+            const dbStudent: InsertStudent = {
+                email: studentInfo.email,
+                first_name: studentInfo.first_name,
+                last_name: studentInfo.last_name,
+                lesson_length: minutes === 30 ? "30": "60",
+                schedule: legacySchedule,
+                studio_id: studio.id,
+            }
+
+            const { error } = await sb.from("students").insert(dbStudent)
+            if (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Enrollment failed",
+                    description: "Unable to complete enrollment. Please try again."
+                })
+                console.log(error)
+                setLoading(false)
+                return
+            }
+
+            toast({
+                title: "Enrollment successful!",
+                description: "You've been enrolled in the studio."
+            })
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Unexpected error",
+                description: "Something went wrong. Please try again."
+            })
+            console.error(error)
+        } finally {
+            setLoading(false)
         }
     }
     return (
@@ -70,7 +106,7 @@ export function OnboardStudentCard(props: Props) {
                 <CardDescription>Fill out your availability on the calendar</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="pb-5">{formatter(buttonStatesToText(props.buttonStates))}</div>
+                <div className="pb-5">{formatter(formatWeekScheduleDisplay(props.schedule).join('\n'))}</div>
                 <form>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
@@ -90,20 +126,26 @@ export function OnboardStudentCard(props: Props) {
                 </form>
             </CardContent>
             <CardFooter className="flex justify-between">
-                <Button onClick={() => {
-                    // CHECK if buttonstates are nonempty
-                    if (props.buttonStates.every((day) => day.every((block) => !block))) {
-                        toast({
-                            title: "No availability selected",
-                            description: "Please fill in your schedule",
-                        })
-                        return
-                    }
-                    props.setState("done")
+                <Button 
+                    disabled={loading}
+                    className="min-w-[100px]"
+                    onClick={() => {
+                        // Check if schedule has any availability
+                        const hasAvailability = props.schedule.days.some(day => day.blocks.length > 0);
+                        if (!hasAvailability) {
+                            toast({
+                                title: "No availability selected",
+                                description: "Please fill in your schedule",
+                            })
+                            return
+                        }
+                        props.setState("done")
 
-                    void handleSubmitStudent(props.studentInfo, props.buttonStates, props.minutes, props.studio)
-                }
-                }>Confirm</Button>
+                        void handleSubmitStudent(props.studentInfo, props.schedule, props.minutes, props.studio)
+                    }
+                }>
+                    {loading ? <LoadingSpinner size="sm" /> : "Confirm"}
+                </Button>
             </CardFooter>
         </Card>
     )

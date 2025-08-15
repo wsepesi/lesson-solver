@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   AlertDialog,
@@ -20,22 +22,23 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
-import { Days, abbrDaytoFull, buttonsToSchedule, eventListToFinalSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
+import { Days, abbrDaytoFull, eventListToFinalSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
 import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
 import SendToStudentsDialog from "./SendToStudentsDialog"
 import SetAvailabilityDialog from "./SetAvailabilityDialog"
 import SolveScheduleDialog from "./SolveScheduleDialog"
 import { Task } from "./Task"
-import type { StudioWithStudents } from "~/pages/studios/[slug]"
+import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { useState } from "react"
 import { type StudentSchema } from "lib/schema"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import MiniStudentSchedule from "./MiniStudentSchedule"
 import InteractiveCalendar from "./InteractiveCalendar"
 import type { FinalSchedule } from "lib/heur_solver"
+import { useSchedule } from "../hooks/useSchedule"
 
 import type { Event } from "src/components/InteractiveCalendar"
 
@@ -87,21 +90,40 @@ export function MyStudio(props: Props) {
 
   const { studio, setStudio } = props
 
+  // Use the new TimeBlock-based schedule hook
+  const { 
+    schedule: weekSchedule, 
+    updateSchedule, 
+    saving, 
+    error: scheduleError,
+    saveImmediately 
+  } = useSchedule(studio.user_id ?? "")
+
   // TODO: populate this from DB on boot
   const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, studio.events !== null])
-  const [myAvailability, setMyAvailability] = useState<boolean[][]>((studio.owner_schedule !== null && studio.owner_schedule !== undefined) ?
+  
+  // Keep legacy availability for backward compatibility during transition
+  const [myAvailability] = useState<boolean[][]>((studio.owner_schedule !== null && studio.owner_schedule !== undefined) ?
     scheduleToButtons(studio.owner_schedule, 30) :
     Array.from({ length: Days.length }, () => 
         Array.from({ length: blocks }, () => false)
     )
   )
 
+  // Note: Task status for availability is only updated on actual database saves,
+  // not on local schedule changes, to prevent progress counter incrementing prematurely
+
+  // Show error if schedule fails to load
+  if (scheduleError) {
+    console.error("Schedule loading error:", scheduleError);
+  }
+
   const [taskOpen, setTaskOpen] = useState<boolean[]>([false, false, false])
   const [resolveOpen, setResolveOpen] = useState<boolean>(false)
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
 
   const [schedule, setSchedule] = useState<FinalSchedule | null>(studio.events ? eventListToFinalSchedule(studio.events, studio) : null)
-  const [events, setEvents] = useState<Event[]>(studio.events ? studio.events : [])
+  const [events, setEvents] = useState<Event[]>(studio.events ?? [])
 
   const handleSaveSchedule = async () => {
     if (!events) {
@@ -123,18 +145,18 @@ export function MyStudio(props: Props) {
   const hasScheduleChanged = JSON.stringify(events) !== JSON.stringify(studio.events)
 
   const handleAvailabilitySubmit = async () => {
-    const calendarJson = buttonsToSchedule(myAvailability, 30)
-    const res = await supabaseClient.from("studios").update({
-      owner_schedule: calendarJson
-    }).eq("id", studio.id)
-
-    if (res.error) {
-      console.log(res.error)
-      alert("error, please try again")
+    try {
+      // Force immediate save to ensure data is persisted before updating task status
+      if (weekSchedule && saveImmediately) {
+        await saveImmediately();
+        const hasAvailability = weekSchedule.days.some(day => day.blocks.length > 0);
+        setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? hasAvailability : status))
+      }
+      setTaskOpen(taskOpen.map((status, i) => AVAILABILITY === i ? false : status))
+    } catch (error) {
+      console.error("Error saving availability:", error)
+      alert("Error saving availability, please try again")
     }
-
-    setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? true : status))
-    setTaskOpen(taskOpen.map((status, i) => AVAILABILITY === i ? false : status))
   }
 
   const handleStudentDelete = async (student: StudentSchema) => {
@@ -151,20 +173,19 @@ export function MyStudio(props: Props) {
   }
 
   const handleEditAvailability = async () => {
-    const calendarJson = buttonsToSchedule(myAvailability, 30)
-    const res = await supabaseClient.from("studios").update({
-      owner_schedule: calendarJson
-    }).eq("id", studio.id)
-
-    if (res.error) {
-      console.log(res.error)
-      alert("error, please try again")
-    }
-
-    setEditAvailability(false)
-    // if schedule is empty, set task status to false
-    if (myAvailability.every((day) => day.every((block) => !block))) {
-      setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? false : status))
+    try {
+      // Force immediate save to ensure data is persisted before updating task status
+      if (weekSchedule && saveImmediately) {
+        await saveImmediately();
+        
+        // Update task status based on whether schedule has availability blocks
+        const hasAvailability = weekSchedule.days.some(day => day.blocks.length > 0);
+        setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? hasAvailability : status))
+      }
+      setEditAvailability(false)
+    } catch (error) {
+      console.error("Error updating availability:", error)
+      alert("Error updating availability, please try again")
     }
   }
 
@@ -173,8 +194,9 @@ export function MyStudio(props: Props) {
       name: "Set your availability",
       dialogComponent: <SetAvailabilityDialog 
         handleSubmit={handleAvailabilitySubmit}
-        myAvailability={myAvailability}
-        setMyAvailability={setMyAvailability}
+        schedule={weekSchedule}
+        onScheduleChange={updateSchedule}
+        saving={saving}
       />
     },
     {
@@ -213,7 +235,7 @@ export function MyStudio(props: Props) {
       alert("error, please try again")
     }
 
-    await router.push("/studios")
+    router.push("/studios")
   }
 
   const isDoneWithTasks = taskStatus.every((status) => status)
@@ -250,7 +272,7 @@ export function MyStudio(props: Props) {
           <div className="w-1/4">
             <h3 className="text-lg font-light ">Schedule:</h3>
             <div className="flex flex-col">
-                {eventListToEltList(events ? events : finalScheduleToEventList(schedule, studio)).map((elt) => (
+                {eventListToEltList(events ?? finalScheduleToEventList(schedule, studio)).map((elt) => (
                     elt
                 ))}
             </div>
@@ -358,8 +380,9 @@ export function MyStudio(props: Props) {
                 </DialogTrigger>
                 <SetAvailabilityDialog 
                   handleSubmit={handleEditAvailability}
-                  myAvailability={myAvailability}
-                  setMyAvailability={setMyAvailability}
+                  schedule={weekSchedule}
+                  onScheduleChange={updateSchedule}
+                  saving={saving}
                 />
               </Dialog>
               }

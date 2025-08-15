@@ -257,7 +257,13 @@ describe('Type System Validation', () => {
 
     test('should accept schedule with missing days', () => {
       const partialSchedule: Schedule = {
-        Monday: [{ start: new Time(9, 0), end: new Time(10, 0) }]
+        Monday: [{ start: new Time(9, 0), end: new Time(10, 0) }],
+        Tuesday: undefined,
+        Wednesday: undefined,
+        Thursday: undefined,
+        Friday: undefined,
+        Saturday: undefined,
+        Sunday: undefined
       }
 
       expect(partialSchedule.Monday).toHaveLength(1)
@@ -348,7 +354,15 @@ describe('Type System Validation', () => {
     test('should ensure days are constrained to valid day names', () => {
       const validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const
       
-      const schedule: Schedule = {}
+      const schedule: Schedule = {
+        Monday: undefined,
+        Tuesday: undefined,
+        Wednesday: undefined,
+        Thursday: undefined,
+        Friday: undefined,
+        Saturday: undefined,
+        Sunday: undefined
+      }
       
       validDays.forEach(day => {
         schedule[day] = [{ start: new Time(9, 0), end: new Time(10, 0) }]

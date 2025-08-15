@@ -1,18 +1,18 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { solve, scheduleToButtons } from '../heur_solver'
-import type { StudentSchedule, Schedule, Heuristics } from '../types'
+import type { StudentSchedule, Schedule, LessonLength } from '../types'
+import type { Heuristics } from '../solver'
 import { Time } from '../types'
 
 describe('Heuristic Solver', () => {
-  let basicHeuristics: Heuristics
+  const basicHeuristics: Heuristics = {
+    numConsecHalfHours: 4,    // Teacher can teach max 4 consecutive 30min slots
+    breakLenInHalfHours: 1,   // Then needs 30min break
+  }
   let teacherSchedule: Schedule
   
   beforeEach(() => {
     // This runs before each test - sets up clean data
-    basicHeuristics = {
-      numConsecHalfHours: 4,    // Teacher can teach max 4 consecutive 30min slots
-      breakLenInHalfHours: 1,   // Then needs 30min break
-    }
     
     // Teacher available Mon-Fri 9am-5pm
     teacherSchedule = {
@@ -51,11 +51,11 @@ describe('Heuristic Solver', () => {
       
       // STEP 3: Verify the result
       expect(result.assignments).toHaveLength(1) // Should assign exactly 1 student
-      expect(result.assignments[0].student.student.name).toBe('Alice')
-      expect(result.assignments[0].time).toBeDefined() // Should have a time assigned
+      expect(result.assignments[0]!.student.student.name).toBe('Alice')
+      expect(result.assignments[0]!.time).toBeDefined() // Should have a time assigned
       
       // STEP 4: Verify the time is within student's availability
-      const assignment = result.assignments[0]
+      const assignment = result.assignments[0]!
       expect(assignment.time.start.i).toBe(0) // Monday is index 0
       expect(assignment.time.start.j).toBeGreaterThanOrEqual(2) // 10am = slot 2
       expect(assignment.time.start.j).toBeLessThan(6) // before 12pm = slot 6
@@ -175,7 +175,7 @@ describe('Heuristic Solver', () => {
       const result = solve(students, teacherSchedule, basicHeuristics)
       
       // STEP 3: Verify assignment is within student's availability
-      const assignment = result.assignments[0]
+      const assignment = result.assignments[0]!
       expect(assignment.time.start.i).toBe(0) // Monday
       expect(assignment.time.start.j).toBe(2) // 10:00 is slot 2
     })
@@ -212,8 +212,8 @@ describe('Heuristic Solver', () => {
       }))
       
       // If both on same day, start times should be different
-      if (times[0].day === times[1].day) {
-        expect(times[0].start).not.toBe(times[1].start)
+      if (times[0]!.day === times[1]!.day) {
+        expect(times[0]!.start).not.toBe(times[1]!.start)
       }
     })
 
@@ -260,7 +260,7 @@ describe('Heuristic Solver', () => {
         student: { 
           name: `Student${i}`, 
           email: `student${i}@test.com`, 
-          lessonLength: i % 2 === 0 ? 30 : 60 as const  // Mix of 30min and 60min
+          lessonLength: (i % 2 === 0 ? 30 : 60) as LessonLength  // Mix of 30min and 60min
         },
         schedule: teacherSchedule // All students available during all teacher hours
       }))
@@ -318,16 +318,16 @@ describe('Schedule Conversion Utilities', () => {
       const buttons = scheduleToButtons(schedule)
       
       // Monday: slots 2 and 3 should be true (10:00 and 10:30)
-      expect(buttons[0][2]).toBe(true)  // 10:00
-      expect(buttons[0][3]).toBe(true)  // 10:30
-      expect(buttons[0][1]).toBe(false) // 9:30
-      expect(buttons[0][4]).toBe(false) // 11:00
+      expect(buttons[0]![2]).toBe(true)  // 10:00
+      expect(buttons[0]![3]).toBe(true)  // 10:30
+      expect(buttons[0]![1]).toBe(false) // 9:30
+      expect(buttons[0]![4]).toBe(false) // 11:00
       
       // Tuesday: slots 11 and 12 should be true (14:30 and 15:00)
-      expect(buttons[1][11]).toBe(true) // 14:30
-      expect(buttons[1][12]).toBe(true) // 15:00
-      expect(buttons[1][10]).toBe(false) // 14:00
-      expect(buttons[1][13]).toBe(false) // 15:30
+      expect(buttons[1]![11]).toBe(true) // 14:30
+      expect(buttons[1]![12]).toBe(true) // 15:00
+      expect(buttons[1]![10]).toBe(false) // 14:00
+      expect(buttons[1]![13]).toBe(false) // 15:30
     })
 
     test('should handle multiple blocks in same day', () => {
@@ -347,16 +347,16 @@ describe('Schedule Conversion Utilities', () => {
       const buttons = scheduleToButtons(schedule)
       
       // First block: slots 0 and 1
-      expect(buttons[0][0]).toBe(true)  // 9:00
-      expect(buttons[0][1]).toBe(true)  // 9:30
+      expect(buttons[0]![0]).toBe(true)  // 9:00
+      expect(buttons[0]![1]).toBe(true)  // 9:30
       
       // Gap should be false
-      expect(buttons[0][2]).toBe(false) // 10:00
-      expect(buttons[0][9]).toBe(false) // 13:30
+      expect(buttons[0]![2]).toBe(false) // 10:00
+      expect(buttons[0]![9]).toBe(false) // 13:30
       
       // Second block: slots 10 and 11
-      expect(buttons[0][10]).toBe(true) // 14:00
-      expect(buttons[0][11]).toBe(true) // 14:30
+      expect(buttons[0]![10]).toBe(true) // 14:00
+      expect(buttons[0]![11]).toBe(true) // 14:30
     })
 
     test('should throw error for invalid times', () => {

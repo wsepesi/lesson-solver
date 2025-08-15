@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react"
 
 import {
@@ -7,14 +9,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card"
+} from "@/components/ui/card"
 import type { LessonLength, Schedule, Student } from "lib/types"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
 import { buttonStatesToText, buttonsToSchedule, lessonLengthToString } from "lib/utils"
 
-import { Button } from "~/components/ui/button"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { formatter } from "./CardWithSubmit"
 import { useToast } from "./ui/use-toast"
 
@@ -24,6 +26,8 @@ type Props = {
     minutes: LessonLength
     setMinutes: (minutes: LessonLength) => void
     setOpen: (open: boolean) => void
+    scheduleDisplayText?: string // Optional override for schedule display
+    isScheduleEmpty?: () => boolean // Optional override for schedule validation
 }
 
 const SET_MINUTES = 30
@@ -43,13 +47,15 @@ export function OnboardStudentsCard(props: Props) {
     }
 
     return (
-        <Card className="w-[350px]"> {/* overflow-auto"> */}
+        <Card className="w-[350px] h-[calc(100vh-8rem)] flex flex-col"> {/* overflow-auto"> */}
             <CardHeader>
                 <CardTitle>Add new student</CardTitle>
                 <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription>
             </CardHeader>
-            <CardContent>
-                <div className="mb-3 max-h-[27vh] overflow-auto">{formatter(buttonStatesToText(props.buttonStates))}</div>
+            <CardContent className="flex-1 flex flex-col">
+                <div className="mb-3 flex-1 overflow-auto">
+                    {formatter(props.scheduleDisplayText ?? buttonStatesToText(props.buttonStates))}
+                </div>
                 <form //TODO: rework as zod form
                     onSubmit={() => console.log(formData)}
                 >
@@ -106,7 +112,7 @@ export function OnboardStudentsCard(props: Props) {
                         })
                         return
                     }
-                    else if (props.buttonStates.every((row) => row.every((item) => item === false))) {
+                    else if (props.isScheduleEmpty ? props.isScheduleEmpty() : props.buttonStates.every((row) => row.every((item) => item === false))) {
                         toast({
                             title: "Please fill out the calendar",
                             description: "You can't submit an empty calendar",
@@ -132,7 +138,7 @@ export function OnboardStudentsCard(props: Props) {
                         })
                         return
                     }
-                    else if (props.buttonStates.every((row) => row.every((item) => item === false))) {
+                    else if (props.isScheduleEmpty ? props.isScheduleEmpty() : props.buttonStates.every((row) => row.every((item) => item === false))) {
                         toast({
                             title: "Please fill out the calendar",
                             description: "You can't submit an empty calendar",

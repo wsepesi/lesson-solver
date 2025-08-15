@@ -43,16 +43,16 @@ describe('Schedule Conversion Utilities', () => {
       const buttons = scheduleToButtons(schedule)
       
       // Monday: slots 2 and 3 should be true (10:00 and 10:30)
-      expect(buttons[0][2]).toBe(true)  // 10:00
-      expect(buttons[0][3]).toBe(true)  // 10:30
-      expect(buttons[0][1]).toBe(false) // 9:30
-      expect(buttons[0][4]).toBe(false) // 11:00
+      expect(buttons[0]![2]).toBe(true)  // 10:00
+      expect(buttons[0]![3]).toBe(true)  // 10:30
+      expect(buttons[0]![1]).toBe(false) // 9:30
+      expect(buttons[0]![4]).toBe(false) // 11:00
       
       // Tuesday: slots 11 and 12 should be true (14:30 and 15:00)
-      expect(buttons[1][11]).toBe(true) // 14:30
-      expect(buttons[1][12]).toBe(true) // 15:00
-      expect(buttons[1][10]).toBe(false) // 14:00
-      expect(buttons[1][13]).toBe(false) // 15:30
+      expect(buttons[1]![11]).toBe(true) // 14:30
+      expect(buttons[1]![12]).toBe(true) // 15:00
+      expect(buttons[1]![10]).toBe(false) // 14:00
+      expect(buttons[1]![13]).toBe(false) // 15:30
     })
 
     test('should handle multiple blocks in same day', () => {
@@ -72,16 +72,16 @@ describe('Schedule Conversion Utilities', () => {
       const buttons = scheduleToButtons(schedule)
       
       // First block: slots 0 and 1
-      expect(buttons[0][0]).toBe(true)  // 9:00
-      expect(buttons[0][1]).toBe(true)  // 9:30
+      expect(buttons[0]![0]).toBe(true)  // 9:00
+      expect(buttons[0]![1]).toBe(true)  // 9:30
       
       // Gap should be false
-      expect(buttons[0][2]).toBe(false) // 10:00
-      expect(buttons[0][9]).toBe(false) // 13:30
+      expect(buttons[0]![2]).toBe(false) // 10:00
+      expect(buttons[0]![9]).toBe(false) // 13:30
       
       // Second block: slots 10 and 11
-      expect(buttons[0][10]).toBe(true) // 14:00
-      expect(buttons[0][11]).toBe(true) // 14:30
+      expect(buttons[0]![10]).toBe(true) // 14:00
+      expect(buttons[0]![11]).toBe(true) // 14:30
     })
 
     test('should handle all days of week correctly', () => {
@@ -98,17 +98,17 @@ describe('Schedule Conversion Utilities', () => {
       const buttons = scheduleToButtons(schedule)
       
       // Check each day has one true slot at the correct position
-      expect(buttons[0][0]).toBe(true)  // Monday 9:00
-      expect(buttons[1][2]).toBe(true)  // Tuesday 10:00
-      expect(buttons[2][4]).toBe(true)  // Wednesday 11:00
-      expect(buttons[3][6]).toBe(true)  // Thursday 12:00
-      expect(buttons[4][8]).toBe(true)  // Friday 13:00
-      expect(buttons[5][10]).toBe(true) // Saturday 14:00
-      expect(buttons[6][12]).toBe(true) // Sunday 15:00
+      expect(buttons[0]![0]).toBe(true)  // Monday 9:00
+      expect(buttons[1]![2]).toBe(true)  // Tuesday 10:00
+      expect(buttons[2]![4]).toBe(true)  // Wednesday 11:00
+      expect(buttons[3]![6]).toBe(true)  // Thursday 12:00
+      expect(buttons[4]![8]).toBe(true)  // Friday 13:00
+      expect(buttons[5]![10]).toBe(true) // Saturday 14:00
+      expect(buttons[6]![12]).toBe(true) // Sunday 15:00
       
       // Check that other slots are false
-      expect(buttons[0][1]).toBe(false) // Monday 9:30
-      expect(buttons[1][3]).toBe(false) // Tuesday 10:30
+      expect(buttons[0]![1]).toBe(false) // Monday 9:30
+      expect(buttons[1]![3]).toBe(false) // Tuesday 10:30
     })
 
     test('should throw error for invalid times', () => {
@@ -166,9 +166,9 @@ describe('Schedule Conversion Utilities', () => {
       
       const buttons = scheduleToButtons(schedule)
       
-      expect(buttons[0][0]).toBe(false) // 9:00
-      expect(buttons[0][1]).toBe(true)  // 9:30
-      expect(buttons[0][2]).toBe(false) // 10:00
+      expect(buttons[0]![0]).toBe(false) // 9:00
+      expect(buttons[0]![1]).toBe(true)  // 9:30
+      expect(buttons[0]![2]).toBe(false) // 10:00
     })
 
     test('should handle edge case times at boundaries', () => {
@@ -187,16 +187,21 @@ describe('Schedule Conversion Utilities', () => {
       
       const buttons = scheduleToButtons(schedule)
       
-      expect(buttons[0][0]).toBe(true)  // 9:00 (first slot)
-      expect(buttons[0][23]).toBe(true) // 20:30 (last slot)
-      expect(buttons[0][1]).toBe(false) // 9:30
-      expect(buttons[0][22]).toBe(false) // 20:00
+      expect(buttons[0]![0]).toBe(true)  // 9:00 (first slot)
+      expect(buttons[0]![23]).toBe(true) // 20:30 (last slot)
+      expect(buttons[0]![1]).toBe(false) // 9:30
+      expect(buttons[0]![22]).toBe(false) // 20:00
     })
 
     test('should handle undefined schedule days gracefully', () => {
       const scheduleWithUndefined: Schedule = {
-        Monday: [{ start: new Time(10, 0), end: new Time(11, 0) }]
-        // Other days are undefined
+        Monday: [{ start: new Time(10, 0), end: new Time(11, 0) }],
+        Tuesday: undefined,
+        Wednesday: undefined,
+        Thursday: undefined,
+        Friday: undefined,
+        Saturday: undefined,
+        Sunday: undefined
       }
       
       const buttons = scheduleToButtons(scheduleWithUndefined)
@@ -204,12 +209,12 @@ describe('Schedule Conversion Utilities', () => {
       expect(buttons).toHaveLength(7) // Should still have 7 days
       
       // Monday should have the scheduled time
-      expect(buttons[0][2]).toBe(true)  // 10:00
-      expect(buttons[0][3]).toBe(true)  // 10:30
+      expect(buttons[0]![2]).toBe(true)  // 10:00
+      expect(buttons[0]![3]).toBe(true)  // 10:30
       
       // Other days should be all false
       for (let day = 1; day < 7; day++) {
-        buttons[day].forEach(slot => {
+        buttons[day]!.forEach(slot => {
           expect(slot).toBe(false)
         })
       }
@@ -246,7 +251,7 @@ describe('Schedule Conversion Utilities', () => {
         const buttons = scheduleToButtons(schedule)
         
         // Check that only the expected index is true
-        buttons[0].forEach((slot, index) => {
+        buttons[0]!.forEach((slot, index) => {
           if (index === expectedIndex) {
             expect(slot).toBe(true)
           } else {
@@ -270,10 +275,10 @@ describe('Schedule Conversion Utilities', () => {
       
       const buttons = scheduleToButtons(schedule)
       
-      expect(buttons[0][3]).toBe(true)  // 10:30
-      expect(buttons[0][4]).toBe(true)  // 11:00
-      expect(buttons[0][2]).toBe(false) // 10:00
-      expect(buttons[0][5]).toBe(false) // 11:30
+      expect(buttons[0]![3]).toBe(true)  // 10:30
+      expect(buttons[0]![4]).toBe(true)  // 11:00
+      expect(buttons[0]![2]).toBe(false) // 10:00
+      expect(buttons[0]![5]).toBe(false) // 11:30
     })
   })
 })

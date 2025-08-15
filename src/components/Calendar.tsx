@@ -1,3 +1,5 @@
+"use client";
+
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 
 import { Days } from "lib/utils"

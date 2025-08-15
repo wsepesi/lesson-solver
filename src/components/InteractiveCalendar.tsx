@@ -1,7 +1,9 @@
+"use client";
+
 import { DndContext, type DragEndEvent, type DragOverEvent, DragOverlay, type DragStartEvent, type UniqueIdentifier, useDraggable, useDroppable } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import { Card } from "./ui/card";
-import { type StudioWithStudents } from '~/pages/studios/[slug]';
+import { type StudioWithStudents } from '@/app/(protected)/studios/[slug]/page';
 import { scheduleToButtons } from 'lib/heur_solver';
 import { transpose } from 'lib/utils';
 
@@ -221,9 +223,9 @@ const InteractiveCalendar: React.FC<{ events: Event[]; mySchedule: Schedule, set
       <Card className="py-3 w-[55vw]">
         <div className="overflow-auto max-h-[70vh]">
           <div className="grid grid-cols-6 gap-0 min-w-[600px] pr-[3vw]">
-            <div className="col-span-1 sticky top-0 bg-white z-10"></div>
+            <div className="col-span-1 sticky top-0 bg-white z-20"></div>
             {days.map(day => (
-              <div key={day} className="text-center font-bold sticky top-0 bg-white z-10 py-2">
+              <div key={day} className="text-center font-bold sticky top-0 bg-white z-20 py-2">
                 {day}
               </div>
             ))}

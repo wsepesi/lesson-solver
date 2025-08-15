@@ -1,8 +1,8 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent } from '../../test/utils'
+import { render, screen } from '../../test/utils'
 import InteractiveCalendar, { type Event } from '../../components/InteractiveCalendar'
-import type { StudioWithStudents } from '~/pages/studios/[slug]'
-import type { Schedule } from 'lib/types'
+import type { StudioWithStudents } from '@/app/(protected)/studios/[slug]/page'
+import { Time } from '../../../lib/types'
 
 // Mock @dnd-kit/core to avoid complex drag-and-drop testing setup
 vi.mock('@dnd-kit/core', () => ({
@@ -10,11 +10,11 @@ vi.mock('@dnd-kit/core', () => ({
   useDraggable: () => ({
     attributes: {},
     listeners: {},
-    setNodeRef: () => {},
+    setNodeRef: () => { /* noop */ },
     transform: null,
   }),
   useDroppable: () => ({
-    setNodeRef: () => {},
+    setNodeRef: () => { /* noop */ },
   }),
   DragOverlay: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
@@ -23,7 +23,7 @@ describe('InteractiveCalendar Component', () => {
   let mockStudio: StudioWithStudents
   let mockEvents: Event[]
   let mockSchedule: boolean[][]
-  let mockSetEvents: any
+  let mockSetEvents: ReturnType<typeof vi.fn>
   
   beforeEach(() => {
     // Reset mocks before each test
@@ -36,7 +36,7 @@ describe('InteractiveCalendar Component', () => {
       code: 'TEST1',
       studio_name: 'Test Studio',
       owner_schedule: {
-        Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
+        Monday: [{ start: new Time(9, 0), end: new Time(17, 0) }],
         Tuesday: [],
         Wednesday: [],
         Thursday: [],
@@ -54,7 +54,7 @@ describe('InteractiveCalendar Component', () => {
           studio_id: 1,
           lesson_length: '30' as const,
           schedule: {
-            Monday: [{ start: { hour: 10, minute: 0 }, end: { hour: 12, minute: 0 } }],
+            Monday: [{ start: new Time(10, 0), end: new Time(12, 0) }],
             Tuesday: [],
             Wednesday: [],
             Thursday: [],
@@ -71,7 +71,7 @@ describe('InteractiveCalendar Component', () => {
           studio_id: 1,
           lesson_length: '60' as const,
           schedule: {
-            Monday: [{ start: { hour: 11, minute: 0 }, end: { hour: 13, minute: 0 } }],
+            Monday: [{ start: new Time(11, 0), end: new Time(13, 0) }],
             Tuesday: [],
             Wednesday: [],
             Thursday: [],
@@ -93,13 +93,13 @@ describe('InteractiveCalendar Component', () => {
           time_start: '10:00am',
           time_end: '10:30am'
         },
-        other_avail_times: Array(24).fill(null).map(() => Array(5).fill(false)),
+        other_avail_times: Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false)),
         student_id: 1
       }
     ]
     
     // Create mock schedule (teacher availability)
-    mockSchedule = Array(24).fill(null).map(() => Array(5).fill(true))
+    mockSchedule = Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => true))
   })
 
   test('renders calendar structure correctly', () => {
@@ -142,7 +142,7 @@ describe('InteractiveCalendar Component', () => {
 
   test('shows available time slots correctly', () => {
     // STEP 1: Create schedule with specific availability
-    const limitedSchedule = Array(24).fill(null).map(() => Array(5).fill(false))
+    const limitedSchedule = Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false))
     // Make Monday 10am available
     limitedSchedule[2]![0] = true // 10:00am Monday
     
@@ -187,7 +187,7 @@ describe('InteractiveCalendar Component', () => {
           time_start: '10:00am',
           time_end: '10:30am'
         },
-        other_avail_times: Array(24).fill(null).map(() => Array(5).fill(false)),
+        other_avail_times: Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false)),
         student_id: 1
       },
       {
@@ -198,7 +198,7 @@ describe('InteractiveCalendar Component', () => {
           time_start: '11:00am',
           time_end: '12:00pm'
         },
-        other_avail_times: Array(24).fill(null).map(() => Array(5).fill(false)),
+        other_avail_times: Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false)),
         student_id: 2
       }
     ]
@@ -247,7 +247,7 @@ describe('InteractiveCalendar Component', () => {
           time_start: '10:00am',
           time_end: '10:30am'
         },
-        other_avail_times: Array(24).fill(null).map(() => Array(5).fill(false)),
+        other_avail_times: Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false)),
         student_id: 1
       },
       {
@@ -258,7 +258,7 @@ describe('InteractiveCalendar Component', () => {
           time_start: '10:00am',
           time_end: '10:30am'
         },
-        other_avail_times: Array(24).fill(null).map(() => Array(5).fill(false)),
+        other_avail_times: Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false)),
         student_id: 2
       }
     ]
@@ -289,7 +289,7 @@ describe('InteractiveCalendar Component', () => {
     render(
       <InteractiveCalendar 
         events={[]}
-        mySchedule={Array(24).fill(null).map(() => Array(5).fill(false))}
+        mySchedule={Array.from({ length: 24 }, () => Array.from({ length: 5 }, () => false))}
         setEvents={mockSetEvents}
         studio={minimalStudio}
       />

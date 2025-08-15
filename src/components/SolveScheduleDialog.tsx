@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
     DialogContent,
@@ -10,14 +12,13 @@ import {
 import { Button } from "./ui/button"
 import { Combobox, type Option } from "./Combobox"
 import { useState } from "react"
-import { type StudioWithStudents } from "~/pages/studios/[slug]"
-import type { StudentSchema } from "lib/schema"
-import type { Student } from "lib/types"
-import { type FinalSchedule, scheduleToButtons, solve } from "lib/heur_solver"
+import { type StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
+import { type FinalSchedule, scheduleToButtons } from "lib/heur_solver"
 
 import type { Event } from "src/components/InteractiveCalendar"
 import { finalScheduleToEventList } from "lib/utils"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { solve } from "lib/heur_solver"
 const isPaid = true
 
 const lengthOptions: Option[] = [
@@ -47,16 +48,6 @@ type Props = {
     setResolveOpen?: (open: boolean) => void
 }
 
-const getOriginalStudentSchemaMatchByEmail = (student: Student, students: StudentSchema[]): StudentSchema => {
-    const filtered = students.filter((s) => s.email === student.email)
-    if (filtered.length > 1) {
-        throw new Error(`Multiple students with email ${student.email} found in the studio`)
-    }
-    if (filtered.length === 0) {
-        throw new Error(`No student with email ${student.email} found in the studio`)
-    }
-    return filtered[0] ? filtered[0] : students[0]!
-}
 
 const readyToSolve = (taskStatus: boolean[]): boolean => {
     // true if 0 and 1 are true
@@ -73,6 +64,16 @@ export default function SolveScheduleDialog(props: Props) {
     const [breakLength, setBreakLength] = useState("30")
     const [, setLoading] = useState(false)
     const [isError, setIsError] = useState(false)
+    
+    const emptySchedule = {
+        Monday: [],
+        Tuesday: [],
+        Wednesday: [],
+        Thursday: [],
+        Friday: [],
+        Saturday: [],
+        Sunday: []
+    }
 
     const handleClick = async () => {
         if (!readyToSolve(props.taskStatus)) {
@@ -102,8 +103,8 @@ export default function SolveScheduleDialog(props: Props) {
                 assignments: res.assignments.map((assignment, _i) => ({
                     student: {
                         ...assignment.student,
-                        schedule: getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule,
-                        bsched: scheduleToButtons(getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule)
+                        schedule: props.studio.students.find(s => s.email === assignment.student.student.email)?.schedule ?? emptySchedule,
+                        bsched: scheduleToButtons(props.studio.students.find(s => s.email === assignment.student.student.email)?.schedule ?? emptySchedule)
                     },
                     time: assignment.time
                 }))
@@ -129,7 +130,7 @@ export default function SolveScheduleDialog(props: Props) {
                 props.setResolveOpen(false)
             }
 
-        } catch (error) {
+        } catch {
             setIsError(true)
         }
         

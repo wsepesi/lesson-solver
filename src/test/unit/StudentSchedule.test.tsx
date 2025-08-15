@@ -2,13 +2,17 @@ import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '../../test/utils'
 import StudentSchedule from '../../components/StudentSchedule'
 import type { FormSchema } from '../../components/enrollment'
-import type { OnboardingState } from '../../pages/enroll'
 import type { StudioSchema } from 'lib/schema'
 import type { LessonLength } from 'lib/types'
 
 // Mock child components
 vi.mock('../../components/Calendar', () => ({
-  default: ({ minutes, buttonStates, setButtonStates, blocks }: any) => (
+  default: ({ minutes, buttonStates, setButtonStates, blocks }: {
+    minutes: number;
+    buttonStates: boolean[][];
+    setButtonStates: (states: boolean[][]) => void;
+    blocks: number;
+  }) => (
     <div data-testid="calendar">
       <div data-testid="calendar-minutes">{minutes}</div>
       <div data-testid="calendar-blocks">{blocks}</div>
@@ -17,7 +21,7 @@ vi.mock('../../components/Calendar', () => ({
         onClick={() => {
           // Simulate toggling a time slot
           const newStates = [...buttonStates]
-          newStates[0][0] = !newStates[0][0]
+          newStates[0]![0] = !newStates[0]![0]
           setButtonStates(newStates)
         }}
       >
@@ -28,7 +32,14 @@ vi.mock('../../components/Calendar', () => ({
 }))
 
 vi.mock('../../components/OnboardStudentCard', () => ({
-  OnboardStudentCard: ({ buttonStates, minutes, setMinutes, setState, studentInfo, studio }: any) => (
+  OnboardStudentCard: ({ minutes, setMinutes, setState, studentInfo, studio }: {
+    buttonStates: boolean[][];
+    minutes: number;
+    setMinutes: (minutes: number) => void;
+    setState: (state: string) => void;
+    studentInfo: { first_name: string; last_name: string; email: string; studioCode: string };
+    studio: { studio_name: string } | null;
+  }) => (
     <div data-testid="onboard-student-card">
       <div data-testid="student-name">{studentInfo.first_name} {studentInfo.last_name}</div>
       <div data-testid="student-email">{studentInfo.email}</div>
@@ -61,12 +72,13 @@ describe('StudentSchedule Component', () => {
     user_id: 'user-123',
     studio_name: 'Test Music Studio',
     code: 'ABC12',
-    students_have_schedules: false,
-    schedule: null,
-    created_at: '2024-01-01'
+    owner_schedule: {
+      Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
+    },
+    events: null
   }
 
-  const defaultButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+  const defaultButtonStates: boolean[][] = Array(7).fill(null).map(() => Array(24).fill(false) as boolean[])
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -168,8 +180,8 @@ describe('StudentSchedule Component', () => {
     expect(mockSetButtonStates).toHaveBeenCalled()
     
     // Verify the new state has the first slot toggled
-    const newStates = mockSetButtonStates.mock.calls[0][0]
-    expect(newStates[0][0]).toBe(true)
+    const newStates = mockSetButtonStates.mock.calls[0]?.[0] as boolean[][]
+    expect(newStates[0]?.[0]).toBe(true)
   })
 
   test('handles lesson length changes from OnboardStudentCard', () => {
@@ -247,7 +259,7 @@ describe('StudentSchedule Component', () => {
     const lessonLengths: LessonLength[] = [30, 60]
     
     lessonLengths.forEach(length => {
-      const { rerender } = render(
+      const { unmount } = render(
         <StudentSchedule 
           setState={mockSetState}
           buttonStates={defaultButtonStates}
@@ -264,6 +276,9 @@ describe('StudentSchedule Component', () => {
       
       const expectedBlocks = 720 / length // 720 = 12 hours * 60 minutes
       expect(screen.getByTestId('calendar-blocks')).toHaveTextContent(expectedBlocks.toString())
+      
+      // Clean up after each iteration
+      unmount()
     })
   })
 
@@ -281,7 +296,7 @@ describe('StudentSchedule Component', () => {
     )
 
     const buttonStatesEl = screen.getByTestId('calendar-button-states')
-    const states = JSON.parse(buttonStatesEl.textContent || '[]')
+    const states = JSON.parse(buttonStatesEl.textContent ?? '[]') as boolean[][]
     
     expect(states).toHaveLength(7) // 7 days
     expect(states[0]).toHaveLength(24) // 24 half-hour slots
@@ -307,17 +322,17 @@ describe('StudentSchedule Component', () => {
     )
 
     const buttonStatesEl = screen.getByTestId('calendar-button-states')
-    const states = JSON.parse(buttonStatesEl.textContent || '[]')
+    const states = JSON.parse(buttonStatesEl.textContent ?? '[]') as boolean[][]
     
     // Verify Monday morning slots are true
-    expect(states[0][0]).toBe(true)
-    expect(states[0][1]).toBe(true)
-    expect(states[0][2]).toBe(true)
-    expect(states[0][3]).toBe(true)
-    expect(states[0][4]).toBe(false)
+    expect(states[0]?.[0]).toBe(true)
+    expect(states[0]?.[1]).toBe(true)
+    expect(states[0]?.[2]).toBe(true)
+    expect(states[0]?.[3]).toBe(true)
+    expect(states[0]?.[4]).toBe(false)
     
     // Verify other days are false
-    expect(states[1][0]).toBe(false)
+    expect(states[1]?.[0]).toBe(false)
   })
 
   test('integrates student info with studio info correctly', () => {

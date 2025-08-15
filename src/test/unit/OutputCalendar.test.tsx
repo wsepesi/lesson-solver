@@ -16,7 +16,7 @@ describe('OutputCalendar Component', () => {
               Monday: [{ start: { hour: 10, minute: 0 }, end: { hour: 12, minute: 0 } }],
               Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: {
             start: { i: 0, j: 2 }, // Monday, 10:00am (slot 2)
@@ -30,7 +30,7 @@ describe('OutputCalendar Component', () => {
               Monday: [], Tuesday: [{ start: { hour: 14, minute: 0 }, end: { hour: 16, minute: 0 } }],
               Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: {
             start: { i: 1, j: 10 }, // Tuesday, 2:00pm (slot 10)
@@ -150,7 +150,7 @@ describe('OutputCalendar Component', () => {
               Monday: [{ start: { hour: 10, minute: 0 }, end: { hour: 10, minute: 30 } }],
               Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: {
             start: { i: 0, j: 2 }, // Monday, 10:00am
@@ -164,7 +164,7 @@ describe('OutputCalendar Component', () => {
               Monday: [{ start: { hour: 11, minute: 0 }, end: { hour: 12, minute: 0 } }],
               Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: {
             start: { i: 0, j: 4 }, // Monday, 11:00am
@@ -224,7 +224,7 @@ describe('OutputCalendar Component', () => {
               Monday: [{ start: { hour: 10, minute: 0 }, end: { hour: 12, minute: 0 } }],
               Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: { start: { i: 0, j: 2 }, end: { i: 0, j: 3 } }
         },
@@ -235,7 +235,7 @@ describe('OutputCalendar Component', () => {
               Monday: [{ start: { hour: 14, minute: 0 }, end: { hour: 16, minute: 0 } }],
               Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: { start: { i: 0, j: 10 }, end: { i: 0, j: 11 } }
         },
@@ -246,7 +246,7 @@ describe('OutputCalendar Component', () => {
               Tuesday: [{ start: { hour: 9, minute: 0 }, end: { hour: 11, minute: 0 } }],
               Monday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: { start: { i: 1, j: 0 }, end: { i: 1, j: 2 } }
         }
@@ -287,7 +287,7 @@ describe('OutputCalendar Component', () => {
               Wednesday: [{ start: { hour: 15, minute: 30 }, end: { hour: 16, minute: 0 } }],
               Monday: [], Tuesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
             },
-            bsched: Array(7).fill(null).map(() => Array(24).fill(false))
+            bsched: Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
           },
           time: { start: { i: 2, j: 13 }, end: { i: 2, j: 14 } } // Wednesday 3:30pm
         }

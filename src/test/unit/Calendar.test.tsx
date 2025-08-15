@@ -5,7 +5,7 @@ import Calendar from '../../components/Calendar'
 describe('Calendar Component', () => {
   test('renders calendar grid correctly', () => {
     // STEP 1: Create test props based on actual component interface
-    const mockButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     const mockSetButtonStates = vi.fn()
     
     // STEP 2: Render the component with required props
@@ -34,7 +34,7 @@ describe('Calendar Component', () => {
 
   test('displays time labels correctly', () => {
     // STEP 1: Create test props
-    const mockButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     const mockSetButtonStates = vi.fn()
     
     // STEP 2: Render calendar
@@ -58,7 +58,7 @@ describe('Calendar Component', () => {
   test('handles time slot click correctly', () => {
     // STEP 1: Create a mock function to track state changes
     const mockSetButtonStates = vi.fn()
-    const mockButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     
     // STEP 2: Render calendar with the state handler
     render(
@@ -88,7 +88,7 @@ describe('Calendar Component', () => {
 
   test('displays availability correctly when provided', () => {
     // STEP 1: Create sample availability data
-    const sampleButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const sampleButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     // Make Monday 10am-12pm available (slots 2-5: 10:00, 10:30, 11:00, 11:30)
     sampleButtonStates[0]![2] = true  // Monday 10:00
     sampleButtonStates[0]![3] = true  // Monday 10:30
@@ -121,7 +121,7 @@ describe('Calendar Component', () => {
   test('supports mouse drag selection', () => {
     // STEP 1: Create test props
     const mockSetButtonStates = vi.fn()
-    const mockButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     
     // STEP 2: Render calendar
     render(
@@ -156,7 +156,7 @@ describe('Calendar Component', () => {
 
   test('renders correct number of time slots based on blocks prop', () => {
     // STEP 1: Test with different block counts
-    const mockButtonStates = Array(7).fill(null).map(() => Array(12).fill(false))
+    const mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 12 }, () => false))
     const mockSetButtonStates = vi.fn()
     
     // STEP 2: Render with 12 blocks (6 hours)
@@ -176,7 +176,7 @@ describe('Calendar Component', () => {
 
   test('handles edge case with empty button states', () => {
     // STEP 1: Create minimal button states
-    const mockButtonStates = Array(7).fill(null).map(() => Array(1).fill(false))
+    const mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 1 }, () => false))
     const mockSetButtonStates = vi.fn()
     
     // STEP 2: Render with minimal data

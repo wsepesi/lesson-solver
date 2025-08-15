@@ -1,3 +1,5 @@
+"use client";
+
 import type { LessonLength, Schedule, Student } from "lib/types"
 
 import Calendar from "./Calendar"
@@ -6,7 +8,7 @@ import { OnboardStudentsCard } from "./OnboardStudentsCard"
 import type { StudentSchema } from "lib/schema"
 import { useState } from "react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { type StudioWithStudents } from "~/pages/studios/[slug]"
+import { type StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { type Booking, eventToIdxs, twoDimIdxToBooking, type Event } from "./InteractiveCalendar"
 import { SEND_CODE } from "./my-studio"
 
@@ -57,7 +59,7 @@ export default function ManualStudentCalendarHandler(props: Props) {
         if (!studio.events) {
             throw new Error("No events in studio")
         }
-        const currentEvents = studio.events!
+        const currentEvents = studio.events
 
         currentEvents.forEach(event => {
             const idxs = eventToIdxs(event)

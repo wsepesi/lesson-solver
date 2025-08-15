@@ -2,6 +2,50 @@
 
 Many to one lesson scheduling made easy
 
+**Built with Next.js 15 + App Router, React Server Components, and local Supabase development**
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+ with pnpm
+- Docker Desktop (for local Supabase)
+
+### Local Development Setup
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start local Supabase services (requires Docker)
+supabase start
+
+# Start development server
+pnpm dev
+```
+
+The application will be available at:
+- **App**: http://localhost:3000
+- **Supabase Studio**: http://localhost:54323
+
+### Environment Variables
+
+Local development uses `.env.local` with local Supabase credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+NODE_ENV=development
+```
+
+## Architecture
+
+- **Framework**: Next.js 15 with App Router
+- **Components**: React Server Components + Client Components
+- **Authentication**: Supabase with `@supabase/ssr`
+- **Database**: PostgreSQL via Supabase + Drizzle ORM
+- **Styling**: Tailwind CSS + Radix UI with RSC support
+- **Development**: Local Supabase instance with Docker
+
 ## Testing
 
 The project has comprehensive test coverage across all layers:
@@ -34,6 +78,8 @@ npx playwright test --ui
 # Run E2E tests in headed mode (see browser)
 npx playwright test --headed
 ```
+
+**Note**: Tests are compatible with Next.js 15 App Router. Some component tests use "use client" directive for compatibility with React Server Components.
 
 ### Test Coverage
 

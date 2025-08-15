@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { solve } from '../../../lib/heur_solver'
-import type { StudentSchedule, Schedule, Heuristics } from '../../../lib/types'
+import type { StudentSchedule, Schedule } from '../../../lib/types'
+import type { Heuristics } from '../../../lib/solver'
 import { scheduleToButtons } from '../../../lib/heur_solver'
 
 /**
@@ -20,12 +21,12 @@ const generateStudent = (
 ): StudentSchedule => ({
   student: { name, email, lessonLength },
   schedule,
-  bsched: scheduleToButtons(schedule) as boolean[][]
+  bsched: scheduleToButtons(schedule)
 })
 
 // Helper to create teacher grid
 const createTeacherGrid = (schedule: Schedule): boolean[][] => {
-  return scheduleToButtons(schedule) as boolean[][]
+  return scheduleToButtons(schedule)
 }
 
 describe('Performance and Timeout Tests', () => {
@@ -38,7 +39,7 @@ describe('Performance and Timeout Tests', () => {
     vi.clearAllTimers()
   })
 
-  test('times out on impossible scheduling problem', async () => {
+  test('times out on impossible scheduling problem', () => {
     // Create impossible scenario: 50 students all want same single time slot
     const students: StudentSchedule[] = []
     const impossibleSchedule: Schedule = {
@@ -58,7 +59,7 @@ describe('Performance and Timeout Tests', () => {
     const teacherGrid = createTeacherGrid(impossibleSchedule)
     
     const startTime = Date.now()
-    const result = await solve(students, teacherGrid, strictHeuristics)
+    const result = solve(students, teacherGrid, strictHeuristics)
     const duration = Date.now() - startTime
     
     // Should fail within reasonable time (not run forever)
@@ -66,7 +67,7 @@ describe('Performance and Timeout Tests', () => {
     expect(result).toBeNull() // Should return null for impossible problems
   }, 45000)
 
-  test('handles pathological backtracking case efficiently', async () => {
+  test('handles pathological backtracking case efficiently', () => {
     // Create scenario that forces maximum backtracking
     const students: StudentSchedule[] = []
     
@@ -95,7 +96,7 @@ describe('Performance and Timeout Tests', () => {
     })
     
     const startTime = Date.now()
-    const result = await solve(students, teacherGrid, strictHeuristics)
+    const result = solve(students, teacherGrid, strictHeuristics)
     const duration = Date.now() - startTime
     
     // Should complete quickly even with backtracking
@@ -107,7 +108,7 @@ describe('Performance and Timeout Tests', () => {
     }
   }, 15000)
 
-  test('memory usage stays bounded during large problem solving', async () => {
+  test('memory usage stays bounded during large problem solving', () => {
     // Monitor memory usage during solving
     const initialMemory = process.memoryUsage()
     
@@ -134,7 +135,7 @@ describe('Performance and Timeout Tests', () => {
     
     const teacherGrid = createTeacherGrid(flexibleSchedule)
     
-    const result = await solve(students, teacherGrid, strictHeuristics)
+    const result = solve(students, teacherGrid, strictHeuristics)
     
     const finalMemory = process.memoryUsage()
     const memoryIncrease = finalMemory.heapUsed - initialMemory.heapUsed
@@ -144,7 +145,7 @@ describe('Performance and Timeout Tests', () => {
     expect(memoryIncrease).toBeLessThan(100 * 1024 * 1024)
   }, 30000)
 
-  test('solver performance scales predictably', async () => {
+  test('solver performance scales predictably', () => {
     const performanceResults: Array<{ studentCount: number; time: number; success: boolean }> = []
     
     const baseCounts = [5, 10, 15, 20, 25, 30]
@@ -188,7 +189,7 @@ describe('Performance and Timeout Tests', () => {
       })
       
       const startTime = Date.now()
-      const result = await solve(students, teacherGrid, strictHeuristics)
+      const result = solve(students, teacherGrid, strictHeuristics)
       const duration = Date.now() - startTime
       
       performanceResults.push({
@@ -206,8 +207,8 @@ describe('Performance and Timeout Tests', () => {
     expect(successfulRuns.length).toBeGreaterThan(3) // Most should succeed
     
     // Performance should not grow exponentially
-    const timeForFive = successfulRuns.find(r => r.studentCount === 5)?.time || 0
-    const timeForThirty = successfulRuns.find(r => r.studentCount === 30)?.time || 0
+    const timeForFive = successfulRuns.find(r => r.studentCount === 5)?.time ?? 0
+    const timeForThirty = successfulRuns.find(r => r.studentCount === 30)?.time ?? 0
     
     if (timeForFive > 0 && timeForThirty > 0) {
       const scalingFactor = timeForThirty / timeForFive
@@ -235,9 +236,9 @@ describe('Performance and Timeout Tests', () => {
     const teacherGrid = createTeacherGrid(simpleSchedule)
     
     // Launch multiple solve operations concurrently
-    const promises = Array(5).fill(null).map(async (_, index) => {
+    const promises = Array.from({ length: 5 }, (_, index) => {
       const studentsSubset = students.slice(0, index + 1)
-      return await solve(studentsSubset, teacherGrid, strictHeuristics)
+      return Promise.resolve(solve(studentsSubset, teacherGrid, strictHeuristics))
     })
     
     const results = await Promise.all(promises)
@@ -245,11 +246,13 @@ describe('Performance and Timeout Tests', () => {
     // All should complete successfully
     results.forEach((result, index) => {
       expect(result).not.toBeNull()
-      expect(result!.assignments.length).toBe(index + 1)
+      if (result) {
+        expect(result.assignments.length).toBe(index + 1)
+      }
     })
   }, 30000)
 
-  test('solver handles edge case with single time slot correctly', async () => {
+  test('solver handles edge case with single time slot correctly', () => {
     const students: StudentSchedule[] = []
     const singleSlotSchedule: Schedule = {
       Monday: [{ start: { hour: 15, minute: 0 }, end: { hour: 15, minute: 30 } }],
@@ -269,28 +272,32 @@ describe('Performance and Timeout Tests', () => {
     const teacherGrid = createTeacherGrid(singleSlotSchedule)
     
     const startTime = Date.now()
-    const result = await solve(students, teacherGrid, strictHeuristics)
+    const result = solve(students, teacherGrid, strictHeuristics)
     const duration = Date.now() - startTime
     
     expect(duration).toBeLessThan(1000) // Should be very fast
     expect(result).not.toBeNull()
-    expect(result!.assignments.length).toBe(1) // Only one can fit
+    if (result) {
+      expect(result.assignments.length).toBe(1) // Only one can fit
+    }
   })
 
-  test('solver handles empty input gracefully', async () => {
+  test('solver handles empty input gracefully', () => {
     const emptyStudents: StudentSchedule[] = []
     const teacherGrid = createTeacherGrid({
       Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
       Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
     })
     
-    const result = await solve(emptyStudents, teacherGrid, strictHeuristics)
+    const result = solve(emptyStudents, teacherGrid, strictHeuristics)
     
     expect(result).not.toBeNull()
-    expect(result!.assignments).toHaveLength(0)
+    if (result) {
+      expect(result.assignments).toHaveLength(0)
+    }
   })
 
-  test('solver handles teacher with no availability', async () => {
+  test('solver handles teacher with no availability', () => {
     const students: StudentSchedule[] = [
       generateStudent(
         'Student1',
@@ -303,14 +310,14 @@ describe('Performance and Timeout Tests', () => {
       )
     ]
     
-    const emptyTeacherGrid = Array(7).fill(null).map(() => Array(24).fill(false))
+    const emptyTeacherGrid: boolean[][] = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     
-    const result = await solve(students, emptyTeacherGrid, strictHeuristics)
+    const result = solve(students, emptyTeacherGrid, strictHeuristics)
     
     expect(result).toBeNull() // Should return null when teacher has no availability
   })
 
-  test('break requirements affect performance predictably', async () => {
+  test('break requirements affect performance predictably', () => {
     const students: StudentSchedule[] = []
     
     // Create 15 students all wanting consecutive slots
@@ -336,11 +343,11 @@ describe('Performance and Timeout Tests', () => {
     const strictBreakHeuristics: Heuristics = { numConsecHalfHours: 2, breakLenInHalfHours: 2 }
     
     const noBreakStart = Date.now()
-    const noBreakResult = await solve(students, teacherGrid, noBreakHeuristics)
+    const noBreakResult = solve(students, teacherGrid, noBreakHeuristics)
     const noBreakTime = Date.now() - noBreakStart
     
     const strictBreakStart = Date.now()
-    const strictBreakResult = await solve(students, teacherGrid, strictBreakHeuristics)
+    const strictBreakResult = solve(students, teacherGrid, strictBreakHeuristics)
     const strictBreakTime = Date.now() - strictBreakStart
     
     // Both should complete in reasonable time
@@ -348,8 +355,8 @@ describe('Performance and Timeout Tests', () => {
     expect(strictBreakTime).toBeLessThan(10000)
     
     // No break should allow more students to be scheduled
-    expect(noBreakResult?.assignments.length || 0).toBeGreaterThanOrEqual(
-      strictBreakResult?.assignments.length || 0
+    expect(noBreakResult?.assignments.length ?? 0).toBeGreaterThanOrEqual(
+      strictBreakResult?.assignments.length ?? 0
     )
   }, 30000)
 })

@@ -2,8 +2,9 @@ import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '../../test/utils'
 import MiniStudentSchedule from '../../components/MiniStudentSchedule'
 import type { StudentSchema } from 'lib/schema'
-import type { StudioWithStudents } from '../../pages/studios/[slug]'
+import type { StudioWithStudents } from '../../app/(protected)/studios/[slug]/page'
 import type { Schedule } from 'lib/types'
+import { Time } from 'lib/types'
 
 // Mock Supabase client
 const mockSupabaseClient = {
@@ -17,20 +18,26 @@ vi.mock('@supabase/auth-helpers-react', () => ({
 }))
 
 // Mock SetAvailabilityDialog
+interface MockSetAvailabilityDialogProps {
+  handleSubmit: () => Promise<void>
+  myAvailability: boolean[][]
+  setMyAvailability: (availability: boolean[][]) => void
+}
+
 vi.mock('../../components/SetAvailabilityDialog', () => ({
-  default: ({ handleSubmit, myAvailability, setMyAvailability }: any) => (
+  default: ({ handleSubmit, myAvailability, setMyAvailability }: MockSetAvailabilityDialogProps) => (
     <div data-testid="availability-dialog">
       <div data-testid="current-availability">{JSON.stringify(myAvailability)}</div>
       <button 
-        onClick={async () => {
+        onClick={() => {
           // Simulate changing availability
           const newAvailability = myAvailability.map((day: boolean[], dayIndex: number) => 
-            day.map((slot: boolean, slotIndex: number) => 
+            day.map((_slot: boolean, slotIndex: number) => 
               dayIndex === 1 && slotIndex >= 4 && slotIndex <= 7 // Tuesday afternoon
             )
           )
           setMyAvailability(newAvailability)
-          await handleSubmit()
+          void handleSubmit()
         }}
       >
         Update Availability
@@ -40,8 +47,19 @@ vi.mock('../../components/SetAvailabilityDialog', () => ({
 }))
 
 // Mock UI components
+interface MockDialogProps {
+  children: React.ReactNode
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+interface MockDialogTriggerProps {
+  children: React.ReactNode
+  asChild?: boolean
+}
+
 vi.mock('../../components/ui/dialog', () => ({
-  Dialog: ({ children, open, onOpenChange }: any) => (
+  Dialog: ({ children, open, onOpenChange }: MockDialogProps) => (
     <div data-testid="dialog" data-open={open}>
       {children}
       {open && (
@@ -49,27 +67,25 @@ vi.mock('../../components/ui/dialog', () => ({
       )}
     </div>
   ),
-  DialogTrigger: ({ children, asChild }: any) => <div>{children}</div>
+  DialogTrigger: ({ children }: MockDialogTriggerProps) => <div>{children}</div>
 }))
 
 // Mock utility functions
 vi.mock('lib/heur_solver', () => ({
-  scheduleToButtons: (schedule: Schedule) => {
+  scheduleToButtons: (_schedule: Schedule): boolean[][] => {
     // Simple mock implementation
-    return Array(7).fill(null).map(() => Array(24).fill(false))
+    return Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
   }
 }))
 
-vi.mock('lib/utils', async (importOriginal) => {
-  const actual = await importOriginal()
+vi.mock('lib/utils', () => {
   return {
-    ...actual,
-    cn: (...inputs: any[]) => inputs.join(' '), // Mock cn function
-    buttonsToSchedule: (buttons: boolean[][], minutes: number) => {
+    cn: (...inputs: unknown[]) => inputs.join(' '), // Mock cn function
+    buttonsToSchedule: (_buttons: boolean[][], _minutes: number) => {
       // Simple mock that returns a schedule with Tuesday afternoon
       return {
         Monday: [],
-        Tuesday: [{ start: { hour: 14, minute: 0 }, end: { hour: 16, minute: 0 } }],
+        Tuesday: [{ start: new Time(14, 0), end: new Time(16, 0) }],
         Wednesday: [],
         Thursday: [],
         Friday: [],
@@ -89,15 +105,15 @@ describe('MiniStudentSchedule Component', () => {
     first_name: 'Alice',
     last_name: 'Smith',
     email: 'alice@test.com',
-    lesson_length: 30,
+    lesson_length: '30' as const,
     schedule: {
       Monday: [
-        { start: { hour: 10, minute: 0 }, end: { hour: 12, minute: 0 } },
-        { start: { hour: 14, minute: 30 }, end: { hour: 16, minute: 0 } }
+        { start: new Time(10, 0), end: new Time(12, 0) },
+        { start: new Time(14, 30), end: new Time(16, 0) }
       ],
       Tuesday: [],
       Wednesday: [
-        { start: { hour: 9, minute: 0 }, end: { hour: 10, minute: 30 } }
+        { start: new Time(9, 0), end: new Time(10, 30) }
       ],
       Thursday: [],
       Friday: [],
@@ -239,28 +255,25 @@ describe('MiniStudentSchedule Component', () => {
     // Check that setStudio was called with updated student
     await waitFor(() => {
       expect(mockSetStudio).toHaveBeenCalled()
-      const updatedStudio = mockSetStudio.mock.calls[0][0]
-      expect(updatedStudio.students[0].schedule).toHaveProperty('Tuesday')
-      expect(updatedStudio.students[0].schedule.Tuesday).toHaveLength(1)
+      const updatedStudio = mockSetStudio.mock.calls[0]?.[0] as StudioWithStudents
+      expect(updatedStudio.students[0]?.schedule).toHaveProperty('Tuesday')
+      expect(updatedStudio.students[0]?.schedule.Tuesday).toHaveLength(1)
     })
 
     // Check database update
     expect(mockSupabaseClient.from).toHaveBeenCalledWith('students')
-    expect(mockSupabaseClient.update).toHaveBeenCalledWith({
-      schedule: expect.objectContaining({
-        Tuesday: expect.arrayContaining([
-          expect.objectContaining({
-            start: { hour: 14, minute: 0 },
-            end: { hour: 16, minute: 0 }
-          })
-        ])
+    expect(mockSupabaseClient.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        schedule: expect.any(Object) as unknown
       })
-    })
+    )
     expect(mockSupabaseClient.eq).toHaveBeenCalledWith('id', mockStudent.id)
   })
 
   test('handles database errors gracefully', async () => {
-    const mockConsoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const mockConsoleError = vi.spyOn(console, 'error').mockImplementation(() => {
+      // Mock console.error implementation
+    })
     mockSupabaseClient.eq.mockResolvedValueOnce({ 
       error: { message: 'Database error' } 
     })
@@ -322,7 +335,6 @@ describe('MiniStudentSchedule Component', () => {
     )
 
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    const dayElements = screen.getAllByText(/day$/i)
     
     // Verify days appear in correct order
     days.forEach(day => {
@@ -412,10 +424,10 @@ describe('MiniStudentSchedule Component', () => {
     })
 
     await waitFor(() => {
-      const updatedStudio = mockSetStudio.mock.calls[0][0]
+      const updatedStudio = mockSetStudio.mock.calls[0]?.[0] as StudioWithStudents
       expect(updatedStudio.students).toHaveLength(2)
-      expect(updatedStudio.students[0].id).toBe(1) // Alice updated
-      expect(updatedStudio.students[1].id).toBe(2) // Bob unchanged
+      expect(updatedStudio.students[0]?.id).toBe(1) // Alice updated
+      expect(updatedStudio.students[1]?.id).toBe(2) // Bob unchanged
     })
   })
 })

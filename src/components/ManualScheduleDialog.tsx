@@ -1,9 +1,11 @@
+"use client";
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
-import ManualStudentCalendarHandler from "./ManualStudentCalendarHandler";
-import type { StudioWithStudents } from "~/pages/studios/[slug]"
+import ManualStudentCalendarWithAdaptive from "./ManualStudentCalendarWithAdaptive";
+import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { useState } from "react";
 import { type Event } from "./InteractiveCalendar";
 
@@ -31,8 +33,11 @@ export default function ManualScheduleDialog(props: Props) {
           <Button className="w-full">Add Student Schedules Manually</Button>
         </DialogTrigger>
         {uploading ? (
-          <DialogContent className="min-w-[90vw] max-h-[90vh]">
-            <ManualStudentCalendarHandler 
+          <DialogContent className="max-w-[95vw] w-[95vw] max-h-[95vh] h-[95vh] p-4">
+            <DialogHeader>
+              <DialogTitle>Manual Schedule Entry</DialogTitle>
+            </DialogHeader>
+            <ManualStudentCalendarWithAdaptive 
               studio={props.studio}
               setStudio={props.setStudio}
               setOpen={() => {

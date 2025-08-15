@@ -1,7 +1,8 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { render, screen } from '../../test/utils'
 import StudioCard from '../../components/StudioCard'
-import type { StudioWithStudents } from '~/pages/studios'
+import type { StudioWithStudents } from '@/app/(protected)/studios/page'
+import { Time } from 'lib/types'
 
 describe('StudioCard Component', () => {
   let mockStudio: StudioWithStudents
@@ -14,33 +15,13 @@ describe('StudioCard Component', () => {
       code: 'MUSIC',
       studio_name: 'Music Lessons Studio',
       owner_schedule: {
-        Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
+        Monday: [{ start: new Time(9, 0), end: new Time(17, 0) }],
         Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
       },
       events: null,
       students: [
-        {
-          id: 1,
-          email: 'student1@test.com',
-          first_name: 'Alice',
-          last_name: 'Student',
-          studio_id: 1,
-          lesson_length: '30',
-          schedule: {
-            Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
-          }
-        },
-        {
-          id: 2,
-          email: 'student2@test.com',
-          first_name: 'Bob',
-          last_name: 'Student',
-          studio_id: 1,
-          lesson_length: '60',
-          schedule: {
-            Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
-          }
-        }
+        { id: '1' },
+        { id: '2' }
       ]
     }
   })
@@ -109,10 +90,12 @@ describe('StudioCard Component', () => {
   })
 
   test('shows "Not Started" status when no schedule and no events', () => {
-    // STEP 1: Create studio with no schedule
+    // STEP 1: Create studio with no schedule (empty schedule)
     const studioNotStarted = {
       ...mockStudio,
-      owner_schedule: null,
+      owner_schedule: {
+        Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
+      },
       events: null
     }
     
@@ -144,15 +127,7 @@ describe('StudioCard Component', () => {
   test('handles studio with many students', () => {
     // STEP 1: Create studio with many students
     const manyStudents = Array.from({ length: 15 }, (_, i) => ({
-      id: i + 1,
-      email: `student${i + 1}@test.com`,
-      first_name: `Student${i + 1}`,
-      last_name: 'Test',
-      studio_id: 1,
-      lesson_length: '30' as const,
-      schedule: {
-        Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
-      }
+      id: `${i + 1}`
     }))
     
     const studioManyStudents = {

@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '../../test/utils'
 import { CardWithSubmit } from '../../components/CardWithSubmit'
-import type { State } from 'lib/types'
+import type { Schedule } from '../../../lib/types'
 
 // Mock the toast hook to avoid dependency issues
 vi.mock('../../components/ui/use-toast', () => ({
@@ -14,15 +14,15 @@ vi.mock('../../components/ui/use-toast', () => ({
 vi.mock('lib/utils', async (importOriginal) => {
   const actual = await importOriginal()
   return {
-    ...actual,
-    cn: (...inputs: any[]) => inputs.join(' '), // Mock cn function
+    ...(actual as Record<string, unknown>),
+    cn: (...inputs: string[]) => inputs.join(' '), // Mock cn function
   }
 })
 
 describe('CardWithSubmit Component', () => {
-  let mockSetState: any
-  let mockSetTeacherSchedule: any
-  let mockHandleSubmit: any
+  let mockSetState: (state: string) => void
+  let mockSetTeacherSchedule: (schedule: Schedule) => void
+  let mockHandleSubmit: () => void
   let mockButtonStates: boolean[][]
   
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('CardWithSubmit Component', () => {
     mockHandleSubmit = vi.fn()
     
     // Create sample button states (teacher availability)
-    mockButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    mockButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     // Set some availability (Monday 10am-12pm)
     mockButtonStates[0]![2] = true  // 10:00am
     mockButtonStates[0]![3] = true  // 10:30am
@@ -98,20 +98,20 @@ describe('CardWithSubmit Component', () => {
     // STEP 4: Verify schedule conversion was called with correct params
     expect(mockSetTeacherSchedule).toHaveBeenCalledWith(
       expect.objectContaining({
-        Monday: expect.any(Array),
-        Tuesday: expect.any(Array),
-        Wednesday: expect.any(Array),
-        Thursday: expect.any(Array),
-        Friday: expect.any(Array),
-        Saturday: expect.any(Array),
-        Sunday: expect.any(Array)
+        Monday: expect.any(Array) as unknown[],
+        Tuesday: expect.any(Array) as unknown[],
+        Wednesday: expect.any(Array) as unknown[],
+        Thursday: expect.any(Array) as unknown[],
+        Friday: expect.any(Array) as unknown[],
+        Saturday: expect.any(Array) as unknown[],
+        Sunday: expect.any(Array) as unknown[]
       })
     )
   })
 
   test('handles empty button states correctly', () => {
     // STEP 1: Create empty button states
-    const emptyButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const emptyButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     
     // STEP 2: Render with empty availability
     render(
@@ -134,7 +134,7 @@ describe('CardWithSubmit Component', () => {
 
   test('displays complex availability schedule correctly', () => {
     // STEP 1: Create complex availability pattern
-    const complexButtonStates = Array(7).fill(null).map(() => Array(24).fill(false))
+    const complexButtonStates = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => false))
     
     // Monday 9am-11am
     complexButtonStates[0]![0] = true
@@ -182,7 +182,7 @@ describe('CardWithSubmit Component', () => {
     )
     
     // STEP 2: Check card structure exists
-    const card = screen.getByText('Add availablilty').closest('.card, [role="region"]') || 
+    const card = screen.getByText('Add availablilty').closest('.card, [role="region"]') ??
                 screen.getByText('Add availablilty').closest('div')
     expect(card).toBeInTheDocument()
     

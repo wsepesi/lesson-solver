@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react"
 
 import {
@@ -7,11 +9,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card"
+} from "@/components/ui/card"
 import type { Schedule, State } from "lib/types"
 import { buttonStatesToText, buttonsToSchedule } from "lib/utils"
 
-import { Button } from "~/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { useToast } from "./ui/use-toast"
 
 type Props = {

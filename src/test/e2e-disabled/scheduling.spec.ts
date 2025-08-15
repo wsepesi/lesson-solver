@@ -27,7 +27,7 @@ test.describe('Scheduling Integration & Performance', () => {
     
     // STEP 2: Verify students are enrolled (this would be pre-test setup)
     const studentCount = await page.locator('[data-testid="student-count"]').textContent()
-    expect(parseInt(studentCount || '0')).toBeGreaterThan(0)
+    expect(parseInt(studentCount ?? '0')).toBeGreaterThan(0)
     
     // STEP 3: Open solver dialog
     await page.click('text=Generate Schedule')
@@ -144,7 +144,7 @@ test.describe('Scheduling Integration & Performance', () => {
     // STEP 6: Verify 60min lessons span exactly 2 time slots
     if (sixtyCount > 0) {
       const firstSixtyMin = sixtyMinSlots.first()
-      const timeSlot = await firstSixtyMin.getAttribute('data-time')
+      // const timeSlot = await firstSixtyMin.getAttribute('data-time') // Unused variable
       
       // A 60min lesson should have a visual indicator spanning 2 slots
       await expect(firstSixtyMin).toHaveClass(/lesson-60|double-slot/)
@@ -187,7 +187,7 @@ test.describe('Scheduling Integration & Performance', () => {
       for (let i = 0; i < assignmentCount; i++) {
         const assignment = mondayAssignments.nth(i)
         const timeSlot = await assignment.getAttribute('data-slot')
-        assignmentTimes.push(parseInt(timeSlot || '0'))
+        assignmentTimes.push(parseInt(timeSlot ?? '0'))
       }
       
       assignmentTimes.sort((a, b) => a - b)
@@ -215,7 +215,7 @@ test.describe('Scheduling Integration & Performance', () => {
   test('performance benchmark: 20+ students in under 10 seconds', async ({ page }) => {
     // STEP 1: Verify we have enough students for performance test
     const studentCount = await page.locator('[data-testid="student-count"]').textContent()
-    const numStudents = parseInt(studentCount || '0')
+    const numStudents = parseInt(studentCount ?? '0')
     
     if (numStudents < 20) {
       test.skip('Insufficient students for performance test (need 20+)')
@@ -291,7 +291,7 @@ test.describe('Scheduling Integration & Performance', () => {
     await page.click('[data-testid="solve-schedule"]')
     
     // STEP 3: Verify solver handles complex patterns
-    const result = await Promise.race([
+    await Promise.race([
       page.locator('text=Schedule generated').waitFor({ timeout: 20000 }),
       page.locator('text=Unable to schedule all students').waitFor({ timeout: 20000 })
     ])

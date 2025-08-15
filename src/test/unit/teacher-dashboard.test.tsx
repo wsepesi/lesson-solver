@@ -2,11 +2,52 @@ import { describe, test, expect, beforeEach } from 'vitest'
 import { render, screen } from '../../test/utils'
 import { TeacherDashboard } from '../../components/teacher-dashboard'
 import type { User } from '@supabase/auth-helpers-react'
-import type { StudioWithStudents } from '~/pages/studios'
+import type { StudioWithStudents } from '@/app/(protected)/studios/page'
+import { Time } from '../../../lib/types'
+
+// Define proper interfaces for mock data to avoid 'any' types
+interface MockUserMetadata {
+  first_name?: string
+  last_name?: string
+}
+
+interface MockUser extends User {
+  user_metadata: MockUserMetadata
+  app_metadata: Record<string, unknown>
+}
+
+interface MockBlockOfTime {
+  start: { hour: number; minute: number }
+  end: { hour: number; minute: number }
+}
+
+interface MockSchedule {
+  Monday: MockBlockOfTime[]
+  Tuesday: MockBlockOfTime[]
+  Wednesday: MockBlockOfTime[]
+  Thursday: MockBlockOfTime[]
+  Friday: MockBlockOfTime[]
+  Saturday: MockBlockOfTime[]
+  Sunday: MockBlockOfTime[]
+}
+
+interface MockStudent {
+  id: string
+  email: string
+  first_name: string
+  last_name: string
+  studio_id: number
+  lesson_length: string
+  schedule: MockSchedule
+}
+
+interface MockStudio extends Omit<StudioWithStudents, 'students'> {
+  students: MockStudent[]
+}
 
 describe('TeacherDashboard Component', () => {
-  let mockUser: User
-  let mockStudios: StudioWithStudents[]
+  let mockUser: MockUser
+  let mockStudios: MockStudio[]
   
   beforeEach(() => {
     // Create mock user
@@ -21,7 +62,7 @@ describe('TeacherDashboard Component', () => {
       aud: 'authenticated',
       created_at: '2023-01-01T00:00:00Z',
       updated_at: '2023-01-01T00:00:00Z'
-    } as User
+    } as MockUser
     
     // Create mock studios
     mockStudios = [
@@ -31,13 +72,13 @@ describe('TeacherDashboard Component', () => {
         code: 'MUSIC',
         studio_name: 'Music Lessons Studio',
         owner_schedule: {
-          Monday: [{ start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } }],
+          Monday: [{ start: new Time(9, 0), end: new Time(17, 0) }],
           Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: []
         },
         events: null,
         students: [
           {
-            id: 1,
+            id: '1',
             email: 'student1@test.com',
             first_name: 'Alice',
             last_name: 'Student',
@@ -78,10 +119,10 @@ describe('TeacherDashboard Component', () => {
 
   test('renders welcome message without name when user has no first_name', () => {
     // STEP 1: Create user without first_name
-    const userWithoutName = {
+    const userWithoutName: MockUser = {
       ...mockUser,
       user_metadata: {}
-    } as User
+    }
     
     // STEP 2: Render dashboard
     render(
@@ -176,8 +217,8 @@ describe('TeacherDashboard Component', () => {
     const plusIcon = screen.getByText('Create New Studio').closest('a')?.querySelector('svg')
     expect(plusIcon).toBeInTheDocument()
     
-    // STEP 3: Check SVG has correct paths for plus icon
-    const paths = plusIcon?.querySelectorAll('path')
+    // STEP 3: Check SVG has correct paths for plus icon - use nullish coalescing
+    const paths = plusIcon?.querySelectorAll('path') ?? []
     expect(paths).toHaveLength(2) // Plus icon has 2 path elements
   })
 
@@ -214,8 +255,8 @@ describe('TeacherDashboard Component', () => {
   })
 
   test('handles large number of studios', () => {
-    // STEP 1: Create many studios
-    const manyStudios = Array.from({ length: 10 }, (_, i) => ({
+    // STEP 1: Create many studios with proper typing
+    const manyStudios: MockStudio[] = Array.from({ length: 10 }, (_, i) => ({
       id: i + 1,
       user_id: 'test-user-id',
       code: `STU${i}`,

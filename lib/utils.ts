@@ -4,7 +4,7 @@ import type { BlockOfTime, Day, LessonLength, Schedule, StudentSchedule } from "
 import { Time } from "./types"
 import type { Block, FinalSchedule, Slot, StudentWithButtons } from "./heur_solver"
 import { getTimeIndex, type Event } from "src/components/InteractiveCalendar"
-import { type StudioWithStudents } from "~/pages/studios/[slug]"
+import { type StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -77,7 +77,15 @@ export const scheduleToAvailability = (schedule: Schedule): BlockOfTime[] => {
 }
 
 export const availabilityToSchedule = (availability: BlockOfTime[]): Schedule => {
-  const schedule: Schedule = {}
+  const schedule: Schedule = {
+    Monday: undefined,
+    Tuesday: undefined,
+    Wednesday: undefined,
+    Thursday: undefined,
+    Friday: undefined,
+    Saturday: undefined,
+    Sunday: undefined
+  }
   Days.forEach((day, i) => {
     const dayBlocks: BlockOfTime[] = []
     availability.forEach(block => {
@@ -94,7 +102,15 @@ export const availabilityToSchedule = (availability: BlockOfTime[]): Schedule =>
 }
 
 export const blockOfTimeToSchedule = (block: BlockOfTime): Schedule => {
-  const schedule: Schedule = {}
+  const schedule: Schedule = {
+    Monday: undefined,
+    Tuesday: undefined,
+    Wednesday: undefined,
+    Thursday: undefined,
+    Friday: undefined,
+    Saturday: undefined,
+    Sunday: undefined
+  }
   Days.forEach((day, i) => {
     const dayBlocks: BlockOfTime[] = []
     if (block.start.hour >= i * 100 && block.start.hour < (i + 1) * 100) {
@@ -111,7 +127,15 @@ export const blockOfTimeToSchedule = (block: BlockOfTime): Schedule => {
 //TODO: refactor
 export function buttonsToSchedule(buttons: boolean[][], lessonLength: LessonLength): Schedule {
   const isThirty = lessonLength === 30;
-  const schedule: Schedule = {}
+  const schedule: Schedule = {
+    Monday: undefined,
+    Tuesday: undefined,
+    Wednesday: undefined,
+    Thursday: undefined,
+    Friday: undefined,
+    Saturday: undefined,
+    Sunday: undefined
+  }
   Days.forEach((day, i) => {
     const dayBlocks: BlockOfTime[] = []
     let on = false
