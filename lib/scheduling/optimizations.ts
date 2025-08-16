@@ -20,14 +20,11 @@ import type {
   StudentConfig,
   TeacherConfig,
   LessonAssignment,
-  ScheduleSolution
-} from './types';
-
-import type {
+  ScheduleSolution,
   Variable,
   TimeSlot,
   Domain
-} from './solver';
+} from './types';
 
 import type {
   SolverContext
@@ -76,10 +73,10 @@ export const DEFAULT_OPTIMIZATION_CONFIG: OptimizationConfig = {
   enableIncrementalSolving: true,
   enableParallelSearch: false, // Disabled by default due to Node.js single-threaded nature
   enableEarlyTermination: true,
-  earlyTerminationThreshold: 85, // Stop at 85% quality if found quickly
-  maxCacheSize: 10000,
+  earlyTerminationThreshold: 75, // More aggressive - stop at 75% quality if found quickly
+  maxCacheSize: 25000, // Increased cache size for better hit rates
   parallelBranches: 4,
-  preprocessingLevel: 3
+  preprocessingLevel: 4 // More aggressive preprocessing (was 3)
 };
 
 // ============================================================================
@@ -249,10 +246,15 @@ export class PreprocessingOptimizer {
    * Level 4: Apply advanced heuristics to prioritize better slots
    */
   private applyLevel4AdvancedHeuristics(
-    _variables: Variable[],
+    variables: Variable[],
     domains: Domain[],
     context: SolverContext
   ): void {
+    // For large scenarios (50+ students), be more aggressive
+    const isLargeScenario = variables.length >= 50;
+    const keepPercentage = isLargeScenario ? 0.5 : 0.7; // Keep only top 50% for large scenarios
+    const minKeep = isLargeScenario ? 5 : 10;
+    
     for (const domain of domains) {
       // Score and sort time slots by desirability
       domain.timeSlots = domain.timeSlots
@@ -261,7 +263,7 @@ export class PreprocessingOptimizer {
           score: this.calculateSlotDesirabilityScore(slot, domain.variableId, context)
         }))
         .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .slice(0, Math.max(10, Math.ceil(domain.timeSlots.length * 0.7))); // Keep top 70% or at least 10
+        .slice(0, Math.max(minKeep, Math.ceil(domain.timeSlots.length * keepPercentage)));
     }
   }
 
@@ -271,17 +273,53 @@ export class PreprocessingOptimizer {
   private applyLevel5AggressivePruning(
     variables: Variable[],
     domains: Domain[],
-    _context: SolverContext
+    context: SolverContext
   ): void {
-    // Remove slots that are likely to lead to poor global solutions
+    // For very large scenarios, be extremely aggressive
+    const isVeryLargeScenario = variables.length >= 100;
+    const isLargeScenario = variables.length >= 50;
+    
     const totalAvailableSlots = domains.reduce((sum, d) => sum + d.timeSlots.length, 0);
     const averageSlotsPerStudent = totalAvailableSlots / variables.length;
 
     for (const domain of domains) {
       if (domain.timeSlots.length > averageSlotsPerStudent * 2) {
-        // If this student has way more options than average, be more selective
-        domain.timeSlots = domain.timeSlots.slice(0, Math.ceil(averageSlotsPerStudent * 1.5));
+        // Be more aggressive for larger scenarios
+        let maxKeep;
+        if (isVeryLargeScenario) {
+          maxKeep = Math.ceil(averageSlotsPerStudent * 1.2); // Very aggressive
+        } else if (isLargeScenario) {
+          maxKeep = Math.ceil(averageSlotsPerStudent * 1.3); // Aggressive
+        } else {
+          maxKeep = Math.ceil(averageSlotsPerStudent * 1.5); // Moderate
+        }
+        
+        domain.timeSlots = domain.timeSlots.slice(0, maxKeep);
       }
+    }
+    
+    // Additional pruning for large scenarios: remove isolated time slots
+    if (isLargeScenario) {
+      this.removeIsolatedTimeSlots(domains, context);
+    }
+  }
+
+  /**
+   * Remove time slots that are isolated and unlikely to form good patterns
+   */
+  private removeIsolatedTimeSlots(domains: Domain[], _context: SolverContext): void {
+    for (const domain of domains) {
+      domain.timeSlots = domain.timeSlots.filter(slot => {
+        // Check if this slot has "neighbors" - other time slots that could form patterns
+        const sameDay = domain.timeSlots.filter(other => 
+          other.dayOfWeek === slot.dayOfWeek && 
+          Math.abs(other.startMinute - slot.startMinute) <= 120 // Within 2 hours
+        );
+        
+        // Keep slots that have at least one neighbor or are during prime time
+        const isPrimeTime = slot.startMinute >= 540 && slot.startMinute <= 1020; // 9am-5pm
+        return sameDay.length > 1 || isPrimeTime;
+      });
     }
   }
 
@@ -507,17 +545,28 @@ export class CacheManager {
 
   /**
    * Generate a hash for the current context to use as cache key
+   * Uses pattern-based hashing for better cache hit rates
    */
   generateContextHash(context: SolverContext): string {
-    const assignments = context.existingAssignments
-      .map(a => `${a.studentId}:${a.dayOfWeek}:${a.startMinute}:${a.durationMinutes}`)
-      .sort()
-      .join('|');
+    // Create a more stable hash based on occupancy patterns rather than exact assignments
+    const dayOccupancy = new Array(7).fill(0);
+    const hourOccupancy = new Array(24).fill(0);
     
-    // Simple hash function - could be improved with proper hashing
+    for (const assignment of context.existingAssignments) {
+      dayOccupancy[assignment.dayOfWeek]++;
+      const hour = Math.floor(assignment.startMinute / 60);
+      if (hour >= 0 && hour < 24) {
+        hourOccupancy[hour]++;
+      }
+    }
+    
+    // Create pattern-based hash that's more stable
+    const pattern = `d:${dayOccupancy.join(',')}|h:${hourOccupancy.join(',')}|n:${context.existingAssignments.length}`;
+    
+    // Simple hash function
     let hash = 0;
-    for (let i = 0; i < assignments.length; i++) {
-      const char = assignments.charCodeAt(i);
+    for (let i = 0; i < pattern.length; i++) {
+      const char = pattern.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash; // Convert to 32bit integer
     }

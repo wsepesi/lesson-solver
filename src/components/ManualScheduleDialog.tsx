@@ -4,10 +4,19 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
-import ManualStudentCalendarWithAdaptive from "./ManualStudentCalendarWithAdaptive";
+import ManualStudentScheduling from "./ManualStudentScheduling";
 import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { useState } from "react";
-import { type Event } from "./InteractiveCalendar";
+// Event type previously from InteractiveCalendar - now defined inline
+export interface Event {
+  id: string;
+  name: string;
+  booking: {
+    day: string;
+    timeInterval: { start: number; duration: number };
+  };
+  student_id: number;
+};
 
 type Props = {
   studio: StudioWithStudents
@@ -37,7 +46,7 @@ export default function ManualScheduleDialog(props: Props) {
             <DialogHeader>
               <DialogTitle>Manual Schedule Entry</DialogTitle>
             </DialogHeader>
-            <ManualStudentCalendarWithAdaptive 
+            <ManualStudentScheduling 
               studio={props.studio}
               setStudio={props.setStudio}
               setOpen={() => {
@@ -55,7 +64,7 @@ export default function ManualScheduleDialog(props: Props) {
           <DialogHeader>
             <DialogTitle>Add Student Schedules Manually</DialogTitle>
             <DialogDescription>
-              Manage student schedules directly, without sending them an onboarding link. Use our calendar to fill in schedules, or upload your data as a spreadsheet.
+              Manage student schedules directly, without sending them an onboarding link. Use our calendar to fill in schedules.
             </DialogDescription>
           </DialogHeader>
           
@@ -64,11 +73,11 @@ export default function ManualScheduleDialog(props: Props) {
                 <Label>Use Calendar</Label>
                 <Button className="w-full" onClick={() => {setUploading(true)}}>Go</Button>
             </div>
-            <h3 className="font-thin px-5">OR</h3>
+            {/* <h3 className="font-thin px-5">OR</h3>
             <div className="flex-col">
                 <Label>Upload Data</Label>
                 <Button className="w-full">Go</Button>
-            </div>
+            </div> */}
           </div>
         
         </DialogContent>

@@ -1,0 +1,96 @@
+{
+  "name": "k-100-flexible",
+  "description": "Flexible scenarios with many possible solutions (k≥100)",
+  "cases": [
+    {
+      "id": "flexible-001",
+      "description": "High flexibility with many valid arrangements",
+      "teacher": {
+        "person": {
+          "id": "teacher-1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "availability": {
+          "monday": [
+            { "start": 480, "duration": 480 }
+          ],
+          "tuesday": [
+            { "start": 480, "duration": 480 }
+          ],
+          "wednesday": [
+            { "start": 480, "duration": 480 }
+          ],
+          "thursday": [
+            { "start": 480, "duration": 480 }
+          ],
+          "friday": [
+            { "start": 480, "duration": 360 }
+          ],
+          "saturday": [],
+          "sunday": []
+        },
+        "constraints": {
+          "maxStudentsPerSlot": 1,
+          "minBreakBetweenLessons": 15,
+          "maxConsecutiveLessons": 6,
+          "preferredLessonDuration": 60
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-1",
+            "name": "Student One",
+            "email": "student1@test.com"
+          },
+          "availability": {
+            "monday": [
+              { "start": 600, "duration": 240 }
+            ],
+            "tuesday": [
+              { "start": 540, "duration": 300 }
+            ],
+            "wednesday": [
+              { "start": 480, "duration": 360 }
+            ],
+            "thursday": [
+              { "start": 660, "duration": 180 }
+            ],
+            "friday": [
+              { "start": 540, "duration": 240 }
+            ],
+            "saturday": [],
+            "sunday": []
+          },
+          "constraints": {
+            "preferredLessonDuration": 60,
+            "requiredLessonCount": 1
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 1,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "category": "easy",
+        "studentCount": 1,
+        "estimatedSolveTimeMs": 50,
+        "constraints": ["high-flexibility", "multi-day"],
+        "tags": ["flexible", "k-100", "easy"],
+        "createdAt": "2025-08-16T00:00:00.000Z",
+        "generatedBy": "manual"
+      }
+    }
+  ],
+  "totalCases": 1,
+  "categories": {
+    "k-100-flexible": 1
+  }
+}

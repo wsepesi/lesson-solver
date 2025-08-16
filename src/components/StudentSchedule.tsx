@@ -5,7 +5,7 @@ import type { FormSchema } from "./enrollment"
 import type { LessonLength } from "lib/types"
 import { OnboardStudentCard } from "./OnboardStudentCard"
 import type { OnboardingState } from "@/app/enroll/page"
-import { type StudioSchema } from "lib/schema"
+import type { StudioSchema } from "lib/db-types"
 import type { WeekSchedule } from "lib/scheduling/types"
 
 type Props = {
@@ -22,26 +22,30 @@ export default function StudentSchedule(props: Props) {
     const { schedule, onScheduleChange, setState, minutes, setMinutes } = props
     
     return (
-        <>
-            <div className="flex flex-row w-full">
-                <OnboardStudentCard 
-                    schedule={schedule}
-                    minutes={minutes}
-                    setMinutes={setMinutes}
-                    setState={setState}
-                    studentInfo={props.studentInfo}
-                    studio={props.studio}
-                />
-                <div className="flex-1">
-                    <AdaptiveCalendar 
-                        schedule={schedule}
-                        onChange={onScheduleChange}
-                        granularity={15}
-                        minTime="07:00"
-                        maxTime="22:00"
-                    />
+        <div className="min-h-screen bg-gray-50 py-8">
+            <div className="max-w-none mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col lg:flex-row gap-6 w-full">
+                    <div className="lg:w-auto flex-shrink-0">
+                        <OnboardStudentCard 
+                            schedule={schedule}
+                            minutes={minutes}
+                            setMinutes={setMinutes}
+                            setState={setState}
+                            studentInfo={props.studentInfo}
+                            studio={props.studio}
+                        />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <div className="bg-white rounded-lg shadow-sm border p-4">
+                            <AdaptiveCalendar 
+                                schedule={schedule}
+                                onChange={onScheduleChange}
+                                granularity={15}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

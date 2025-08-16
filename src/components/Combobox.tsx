@@ -28,11 +28,12 @@ export type Option = {
 type Props = {
     options: Option[],
     value: string,
-    setValue: (value: string) => void
+    setValue: (value: string) => void,
+    width?: string // Optional width override
 }
 
 export function Combobox(props: Props) {
-    const { options } = props
+    const { options, width = "w-[75px]" } = props
     const [open, setOpen] = React.useState(false)
 //   const [value, setValue] = React.useState(options[0]!.value)
     const { value, setValue } = props
@@ -44,7 +45,7 @@ export function Combobox(props: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[75px] justify-between"
+          className={`${width} justify-between`}
         >
           {value
             ? options.find((option) => option.value === value)?.label
@@ -52,7 +53,7 @@ export function Combobox(props: Props) {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[75px] p-0">
+      <PopoverContent className={`${width} p-0`}>
         <Command>
           <CommandInput placeholder={value} />
           <CommandEmpty>No matches found.</CommandEmpty>

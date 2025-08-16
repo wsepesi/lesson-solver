@@ -137,7 +137,7 @@ export function mergeTimeBlocks(blocks: TimeBlock[]): TimeBlock[] {
  *   blocks: [{start: 540, duration: 120}] // 09:00-11:00
  * }, 60) // returns possible 60-minute slots within the available time
  */
-export function findAvailableSlots(schedule: DaySchedule, duration: number): TimeBlock[] {
+export function findAvailableSlots(schedule: DaySchedule, duration: number, granularityMinutes?: number): TimeBlock[] {
   if (!schedule.blocks || schedule.blocks.length === 0) {
     return [];
   }
@@ -146,15 +146,27 @@ export function findAvailableSlots(schedule: DaySchedule, duration: number): Tim
   const merged = mergeTimeBlocks(schedule.blocks);
   
   for (const block of merged) {
-    // Generate all possible slots within this block
-    const maxSlots = Math.floor(block.duration / duration);
-    
-    for (let i = 0; i < maxSlots; i++) {
-      const slotStart = block.start + (i * duration);
-      availableSlots.push({
-        start: slotStart,
-        duration: duration
-      });
+    if (granularityMinutes === undefined) {
+      // Backward compatibility: generate non-overlapping slots (old behavior)
+      const maxSlots = Math.floor(block.duration / duration);
+      for (let i = 0; i < maxSlots; i++) {
+        const slotStart = block.start + (i * duration);
+        availableSlots.push({
+          start: slotStart,
+          duration: duration
+        });
+      }
+    } else {
+      // New behavior: generate ALL possible starting positions where a lesson could fit
+      // Use configurable granularity for performance
+      const maxStartTime = block.start + block.duration - duration;
+      
+      for (let startTime = block.start; startTime <= maxStartTime; startTime += granularityMinutes) {
+        availableSlots.push({
+          start: startTime,
+          duration: duration
+        });
+      }
     }
   }
   
@@ -681,16 +693,16 @@ export function validateWeekScheduleDetailed(schedule: WeekSchedule): CalendarEr
 
 
 /**
- * Converts legacy Schedule format to WeekSchedule
- * @param legacySchedule - Legacy schedule object
+ * Converts JSON schedule format to WeekSchedule
+ * @param jsonSchedule - JSON schedule object from database
  * @returns WeekSchedule object
  */
-export function legacyScheduleToWeekSchedule(legacySchedule: Record<string, unknown>): WeekSchedule {
+export function jsonScheduleToWeekSchedule(jsonSchedule: Record<string, unknown>): WeekSchedule {
   const weekSchedule = createEmptyWeekSchedule();
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
   dayNames.forEach((dayName, dayIndex) => {
-    const dayBlocks = legacySchedule[dayName];
+    const dayBlocks = jsonSchedule[dayName];
     if (dayBlocks && Array.isArray(dayBlocks)) {
       const daySchedule = weekSchedule.days[dayIndex];
       if (daySchedule) {
@@ -718,14 +730,17 @@ export function formatWeekScheduleDisplay(schedule: WeekSchedule): string[] {
   
   schedule.days.forEach((day) => {
     if (day.blocks.length > 0) {
-      const dayName = getDayName(day.dayOfWeek);
-      displayLines.push(`${dayName}:`);
+      const dayName = getDayName(day.dayOfWeek, true); // Use short name
+      const timeRanges: string[] = [];
       
       day.blocks.forEach((block) => {
         const startTime = minutesToDisplayTime(block.start);
         const endTime = minutesToDisplayTime(block.start + block.duration);
-        displayLines.push(`  ${startTime} - ${endTime}`);
+        timeRanges.push(`${startTime}-${endTime}`);
       });
+      
+      // Join all time ranges for this day on one line
+      displayLines.push(`${dayName}: ${timeRanges.join(', ')}`);
     }
   });
   
@@ -737,11 +752,11 @@ export function formatWeekScheduleDisplay(schedule: WeekSchedule): string[] {
 }
 
 /**
- * Conversion utilities for backward compatibility with legacy boolean grid system
+ * Conversion utilities for boolean grid system
  */
 
 /**
- * Converts a boolean grid (legacy format) to WeekSchedule format
+ * Converts a boolean grid format to WeekSchedule format
  * @param buttons - Boolean grid [7 days][24 half-hour slots] where true = available
  * @param granularityMinutes - Minutes per slot (typically 30)
  * @param startHour - Starting hour (typically 9 for 9am)
@@ -795,7 +810,7 @@ export function buttonsToWeekSchedule(
 }
 
 /**
- * Converts WeekSchedule format to boolean grid (legacy format)
+ * Converts WeekSchedule format to boolean grid format
  * @param schedule - WeekSchedule to convert
  * @param granularityMinutes - Minutes per slot (typically 30)
  * @param startHour - Starting hour (typically 9 for 9am)
@@ -828,24 +843,24 @@ export function weekScheduleToButtons(
 }
 
 /**
- * Converts WeekSchedule to legacy Schedule format for database storage
+ * Converts WeekSchedule to JSON schedule format for database storage
  * @param weekSchedule - WeekSchedule to convert
- * @returns Legacy Schedule object
+ * @returns JSON Schedule object
  */
-export function weekScheduleToLegacySchedule(weekSchedule: WeekSchedule): Record<string, Array<{ start: { hour: number; minute: number }; end: { hour: number; minute: number } }> | undefined> {
+export function weekScheduleToJsonSchedule(weekSchedule: WeekSchedule): Record<string, Array<{ start: { hour: number; minute: number }; end: { hour: number; minute: number } }> | undefined> {
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const legacySchedule: Record<string, Array<{ start: { hour: number; minute: number }; end: { hour: number; minute: number } }> | undefined> = {};
+  const jsonSchedule: Record<string, Array<{ start: { hour: number; minute: number }; end: { hour: number; minute: number } }> | undefined> = {};
   
   weekSchedule.days.forEach((daySchedule, dayIndex) => {
     const dayName = dayNames[dayIndex];
     if (!dayName) return;
     
     if (daySchedule.blocks.length === 0) {
-      legacySchedule[dayName] = undefined;
+      jsonSchedule[dayName] = undefined;
       return;
     }
     
-    legacySchedule[dayName] = daySchedule.blocks.map(block => {
+    jsonSchedule[dayName] = daySchedule.blocks.map(block => {
       const startMinutes = block.start;
       const endMinutes = block.start + block.duration;
       
@@ -862,5 +877,5 @@ export function weekScheduleToLegacySchedule(weekSchedule: WeekSchedule): Record
     });
   });
   
-  return legacySchedule;
+  return jsonSchedule;
 }

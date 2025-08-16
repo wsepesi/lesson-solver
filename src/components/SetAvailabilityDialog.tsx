@@ -34,7 +34,7 @@ export default function SetAvailabilityDialog(props: Props) {
     }
 
     return (
-        <DialogContent className="max-w-[95vw] max-h-[95vh] h-[95vh] p-0">
+        <DialogContent className="w-[95vw] h-[95vh] max-w-[95vw] max-h-[95vh] p-0">
             <div className="h-full flex flex-col">
                 <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Set Availability</DialogTitle>
@@ -44,8 +44,6 @@ export default function SetAvailabilityDialog(props: Props) {
                         schedule={schedule}
                         onChange={onScheduleChange}
                         granularity={15}
-                        minTime="07:00"
-                        maxTime="22:00"
                     />
                 </div>
                 <DialogFooter className="p-6 pt-0">

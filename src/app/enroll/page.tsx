@@ -7,7 +7,7 @@ import { useState, Suspense } from 'react';
 import StudentSchedule from '@/components/StudentSchedule';
 import type { LessonLength } from 'lib/types';
 import { DoneEnrolling } from '@/components/DoneEnrolling';
-import { type StudioSchema } from 'lib/schema';
+import type { StudioSchema } from 'lib/db-types';
 import { createEmptyWeekSchedule } from '../../../lib/scheduling/utils';
 import type { WeekSchedule } from '../../../lib/scheduling/types';
 

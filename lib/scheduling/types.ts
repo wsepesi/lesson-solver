@@ -2,6 +2,11 @@
 export type TimeBlock = {
   start: number;    // minutes from day start (0-1439)
   duration: number; // minutes
+  metadata?: {
+    studentId: number;
+    studentName: string;
+    eventId: string;
+  };
 }
 
 export type ScheduleMetadata = {
@@ -50,6 +55,7 @@ export type SchedulingConstraints = {
   minLessonDuration: number;
   maxLessonDuration: number;
   allowedDurations: number[]; // e.g., [30, 45, 60, 90]
+  backToBackPreference: 'maximize' | 'minimize' | 'agnostic'; // Preference for back-to-back lesson scheduling
 }
 
 // Assignment result
@@ -59,6 +65,27 @@ export type LessonAssignment = {
   startMinute: number;
   durationMinutes: number;
   timestamp?: Date;
+}
+
+// CSP Solver types (shared between solver and optimizations)
+export type Variable = {
+  studentId: string;
+  studentConfig: StudentConfig;
+  domain: TimeSlot[]; // Available time slots for this student
+  constraints: string[]; // IDs of constraints affecting this variable
+}
+
+export type TimeSlot = {
+  dayOfWeek: number;
+  startMinute: number;
+  durationMinutes: number;
+  score?: number; // Heuristic score for ordering
+}
+
+export type Domain = {
+  variableId: string;
+  timeSlots: TimeSlot[];
+  isReduced: boolean; // Whether constraint propagation has been applied
 }
 
 export type ScheduleSolution = {
@@ -83,8 +110,12 @@ export type CalendarProps = {
   minTime?: string; // "07:00"
   maxTime?: string; // "22:00"
   readOnly?: boolean;
+  mode?: 'edit' | 'rearrange';
   showWeekends?: boolean;
   timezone?: string;
+  // Availability data for drag-and-drop hints in rearrange mode
+  teacherAvailability?: WeekSchedule;
+  studentAvailabilities?: Map<string, WeekSchedule>;
 }
 
 // Time selection and interaction types

@@ -11,8 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import type { LessonLength, Schedule, Student } from "lib/types"
+import { createEmptyWeekSchedule, weekScheduleToJsonSchedule } from "lib/scheduling/utils"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
-import { buttonStatesToText, buttonsToSchedule, lessonLengthToString } from "lib/utils"
+import { buttonStatesToText, lessonLengthToString } from "lib/utils"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -30,7 +31,6 @@ type Props = {
     isScheduleEmpty?: () => boolean // Optional override for schedule validation
 }
 
-const SET_MINUTES = 30
 
 export function OnboardStudentsCard(props: Props) {
     const { minutes, setMinutes } = props
@@ -120,7 +120,9 @@ export function OnboardStudentsCard(props: Props) {
                         return
                     }
                     else {
-                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, SET_MINUTES))
+                        // Create empty WeekSchedule for students without availability
+                        const emptySchedule = weekScheduleToJsonSchedule(createEmptyWeekSchedule()) as unknown as Schedule
+                        props.addStudentSchedule(formData, emptySchedule)
                         props.setOpen(false)
                         toast({
                             title: "Student added!",
@@ -146,7 +148,9 @@ export function OnboardStudentsCard(props: Props) {
                         return
                     }
                     else {
-                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, SET_MINUTES))
+                        // Create empty WeekSchedule for students without availability
+                        const emptySchedule = weekScheduleToJsonSchedule(createEmptyWeekSchedule()) as unknown as Schedule
+                        props.addStudentSchedule(formData, emptySchedule)
                         setFormData({
                             name: "",
                             email: "",

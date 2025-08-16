@@ -1,0 +1,114 @@
+{
+  "name": "k-10-moderate",
+  "description": "Balanced scenarios with moderate solution counts (k=10)",
+  "cases": [
+    {
+      "id": "moderate-001",
+      "description": "Balanced constraints with good flexibility",
+      "teacher": {
+        "person": {
+          "id": "teacher-1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "availability": {
+          "monday": [
+            { "start": 540, "duration": 300 }
+          ],
+          "tuesday": [
+            { "start": 540, "duration": 300 }
+          ],
+          "wednesday": [
+            { "start": 540, "duration": 180 }
+          ],
+          "thursday": [],
+          "friday": [],
+          "saturday": [],
+          "sunday": []
+        },
+        "constraints": {
+          "maxStudentsPerSlot": 1,
+          "minBreakBetweenLessons": 15,
+          "maxConsecutiveLessons": 3,
+          "preferredLessonDuration": 60
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-1",
+            "name": "Student One",
+            "email": "student1@test.com"
+          },
+          "availability": {
+            "monday": [
+              { "start": 600, "duration": 180 }
+            ],
+            "tuesday": [
+              { "start": 540, "duration": 240 }
+            ],
+            "wednesday": [
+              { "start": 540, "duration": 120 }
+            ],
+            "thursday": [],
+            "friday": [],
+            "saturday": [],
+            "sunday": []
+          },
+          "constraints": {
+            "preferredLessonDuration": 60,
+            "requiredLessonCount": 1
+          }
+        },
+        {
+          "person": {
+            "id": "student-2",
+            "name": "Student Two",
+            "email": "student2@test.com"
+          },
+          "availability": {
+            "monday": [
+              { "start": 540, "duration": 240 }
+            ],
+            "tuesday": [
+              { "start": 600, "duration": 180 }
+            ],
+            "wednesday": [
+              { "start": 600, "duration": 120 }
+            ],
+            "thursday": [],
+            "friday": [],
+            "saturday": [],
+            "sunday": []
+          },
+          "constraints": {
+            "preferredLessonDuration": 60,
+            "requiredLessonCount": 1
+          }
+        }
+      ],
+      "expectedSolutions": 10,
+      "difficulty": {
+        "studentCount": 2,
+        "overlapRatio": 0.6,
+        "fragmentationLevel": 0.3,
+        "packingDensity": 0.7,
+        "durationVariety": 1,
+        "constraintTightness": 0.6
+      },
+      "metadata": {
+        "category": "medium",
+        "studentCount": 2,
+        "estimatedSolveTimeMs": 100,
+        "constraints": ["flexible-scheduling", "multi-day"],
+        "tags": ["flexible", "k-10", "multi-day"],
+        "createdAt": "2025-08-16T00:00:00.000Z",
+        "generatedBy": "manual"
+      }
+    }
+  ],
+  "totalCases": 1,
+  "categories": {
+    "k-10-moderate": 1
+  }
+}

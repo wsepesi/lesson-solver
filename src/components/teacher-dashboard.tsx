@@ -6,7 +6,7 @@ import { Card, CardContent, CardTitle } from "src/components/ui/card"
 
 import Link from "next/link"
 import StudioCard from "./StudioCard"
-import { type User } from "@supabase/auth-helpers-react"
+import { type User } from "@supabase/supabase-js"
 import { type StudioWithStudents } from "@/app/(protected)/studios/page"
 
 

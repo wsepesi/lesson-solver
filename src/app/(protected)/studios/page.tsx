@@ -1,12 +1,13 @@
 "use client";
 
-import { type User } from "@supabase/auth-helpers-nextjs";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { type User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/client";
+import { useUser } from "@/hooks/useUser";
 import Navbar from "@/components/Navbar";
 import { TeacherDashboard } from "@/components/teacher-dashboard";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
-import { type StudioSchema } from "lib/schema";
+import type { StudioSchema } from "lib/db-types";
 import StudiosLoading from "./loading";
 
 type DummyStudent = {
@@ -17,8 +18,8 @@ export type StudioWithStudents = StudioSchema & {
 }
 
 export default function StudiosPage() {
-    const supabaseClient = useSupabaseClient()
-    const user: User | null = useUser()
+    const supabaseClient = createClient()
+    const { user }: { user: User | null } = useUser()
     const { toast } = useToast()
 
     const [studios, setStudios] = useState<StudioWithStudents[]>([])

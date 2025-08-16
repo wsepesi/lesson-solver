@@ -14,22 +14,7 @@ export default defineConfig({
       '**/e2e/**',
       '**/*.e2e.*',
       '**/*.spec.ts',
-      '**/components/ui/**',
-      // Hanging component tests - exclude until React testing issues resolved
-      '**/Calendar.test.tsx',
-      '**/CardWithSubmit.test.tsx',
-      '**/EmailsInput.test.tsx',
-      '**/InteractiveCalendar.test.tsx',
-      '**/ManualScheduleDialog.test.tsx',
-      '**/MiniStudentSchedule.test.tsx',
-      '**/OnboardStudentCard.test.tsx',
-      '**/OutputCalendar.test.tsx',
-      '**/ResultsTable.test.tsx',
-      '**/SolveScheduleDialog.test.tsx',
-      '**/enrollment.test.tsx',
-      '**/teacher-dashboard.test.tsx',
-      '**/StudioCard.test.tsx'
-      // Keep: SendToStudentsDialog.test.tsx, SetAvailabilityDialog.test.tsx, StudentSchedule.test.tsx
+      '**/components/ui/**'
     ],
   },
   resolve: {

@@ -38,6 +38,11 @@ export type {
   LessonAssignment,
   ScheduleSolution,
   
+  // CSP solver types
+  Variable,
+  TimeSlot,
+  Domain,
+  
   // UI-specific types
   CalendarGranularity,
   CalendarProps,
@@ -46,6 +51,9 @@ export type {
   ValidationError,
   CalendarError
 } from './types';
+
+// Export aliased solver types for backwards compatibility
+export type { Variable as SolverVariable } from './types';
 
 // ============================================================================
 // TIME CONVERSION UTILITIES
@@ -197,10 +205,7 @@ export {
   // Solver configuration types
   type SolverOptions,
   type SolverStats,
-  type Variable as SolverVariable,
-  type TimeSlot,
   type Assignment as SolverAssignment,
-  type Domain,
   type SearchStrategy as SolverSearchStrategy,
   
   /**

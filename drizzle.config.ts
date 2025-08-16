@@ -14,7 +14,7 @@ const connectionString = isDevelopment && !process.env.USE_CLOUD_DB
   : `postgresql://postgres.${process.env.NEXT_PUBLIC_SUPABASE_URL?.replace('https://', '').replace('.supabase.co', '')}:${process.env.SUPABASE_DB_PASSWORD || '[db-password]'}@aws-0-us-west-1.pooler.supabase.com:6543/postgres`;
 
 export default defineConfig({
-  schema: './lib/schema.ts',
+  schema: './lib/scheduling/schema.ts',
   out: './supabase/migrations',
   dialect: 'postgresql',
   dbCredentials: {

@@ -8,7 +8,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { createClient } from "@/utils/supabase/client";
 
 // check if we are on the dev env or prod, and assign BASE accordingly
 const BASE = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "TODO"; //FIXME:
@@ -20,7 +20,7 @@ const validEmail = (email: string): boolean => {
 };
 
 export default function LoginPage() {
-    const supabaseClient = useSupabaseClient();
+    const supabaseClient = createClient();
     const router = useRouter();
     const { toast } = useToast();
 

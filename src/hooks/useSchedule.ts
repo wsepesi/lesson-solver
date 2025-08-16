@@ -11,7 +11,7 @@
  * - Auto-save with 1-second debounce to reduce API calls
  * - Optimistic updates for immediate UI response
  * - Automatic validation using TimeBlock constraints
- * - Legacy schedule format conversion for backward compatibility
+ * - JSON schedule format conversion for database compatibility
  * - Comprehensive error handling with typed error states
  * - Loading and saving state management
  * - Cleanup on unmount
@@ -60,7 +60,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { createClient } from '@/utils/supabase/client';
 import type { WeekSchedule } from '../../lib/scheduling/types';
 import { 
   validateWeekSchedule, 
@@ -88,7 +88,7 @@ export function useSchedule(ownerId: string) {
   const [error, setError] = useState<ScheduleError | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   
-  const supabaseClient = useSupabaseClient();
+  const supabaseClient = createClient();
   const debounceTimeoutRef = useRef<NodeJS.Timeout>();
   const lastSavedScheduleRef = useRef<WeekSchedule | null>(null);
 
@@ -97,15 +97,15 @@ export function useSchedule(ownerId: string) {
    * This bridges the gap until Phase 1.2 schema is implemented
    */
   const saveScheduleToSupabase = useCallback(async (schedule: WeekSchedule, ownerId: string) => {
-    // Convert WeekSchedule to legacy format for storage
-    const legacySchedule = convertWeekScheduleToLegacy(schedule);
+    // Convert WeekSchedule to JSON format for storage
+    const jsonSchedule = convertWeekScheduleToJson(schedule);
     
     // For now, we'll store in the studios table as teacher schedules
     // TODO: Add logic to determine teacher vs student and route accordingly
     const { error: updateError } = await supabaseClient
       .from('studios')
       .update({ 
-        owner_schedule: legacySchedule
+        owner_schedule: jsonSchedule
       })
       .eq('user_id', ownerId);
 
@@ -172,21 +172,21 @@ export function useSchedule(ownerId: string) {
       throw new Error(`Failed to load schedule: ${fetchError.message}`);
     }
 
-    // Convert from legacy format to WeekSchedule
+    // Convert from JSON format to WeekSchedule
     if (data.owner_schedule) {
-      return convertLegacyToWeekSchedule(data.owner_schedule as Record<string, unknown>);
+      return convertJsonToWeekSchedule(data.owner_schedule as Record<string, unknown>);
     }
     
     return createEmptyWeekSchedule();
   }, [supabaseClient]);
 
   /**
-   * Convert WeekSchedule to legacy Schedule format for backward compatibility
+   * Convert WeekSchedule to JSON Schedule format for database storage
    */
-  const convertWeekScheduleToLegacy = (weekSchedule: WeekSchedule): Record<string, unknown> => {
-    // This is a temporary conversion function
-    // Implementation depends on legacy Schedule type structure
-    const legacySchedule: Record<string, unknown> = {
+  const convertWeekScheduleToJson = (weekSchedule: WeekSchedule): Record<string, unknown> => {
+    // This is a conversion function for database storage
+    // Implementation depends on JSON Schedule type structure
+    const jsonSchedule: Record<string, unknown> = {
       Monday: undefined,
       Tuesday: undefined,
       Wednesday: undefined,
@@ -201,7 +201,7 @@ export function useSchedule(ownerId: string) {
     weekSchedule.days.forEach((day) => {
       const dayName = dayNames[day.dayOfWeek];
       if (dayName && day.blocks.length > 0) {
-        legacySchedule[dayName] = day.blocks.map(block => ({
+        jsonSchedule[dayName] = day.blocks.map(block => ({
           start: {
             hour: Math.floor(block.start / 60),
             minute: block.start % 60
@@ -214,18 +214,18 @@ export function useSchedule(ownerId: string) {
       }
     });
 
-    return legacySchedule;
+    return jsonSchedule;
   };
 
   /**
-   * Convert legacy Schedule format to WeekSchedule
+   * Convert JSON Schedule format to WeekSchedule
    */
-  const convertLegacyToWeekSchedule = (legacySchedule: Record<string, unknown>): WeekSchedule => {
+  const convertJsonToWeekSchedule = (jsonSchedule: Record<string, unknown>): WeekSchedule => {
     const weekSchedule = createEmptyWeekSchedule();
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
     dayNames.forEach((dayName, dayIndex) => {
-      const dayBlocks = legacySchedule[dayName];
+      const dayBlocks = jsonSchedule[dayName];
       if (dayBlocks && Array.isArray(dayBlocks)) {
         const daySchedule = weekSchedule.days[dayIndex];
         if (daySchedule) {

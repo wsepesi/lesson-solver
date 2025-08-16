@@ -56,6 +56,7 @@ export type SchedulingConstraints = {
   minLessonDuration: number;
   maxLessonDuration: number;
   allowedDurations: number[]; // e.g., [30, 45, 60, 90]
+  backToBackPreference: 'maximize' | 'minimize' | 'agnostic'; // Preference for back-to-back lesson scheduling
 }
 
 /**
@@ -175,6 +176,11 @@ export class NonOverlappingConstraint implements Constraint {
   readonly priority = 95;
 
   evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
+    // Validate input times
+    if (assignment.startMinute < 0 || assignment.durationMinutes <= 0) {
+      return false;
+    }
+
     const assignmentEnd = assignment.startMinute + assignment.durationMinutes;
 
     for (const existing of context.existingAssignments) {
@@ -186,6 +192,11 @@ export class NonOverlappingConstraint implements Constraint {
       // Skip if same student (handled by other constraints)
       if (existing.studentId === assignment.studentId) {
         continue;
+      }
+
+      // Validate existing assignment times
+      if (existing.startMinute < 0 || existing.durationMinutes <= 0) {
+        continue; // Skip invalid existing assignments
       }
 
       const existingEnd = existing.startMinute + existing.durationMinutes;
@@ -370,20 +381,58 @@ export class BreakRequirementConstraint implements Constraint {
 
   evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
     const requiredBreak = context.constraints.breakDurationMinutes;
+
+    // Check same-day break requirements
+    const sameDayViolation = this.checkSameDayBreaks(assignment, context, requiredBreak);
+    if (!sameDayViolation) {
+      return false;
+    }
+
+    // Check multi-day break distribution for teacher workload
+    const multiDayViolation = this.checkMultiDayBreakDistribution(assignment, context);
+    if (!multiDayViolation) {
+      return false;
+    }
+
+    // Check mixed duration handling
+    const mixedDurationViolation = this.checkMixedDurationBreaks(assignment, context, requiredBreak);
+    if (!mixedDurationViolation) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Check break requirements within the same day
+   */
+  private checkSameDayBreaks(assignment: LessonAssignment, context: SolverContext, requiredBreak: number): boolean {
     const assignmentEnd = assignment.startMinute + assignment.durationMinutes;
 
-    // Check for adequate breaks before and after this lesson
     for (const existing of context.existingAssignments) {
       if (existing.dayOfWeek !== assignment.dayOfWeek) {
         continue;
       }
 
+      // Skip same student assignments (different constraint handles this)
+      if (existing.studentId === assignment.studentId) {
+        continue;
+      }
+
       const existingEnd = existing.startMinute + existing.durationMinutes;
+
+      // Check for overlaps first (negative gaps) - should never happen
+      if (this.intervalsOverlap(
+        assignment.startMinute, assignmentEnd,
+        existing.startMinute, existingEnd
+      )) {
+        return false; // Overlapping lessons violate break requirement
+      }
 
       // Check break after existing lesson
       if (existingEnd <= assignment.startMinute) {
         const breakTime = assignment.startMinute - existingEnd;
-        if (breakTime > 0 && breakTime < requiredBreak) {
+        if (breakTime >= 0 && breakTime < requiredBreak) {
           return false;
         }
       }
@@ -391,12 +440,87 @@ export class BreakRequirementConstraint implements Constraint {
       // Check break after new assignment
       if (assignmentEnd <= existing.startMinute) {
         const breakTime = existing.startMinute - assignmentEnd;
-        if (breakTime > 0 && breakTime < requiredBreak) {
+        if (breakTime >= 0 && breakTime < requiredBreak) {
           return false;
         }
       }
     }
 
+    return true;
+  }
+
+  /**
+   * Check multi-day break distribution to prevent teacher overload
+   */
+  private checkMultiDayBreakDistribution(assignment: LessonAssignment, context: SolverContext): boolean {
+    // Count lessons per day to ensure reasonable distribution
+    const lessonsPerDay = new Array(7).fill(0) as number[];
+    
+    for (const existing of context.existingAssignments) {
+      if (existing.dayOfWeek >= 0 && existing.dayOfWeek < 7) {
+        lessonsPerDay[existing.dayOfWeek] = (lessonsPerDay[existing.dayOfWeek] ?? 0) + 1;
+      }
+    }
+    
+    // Add the new assignment
+    lessonsPerDay[assignment.dayOfWeek] = (lessonsPerDay[assignment.dayOfWeek] ?? 0) + 1;
+    
+    // Check if any day has too many lessons (more than 8 lessons per day is excessive)
+    const maxLessonsPerDay = 8;
+    if ((lessonsPerDay[assignment.dayOfWeek] ?? 0) > maxLessonsPerDay) {
+      return false;
+    }
+    
+    // Check for reasonable distribution - no day should have more than 3x the average
+    const totalLessons = lessonsPerDay.reduce((sum, count) => sum + count, 0);
+    const avgLessonsPerActiveDay = totalLessons / Math.max(1, lessonsPerDay.filter(count => count > 0).length);
+    
+    if ((lessonsPerDay[assignment.dayOfWeek] ?? 0) > avgLessonsPerActiveDay * 3) {
+      return false;
+    }
+    
+    return true;
+  }
+
+  /**
+   * Handle mixed lesson durations for break calculations
+   */
+  private checkMixedDurationBreaks(assignment: LessonAssignment, context: SolverContext, requiredBreak: number): boolean {
+    // For mixed durations, apply scaled break requirements
+    const assignmentEnd = assignment.startMinute + assignment.durationMinutes;
+    
+    for (const existing of context.existingAssignments) {
+      if (existing.dayOfWeek !== assignment.dayOfWeek) {
+        continue;
+      }
+      
+      if (existing.studentId === assignment.studentId) {
+        continue;
+      }
+      
+      const existingEnd = existing.startMinute + existing.durationMinutes;
+      
+      // Calculate dynamic break requirement based on lesson durations
+      const avgDuration = (assignment.durationMinutes + existing.durationMinutes) / 2;
+      const scaledBreak = Math.max(requiredBreak, Math.floor(avgDuration * 0.1)); // At least 10% of avg lesson duration
+      
+      // Check break after existing lesson with scaled requirement
+      if (existingEnd <= assignment.startMinute) {
+        const breakTime = assignment.startMinute - existingEnd;
+        if (breakTime >= 0 && breakTime < scaledBreak) {
+          return false;
+        }
+      }
+      
+      // Check break after new assignment with scaled requirement
+      if (assignmentEnd <= existing.startMinute) {
+        const breakTime = existing.startMinute - assignmentEnd;
+        if (breakTime >= 0 && breakTime < scaledBreak) {
+          return false;
+        }
+      }
+    }
+    
     return true;
   }
 
@@ -406,6 +530,10 @@ export class BreakRequirementConstraint implements Constraint {
 
   getViolationCost(): number {
     return 40; // Moderate penalty
+  }
+
+  private intervalsOverlap(start1: number, end1: number, start2: number, end2: number): boolean {
+    return start1 < end2 && start2 < end1;
   }
 }
 
@@ -430,17 +558,26 @@ export class WorkloadBalanceConstraint implements Constraint {
       lessonsPerDay[assignment.dayOfWeek] = (lessonsPerDay[assignment.dayOfWeek] ?? 0) + 1;
     }
 
-    // Calculate balance score (lower is better)
     const totalLessons = lessonsPerDay.reduce((sum, count) => sum + count, 0);
-    const averagePerDay = totalLessons / 7;
+    const activeDays = lessonsPerDay.filter(count => count > 0).length;
     
+    // Early spread encouragement: if we have few lessons, prefer spreading
+    if (totalLessons <= 5) {
+      const currentDayCount = lessonsPerDay[assignment.dayOfWeek];
+      if (currentDayCount && currentDayCount > 1 && activeDays < Math.min(totalLessons, 3)) {
+        return false; // Encourage spreading early
+      }
+    }
+    
+    // Calculate balance score for larger numbers of lessons
+    const averagePerDay = totalLessons / 7;
     let imbalanceScore = 0;
     for (const count of lessonsPerDay) {
-      imbalanceScore += Math.abs(count - averagePerDay);
+      imbalanceScore += Math.pow(count - averagePerDay, 2); // Quadratic penalty
     }
 
-    // Consider constraint satisfied if imbalance is reasonable
-    const maxAcceptableImbalance = Math.max(2, totalLessons * 0.3);
+    // More strict constraint for better balance
+    const maxAcceptableImbalance = Math.max(1.5, totalLessons * 0.2);
     return imbalanceScore <= maxAcceptableImbalance;
   }
 
@@ -449,7 +586,64 @@ export class WorkloadBalanceConstraint implements Constraint {
   }
 
   getViolationCost(): number {
-    return 20; // Low penalty - nice to have
+    return 60; // Higher penalty for better workload distribution
+  }
+}
+
+/**
+ * Influences back-to-back lesson scheduling based on teacher preference
+ */
+export class BackToBackPreferenceConstraint implements Constraint {
+  readonly id = 'back-to-back-preference';
+  readonly type = 'soft' as const;
+  readonly priority = 25; // Lower priority than other constraints
+
+  evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
+    const preference = context.constraints.backToBackPreference;
+    
+    // Skip evaluation for agnostic preference (no influence)
+    if (preference === 'agnostic') {
+      return true;
+    }
+
+    // Find lessons on the same day
+    const sameDayLessons = context.existingAssignments
+      .filter(existing => existing.dayOfWeek === assignment.dayOfWeek);
+
+    const assignmentEnd = assignment.startMinute + assignment.durationMinutes;
+    let hasAdjacentLesson = false;
+
+    // Check for adjacent lessons (back-to-back)
+    for (const existing of sameDayLessons) {
+      const existingEnd = existing.startMinute + existing.durationMinutes;
+      
+      // Check if lessons are adjacent (no gap between them)
+      if (existingEnd === assignment.startMinute || // lesson comes right after existing
+          assignmentEnd === existing.startMinute) {  // lesson comes right before existing
+        hasAdjacentLesson = true;
+        break;
+      }
+    }
+
+    // Apply preference logic
+    if (preference === 'maximize') {
+      // For maximize: violate when lessons are NOT back-to-back (when we want them to be)
+      // This creates a preference for back-to-back scheduling
+      return hasAdjacentLesson; // Satisfied if HAS adjacent lesson, violated if does NOT
+    } else if (preference === 'minimize') {
+      // For minimize: violate when lessons ARE back-to-back (when we want gaps)
+      return !hasAdjacentLesson; // Satisfied if NO adjacent lesson, violated if HAS adjacent
+    }
+
+    return true;
+  }
+
+  getMessage(): string {
+    return "Lesson scheduling should respect the back-to-back preference setting";
+  }
+
+  getViolationCost(): number {
+    return 20; // Moderate penalty for preference violation
   }
 }
 
@@ -472,6 +666,7 @@ export class ConstraintManager {
     this.addConstraint(new ConsecutiveLimitConstraint());
     this.addConstraint(new BreakRequirementConstraint());
     this.addConstraint(new WorkloadBalanceConstraint());
+    this.addConstraint(new BackToBackPreferenceConstraint());
   }
 
   /**
@@ -560,6 +755,36 @@ export class ConstraintManager {
   }
 
   /**
+   * Get all constraint IDs for cache key generation
+   */
+  getAllConstraintIds(): string[] {
+    return this.constraints.map(c => c.id);
+  }
+
+  /**
+   * Check a single constraint by ID for cache integration
+   */
+  checkSingleConstraint(constraintId: string, assignment: LessonAssignment, context: SolverContext): ConstraintViolation[] {
+    const constraint = this.constraints.find(c => c.id === constraintId);
+    if (!constraint) {
+      return [];
+    }
+
+    if (!constraint.evaluate(assignment, context)) {
+      return [{
+        constraintId: constraint.id,
+        constraintType: constraint.type,
+        message: constraint.getMessage(),
+        severity: constraint.type === 'hard' ? 10 : Math.min(9, constraint.getViolationCost() / 10),
+        affectedStudentId: assignment.studentId,
+        suggestedFix: this.generateSuggestedFix(constraint, assignment, context)
+      }];
+    }
+
+    return [];
+  }
+
+  /**
    * Generate a suggested fix for a constraint violation
    * This is a basic implementation - can be enhanced with more sophisticated suggestions
    */
@@ -583,6 +808,8 @@ export class ConstraintManager {
         return "Ensure adequate break time between lessons";
       case 'workload-balance':
         return "Consider distributing lessons more evenly across the week";
+      case 'back-to-back-preference':
+        return "Adjust lesson timing to match the configured back-to-back preference";
       default:
         return undefined;
     }
@@ -596,6 +823,127 @@ export class ConstraintManager {
 /**
  * Create a constraint manager with custom constraint configuration
  */
+// ============================================================================
+// RELAXED CONSTRAINTS FOR EMERGENCY SCENARIOS
+// ============================================================================
+
+/**
+ * Relaxed duration constraint that allows more flexibility
+ */
+export class RelaxedDurationConstraint implements Constraint {
+  readonly id = 'duration';
+  readonly type = 'soft' as const;
+  readonly priority = 50; // Lower than normal duration constraint
+
+  constructor(private relaxationLevel = 1) {}
+
+  evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
+    const constraints = context.constraints;
+    const duration = assignment.durationMinutes;
+    
+    // Apply relaxed duration checking based on level
+    if (this.relaxationLevel >= 2) {
+      // Very relaxed - allow 15-180 minute lessons
+      return duration >= 15 && duration <= 180;
+    } else {
+      // Moderately relaxed - extend normal range slightly
+      const minDuration = Math.max(15, (constraints.minLessonDuration || 30) - 15);
+      const maxDuration = Math.min(180, (constraints.maxLessonDuration || 120) + 30);
+      return duration >= minDuration && duration <= maxDuration;
+    }
+  }
+
+  getMessage(): string {
+    return "Lesson duration should be within relaxed acceptable range";
+  }
+
+  getViolationCost(): number {
+    return 20; // Reduced penalty
+  }
+}
+
+/**
+ * Emergency availability constraint that allows slight overlaps
+ */
+export class EmergencyAvailabilityConstraint implements Constraint {
+  readonly id = 'availability';
+  readonly type = 'soft' as const; // Changed to soft for emergency mode
+  readonly priority = 90;
+
+  evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
+    // In emergency mode, only check if there's ANY overlap with availability
+    // Allow partial scheduling outside availability windows
+    
+    // Check teacher availability with 80% overlap requirement
+    const teacherDay = context.teacherAvailability.days[assignment.dayOfWeek];
+    if (teacherDay) {
+      const teacherOverlap = this.calculateOverlapPercentage(teacherDay, assignment);
+      if (teacherOverlap < 0.8) {
+        return false;
+      }
+    }
+
+    // Check student availability with 70% overlap requirement  
+    const studentAvailability = context.studentAvailability.get(assignment.studentId);
+    if (studentAvailability) {
+      const studentDay = studentAvailability.days[assignment.dayOfWeek];
+      if (studentDay) {
+        const studentOverlap = this.calculateOverlapPercentage(studentDay, assignment);
+        if (studentOverlap < 0.7) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  getMessage(): string {
+    return "Emergency scheduling - partial availability overlap allowed";
+  }
+
+  getViolationCost(): number {
+    return 100; // High but not infinite cost
+  }
+
+  private calculateOverlapPercentage(daySchedule: DaySchedule, assignment: LessonAssignment): number {
+    const assignmentStart = assignment.startMinute;
+    const assignmentEnd = assignment.startMinute + assignment.durationMinutes;
+    let overlapMinutes = 0;
+
+    for (const block of daySchedule.blocks) {
+      const blockStart = block.start;
+      const blockEnd = block.start + block.duration;
+      
+      // Calculate overlap between assignment and this availability block
+      const overlapStart = Math.max(assignmentStart, blockStart);
+      const overlapEnd = Math.min(assignmentEnd, blockEnd);
+      
+      if (overlapStart < overlapEnd) {
+        overlapMinutes += overlapEnd - overlapStart;
+      }
+    }
+
+    return overlapMinutes / assignment.durationMinutes;
+  }
+
+  private isTimeSlotAvailable(day: DaySchedule, startMinute: number, durationMinutes: number): boolean {
+    const endMinute = startMinute + durationMinutes;
+    
+    for (const block of day.blocks) {
+      const blockStart = block.start;
+      const blockEnd = block.start + block.duration;
+      
+      // Check if the time slot fits within this availability block
+      if (startMinute >= blockStart && endMinute <= blockEnd) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+}
+
 export function createConstraintManager(
   enabledConstraints?: string[],
   customConstraints?: Constraint[]

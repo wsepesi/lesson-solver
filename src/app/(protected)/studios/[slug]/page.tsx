@@ -1,8 +1,8 @@
 "use client";
 
-import type { StudentSchema, StudioSchema } from "lib/schema"
+import type { StudentSchema, StudioSchema } from "lib/db-types"
 import { useEffect, useState } from "react"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createClient } from "@/utils/supabase/client"
 import { MyStudio } from "@/components/my-studio"
 import { StudioSkeleton } from "@/components/StudioSkeleton"
 import Navbar from "@/components/Navbar"
@@ -17,7 +17,7 @@ export default function StudioDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-    const supabaseClient = useSupabaseClient()
+    const supabaseClient = createClient()
     const router = useRouter()
     const [slug, setSlug] = useState<string>("")
     

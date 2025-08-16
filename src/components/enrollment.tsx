@@ -18,8 +18,8 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { useToast } from '@/components/ui/use-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { type StudioSchema } from 'lib/schema';
+import { createClient } from '@/utils/supabase/client';
+import { type StudioSchema } from 'lib/db-types';
 
 const formSchema = z.object({
     first_name: z.string().trim().min(1).max(50),
@@ -39,7 +39,7 @@ type Props = {
 }
 
 export function Enrollment(props: Props) {
-  const sb = useSupabaseClient();
+  const sb = createClient();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const code = props.query ? props.query.code : "";

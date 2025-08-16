@@ -1,2 +1,4 @@
 # .eslintignore
-src/components/ui
+src/components/uilib/scheduling/**/*.test.ts
+lib/scheduling/test-generator/**
+lib/scheduling/tests/**

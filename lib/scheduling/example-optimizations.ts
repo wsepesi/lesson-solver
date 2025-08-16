@@ -322,7 +322,8 @@ function createSampleTeacher(): TeacherConfig {
     breakDurationMinutes: 15,   // 15 minute breaks
     minLessonDuration: 30,
     maxLessonDuration: 120,
-    allowedDurations: [30, 45, 60, 90]
+    allowedDurations: [30, 45, 60, 90],
+    backToBackPreference: 'agnostic' // Default preference
   };
 
   return {

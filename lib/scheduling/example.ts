@@ -125,7 +125,8 @@ const teacherConstraints: SchedulingConstraints = {
   breakDurationMinutes: 15,        // 15 minute breaks
   minLessonDuration: 30,           // 30 minute minimum lessons
   maxLessonDuration: 120,          // 2 hour maximum lessons
-  allowedDurations: [30, 45, 60, 90, 120] // Allowed lesson durations
+  allowedDurations: [30, 45, 60, 90, 120], // Allowed lesson durations
+  backToBackPreference: 'agnostic' // Default preference
 };
 
 const sampleTeacher: TeacherConfig = {

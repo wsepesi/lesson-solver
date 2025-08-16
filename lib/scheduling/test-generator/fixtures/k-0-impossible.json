@@ -1,0 +1,6761 @@
+{
+  "name": "k-0-impossible",
+  "description": "Impossible scheduling scenarios with no valid solutions (k=0)",
+  "cases": [
+    {
+      "id": "tc_1755304897999_jtv3f",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:37.999Z"
+    },
+    {
+      "id": "tc_1755304898002_7b8zp",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.002Z"
+    },
+    {
+      "id": "tc_1755304898003_mnqz1",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.003Z"
+    },
+    {
+      "id": "tc_1755304898004_boahm",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.004Z"
+    },
+    {
+      "id": "tc_1755304898005_es7gh",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.005Z"
+    },
+    {
+      "id": "tc_1755304898006_bawlj",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.006Z"
+    },
+    {
+      "id": "tc_1755304898007_59o8t",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.007Z"
+    },
+    {
+      "id": "tc_1755304898008_3t1b2",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.008Z"
+    },
+    {
+      "id": "tc_1755304898009_0mu73",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.009Z"
+    },
+    {
+      "id": "tc_1755304898010_wt9le",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.010Z"
+    },
+    {
+      "id": "tc_1755304898011_abid3",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.011Z"
+    },
+    {
+      "id": "tc_1755304898012_vh9hh",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.012Z"
+    },
+    {
+      "id": "tc_1755304898013_j1w3p",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.013Z"
+    },
+    {
+      "id": "tc_1755304898014_nz4px",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.014Z"
+    },
+    {
+      "id": "tc_1755304898014_ebdph",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.014Z"
+    },
+    {
+      "id": "tc_1755304898015_x9lb3",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.015Z"
+    },
+    {
+      "id": "tc_1755304898016_8w4wj",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.016Z"
+    },
+    {
+      "id": "tc_1755304898017_0knmq",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.017Z"
+    },
+    {
+      "id": "tc_1755304898017_rsynm",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.017Z"
+    },
+    {
+      "id": "tc_1755304898018_v2q3e",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.018Z"
+    },
+    {
+      "id": "tc_1755304898019_qq6k9",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.019Z"
+    },
+    {
+      "id": "tc_1755304898019_hkxs7",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.019Z"
+    },
+    {
+      "id": "tc_1755304898020_9qymk",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.020Z"
+    },
+    {
+      "id": "tc_1755304898021_z0pfm",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.021Z"
+    },
+    {
+      "id": "tc_1755304898021_ozuwz",
+      "description": "Generated k-0-impossible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher_k_test",
+          "name": "K-Test Teacher",
+          "email": "ktest@example.com"
+        },
+        "studioId": "studio_k_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_k_1",
+            "name": "K-Test Student 1",
+            "email": "ktest1@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_2",
+            "name": "K-Test Student 2",
+            "email": "ktest2@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_3",
+            "name": "K-Test Student 3",
+            "email": "ktest3@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_4",
+            "name": "K-Test Student 4",
+            "email": "ktest4@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_5",
+            "name": "K-Test Student 5",
+            "email": "ktest5@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_6",
+            "name": "K-Test Student 6",
+            "email": "ktest6@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_7",
+            "name": "K-Test Student 7",
+            "email": "ktest7@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_8",
+            "name": "K-Test Student 8",
+            "email": "ktest8@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_9",
+            "name": "K-Test Student 9",
+            "email": "ktest9@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_10",
+            "name": "K-Test Student 10",
+            "email": "ktest10@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_11",
+            "name": "K-Test Student 11",
+            "email": "ktest11@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_12",
+            "name": "K-Test Student 12",
+            "email": "ktest12@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_13",
+            "name": "K-Test Student 13",
+            "email": "ktest13@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_14",
+            "name": "K-Test Student 14",
+            "email": "ktest14@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_k_15",
+            "name": "K-Test Student 15",
+            "email": "ktest15@example.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 15,
+        "overlapRatio": 0,
+        "fragmentationLevel": 0.8,
+        "packingDensity": 1,
+        "durationVariety": 3,
+        "constraintTightness": 0.5
+      },
+      "metadata": {
+        "description": "Generated k-0-impossible test case",
+        "expectedSolveTime": 1000,
+        "category": "impossible"
+      },
+      "createdAt": "2025-08-16T00:41:38.021Z"
+    }
+  ],
+  "totalCases": 25,
+  "categories": {
+    "k-0-impossible": 25
+  },
+  "createdAt": "2025-08-16T00:41:38.022Z"
+}

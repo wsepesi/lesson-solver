@@ -2,7 +2,7 @@
  * Test suite for the CSP-based scheduling solver
  * 
  * These tests validate the core CSP solver functionality without relying on
- * the legacy boolean grid system. Tests focus on:
+ * the boolean grid system. Tests focus on:
  * - Basic solver functionality
  * - Constraint satisfaction
  * - Performance benchmarks

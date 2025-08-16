@@ -18,18 +18,24 @@ global.ResizeObserver = vi.fn().mockImplementation((): ResizeObserverMock => ({
 // Mock window.alert for jsdom
 global.alert = vi.fn() as typeof alert
 
-// Mock Supabase client
-vi.mock('@supabase/auth-helpers-react', () => ({
-  useSupabaseClient: () => ({
+// Mock Supabase client utilities
+vi.mock('@/utils/supabase/client', () => ({
+  createClient: () => ({
     from: vi.fn(),
     auth: {
-      getSession: vi.fn(),
+      getUser: vi.fn().mockResolvedValue({ data: { user: null } }),
       signIn: vi.fn(),
       signOut: vi.fn(),
+      onAuthStateChange: vi.fn().mockReturnValue({
+        data: { subscription: { unsubscribe: vi.fn() } }
+      }),
     },
   }),
-  useUser: () => null,
-  useSession: () => null,
+}))
+
+// Mock custom useUser hook
+vi.mock('@/hooks/useUser', () => ({
+  useUser: () => ({ user: null, loading: false }),
 }))
 
 // Mock Next.js router

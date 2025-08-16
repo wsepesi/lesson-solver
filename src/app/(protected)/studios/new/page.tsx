@@ -14,8 +14,9 @@ import Navbar from "@/components/Navbar"
 import type { NewStudioInfo } from "lib/types"
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
-import { type User } from "@supabase/auth-helpers-nextjs"
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
+import { type User } from "@supabase/supabase-js"
+import { createClient } from "@/utils/supabase/client"
+import { useUser } from "@/hooks/useUser"
 import { useRouter } from "next/navigation"
 
 const generateRandomCode = (len = 5) => {
@@ -28,8 +29,8 @@ const generateRandomCode = (len = 5) => {
 }
 
 export default function NewStudioPage() {
-    const supabaseClient = useSupabaseClient()
-    const user: User | null = useUser()
+    const supabaseClient = createClient()
+    const { user }: { user: User | null } = useUser()
     const router = useRouter()
 
     const [formData, setFormData] = useState<NewStudioInfo>({

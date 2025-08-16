@@ -17,15 +17,21 @@ import type {
   StudentConfig,
   TeacherConfig,
   LessonAssignment,
-  ScheduleSolution
+  ScheduleSolution,
+  Variable,
+  TimeSlot,
+  Domain
 } from './types';
 
 import type {
   ConstraintManager,
-  SolverContext
+  SolverContext,
+  ConstraintViolation
 } from './constraints';
 import {
-  createConstraintManager
+  createConstraintManager,
+  RelaxedDurationConstraint,
+  EmergencyAvailabilityConstraint
 } from './constraints';
 
 import {
@@ -51,41 +57,12 @@ import {
 // ============================================================================
 
 /**
- * Represents a CSP variable (a student that needs scheduling)
- */
-export type Variable = {
-  studentId: string;
-  studentConfig: StudentConfig;
-  domain: TimeSlot[]; // Available time slots for this student
-  constraints: string[]; // IDs of constraints affecting this variable
-}
-
-/**
- * A possible time slot assignment for a student
- */
-export type TimeSlot = {
-  dayOfWeek: number;
-  startMinute: number;
-  durationMinutes: number;
-  score?: number; // Heuristic score for ordering
-}
-
-/**
  * An assignment of a variable to a value
  */
 export type Assignment = {
   variable: Variable;
   timeSlot: TimeSlot;
   violationCost: number;
-}
-
-/**
- * Domain for a variable (all possible time slot assignments)
- */
-export type Domain = {
-  variableId: string;
-  timeSlots: TimeSlot[];
-  isReduced: boolean; // Whether constraint propagation has been applied
 }
 
 /**
@@ -138,6 +115,9 @@ export type SolverOptions = {
   
   /** Whether to enable performance optimizations */
   enableOptimizations?: boolean;
+  
+  /** Time granularity in minutes for slot generation (default: 5) */
+  slotGranularityMinutes?: number;
 }
 
 /**
@@ -163,9 +143,10 @@ export type SolverStats = {
 export class ScheduleSolver {
   private constraints: ConstraintManager;
   private searchStrategy: SearchStrategy;
-  private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { 
+  private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints' | 'slotGranularityMinutes'>> & { 
     optimizationConfig?: OptimizationConfig;
-    enabledConstraints: string[];
+    enabledConstraints?: string[];
+    slotGranularityMinutes: number;
   };
   private stats: SolverStats;
   private startTime = 0;
@@ -180,16 +161,17 @@ export class ScheduleSolver {
 
   constructor(options: SolverOptions = {}) {
     this.options = {
-      maxTimeMs: options.maxTimeMs ?? 10000, // 10 seconds default
-      maxBacktracks: options.maxBacktracks ?? 1000,
+      maxTimeMs: options.maxTimeMs ?? 15000, // 15 seconds default (was 10)
+      maxBacktracks: options.maxBacktracks ?? 5000, // 5x increase (was 1000)
       useConstraintPropagation: options.useConstraintPropagation ?? true,
       useHeuristics: options.useHeuristics ?? true,
       searchStrategy: options.searchStrategy ?? 'backtracking',
       optimizeForQuality: options.optimizeForQuality ?? false,
-      enabledConstraints: options.enabledConstraints ?? [],
+      enabledConstraints: options.enabledConstraints ?? undefined,
       logLevel: options.logLevel ?? 'none',
       optimizationConfig: options.optimizationConfig ?? undefined,
-      enableOptimizations: options.enableOptimizations ?? true
+      enableOptimizations: options.enableOptimizations ?? true,
+      slotGranularityMinutes: options.slotGranularityMinutes ?? 5
     };
 
     this.constraints = createConstraintManager(this.options.enabledConstraints);
@@ -344,27 +326,55 @@ export class ScheduleSolver {
     for (const student of students) {
       const timeSlots: TimeSlot[] = [];
       
-      // Get preferred duration, fallback to constraints if not specified
-      const duration = student.preferredDuration ?? teacher.constraints.allowedDurations[0] ?? 60;
+      // Get all possible durations for this student
+      // Priority: student preference (if allowed), then smart fallback, avoid domain explosion
+      let durations: number[];
+      if (teacher.constraints.allowedDurations.length > 0) {
+        // Check if student preference is allowed
+        if (student.preferredDuration && teacher.constraints.allowedDurations.includes(student.preferredDuration)) {
+          durations = [student.preferredDuration];
+        } else {
+          // Student preference not allowed or missing - pick best default from allowed durations
+          // Prefer 60min if available, otherwise pick middle duration to avoid extremes
+          const allowedSorted = [...teacher.constraints.allowedDurations].sort((a, b) => a - b);
+          const preferredFallback = allowedSorted.includes(60) ? 60 : (allowedSorted[Math.floor(allowedSorted.length / 2)] ?? 60);
+          durations = [preferredFallback];
+        }
+      } else {
+        // No specific allowed durations, but respect min/max constraints
+        const minDuration = teacher.constraints.minLessonDuration || 30;
+        const maxDuration = teacher.constraints.maxLessonDuration || 120;
+        
+        let candidateDuration = student.preferredDuration || 60;
+        
+        // Adjust candidate duration to fit within min/max bounds
+        candidateDuration = Math.max(candidateDuration, minDuration);
+        candidateDuration = Math.min(candidateDuration, maxDuration);
+        
+        durations = [candidateDuration];
+      }
       
-      // For each day of the week
-      for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
-        const teacherDay = teacher.availability.days[dayOfWeek];
-        const studentDay = student.availability.days[dayOfWeek];
-        
-        if (!teacherDay || !studentDay) continue;
+      // For each possible duration
+      for (const duration of durations) {
+        // For each day of the week
+        for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+          const teacherDay = teacher.availability.days[dayOfWeek];
+          const studentDay = student.availability.days[dayOfWeek];
+          
+          if (!teacherDay || !studentDay) continue;
 
-        // Find available slots for both teacher and student
-        const teacherSlots = findAvailableSlots(teacherDay, duration);
-        
-        for (const slot of teacherSlots) {
-          // Check if student is also available at this time
-          if (isTimeAvailable(studentDay, slot.start, duration)) {
-            timeSlots.push({
-              dayOfWeek,
-              startMinute: slot.start,
-              durationMinutes: duration
-            });
+          // Find available slots for both teacher and student
+          const teacherSlots = findAvailableSlots(teacherDay, duration, this.options.slotGranularityMinutes);
+          
+          for (const slot of teacherSlots) {
+            // Check if student is also available at this time
+            if (isTimeAvailable(studentDay, slot.start, duration)) {
+              timeSlots.push({
+                dayOfWeek,
+                startMinute: slot.start,
+                durationMinutes: duration
+              });
+            }
           }
         }
       }
@@ -571,13 +581,13 @@ export class ScheduleSolver {
   private createSearchStrategy(strategy: string): SearchStrategy {
     switch (strategy) {
       case 'backtracking':
-        return new BacktrackingSearchStrategy(this.options, () => this.stats);
+        return new BacktrackingSearchStrategy(this.options, () => this.stats, this.caching);
       case 'local-search':
-        return new LocalSearchStrategy(this.options, () => this.stats);
+        return new LocalSearchStrategy(this.options, () => this.stats, this.caching);
       case 'hybrid':
-        return new HybridSearchStrategy(this.options, () => this.stats);
+        return new HybridSearchStrategy(this.options, () => this.stats, this.caching);
       default:
-        return new BacktrackingSearchStrategy(this.options, () => this.stats);
+        return new BacktrackingSearchStrategy(this.options, () => this.stats, this.caching);
     }
   }
 
@@ -645,8 +655,9 @@ class BacktrackingSearchStrategy implements SearchStrategy {
   private startTime = 0;
   
   constructor(
-    private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints: string[] },
-    private getStats: () => SolverStats
+    private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints?: string[] },
+    private getStats: () => SolverStats,
+    private caching?: CacheManager
   ) {}
 
   search(
@@ -656,7 +667,6 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     constraints: ConstraintManager
   ): Assignment[] | null {
     this.startTime = Date.now();
-    const assignments: Assignment[] = [];
     const domainMap = new Map<string, Domain>();
     
     // Create domain lookup
@@ -664,12 +674,134 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       domainMap.set(domain.variableId, domain);
     }
 
-    // Start backtracking search
-    if (this.backtrack(variables, domainMap, assignments, context, constraints)) {
-      return assignments;
-    }
+    // Implement iterative deepening with constraint relaxation
+    return this.iterativeDeepening(variables, domainMap, context, constraints);
+  }
 
-    return null;
+  /**
+   * Iterative deepening search with constraint relaxation stages
+   */
+  private iterativeDeepening(
+    variables: Variable[],
+    domains: Map<string, Domain>,
+    context: SolverContext,
+    constraints: ConstraintManager
+  ): Assignment[] | null {
+    const targetStudents = variables.length;
+    const minAcceptableQuality = Math.max(1, Math.floor(targetStudents * 0.7)); // Accept 70% minimum
+    let globalBestSolution: Assignment[] = [];
+    
+    // Stage 1: Try for complete solution with all constraints
+    let bestSolution: Assignment[] = [];
+    const assignments: Assignment[] = [];
+    
+    this.backtrack(variables, domains, assignments, context, constraints, bestSolution);
+    
+    if (bestSolution.length >= targetStudents) {
+      return bestSolution; // Perfect solution found
+    }
+    
+    globalBestSolution = [...bestSolution];
+    
+    // Early termination check - if we got 85%+ with stage 1, that's often good enough
+    const qualityThreshold = this.options.optimizationConfig?.earlyTerminationThreshold ?? 75;
+    const actualQuality = (globalBestSolution.length / targetStudents) * 100;
+    if (actualQuality >= qualityThreshold) {
+      return globalBestSolution;
+    }
+    
+    // Stage 2: Relax soft constraints if solution quality is too low
+    if (globalBestSolution.length < minAcceptableQuality) {
+      const relaxedConstraints = this.createRelaxedConstraints(constraints, 1);
+      bestSolution = [];
+      assignments.length = 0;
+      
+      this.backtrack(variables, domains, assignments, context, relaxedConstraints, bestSolution);
+      
+      if (bestSolution.length > globalBestSolution.length) {
+        globalBestSolution = [...bestSolution];
+      }
+    }
+    
+    // Stage 3: Further relax constraints if still not good enough
+    if (globalBestSolution.length < minAcceptableQuality) {
+      const veryRelaxedConstraints = this.createRelaxedConstraints(constraints, 2);
+      bestSolution = [];
+      assignments.length = 0;
+      
+      this.backtrack(variables, domains, assignments, context, veryRelaxedConstraints, bestSolution);
+      
+      if (bestSolution.length > globalBestSolution.length) {
+        globalBestSolution = [...bestSolution];
+      }
+    }
+    
+    // Stage 4: Emergency fallback - relax almost everything except availability
+    if (globalBestSolution.length < Math.max(1, Math.floor(targetStudents * 0.4))) {
+      const emergencyConstraints = this.createEmergencyConstraints(constraints);
+      bestSolution = [];
+      assignments.length = 0;
+      
+      this.backtrack(variables, domains, assignments, context, emergencyConstraints, bestSolution);
+      
+      if (bestSolution.length > globalBestSolution.length) {
+        globalBestSolution = [...bestSolution];
+      }
+    }
+    
+    return globalBestSolution.length > 0 ? globalBestSolution : null;
+  }
+
+  /**
+   * Create relaxed constraint manager with reduced requirements
+   */
+  private createRelaxedConstraints(original: ConstraintManager, level: number): ConstraintManager {
+    const relaxedManager = createConstraintManager();
+    
+    // Clear default constraints and add relaxed versions
+    const allConstraints = original.getAllConstraints();
+    
+    for (const constraint of allConstraints) {
+      if (constraint.id === 'availability' || constraint.id === 'non-overlapping') {
+        // Always keep hard constraints
+        relaxedManager.addConstraint(constraint);
+      } else if (constraint.id === 'duration') {
+        // Relax duration constraints based on level
+        relaxedManager.addConstraint(new RelaxedDurationConstraint(level));
+      } else if (level === 1) {
+        // Level 1: Keep most soft constraints but with reduced penalties
+        if (['preferred-time', 'workload-balance'].includes(constraint.id)) {
+          relaxedManager.addConstraint(constraint);
+        }
+      } else if (level === 2) {
+        // Level 2: Only keep workload balance
+        if (constraint.id === 'workload-balance') {
+          relaxedManager.addConstraint(constraint);
+        }
+      }
+      // Level 3+: Only hard constraints (handled above)
+    }
+    
+    return relaxedManager;
+  }
+
+  /**
+   * Create emergency constraint manager that only enforces critical constraints
+   */
+  private createEmergencyConstraints(original: ConstraintManager): ConstraintManager {
+    const emergencyManager = createConstraintManager();
+    
+    // Only keep absolutely essential constraints
+    const allConstraints = original.getAllConstraints();
+    
+    for (const constraint of allConstraints) {
+      if (constraint.id === 'availability') {
+        // Only availability constraint - even allow some overlaps in emergencies
+        emergencyManager.addConstraint(new EmergencyAvailabilityConstraint());
+      }
+    }
+    
+    return emergencyManager;
   }
 
   private backtrack(
@@ -677,14 +809,21 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     domains: Map<string, Domain>,
     assignments: Assignment[],
     context: SolverContext,
-    constraints: ConstraintManager
+    constraints: ConstraintManager,
+    bestSolution: Assignment[]
   ): boolean {
-    // Check timeout
+    // Update best solution if current is better
+    if (assignments.length > bestSolution.length) {
+      bestSolution.length = 0;
+      bestSolution.push(...assignments);
+    }
+
+    // Check timeout - but preserve best solution found
     if (Date.now() - this.startTime > this.options.maxTimeMs) {
       return false;
     }
 
-    // Check backtrack limit
+    // Check backtrack limit - but preserve best solution found
     let stats = this.getStats();
     if (stats.backtracks >= this.options.maxBacktracks) {
       return false;
@@ -723,13 +862,20 @@ class BacktrackingSearchStrategy implements SearchStrategy {
         durationMinutes: timeSlot.durationMinutes
       };
 
-      // Update context with current assignment
-      const newContext = this.updateContext(context, assignments.concat([assignment]));
-
-      // Check constraints
+      // Check constraints with tentative assignment
       stats = this.getStats();
       stats.constraintChecks++;
-      const violations = constraints.checkConstraints(lessonAssignment, newContext);
+      const newContext = this.updateContext(context, assignments); // Don't include the assignment being tested
+      
+      // Use cache if available
+      let violations;
+      if (this.caching) {
+        const contextHash = this.caching.generateContextHash(newContext);
+        violations = this.checkConstraintsWithCache(lessonAssignment, newContext, constraints, contextHash);
+      } else {
+        violations = constraints.checkConstraints(lessonAssignment, newContext);
+      }
+      
       
       // Skip if hard constraints violated
       if (violations.some(v => v.constraintType === 'hard')) {
@@ -740,7 +886,9 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       assignment.violationCost = constraints.getViolationCost(violations);
       assignments.push(assignment);
 
-      if (this.backtrack(variables, domains, assignments, newContext, constraints)) {
+      // Update context with the newly added assignment for recursion
+      const contextForRecursion = this.updateContext(context, assignments);
+      if (this.backtrack(variables, domains, assignments, contextForRecursion, constraints, bestSolution)) {
         return true;
       }
 
@@ -790,7 +938,7 @@ class BacktrackingSearchStrategy implements SearchStrategy {
    */
   private orderValues(
     timeSlots: TimeSlot[],
-    _context: SolverContext,
+    context: SolverContext,
     _constraints: ConstraintManager
   ): TimeSlot[] {
     if (!this.options.useHeuristics) {
@@ -798,17 +946,17 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     }
 
     // LCV: prefer values that constrain other variables the least
-    // For now, use a simple scoring based on time of day preference
+    // Use context-aware scoring for workload balancing
     return timeSlots.map(slot => ({
       ...slot,
-      score: this.calculateSlotScore(slot)
+      score: this.calculateSlotScore(slot, context)
     })).sort((a, b) => (b.score || 0) - (a.score || 0));
   }
 
   /**
    * Calculate a heuristic score for a time slot
    */
-  private calculateSlotScore(slot: TimeSlot): number {
+  private calculateSlotScore(slot: TimeSlot, context?: SolverContext): number {
     let score = 0;
     
     // Prefer mid-day slots (10am-4pm)
@@ -827,23 +975,134 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       score += 5;
     }
     
+    // Add workload distribution scoring if context is available
+    if (context) {
+      const sameDayAssignments = context.existingAssignments.filter(
+        a => a.dayOfWeek === slot.dayOfWeek
+      );
+      
+      // Penalize overcrowded days more heavily
+      const dayPenalty = sameDayAssignments.length * 8;
+      score -= dayPenalty;
+      
+      // Bonus for spreading across multiple days
+      const occupiedDays = new Set(context.existingAssignments.map(a => a.dayOfWeek));
+      if (!occupiedDays.has(slot.dayOfWeek)) {
+        score += 15; // Significant bonus for using a new day
+      }
+      
+      // Check for adequate spacing between lessons on same day
+      const sameTimeSlots = sameDayAssignments.filter(a => 
+        Math.abs(a.startMinute - slot.startMinute) < 180 // Within 3 hours
+      );
+      if (sameTimeSlots.length > 0) {
+        score -= 12; // Penalty for close scheduling
+      }
+
+      // Apply back-to-back preference scoring
+      const backToBackPreference = context.constraints.backToBackPreference;
+      if (backToBackPreference !== 'agnostic') {
+        const slotEnd = slot.startMinute + slot.durationMinutes;
+        let hasAdjacentLesson = false;
+
+        // Check for adjacent lessons (back-to-back)
+        for (const existing of sameDayAssignments) {
+          const existingEnd = existing.startMinute + existing.durationMinutes;
+          
+          // Check if lessons would be adjacent (no gap between them)
+          if (existingEnd === slot.startMinute || // slot comes right after existing
+              slotEnd === existing.startMinute) {  // slot comes right before existing
+            hasAdjacentLesson = true;
+            break;
+          }
+        }
+
+        // Apply preference scoring - all four cases
+        if (backToBackPreference === 'maximize') {
+          if (hasAdjacentLesson) {
+            score += 25; // Significant bonus for back-to-back scheduling
+          } else {
+            score -= 15; // Penalty for NOT being back-to-back when we want it
+          }
+        } else if (backToBackPreference === 'minimize') {
+          if (hasAdjacentLesson) {
+            score -= 25; // Significant penalty for back-to-back scheduling
+          } else {
+            score += 15; // Bonus for having gaps when we want them
+          }
+        }
+      }
+    }
+    
     return score;
+  }
+
+  /**
+   * Check constraints using cache when available
+   */
+  private checkConstraintsWithCache(
+    assignment: LessonAssignment,
+    context: SolverContext,
+    constraints: ConstraintManager,
+    contextHash: string
+  ): ConstraintViolation[] {
+    if (!this.caching) {
+      throw new Error('Cache manager is required for checkConstraintsWithCache');
+    }
+    
+    const violations: ConstraintViolation[] = [];
+    
+    // Get all constraint IDs from the constraint manager
+    const constraintIds = constraints.getAllConstraintIds();
+    
+    for (const constraintId of constraintIds) {
+      // Check cache first
+      const cachedResult = this.caching.getCachedConstraintResult(assignment, constraintId, contextHash);
+      
+      if (cachedResult !== null && cachedResult !== undefined) {
+        // Cache hit - use cached result
+        if (!cachedResult) {
+          // Constraint violation was cached - need to get the violation details
+          const constraintViolations = constraints.checkSingleConstraint(constraintId, assignment, context);
+          violations.push(...constraintViolations);
+        }
+      } else {
+        // Cache miss - evaluate constraint and cache result
+        const constraintViolations = constraints.checkSingleConstraint(constraintId, assignment, context);
+        const hasViolation = constraintViolations.length > 0;
+        
+        // Cache the result
+        this.caching.setCachedConstraintResult(assignment, constraintId, contextHash, !hasViolation);
+        
+        if (hasViolation) {
+          violations.push(...constraintViolations);
+        }
+      }
+    }
+    
+    return violations;
   }
 
   /**
    * Update solver context with new assignments
    */
   private updateContext(context: SolverContext, assignments: Assignment[]): SolverContext {
-    const existingAssignments = assignments.map(a => ({
+    const currentPathAssignments = assignments.map(a => ({
       studentId: a.variable.studentId,
       dayOfWeek: a.timeSlot.dayOfWeek,
       startMinute: a.timeSlot.startMinute,
       durationMinutes: a.timeSlot.durationMinutes
     }));
 
+    // Only include current path assignments, not accumulated historical ones
+    // The original context.existingAssignments should only contain fixed/pre-existing assignments
+    const fixedAssignments = context.existingAssignments.filter(a => 
+      !assignments.some(curr => curr.variable.studentId === a.studentId)
+    );
+
     return {
       ...context,
-      existingAssignments: context.existingAssignments.concat(existingAssignments)
+      existingAssignments: fixedAssignments.concat(currentPathAssignments)
     };
   }
 }
@@ -855,8 +1114,9 @@ class LocalSearchStrategy implements SearchStrategy {
   readonly name = 'local-search';
   
   constructor(
-    private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints: string[] },
-    private getStats: () => SolverStats
+    private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints?: string[] },
+    private getStats: () => SolverStats,
+    private caching?: CacheManager
   ) {}
 
   search(
@@ -867,7 +1127,7 @@ class LocalSearchStrategy implements SearchStrategy {
   ): Assignment[] | null {
     // TODO: Implement local search strategy
     // For now, fallback to backtracking
-    const backtracking = new BacktrackingSearchStrategy(this.options, this.getStats);
+    const backtracking = new BacktrackingSearchStrategy(this.options, this.getStats, this.caching);
     return backtracking.search(variables, domains, context, constraints);
   }
 }
@@ -879,8 +1139,9 @@ class HybridSearchStrategy implements SearchStrategy {
   readonly name = 'hybrid';
   
   constructor(
-    private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints: string[] },
-    private getStats: () => SolverStats
+    private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints?: string[] },
+    private getStats: () => SolverStats,
+    private caching?: CacheManager
   ) {}
 
   search(
@@ -891,7 +1152,7 @@ class HybridSearchStrategy implements SearchStrategy {
   ): Assignment[] | null {
     // TODO: Implement hybrid strategy (backtracking + local search)
     // For now, fallback to backtracking
-    const backtracking = new BacktrackingSearchStrategy(this.options, this.getStats);
+    const backtracking = new BacktrackingSearchStrategy(this.options, this.getStats, this.caching);
     return backtracking.search(variables, domains, context, constraints);
   }
 }
@@ -905,8 +1166,8 @@ class HybridSearchStrategy implements SearchStrategy {
  */
 export function createOptimalSolver(studentCount: number): ScheduleSolver {
   const options: SolverOptions = {
-    maxTimeMs: studentCount <= 20 ? 5000 : studentCount <= 50 ? 10000 : 30000,
-    maxBacktracks: studentCount * 50,
+    maxTimeMs: studentCount <= 20 ? 8000 : studentCount <= 50 ? 15000 : 45000, // More generous timeouts
+    maxBacktracks: studentCount * 100, // Doubled from 50 to 100 per student
     useConstraintPropagation: true,
     useHeuristics: true,
     searchStrategy: 'backtracking',

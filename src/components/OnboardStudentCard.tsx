@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
-import type { StudentInsertSchema, StudioSchema } from "lib/schema"
+import type { StudentInsertSchema, StudioSchema } from "lib/db-types"
 import { formatter } from "./CardWithSubmit"
 
 import { Button } from "@/components/ui/button"
@@ -21,10 +21,11 @@ import type { FormSchema } from "./enrollment"
 import { Label } from "@/components/ui/label"
 import type { LessonLength } from "lib/types"
 import type { OnboardingState } from "@/app/enroll/page"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createClient } from "@/utils/supabase/client"
 import { useToast } from "./ui/use-toast"
 import type { WeekSchedule } from "lib/scheduling/types"
-import { weekScheduleToLegacySchedule, formatWeekScheduleDisplay } from "lib/scheduling/utils"
+import type { Schedule } from "lib/types"
+import { weekScheduleToJsonSchedule, formatWeekScheduleDisplay } from "lib/scheduling/utils"
 
 type Props = {
     schedule: WeekSchedule
@@ -38,7 +39,7 @@ type Props = {
 type InsertStudent = Omit<StudentInsertSchema, "id">
 
 export function OnboardStudentCard(props: Props) {
-    const sb = useSupabaseClient()
+    const sb = createClient()
     const { minutes, setMinutes } = props
     const { toast } = useToast()
     const [loading, setLoading] = useState(false)
@@ -60,26 +61,48 @@ export function OnboardStudentCard(props: Props) {
         setLoading(true)
 
         try {
-            // Convert WeekSchedule to legacy format for database storage
-            const legacySchedule = weekScheduleToLegacySchedule(schedule);
+            // Convert WeekSchedule to JSON format for database storage
+            const jsonSchedule = weekScheduleToJsonSchedule(schedule);
 
             const dbStudent: InsertStudent = {
                 email: studentInfo.email,
                 first_name: studentInfo.first_name,
                 last_name: studentInfo.last_name,
                 lesson_length: minutes === 30 ? "30": "60",
-                schedule: legacySchedule,
+                schedule: jsonSchedule as unknown as Schedule,
                 studio_id: studio.id,
             }
 
             const { error } = await sb.from("students").insert(dbStudent)
             if (error) {
+                // Enhanced error logging for debugging
+                const userAuth = await sb.auth.getUser();
+                console.error("Enrollment error details:", {
+                    error,
+                    errorCode: error.code,
+                    errorMessage: error.message,
+                    errorDetails: error.details,
+                    errorHint: error.hint,
+                    dbStudent,
+                    studioId: studio?.id,
+                    userAuth
+                })
+
+                // More specific error messages
+                let errorMessage = "Unable to complete enrollment. Please try again."
+                if (error.code === "42501") {
+                    errorMessage = "Permission denied. Please check if the studio code is valid and try again."
+                } else if (error.code === "23503") {
+                    errorMessage = "Invalid studio code. Please verify the code and try again."
+                } else if (error.message.includes("duplicate")) {
+                    errorMessage = "You are already enrolled in this studio."
+                }
+
                 toast({
                     variant: "destructive",
                     title: "Enrollment failed",
-                    description: "Unable to complete enrollment. Please try again."
+                    description: errorMessage
                 })
-                console.log(error)
                 setLoading(false)
                 return
             }
@@ -88,7 +111,7 @@ export function OnboardStudentCard(props: Props) {
                 title: "Enrollment successful!",
                 description: "You've been enrolled in the studio."
             })
-        } catch (error) {
+        } catch (error: unknown) {
             toast({
                 variant: "destructive",
                 title: "Unexpected error",
@@ -106,7 +129,7 @@ export function OnboardStudentCard(props: Props) {
                 <CardDescription>Fill out your availability on the calendar</CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="pb-5">{formatter(formatWeekScheduleDisplay(props.schedule).join('\n'))}</div>
+                <div className="pb-3 max-h-32 overflow-y-auto">{formatter(formatWeekScheduleDisplay(props.schedule).join('\n'))}</div>
                 <form>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">

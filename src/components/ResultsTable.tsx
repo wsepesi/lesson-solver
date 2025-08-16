@@ -1,6 +1,5 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { blockOfTimeToSchedule } from "lib/utils"
-import { blockOfTimeToString, type Scheduled } from "lib/types"
+import { timeIntervalToString, type Scheduled } from "lib/types"
 
 type Props = {
     scheduled: Scheduled[]
@@ -21,15 +20,14 @@ type Props = {
         </TableHeader>
         <TableBody>
             {scheduled.map((schedule) => {
-                const asSchedule = blockOfTimeToSchedule(schedule.interval)
-                const selectedDay = Object.keys(asSchedule)[0]!
-                const selectedTime = Object.values(asSchedule)[0]![0]!
+                const timeString = timeIntervalToString(schedule.interval)
+                
                 return (
                     <TableRow key={schedule.student.student.name}>
                         <TableCell>{schedule.student.student.name}</TableCell>
                         <TableCell>{schedule.student.student.email}</TableCell>
-                        <TableCell>{selectedDay}</TableCell>
-                        <TableCell className="text-right">{blockOfTimeToString(selectedTime)}</TableCell>
+                        <TableCell>TBD</TableCell>
+                        <TableCell className="text-right">{timeString}</TableCell>
                     </TableRow>
                 )
             })}

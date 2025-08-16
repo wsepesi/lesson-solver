@@ -15,10 +15,10 @@ import {
     LogOut,
 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { createClient } from "@/utils/supabase/client"
 
 export function ProfileDropdown() {
-    const supabaseClient = useSupabaseClient()
+    const supabaseClient = createClient()
     const router = useRouter()
 
     const handleLogout = async () => {
