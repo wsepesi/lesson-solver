@@ -45,6 +45,19 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx", 
+    "**/tests/**",
+    "**/test-generator/**",
+    "**/visualizer/**",
+    "**/solver-wrapper.ts",
+    "debug-*.ts",
+    "profile-*.ts",
+    "validate-*.js",
+    "test-*.js",
+    "update-*.js",
+    "comprehensive-*.js",
+    "final-*.js"
   ]
 }

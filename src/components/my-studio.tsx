@@ -199,6 +199,7 @@ export function MyStudio(props: Props) {
 
   const [taskOpen, setTaskOpen] = useState<boolean[]>([false, false, false])
   const [resolveOpen, setResolveOpen] = useState<boolean>(false)
+  const [unscheduledStudents, setUnscheduledStudents] = useState<string[]>(studio.unscheduled_students ?? [])
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
 
   // Using events directly for schedule display
@@ -306,6 +307,7 @@ export function MyStudio(props: Props) {
         taskIdx={CREATE_SCHEDULE}
         setStudio={setStudio}
         setEvents={setEvents}
+        setUnscheduledStudents={setUnscheduledStudents}
       />
     },
   ]
@@ -345,7 +347,7 @@ export function MyStudio(props: Props) {
         {isDoneWithTasks ? 
         ( <>
           <div className="space-y-6 w-2/3">
-            {events && events.length > 0 && (() => {
+            {(() => {
               // Prepare availability data for drag-and-drop hints
               const teacherAvailability = convertScheduleToWeekSchedule(studio.owner_schedule);
               const studentAvailabilities = new Map<string, WeekSchedule>();
@@ -363,24 +365,70 @@ export function MyStudio(props: Props) {
               return (
                 <div className="h-[60vh]">
                   <AdaptiveCalendar 
-                    schedule={convertEventsToWeekSchedule(events)}
+                    schedule={convertEventsToWeekSchedule(events ?? [])}
                     onChange={handleScheduleChange}
                     granularity={15}
                     mode="rearrange"
                     teacherAvailability={teacherAvailability}
                     studentAvailabilities={studentAvailabilities}
+                    showStudentNames={true}
                   />
                 </div>
               );
             })()}
           </div>
-          {events && events.length > 0 && 
+          
+          {/* Unscheduled Students Section */}
+          {unscheduledStudents.length > 0 && (
+            <div className="w-full mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <h3 className="text-lg font-medium text-yellow-800 mb-2">
+                Unscheduled Students ({unscheduledStudents.length})
+              </h3>
+              <p className="text-sm text-yellow-700 mb-3">
+                These students couldn&apos;t be automatically scheduled. Drag them to available time slots on the calendar.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {unscheduledStudents.map((studentId) => {
+                  const student = studio.students.find(s => s.email === studentId);
+                  return student ? (
+                    <div 
+                      key={studentId}
+                      className="px-3 py-2 bg-white border border-yellow-300 rounded-md cursor-move hover:bg-yellow-100 shadow-sm"
+                      draggable
+                      title={`${student.first_name} ${student.last_name} - ${student.lesson_length ?? '60'}min lessons`}
+                    >
+                      <span className="text-sm font-medium text-gray-700">
+                        {student.first_name} {student.last_name}
+                      </span>
+                      <span className="ml-2 text-xs text-gray-500">
+                        ({student.lesson_length ?? '60'}min)
+                      </span>
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          )}
+          {(events && events.length > 0) || unscheduledStudents.length > 0 ? (
           <div className="w-1/4">
             <h3 className="text-lg font-light ">Schedule:</h3>
             <div className="flex flex-col">
                 {eventListToEltList(events ?? []).map((elt) => (
                     elt
                 ))}
+                {unscheduledStudents.length > 0 && (
+                  <>
+                    <p className="font-bold text-red-600 mt-4">Unscheduled:</p>
+                    {unscheduledStudents.map((studentId) => {
+                      const student = studio.students.find(s => s.email === studentId);
+                      return student ? (
+                        <div key={studentId} className="text-red-600">
+                          {student.first_name} {student.last_name}: Not scheduled
+                        </div>
+                      ) : null;
+                    })}
+                  </>
+                )}
             </div>
             {/* <Button className="mt-4">Download Schedule</Button> */}
             {hasScheduleChanged && 
@@ -391,7 +439,7 @@ export function MyStudio(props: Props) {
                 Save Changes
               </Button>
             }
-          </div>}
+          </div>) : null}
           </>
         ) : 
         (<section className="space-y-6 w-2/3">
@@ -546,6 +594,7 @@ export function MyStudio(props: Props) {
                     setEvents={setEvents}
                     setStudio={setStudio}
                     setResolveOpen={setResolveOpen}
+                    setUnscheduledStudents={setUnscheduledStudents}
                   />
                 </Dialog>
               }

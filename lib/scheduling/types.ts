@@ -116,6 +116,8 @@ export type CalendarProps = {
   // Availability data for drag-and-drop hints in rearrange mode
   teacherAvailability?: WeekSchedule;
   studentAvailabilities?: Map<string, WeekSchedule>;
+  // Display student names on time blocks (for final schedule view)
+  showStudentNames?: boolean;
 }
 
 // Time selection and interaction types

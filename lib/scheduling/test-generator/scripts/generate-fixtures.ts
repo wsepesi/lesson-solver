@@ -17,13 +17,18 @@ import { join, resolve } from 'path';
 import { parseArgs } from 'util';
 
 import {
-  // createCompleteTestFramework, // Commented out - missing exports
   TestCaseGenerator,
   KSolutionGenerator,
   type TestCase,
   type TestSuite,
   type DifficultyParams
 } from '../index';
+
+import {
+  HeuristicAwareGenerator,
+  HeuristicMode,
+  type HeuristicAwareConfig
+} from '../heuristic-aware-generator';
 
 // ============================================================================
 // CLI CONFIGURATION
@@ -43,7 +48,13 @@ const DEFAULT_COUNTS = {
   'k-1-unique': 30,
   'k-5-tight': 25,
   'k-10-moderate': 20,
-  'k-100-flexible': 15
+  'k-100-flexible': 15,
+  // New heuristic-aware categories
+  'heuristic-friendly': 25,
+  'heuristic-hostile': 25,
+  'heuristic-neutral': 20,
+  'heuristic-mixed': 30,
+  'heuristic-comparison': 15
 };
 
 const FIXTURE_CATEGORIES = [
@@ -51,7 +62,13 @@ const FIXTURE_CATEGORIES = [
   'k-1-unique', 
   'k-5-tight',
   'k-10-moderate',
-  'k-100-flexible'
+  'k-100-flexible',
+  // New heuristic-aware categories
+  'heuristic-friendly',
+  'heuristic-hostile',
+  'heuristic-neutral',
+  'heuristic-mixed',
+  'heuristic-comparison'
 ] as const;
 
 type FixtureCategory = typeof FIXTURE_CATEGORIES[number];
@@ -61,7 +78,7 @@ type FixtureCategory = typeof FIXTURE_CATEGORIES[number];
 // ============================================================================
 
 /**
- * Generate test cases for a specific k-value category
+ * Generate test cases for a specific category (k-value or heuristic-based)
  */
 async function generateCategoryFixtures(
   category: FixtureCategory,
@@ -69,34 +86,59 @@ async function generateCategoryFixtures(
   seed: number,
   verbose: boolean = false
 ): Promise<TestSuite> {
-  // Set consistent seed for reproducible generation
-  const generator = new TestCaseGenerator(seed);
-  const kSolutionGenerator = new KSolutionGenerator({});
-  
   const cases: TestCase[] = [];
   
   if (verbose) {
     console.log(`Generating ${count} test cases for category: ${category}`);
   }
   
-  for (let i = 0; i < count; i++) {
-    try {
-      const testCase = await generateSingleTestCase(
-        category,
-        generator,
-        kSolutionGenerator,
-        seed + i,
-        verbose
-      );
-      
-      cases.push(testCase);
-      
-      if (verbose && (i + 1) % 5 === 0) {
-        console.log(`  Generated ${i + 1}/${count} cases`);
+  // Check if this is a heuristic-aware category
+  if (category.startsWith('heuristic-')) {
+    const heuristicGenerator = new HeuristicAwareGenerator(seed);
+    
+    for (let i = 0; i < count; i++) {
+      try {
+        const testCase = await generateHeuristicTestCase(
+          category,
+          heuristicGenerator,
+          seed + i,
+          verbose
+        );
+        
+        if (testCase) {
+          cases.push(testCase);
+        }
+        
+        if (verbose && (i + 1) % 5 === 0) {
+          console.log(`  Generated ${i + 1}/${count} heuristic-aware cases`);
+        }
+      } catch (error) {
+        console.error(`Failed to generate heuristic test case ${i + 1} for ${category}:`, error);
       }
-    } catch (error) {
-      console.error(`Failed to generate test case ${i + 1} for ${category}:`, error);
-      // Continue with other cases
+    }
+  } else {
+    // Original k-value based generation
+    const generator = new TestCaseGenerator(seed);
+    const kSolutionGenerator = new KSolutionGenerator({});
+    
+    for (let i = 0; i < count; i++) {
+      try {
+        const testCase = await generateSingleTestCase(
+          category,
+          generator,
+          kSolutionGenerator,
+          seed + i,
+          verbose
+        );
+        
+        cases.push(testCase);
+        
+        if (verbose && (i + 1) % 5 === 0) {
+          console.log(`  Generated ${i + 1}/${count} k-value cases`);
+        }
+      } catch (error) {
+        console.error(`Failed to generate test case ${i + 1} for ${category}:`, error);
+      }
     }
   }
   
@@ -111,7 +153,93 @@ async function generateCategoryFixtures(
 }
 
 /**
- * Generate a single test case for the specified category
+ * Generate a heuristic-aware test case
+ */
+async function generateHeuristicTestCase(
+  category: FixtureCategory,
+  generator: HeuristicAwareGenerator,
+  seed: number,
+  verbose: boolean = false
+): Promise<TestCase | null> {
+  const config = getHeuristicCategoryConfig(category, seed);
+  
+  if (category === 'heuristic-comparison') {
+    // Special case: generate comparison set
+    const baseConfig = {
+      targetSolvability: 0.8,
+      constraintTightness: 0.5,
+      studentCount: 15,
+      seed,
+      description: 'Heuristic comparison test case'
+    };
+    
+    const comparisonSet = await generator.generateComparisonSet(baseConfig);
+    // Return the first case for now (in practice, you might want to return all)
+    return comparisonSet[0] || null;
+  } else {
+    const result = await generator.generateTestCase(config);
+    return result.success ? result.testCase : null;
+  }
+}
+
+/**
+ * Get configuration for heuristic category
+ */
+function getHeuristicCategoryConfig(category: FixtureCategory, seed: number): HeuristicAwareConfig {
+  const baseConfig = {
+    seed,
+    studentCount: 12 + (seed % 8), // 12-19 students
+    constraintTightness: 0.5 + (seed % 3) * 0.15, // Vary tightness
+    description: `Generated ${category} test case`
+  };
+
+  switch (category) {
+    case 'heuristic-friendly':
+      return {
+        ...baseConfig,
+        heuristicMode: HeuristicMode.PRO_HEURISTIC,
+        targetSolvability: 0.8 + (seed % 3) * 0.05, // 80-90%
+        solutionCount: 10 + (seed % 20) // 10-29 solutions
+      };
+
+    case 'heuristic-hostile':
+      return {
+        ...baseConfig,
+        heuristicMode: HeuristicMode.ANTI_HEURISTIC,
+        targetSolvability: 0.4 + (seed % 4) * 0.1, // 40-70%
+        solutionCount: 1 + (seed % 5), // 1-5 solutions
+        constraintTightness: 0.7 + (seed % 3) * 0.1 // Higher tightness
+      };
+
+    case 'heuristic-neutral':
+      return {
+        ...baseConfig,
+        heuristicMode: HeuristicMode.NEUTRAL,
+        targetSolvability: 0.6 + (seed % 4) * 0.1, // 60-90%
+        solutionCount: 5 + (seed % 15) // 5-19 solutions
+      };
+
+    case 'heuristic-mixed':
+      return {
+        ...baseConfig,
+        heuristicMode: HeuristicMode.MIXED,
+        targetSolvability: 0.5 + (seed % 5) * 0.1, // 50-90%
+        solutionCount: 3 + (seed % 12), // 3-14 solutions
+        studentCount: 15 + (seed % 10) // More students for complexity
+      };
+
+    default:
+      return {
+        ...baseConfig,
+        heuristicMode: HeuristicMode.NONE,
+        targetSolvability: 0.7,
+        solutionCount: 8
+      };
+  }
+}
+
+/**
+ * Generate a single test case for the specified k-value category
  */
 async function generateSingleTestCase(
   category: FixtureCategory,
@@ -266,6 +394,19 @@ function getCategoryDescription(category: FixtureCategory): string {
       return 'Balanced scenarios with moderate solution counts (k=10)';
     case 'k-100-flexible':
       return 'Flexible scenarios with many possible solutions (k≥100)';
+    // New heuristic-aware categories
+    case 'heuristic-friendly':
+      return 'Test cases designed to work well with solver heuristics (best-case performance)';
+    case 'heuristic-hostile':
+      return 'Test cases designed to work poorly with solver heuristics (worst-case performance)';
+    case 'heuristic-neutral':
+      return 'Test cases with balanced heuristic characteristics (neutral performance)';
+    case 'heuristic-mixed':
+      return 'Test cases with mixed heuristic patterns (realistic complexity)';
+    case 'heuristic-comparison':
+      return 'Comparison sets for testing heuristic effectiveness across multiple modes';
+    default:
+      return `Test cases for category: ${category}`;
   }
 }
 
@@ -327,7 +468,8 @@ USAGE:
 
 OPTIONS:
   -c, --category <name>    Generate specific category only
-                          (k-0-impossible, k-1-unique, k-5-tight, k-10-moderate, k-100-flexible)
+                          K-value categories: k-0-impossible, k-1-unique, k-5-tight, k-10-moderate, k-100-flexible
+                          Heuristic categories: heuristic-friendly, heuristic-hostile, heuristic-neutral, heuristic-mixed, heuristic-comparison
   -n, --count <number>     Number of test cases to generate for the category
   -s, --seed <number>      Random seed for reproducible generation (default: current time)
   -o, --output <dir>       Output directory (default: ../fixtures/)
@@ -341,6 +483,9 @@ EXAMPLES:
   # Generate 50 hard test cases
   pnpm tsx generate-fixtures.ts --category k-1-unique --count 50
   
+  # Generate heuristic-friendly test cases
+  pnpm tsx generate-fixtures.ts --category heuristic-friendly --count 30
+  
   # Generate with specific seed for reproducibility
   pnpm tsx generate-fixtures.ts --seed 12345 --verbose
   
@@ -348,11 +493,19 @@ EXAMPLES:
   pnpm tsx generate-fixtures.ts --output ./my-fixtures/
 
 GENERATED FILES:
+  K-value based fixtures:
   fixtures/k-0-impossible.json  (${DEFAULT_COUNTS['k-0-impossible']} cases)
   fixtures/k-1-unique.json      (${DEFAULT_COUNTS['k-1-unique']} cases)
   fixtures/k-5-tight.json       (${DEFAULT_COUNTS['k-5-tight']} cases)
   fixtures/k-10-moderate.json   (${DEFAULT_COUNTS['k-10-moderate']} cases)
   fixtures/k-100-flexible.json  (${DEFAULT_COUNTS['k-100-flexible']} cases)
+  
+  Heuristic-aware fixtures:
+  fixtures/heuristic-friendly.json   (${DEFAULT_COUNTS['heuristic-friendly']} cases)
+  fixtures/heuristic-hostile.json    (${DEFAULT_COUNTS['heuristic-hostile']} cases)
+  fixtures/heuristic-neutral.json    (${DEFAULT_COUNTS['heuristic-neutral']} cases)
+  fixtures/heuristic-mixed.json      (${DEFAULT_COUNTS['heuristic-mixed']} cases)
+  fixtures/heuristic-comparison.json (${DEFAULT_COUNTS['heuristic-comparison']} cases)
 `);
 }
 

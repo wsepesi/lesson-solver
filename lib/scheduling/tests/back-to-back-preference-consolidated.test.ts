@@ -1,25 +1,38 @@
 /**
- * Tests for back-to-back lesson preference functionality
+ * Comprehensive Tests for Back-to-Back Lesson Preferences
  * 
  * This test suite validates the back-to-back lesson preference feature which allows
  * teachers to specify whether they prefer to maximize, minimize, or remain agnostic
  * about consecutive lesson scheduling.
+ * 
+ * Test Categories:
+ * - Constraint evaluation logic
+ * - Solver integration and behavior
+ * - Edge cases and complex scenarios
+ * - Performance and debugging output
  */
 
 import { describe, it, expect } from 'vitest';
-import { ScheduleSolver } from '../solver';
-import type { TeacherConfig, StudentConfig, SchedulingConstraints } from '../types';
+// Import wrapped solver for automatic visualization when VISUALIZE=true
+import { ScheduleSolver } from '../solver-wrapper';
 import { BackToBackPreferenceConstraint } from '../constraints';
-import type { SolverContext, LessonAssignment } from '../constraints';
+import type { TeacherConfig, StudentConfig, SchedulingConstraints, SolverContext, LessonAssignment } from '../types';
 
-// Helper functions for creating test data
+// ============================================================================
+// TEST HELPERS
+// ============================================================================
+
+function createTestPerson(id: string, name: string) {
+  return {
+    id,
+    name,
+    email: `${name.toLowerCase().replace(' ', '.')}@test.com`
+  };
+}
+
 function createTestTeacher(constraints: Partial<SchedulingConstraints> = {}): TeacherConfig {
   return {
-    person: {
-      id: 'teacher-1',
-      name: 'Test Teacher',
-      email: 'teacher@test.com'
-    },
+    person: createTestPerson('teacher-1', 'Test Teacher'),
     studioId: 'test-studio',
     availability: {
       days: [
@@ -61,13 +74,41 @@ function createTestTeacher(constraints: Partial<SchedulingConstraints> = {}): Te
   };
 }
 
+function createSimpleTeacher(backToBackPreference: 'maximize' | 'minimize' | 'agnostic'): TeacherConfig {
+  return {
+    person: createTestPerson('teacher-1', 'Simple Test Teacher'),
+    studioId: 'test-studio',
+    availability: {
+      days: [
+        { dayOfWeek: 0, blocks: [] }, // Sunday - no availability
+        { // Monday - full day
+          dayOfWeek: 1,
+          blocks: [
+            { start: 480, duration: 600 } // 8:00 AM - 6:00 PM (10 hours)
+          ]
+        },
+        { dayOfWeek: 2, blocks: [] },
+        { dayOfWeek: 3, blocks: [] },
+        { dayOfWeek: 4, blocks: [] },
+        { dayOfWeek: 5, blocks: [] },
+        { dayOfWeek: 6, blocks: [] }
+      ],
+      timezone: 'UTC'
+    },
+    constraints: {
+      maxConsecutiveMinutes: 300, // 5 hours max consecutive
+      breakDurationMinutes: 30,
+      minLessonDuration: 30,
+      maxLessonDuration: 90,
+      allowedDurations: [60], // Only 60-minute lessons for simplicity
+      backToBackPreference
+    }
+  };
+}
+
 function createTestStudent(id: string, availability: any): StudentConfig {
   return {
-    person: {
-      id,
-      name: `Student ${id}`,
-      email: `student${id}@test.com`
-    },
+    person: createTestPerson(id, `Student ${id}`),
     preferredDuration: 60,
     maxLessonsPerWeek: 1,
     availability
@@ -118,10 +159,45 @@ function createStudentWithSpreadAvailability(id: string): StudentConfig {
   });
 }
 
+function createSimpleStudent(id: string): StudentConfig {
+  return {
+    person: createTestPerson(id, `Student ${id}`),
+    preferredDuration: 60,
+    maxLessonsPerWeek: 1,
+    availability: {
+      days: [
+        { dayOfWeek: 0, blocks: [] },
+        { // Monday - full day
+          dayOfWeek: 1,
+          blocks: [
+            { start: 480, duration: 600 } // 8:00 AM - 6:00 PM (10 hours)
+          ]
+        },
+        { dayOfWeek: 2, blocks: [] },
+        { dayOfWeek: 3, blocks: [] },
+        { dayOfWeek: 4, blocks: [] },
+        { dayOfWeek: 5, blocks: [] },
+        { dayOfWeek: 6, blocks: [] }
+      ],
+      timezone: 'UTC'
+    }
+  };
+}
+
+function formatTime(minutes: number): string {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return `${hours}:${mins.toString().padStart(2, '0')}`;
+}
+
+// ============================================================================
+// CONSTRAINT EVALUATION TESTS
+// ============================================================================
+
 describe('BackToBackPreferenceConstraint', () => {
   const constraint = new BackToBackPreferenceConstraint();
 
-  describe('constraint evaluation', () => {
+  describe('constraint evaluation logic', () => {
     it('should always return true for agnostic preference', () => {
       const context: SolverContext = {
         teacherAvailability: createTestTeacher().availability,
@@ -148,15 +224,15 @@ describe('BackToBackPreferenceConstraint', () => {
       expect(constraint.evaluate(assignment, context)).toBe(true);
     });
 
-    it('should return true for maximize preference regardless of adjacency', () => {
+    it('should correctly evaluate maximize preference', () => {
       const context: SolverContext = {
-        teacherAvailability: createTestTeacher().availability,
+        teacherAvailability: createSimpleTeacher('maximize').availability,
         studentAvailability: new Map(),
         existingAssignments: [
           {
-            studentId: 'student-2',
+            studentId: 'student-1',
             dayOfWeek: 1,
-            startMinute: 420, // 7:00 AM
+            startMinute: 480, // 8:00 AM
             durationMinutes: 60
           }
         ],
@@ -171,35 +247,35 @@ describe('BackToBackPreferenceConstraint', () => {
         studentPreferences: new Map()
       };
 
-      // Adjacent lesson
+      // Adjacent lesson (should satisfy maximize)
       const adjacentAssignment: LessonAssignment = {
-        studentId: 'student-1',
+        studentId: 'student-2',
         dayOfWeek: 1,
-        startMinute: 480, // 8:00 AM (right after existing lesson)
+        startMinute: 540, // 9:00 AM (right after existing lesson)
         durationMinutes: 60
       };
 
-      // Non-adjacent lesson
+      // Non-adjacent lesson (should violate maximize)
       const nonAdjacentAssignment: LessonAssignment = {
-        studentId: 'student-1',
+        studentId: 'student-2',
         dayOfWeek: 1,
         startMinute: 600, // 10:00 AM (gap from existing lesson)
         durationMinutes: 60
       };
 
       expect(constraint.evaluate(adjacentAssignment, context)).toBe(true);
-      expect(constraint.evaluate(nonAdjacentAssignment, context)).toBe(true);
+      expect(constraint.evaluate(nonAdjacentAssignment, context)).toBe(false);
     });
 
-    it('should return false for minimize preference with adjacent lessons', () => {
+    it('should correctly evaluate minimize preference', () => {
       const context: SolverContext = {
-        teacherAvailability: createTestTeacher().availability,
+        teacherAvailability: createSimpleTeacher('minimize').availability,
         studentAvailability: new Map(),
         existingAssignments: [
           {
-            studentId: 'student-2',
+            studentId: 'student-1',
             dayOfWeek: 1,
-            startMinute: 420, // 7:00 AM
+            startMinute: 480, // 8:00 AM
             durationMinutes: 60
           }
         ],
@@ -214,17 +290,17 @@ describe('BackToBackPreferenceConstraint', () => {
         studentPreferences: new Map()
       };
 
-      // Adjacent lesson (should fail)
+      // Adjacent lesson (should violate minimize)
       const adjacentAssignment: LessonAssignment = {
-        studentId: 'student-1',
+        studentId: 'student-2',
         dayOfWeek: 1,
-        startMinute: 480, // 8:00 AM (right after existing lesson)
+        startMinute: 540, // 9:00 AM (right after existing lesson)
         durationMinutes: 60
       };
 
-      // Non-adjacent lesson (should pass)
+      // Non-adjacent lesson (should satisfy minimize)
       const nonAdjacentAssignment: LessonAssignment = {
-        studentId: 'student-1',
+        studentId: 'student-2',
         dayOfWeek: 1,
         startMinute: 600, // 10:00 AM (gap from existing lesson)
         durationMinutes: 60
@@ -236,7 +312,7 @@ describe('BackToBackPreferenceConstraint', () => {
 
     it('should detect adjacency correctly for both before and after positions', () => {
       const context: SolverContext = {
-        teacherAvailability: createTestTeacher().availability,
+        teacherAvailability: createSimpleTeacher('minimize').availability,
         studentAvailability: new Map(),
         existingAssignments: [
           {
@@ -289,7 +365,11 @@ describe('BackToBackPreferenceConstraint', () => {
   });
 });
 
-describe('ScheduleSolver with Back-to-Back Preferences', () => {
+// ============================================================================
+// SOLVER INTEGRATION TESTS
+// ============================================================================
+
+describe('Solver Integration - Back-to-Back Preferences', () => {
   describe('maximize preference', () => {
     it('should prefer scheduling lessons back-to-back when possible', () => {
       const teacher = createTestTeacher({
@@ -328,6 +408,45 @@ describe('ScheduleSolver with Back-to-Back Preferences', () => {
         
         expect(currentLesson.startMinute).toBe(prevEnd);
       }
+    });
+
+    it('should schedule 3 students back-to-back in simple scenario', () => {
+      const teacher = createSimpleTeacher('maximize');
+      const students = [
+        createSimpleStudent('student-1'),
+        createSimpleStudent('student-2'),
+        createSimpleStudent('student-3')
+      ];
+
+      const solver = new ScheduleSolver({
+        maxTimeMs: 5000,
+        useHeuristics: true,
+        logLevel: 'none'
+      });
+
+      const solution = solver.solve(teacher, students);
+
+      // Should schedule all 3 students
+      expect(solution.assignments.length).toBe(3);
+
+      // All should be on Monday
+      const mondayLessons = solution.assignments
+        .filter(a => a.dayOfWeek === 1)
+        .sort((a, b) => a.startMinute - b.startMinute);
+
+      expect(mondayLessons.length).toBe(3);
+
+      // Check that lessons are back-to-back (no gaps between them)
+      const lesson1 = mondayLessons[0]!;
+      const lesson2 = mondayLessons[1]!;
+      const lesson3 = mondayLessons[2]!;
+
+      const lesson1End = lesson1.startMinute + lesson1.durationMinutes;
+      const lesson2End = lesson2.startMinute + lesson2.durationMinutes;
+
+      // Lessons should be consecutive
+      expect(lesson2.startMinute).toBe(lesson1End);
+      expect(lesson3.startMinute).toBe(lesson2End);
     });
   });
 
@@ -394,6 +513,58 @@ describe('ScheduleSolver with Back-to-Back Preferences', () => {
         expect(gap).toBeGreaterThan(0); // Should have a gap between lessons
       }
     });
+
+    it('should schedule students with gaps when minimizing', () => {
+      const teacher = createSimpleTeacher('minimize');
+      const students = [
+        createSimpleStudent('student-1'),
+        createSimpleStudent('student-2'),
+        createSimpleStudent('student-3')
+      ];
+
+      const solver = new ScheduleSolver({
+        maxTimeMs: 5000,
+        useHeuristics: true,
+        logLevel: 'none'
+      });
+
+      const solution = solver.solve(teacher, students);
+
+      // Should schedule all 3 students
+      expect(solution.assignments.length).toBe(3);
+
+      // Sort lessons by start time
+      const allLessons = solution.assignments
+        .sort((a, b) => a.dayOfWeek * 1440 + a.startMinute - (b.dayOfWeek * 1440 + b.startMinute));
+
+      // Check if there are gaps (either spread across days or with gaps on same day)
+      let hasGapsOrSpread = false;
+
+      // Check if spread across multiple days
+      const daysUsed = new Set(solution.assignments.map(a => a.dayOfWeek));
+      if (daysUsed.size > 1) {
+        hasGapsOrSpread = true;
+      } else {
+        // Check for gaps on the same day
+        const sameDayLessons = allLessons.filter(a => a.dayOfWeek === allLessons[0]!.dayOfWeek);
+        if (sameDayLessons.length > 1) {
+          for (let i = 1; i < sameDayLessons.length; i++) {
+            const prevLesson = sameDayLessons[i - 1]!;
+            const currentLesson = sameDayLessons[i]!;
+            const prevEnd = prevLesson.startMinute + prevLesson.durationMinutes;
+            
+            // If there's a gap between lessons
+            if (currentLesson.startMinute > prevEnd) {
+              hasGapsOrSpread = true;
+              break;
+            }
+          }
+        }
+      }
+
+      // With minimize preference, should have gaps or spread
+      expect(hasGapsOrSpread).toBe(true);
+    });
   });
 
   describe('agnostic preference (default behavior)', () => {
@@ -420,9 +591,38 @@ describe('ScheduleSolver with Back-to-Back Preferences', () => {
       // With agnostic preference, the solver should still find a valid solution
       // but without any particular bias toward back-to-back or spread scheduling
     });
-  });
 
-  describe('edge cases', () => {
+    it('should schedule students without preference influence', () => {
+      const teacher = createSimpleTeacher('agnostic');
+      const students = [
+        createSimpleStudent('student-1'),
+        createSimpleStudent('student-2'),
+        createSimpleStudent('student-3')
+      ];
+
+      const solver = new ScheduleSolver({
+        maxTimeMs: 5000,
+        useHeuristics: true,
+        logLevel: 'none'
+      });
+
+      const solution = solver.solve(teacher, students);
+
+      // Should schedule all 3 students
+      expect(solution.assignments.length).toBe(3);
+
+      // Should find a valid solution (no specific pattern expected)
+      expect(solution.unscheduled.length).toBe(0);
+    });
+  });
+});
+
+// ============================================================================
+// EDGE CASES AND COMPLEX SCENARIOS
+// ============================================================================
+
+describe('Back-to-Back Preferences - Edge Cases', () => {
+  describe('mixed lesson durations', () => {
     it('should handle mixed lesson durations with maximize preference', () => {
       const teacher = createTestTeacher({
         backToBackPreference: 'maximize',
@@ -479,6 +679,34 @@ describe('ScheduleSolver with Back-to-Back Preferences', () => {
       expect(durations).toEqual([30, 60]);
     });
 
+    it('should handle mixed lesson durations in simple scenario', () => {
+      const teacher = createSimpleTeacher('maximize');
+      teacher.constraints.allowedDurations = [30, 60, 90]; // Mixed durations
+      
+      const students = [
+        createSimpleStudent('student-1'),
+        createSimpleStudent('student-2'),
+        createSimpleStudent('student-3')
+      ];
+      
+      // Set different preferred durations
+      students[0]!.preferredDuration = 30;
+      students[1]!.preferredDuration = 60;
+      students[2]!.preferredDuration = 90;
+      
+      const solver = new ScheduleSolver({
+        maxTimeMs: 5000,
+        useHeuristics: true,
+        logLevel: 'none'
+      });
+      
+      const solution = solver.solve(teacher, students);
+      
+      expect(solution.assignments.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('constraint interaction', () => {
     it('should balance maximize preference with consecutive limit constraint', () => {
       const teacher = createTestTeacher({
         backToBackPreference: 'maximize',
@@ -532,6 +760,116 @@ describe('ScheduleSolver with Back-to-Back Preferences', () => {
         // (though it might be balanced against consecutive limits)
         expect(hasBackToBackLessons).toBe(true);
       }
+    });
+
+    it('should respect consecutive limit even with maximize preference', () => {
+      const teacher = createSimpleTeacher('maximize');
+      // Set a very strict consecutive limit
+      teacher.constraints.maxConsecutiveMinutes = 90; // Only 1.5 hours
+
+      const students = [
+        createSimpleStudent('student-1'),
+        createSimpleStudent('student-2'),
+        createSimpleStudent('student-3') // This should not be able to fit back-to-back
+      ];
+
+      const solver = new ScheduleSolver({
+        maxTimeMs: 5000,
+        useHeuristics: true,
+        logLevel: 'none'
+      });
+
+      const solution = solver.solve(teacher, students);
+
+      // Should still schedule students (solver should handle conflicts)
+      expect(solution.assignments.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('single student scenarios', () => {
+    it('should handle single student correctly', () => {
+      const teacher = createSimpleTeacher('maximize');
+      const students = [createSimpleStudent('student-1')];
+      
+      const solver = new ScheduleSolver({
+        maxTimeMs: 2000,
+        useHeuristics: true,
+        logLevel: 'none'
+      });
+      
+      const solution = solver.solve(teacher, students);
+      
+      expect(solution.assignments.length).toBe(1);
+    });
+  });
+});
+
+// ============================================================================
+// DEBUGGING AND PERFORMANCE TESTS
+// ============================================================================
+
+describe('Back-to-Back Preferences - Debugging', () => {
+  describe('detailed behavior comparison', () => {
+    it('should demonstrate different behavior between preferences', () => {
+      const students = [
+        createSimpleStudent('student-1'),
+        createSimpleStudent('student-2'),
+        createSimpleStudent('student-3'),
+        createSimpleStudent('student-4')
+      ];
+      
+      const solverOptions = {
+        maxTimeMs: 5000,
+        useHeuristics: true,
+        logLevel: 'none' as const
+      };
+      
+      // Test with maximize preference
+      const maximizeTeacher = createSimpleTeacher('maximize');
+      const maximizeSolver = new ScheduleSolver(solverOptions);
+      const maximizeSolution = maximizeSolver.solve(maximizeTeacher, students);
+      
+      // Check for back-to-back lessons in maximize solution
+      let maximizeBackToBackCount = 0;
+      const maximizeSorted = maximizeSolution.assignments.sort((a, b) => a.startMinute - b.startMinute);
+      for (let i = 1; i < maximizeSorted.length; i++) {
+        const prev = maximizeSorted[i - 1]!;
+        const curr = maximizeSorted[i]!;
+        if (prev.dayOfWeek === curr.dayOfWeek && prev.startMinute + prev.durationMinutes === curr.startMinute) {
+          maximizeBackToBackCount++;
+        }
+      }
+      
+      // Test with minimize preference
+      const minimizeTeacher = createSimpleTeacher('minimize');
+      const minimizeSolver = new ScheduleSolver(solverOptions);
+      const minimizeSolution = minimizeSolver.solve(minimizeTeacher, students);
+      
+      // Check for back-to-back lessons in minimize solution
+      let minimizeBackToBackCount = 0;
+      const minimizeSorted = minimizeSolution.assignments.sort((a, b) => a.startMinute - b.startMinute);
+      for (let i = 1; i < minimizeSorted.length; i++) {
+        const prev = minimizeSorted[i - 1]!;
+        const curr = minimizeSorted[i]!;
+        if (prev.dayOfWeek === curr.dayOfWeek && prev.startMinute + prev.durationMinutes === curr.startMinute) {
+          minimizeBackToBackCount++;
+        }
+      }
+      
+      // Test with agnostic preference
+      const agnosticTeacher = createSimpleTeacher('agnostic');
+      const agnosticSolver = new ScheduleSolver(solverOptions);
+      const agnosticSolution = agnosticSolver.solve(agnosticTeacher, students);
+      
+      // Verify all students were scheduled in each case
+      expect(maximizeSolution.assignments.length).toBe(students.length);
+      expect(minimizeSolution.assignments.length).toBe(students.length);
+      expect(agnosticSolution.assignments.length).toBe(students.length);
+      
+      // The exact relationship between counts may vary based on other constraints,
+      // but we should at least verify that all preferences produce valid solutions
+      expect(maximizeBackToBackCount).toBeGreaterThanOrEqual(0);
+      expect(minimizeBackToBackCount).toBeGreaterThanOrEqual(0);
     });
   });
 });

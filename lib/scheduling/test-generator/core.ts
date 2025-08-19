@@ -389,16 +389,91 @@ export class TestCaseGenerator {
   
   /**
    * Internal method to create a test case from configuration
-   * This will be implemented to coordinate with other generators
+   * Uses the new heuristic-aware generator for realistic test cases
    */
-  private createTestCase(config: TestCaseConfig): Promise<TestCase> {
-    // This is a placeholder - actual implementation will use
-    // availability generators, constraint generators, and k-solution targeting
+  private async createTestCase(config: TestCaseConfig): Promise<TestCase> {
+    // Import the heuristic-aware generator
+    const { HeuristicAwareGenerator, HeuristicMode } = await import('./heuristic-aware-generator');
     
+    // Create heuristic-aware generator instance
+    const heuristicGenerator = new HeuristicAwareGenerator(this.seed);
+    
+    // Determine heuristic mode based on test case metadata
+    const heuristicMode = await this.determineHeuristicMode(config);
+    
+    // Convert TestCaseConfig to HeuristicAwareConfig
+    const heuristicConfig = {
+      heuristicMode,
+      targetSolvability: 1.0 - config.difficulty.packingDensity,
+      solutionCount: config.targetK,
+      constraintTightness: config.difficulty.constraintTightness,
+      studentCount: config.difficulty.studentCount,
+      seed: this.seed,
+      description: config.metadata.description,
+      originalDifficulty: config.difficulty
+    } as any;
+    
+    // Generate the test case using heuristic-aware generator
+    const result = await heuristicGenerator.generateTestCase(heuristicConfig);
+    
+    if (result.success && result.testCase) {
+      // Update metadata to include original generator info
+      result.testCase.metadata = {
+        ...result.testCase.metadata,
+        generatorVersion: this.generatorVersion,
+        seed: this.seed
+      };
+      
+      return result.testCase;
+    } else {
+      // Fallback to placeholder if heuristic generation fails
+      console.warn('Heuristic-aware generation failed, falling back to placeholder');
+      return this.createFallbackTestCase(config);
+    }
+  }
+  
+  /**
+   * Determine heuristic mode based on test case configuration
+   */
+  private async determineHeuristicMode(config: TestCaseConfig): Promise<any> {
+    const { HeuristicMode } = await import('./heuristic-aware-generator');
+    
+    // Check if heuristic mode is explicitly specified in tags
+    if (config.metadata.tags) {
+      if (config.metadata.tags.includes('heuristic-friendly')) {
+        return HeuristicMode.PRO_HEURISTIC;
+      }
+      if (config.metadata.tags.includes('heuristic-hostile')) {
+        return HeuristicMode.ANTI_HEURISTIC;
+      }
+      if (config.metadata.tags.includes('heuristic-mixed')) {
+        return HeuristicMode.MIXED;
+      }
+      if (config.metadata.tags.includes('heuristic-none')) {
+        return HeuristicMode.NONE;
+      }
+    }
+    
+    // Determine based on difficulty and category
+    switch (config.metadata.category) {
+      case 'easy':
+        return HeuristicMode.PRO_HEURISTIC;
+      case 'hard':
+      case 'impossible':
+        return HeuristicMode.ANTI_HEURISTIC;
+      case 'medium':
+        return HeuristicMode.MIXED;
+      default:
+        return HeuristicMode.NEUTRAL;
+    }
+  }
+  
+  /**
+   * Fallback method that creates a basic test case if heuristic generation fails
+   */
+  private createFallbackTestCase(config: TestCaseConfig): TestCase {
     const id = this.generateId();
     
-    // For now, create a basic structure
-    // TODO: Integrate with availability generator and k-solution generator
     const testCase: TestCase = {
       id,
       description: config.metadata.description,
@@ -414,7 +489,7 @@ export class TestCaseGenerator {
       createdAt: new Date()
     };
     
-    return Promise.resolve(testCase);
+    return testCase;
   }
   
   /**
@@ -427,19 +502,29 @@ export class TestCaseGenerator {
   }
   
   /**
-   * Create a placeholder teacher configuration
-   * TODO: Replace with actual teacher generator
+   * Create a functional teacher configuration for fallback cases
    */
   private createPlaceholderTeacher(): TeacherConfig {
+    // Create basic but functional availability (weekdays 9am-5pm)
+    const days: any[] = Array(7).fill(null).map((_, i) => ({ dayOfWeek: i, blocks: [] }));
+    
+    // Add availability for weekdays
+    for (let day = 1; day <= 5; day++) {
+      days[day] = {
+        dayOfWeek: day,
+        blocks: [{ start: 9 * 60, duration: 8 * 60 }] // 9am-5pm
+      };
+    }
+
     return {
       person: {
-        id: 'teacher_1',
-        name: 'Test Teacher',
-        email: 'teacher@test.com'
+        id: 'teacher_fallback',
+        name: 'Fallback Test Teacher',
+        email: 'teacher@fallback.com'
       },
-      studioId: 'studio_test',
+      studioId: 'studio_fallback',
       availability: {
-        days: [],
+        days,
         timezone: 'UTC'
       },
       constraints: {
@@ -447,32 +532,40 @@ export class TestCaseGenerator {
         breakDurationMinutes: 15,
         minLessonDuration: 30,
         maxLessonDuration: 90,
-        allowedDurations: [30, 45, 60, 90],
-        backToBackPreference: 'agnostic'
+        allowedDurations: [30, 45, 60, 90]
       }
     };
   }
   
   /**
-   * Create placeholder student configurations
-   * TODO: Replace with actual student generator
+   * Create functional student configurations for fallback cases
    */
   private createPlaceholderStudents(count: number): StudentConfig[] {
     const students: StudentConfig[] = [];
     
     for (let i = 0; i < count; i++) {
+      // Create basic but functional availability
+      const days: any[] = Array(7).fill(null).map((_, dayIndex) => ({ dayOfWeek: dayIndex, blocks: [] }));
+      
+      // Give each student availability on different days to reduce conflicts
+      const studentDay = (i % 5) + 1; // Monday-Friday
+      const startTime = 10 * 60 + (i % 4) * 60; // 10am, 11am, 12pm, 1pm
+      
+      days[studentDay] = {
+        dayOfWeek: studentDay,
+        blocks: [{ start: startTime, duration: 2 * 60 }] // 2-hour window
+      };
+
       students.push({
         person: {
           id: `student_${i + 1}`,
-          name: `Test Student ${i + 1}`,
+          name: `Student ${i + 1}`,
           email: `student${i + 1}@test.com`
         },
         preferredDuration: 60,
-        minDuration: 30,
-        maxDuration: 90,
         maxLessonsPerWeek: 1,
         availability: {
-          days: [],
+          days,
           timezone: 'UTC'
         }
       });

@@ -45,6 +45,9 @@ export interface StudentGenerationConfig {
     maxRange: [number, number];
   };
   
+  /** Teacher's allowed lesson durations (students must choose from this set) */
+  allowedDurations?: number[];
+  
   /** Maximum lessons per week range */
   maxLessonsRange?: [number, number];
   
@@ -270,6 +273,12 @@ export class StudentGenerator {
     type: StudentType,
     config: StudentGenerationConfig
   ): { preferred: number; min: number; max: number } {
+    // If teacher has specified allowed durations, students must choose from them
+    if (config.allowedDurations && config.allowedDurations.length > 0) {
+      return this.generateDurationFromAllowed(type, config.allowedDurations);
+    }
+    
+    // Fallback to legacy behavior if no allowed durations specified
     const durationConfig = config.durationConfig ?? {
       preferredRange: [45, 75],
       minRange: [30, 45],
@@ -318,6 +327,72 @@ export class StudentGenerator {
         
         return { preferred, min, max };
     }
+  }
+  
+  /**
+   * Generate duration preferences from teacher's allowed durations
+   */
+  private generateDurationFromAllowed(
+    type: StudentType, 
+    allowedDurations: number[]
+  ): { preferred: number; min: number; max: number } {
+    const sortedDurations = [...allowedDurations].sort((a, b) => a - b);
+    
+    let preferredIndex: number;
+    
+    // Select preferred duration based on student type
+    switch (type) {
+      case 'long-lessons':
+        // Prefer longer durations
+        preferredIndex = Math.max(0, sortedDurations.length - 1 - this.randomInt(0, 1));
+        break;
+        
+      case 'short-lessons':
+      case 'busy-student':
+        // Prefer shorter durations
+        preferredIndex = this.randomInt(0, Math.min(1, sortedDurations.length - 1));
+        break;
+        
+      case 'variable-length':
+        // Accept any duration (random choice)
+        preferredIndex = this.randomInt(0, sortedDurations.length - 1);
+        break;
+        
+      default:
+        // Prefer middle durations or common ones (like 60 minutes)
+        const commonDurations = [60, 45, 90, 30];
+        const availableCommon = commonDurations.filter(d => allowedDurations.includes(d));
+        
+        if (availableCommon.length > 0) {
+          const preferred = availableCommon[this.randomInt(0, availableCommon.length - 1)]!;
+          preferredIndex = sortedDurations.indexOf(preferred);
+        } else {
+          // Fallback to middle of the range
+          preferredIndex = Math.floor(sortedDurations.length / 2);
+        }
+        break;
+    }
+    
+    const preferred = sortedDurations[preferredIndex]!;
+    
+    // For min/max, use the same duration or expand slightly if there are options
+    let min = preferred;
+    let max = preferred;
+    
+    // Allow some flexibility if multiple durations are available
+    if (sortedDurations.length > 1) {
+      // 30% chance to accept a shorter duration as minimum
+      if (this.random() < 0.3 && preferredIndex > 0) {
+        min = sortedDurations[preferredIndex - 1]!;
+      }
+      
+      // 40% chance to accept a longer duration as maximum
+      if (this.random() < 0.4 && preferredIndex < sortedDurations.length - 1) {
+        max = sortedDurations[preferredIndex + 1]!;
+      }
+    }
+    
+    return { preferred, min, max };
   }
   
   /**

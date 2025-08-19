@@ -1,0 +1,108 @@
+{
+  "name": "k-5-tight",
+  "description": "Moderately constrained scenarios with few solutions (k=5)",
+  "cases": [
+    {
+      "id": "tight-001",
+      "description": "Limited flexibility with multiple valid arrangements",
+      "teacher": {
+        "person": {
+          "id": "teacher-1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "availability": {
+          "monday": [
+            { "start": 540, "duration": 300 }
+          ],
+          "tuesday": [
+            { "start": 540, "duration": 120 }
+          ],
+          "wednesday": [],
+          "thursday": [],
+          "friday": [],
+          "saturday": [],
+          "sunday": []
+        },
+        "constraints": {
+          "maxStudentsPerSlot": 1,
+          "minBreakBetweenLessons": 15,
+          "maxConsecutiveLessons": 4,
+          "preferredLessonDuration": 60
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-1",
+            "name": "Student One",
+            "email": "student1@test.com"
+          },
+          "availability": {
+            "monday": [
+              { "start": 540, "duration": 180 }
+            ],
+            "tuesday": [
+              { "start": 540, "duration": 120 }
+            ],
+            "wednesday": [],
+            "thursday": [],
+            "friday": [],
+            "saturday": [],
+            "sunday": []
+          },
+          "constraints": {
+            "preferredLessonDuration": 60,
+            "requiredLessonCount": 1
+          }
+        },
+        {
+          "person": {
+            "id": "student-2",
+            "name": "Student Two",
+            "email": "student2@test.com"
+          },
+          "availability": {
+            "monday": [
+              { "start": 600, "duration": 180 }
+            ],
+            "tuesday": [
+              { "start": 540, "duration": 60 }
+            ],
+            "wednesday": [],
+            "thursday": [],
+            "friday": [],
+            "saturday": [],
+            "sunday": []
+          },
+          "constraints": {
+            "preferredLessonDuration": 60,
+            "requiredLessonCount": 1
+          }
+        }
+      ],
+      "expectedSolutions": 5,
+      "difficulty": {
+        "studentCount": 2,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.8,
+        "durationVariety": 1,
+        "constraintTightness": 0.7
+      },
+      "metadata": {
+        "category": "medium",
+        "studentCount": 2,
+        "estimatedSolveTimeMs": 150,
+        "constraints": ["overlapping-availability", "multiple-days"],
+        "tags": ["moderate", "k-5", "multi-day"],
+        "createdAt": "2025-08-16T00:00:00.000Z",
+        "generatedBy": "manual"
+      }
+    }
+  ],
+  "totalCases": 1,
+  "categories": {
+    "k-5-tight": 1
+  }
+}

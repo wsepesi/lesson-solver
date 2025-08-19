@@ -130,7 +130,28 @@ describe('MonteCarloEstimator', () => {
     
     it('should handle cases with high solution probability', async () => {
       const teacher = createTestTeacher();
-      const students = createTestStudents(3); // Small number, should have solutions
+      
+      // Create students with overlapping availability to ensure solutions exist
+      const students: StudentConfig[] = [
+        {
+          person: { id: 'student1', name: 'Student 1', email: 'student1@test.com' },
+          preferredDuration: 60,
+          maxLessonsPerWeek: 1,
+          availability: {
+            days: [{ dayOfWeek: 1, blocks: [{ start: 600, duration: 240 }] }], // Monday 10am-2pm
+            timezone: 'UTC'
+          }
+        },
+        {
+          person: { id: 'student2', name: 'Student 2', email: 'student2@test.com' },
+          preferredDuration: 60,
+          maxLessonsPerWeek: 1,
+          availability: {
+            days: [{ dayOfWeek: 2, blocks: [{ start: 660, duration: 180 }] }], // Tuesday 11am-2pm
+            timezone: 'UTC'
+          }
+        }
+      ];
       
       const result = await estimator.estimate(teacher, students, 150);
       

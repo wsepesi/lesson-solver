@@ -21,6 +21,17 @@ export {
   createSeededGenerator
 } from './core';
 
+// Import for internal use in createCompleteTestFramework
+import { createSeededGenerator } from './core';
+import { defaultKSolutionGenerator } from './k-solution-generator';
+import { defaultDifficultyCalculator } from './difficulty-calculator';
+import { defaultAvailabilityGenerator } from './generators/availability-generator';
+import { defaultConstraintGenerator } from './generators/constraint-generator';
+import { defaultStudentGenerator } from './generators/student-generator';
+import { createOptimalSolutionCounter } from './k-solver/solution-counter';
+import { createOptimalMonteCarloEstimator } from './k-solver/monte-carlo-estimator';
+import { createOptimalConstraintAnalyzer } from './k-solver/constraint-graph-analyzer';
+
 // K-solution generation
 export type {
   KSolutionConfig,
@@ -112,30 +123,30 @@ export {
   defaultMonteCarloEstimator
 } from './k-solver/monte-carlo-estimator';
 
-// Constraint graph analysis components (commented out due to missing exports)
-// export type {
-//   AnalysisConfig,
-//   ConstraintGraphAnalysis,
-//   GraphMetrics
-// } from './k-solver/constraint-graph-analyzer';
+// Constraint graph analysis components
+export type {
+  AnalysisConfig,
+  ConstraintGraphAnalysis,
+  GraphMetrics
+} from './k-solver/constraint-graph-analyzer';
 
-// export {
-//   ConstraintGraphAnalyzer,
-//   createOptimalConstraintAnalyzer,
-//   defaultConstraintGraphAnalyzer
-// } from './k-solver/constraint-graph-analyzer';
+export {
+  ConstraintGraphAnalyzer,
+  createOptimalConstraintAnalyzer,
+  defaultConstraintGraphAnalyzer
+} from './k-solver/constraint-graph-analyzer';
 
-// Convenience factory functions for complete workflow (commented out due to dependency issues)
-// export function createCompleteTestFramework(studentCount: number) {
-//   return {
-//     generator: createSeededGenerator(Date.now()),
-//     kSolutionGenerator: defaultKSolutionGenerator,
-//     difficultyCalculator: defaultDifficultyCalculator,
-//     availabilityGenerator: defaultAvailabilityGenerator,
-//     constraintGenerator: defaultConstraintGenerator,
-//     studentGenerator: defaultStudentGenerator,
-//     solutionCounter: createOptimalSolutionCounter(studentCount),
-//     monteCarloEstimator: createOptimalMonteCarloEstimator(studentCount)
-//     // constraintAnalyzer: createOptimalConstraintAnalyzer(studentCount) // Commented out due to missing exports
-//   };
-// }
+// Convenience factory functions for complete workflow
+export function createCompleteTestFramework(studentCount: number) {
+  return {
+    generator: createSeededGenerator(Date.now()),
+    kSolutionGenerator: defaultKSolutionGenerator,
+    difficultyCalculator: defaultDifficultyCalculator,
+    availabilityGenerator: defaultAvailabilityGenerator,
+    constraintGenerator: defaultConstraintGenerator,
+    studentGenerator: defaultStudentGenerator,
+    solutionCounter: createOptimalSolutionCounter(studentCount),
+    monteCarloEstimator: createOptimalMonteCarloEstimator(studentCount),
+    constraintAnalyzer: createOptimalConstraintAnalyzer(studentCount)
+  };
+}

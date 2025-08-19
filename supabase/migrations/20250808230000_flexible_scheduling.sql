@@ -213,15 +213,31 @@ CREATE TRIGGER "update_studio_constraints_updated_at"
     EXECUTE FUNCTION "public"."update_updated_at_column"();
 
 -- Add triggers to existing tables if updated_at column was added
-CREATE TRIGGER IF NOT EXISTS "update_students_updated_at" 
-    BEFORE UPDATE ON "public"."students"
-    FOR EACH ROW 
-    EXECUTE FUNCTION "public"."update_updated_at_column"();
+-- Using DO block to conditionally create triggers
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.triggers 
+        WHERE trigger_name = 'update_students_updated_at' 
+        AND event_object_table = 'students'
+    ) THEN
+        CREATE TRIGGER "update_students_updated_at" 
+            BEFORE UPDATE ON "public"."students"
+            FOR EACH ROW 
+            EXECUTE FUNCTION "public"."update_updated_at_column"();
+    END IF;
 
-CREATE TRIGGER IF NOT EXISTS "update_studios_updated_at" 
-    BEFORE UPDATE ON "public"."studios"
-    FOR EACH ROW 
-    EXECUTE FUNCTION "public"."update_updated_at_column"();
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.triggers 
+        WHERE trigger_name = 'update_studios_updated_at' 
+        AND event_object_table = 'studios'
+    ) THEN
+        CREATE TRIGGER "update_studios_updated_at" 
+            BEFORE UPDATE ON "public"."studios"
+            FOR EACH ROW 
+            EXECUTE FUNCTION "public"."update_updated_at_column"();
+    END IF;
+END $$;
 
 -- Row Level Security (RLS) Policies for new tables
 

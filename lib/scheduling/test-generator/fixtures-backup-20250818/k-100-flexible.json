@@ -1,0 +1,3563 @@
+{
+  "name": "k-100-flexible",
+  "description": "Flexible scenarios with many possible solutions (k≥100)",
+  "cases": [
+    {
+      "id": "ha_meeqtpyz_97ajx",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 869,
+                    "duration": 141
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.979Z"
+    },
+    {
+      "id": "ha_meeqtpyz_cf8tl",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 805,
+                    "duration": 203
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 866,
+                    "duration": 130
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 829,
+                    "duration": 133
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 836,
+                    "duration": 143
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 828,
+                    "duration": 187
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.979Z"
+    },
+    {
+      "id": "ha_meeqtpz0_vy4pp",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 849,
+                    "duration": 158
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 841,
+                    "duration": 152
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 843,
+                    "duration": 139
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 835,
+                    "duration": 182
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.980Z"
+    },
+    {
+      "id": "ha_meeqtpz0_44mjs",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 809,
+                    "duration": 170
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 806,
+                    "duration": 208
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 818,
+                    "duration": 154
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.980Z"
+    },
+    {
+      "id": "ha_meeqtpz0_i999v",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 821,
+                    "duration": 176
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 865,
+                    "duration": 137
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 828,
+                    "duration": 144
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 838,
+                    "duration": 138
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 827,
+                    "duration": 149
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.980Z"
+    },
+    {
+      "id": "ha_meeqtpz1_et8qj",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 852,
+                    "duration": 124
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 823,
+                    "duration": 188
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.981Z"
+    },
+    {
+      "id": "ha_meeqtpz1_36g6t",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 805,
+                    "duration": 201
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 887,
+                    "duration": 123
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 818,
+                    "duration": 143
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 839,
+                    "duration": 178
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 815,
+                    "duration": 165
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.981Z"
+    },
+    {
+      "id": "ha_meeqtpz2_hrhbn",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student-ha-1",
+            "name": "Heuristic Test Student 1",
+            "email": "student-ha-1@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-2",
+            "name": "Heuristic Test Student 2",
+            "email": "student-ha-2@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-3",
+            "name": "Heuristic Test Student 3",
+            "email": "student-ha-3@heuristictest.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 815,
+                    "duration": 197
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-4",
+            "name": "Heuristic Test Student 4",
+            "email": "student-ha-4@heuristictest.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 834,
+                    "duration": 179
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-5",
+            "name": "Heuristic Test Student 5",
+            "email": "student-ha-5@heuristictest.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student-ha-6",
+            "name": "Heuristic Test Student 6",
+            "email": "student-ha-6@heuristictest.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 832,
+                    "duration": 158
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.5,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.5,
+        "durationVariety": 2,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 77777
+      },
+      "createdAt": "2025-08-16T21:02:25.982Z"
+    }
+  ],
+  "totalCases": 8,
+  "categories": {
+    "k-100-flexible": 8
+  },
+  "createdAt": "2025-08-16T21:02:25.982Z"
+}

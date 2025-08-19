@@ -161,11 +161,25 @@ export function findAvailableSlots(schedule: DaySchedule, duration: number, gran
       // Use configurable granularity for performance
       const maxStartTime = block.start + block.duration - duration;
       
-      for (let startTime = block.start; startTime <= maxStartTime; startTime += granularityMinutes) {
-        availableSlots.push({
-          start: startTime,
-          duration: duration
-        });
+      // Handle edge case where duration equals block duration
+      if (maxStartTime < block.start) {
+        // Can only fit one slot at the exact start
+        if (block.duration >= duration) {
+          availableSlots.push({
+            start: block.start,
+            duration: duration
+          });
+        }
+      } else {
+        // Ensure granularity is at least 1 minute for single-minute precision
+        const effectiveGranularity = Math.max(1, granularityMinutes);
+        
+        for (let startTime = block.start; startTime <= maxStartTime; startTime += effectiveGranularity) {
+          availableSlots.push({
+            start: startTime,
+            duration: duration
+          });
+        }
       }
     }
   }
@@ -364,11 +378,11 @@ export function detectOverlaps(blocks: TimeBlock[]): TimeBlock[] {
  */
 export function saveSchedule(schedule: WeekSchedule, ownerId: string): Promise<void> {
   if (!validateWeekSchedule(schedule)) {
-    throw new Error('Invalid schedule data');
+    return Promise.reject(new Error('Invalid schedule data'));
   }
   
   if (!ownerId || typeof ownerId !== 'string') {
-    throw new Error('Invalid owner ID');
+    return Promise.reject(new Error('Invalid owner ID'));
   }
   
   // TODO: Implement database save operation using Drizzle ORM
@@ -391,7 +405,7 @@ export function saveSchedule(schedule: WeekSchedule, ownerId: string): Promise<v
  */
 export function loadSchedule(ownerId: string): Promise<WeekSchedule> {
   if (!ownerId || typeof ownerId !== 'string') {
-    throw new Error('Invalid owner ID');
+    return Promise.reject(new Error('Invalid owner ID'));
   }
   
   // TODO: Implement database load operation using Drizzle ORM
@@ -421,13 +435,13 @@ export function loadSchedule(ownerId: string): Promise<WeekSchedule> {
  */
 export function saveAssignments(solution: ScheduleSolution): Promise<void> {
   if (!solution || !Array.isArray(solution.assignments)) {
-    throw new Error('Invalid solution data');
+    return Promise.reject(new Error('Invalid solution data'));
   }
   
   // Validate all assignments
   for (const assignment of solution.assignments) {
     if (!validateAssignment(assignment)) {
-      throw new Error(`Invalid assignment: ${JSON.stringify(assignment)}`);
+      return Promise.reject(new Error(`Invalid assignment: ${JSON.stringify(assignment)}`));
     }
   }
   

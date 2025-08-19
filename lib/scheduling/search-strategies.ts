@@ -170,8 +170,8 @@ export class BacktrackingSearch implements SearchStrategy {
     options: SearchOptions = {}
   ): ScheduleSolution {
     const startTime = Date.now();
-    const maxIterations = options.maxIterations ?? 10000;
-    const timeoutMs = options.timeoutMs ?? 5000;
+    const maxIterations = options.maxIterations ?? 50000; // 5x increase for larger problems
+    const timeoutMs = options.timeoutMs ?? 15000; // 3x increase for complex scheduling
 
     // Initialize CSP variables and domains
     const variables = this.createVariables(students, teacher);

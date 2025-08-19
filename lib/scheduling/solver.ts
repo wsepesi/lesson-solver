@@ -151,6 +151,13 @@ export class ScheduleSolver {
   private stats: SolverStats;
   private startTime = 0;
   
+  // Slot score cache for heuristic optimization
+  private slotScoreCache = new Map<string, number>();
+  
+  // Dynamic heuristic tracking
+  private currentSearchDepth = 0;
+  private backtrackCount = 0;
+  
   // Performance optimization components
   private preprocessing?: PreprocessingOptimizer;
   private caching?: CacheManager;
@@ -161,8 +168,8 @@ export class ScheduleSolver {
 
   constructor(options: SolverOptions = {}) {
     this.options = {
-      maxTimeMs: options.maxTimeMs ?? 15000, // 15 seconds default (was 10)
-      maxBacktracks: options.maxBacktracks ?? 5000, // 5x increase (was 1000)
+      maxTimeMs: options.maxTimeMs ?? 20000, // 20 seconds for large problems (increased from 15)
+      maxBacktracks: options.maxBacktracks ?? 100000, // 20x increase for complex scheduling
       useConstraintPropagation: options.useConstraintPropagation ?? true,
       useHeuristics: options.useHeuristics ?? true,
       searchStrategy: options.searchStrategy ?? 'backtracking',
@@ -171,7 +178,7 @@ export class ScheduleSolver {
       logLevel: options.logLevel ?? 'none',
       optimizationConfig: options.optimizationConfig ?? undefined,
       enableOptimizations: options.enableOptimizations ?? true,
-      slotGranularityMinutes: options.slotGranularityMinutes ?? 5
+      slotGranularityMinutes: options.slotGranularityMinutes ?? 1 // Single-minute precision for edge cases
     };
 
     this.constraints = createConstraintManager(this.options.enabledConstraints);
@@ -202,6 +209,11 @@ export class ScheduleSolver {
   ): ScheduleSolution {
     this.startTime = Date.now();
     this.log('basic', `Starting solver with ${students.length} students`);
+
+    // Clear slot score cache for fresh solve and reset dynamic heuristic tracking
+    this.slotScoreCache.clear();
+    this.currentSearchDepth = 0;
+    this.backtrackCount = 0;
 
     // Start performance monitoring if enabled
     if (this.performanceMonitor) {
@@ -361,14 +373,21 @@ export class ScheduleSolver {
           const teacherDay = teacher.availability.days[dayOfWeek];
           const studentDay = student.availability.days[dayOfWeek];
           
-          if (!teacherDay || !studentDay) continue;
+          if (!teacherDay || !studentDay) {
+            this.log('detailed', `Student ${student.person.id}: Day ${dayOfWeek} - missing schedule (teacher: ${!!teacherDay}, student: ${!!studentDay})`);
+            continue;
+          }
 
           // Find available slots for both teacher and student
           const teacherSlots = findAvailableSlots(teacherDay, duration, this.options.slotGranularityMinutes);
+          this.log('detailed', `Student ${student.person.id}: Day ${dayOfWeek} - teacher has ${teacherSlots.length} slots for ${duration}min duration`);
           
           for (const slot of teacherSlots) {
             // Check if student is also available at this time
-            if (isTimeAvailable(studentDay, slot.start, duration)) {
+            const studentAvailable = isTimeAvailable(studentDay, slot.start, duration);
+            this.log('detailed', `Student ${student.person.id}: Day ${dayOfWeek} - slot ${slot.start}-${slot.start + duration} available: ${studentAvailable}`);
+            
+            if (studentAvailable) {
               timeSlots.push({
                 dayOfWeek,
                 startMinute: slot.start,
@@ -384,6 +403,8 @@ export class ScheduleSolver {
         timeSlots,
         isReduced: false
       });
+      
+      this.log('detailed', `Student ${student.person.id} final domain: ${timeSlots.length} time slots`);
     }
 
     return domains;
@@ -591,6 +612,7 @@ export class ScheduleSolver {
     }
   }
 
+
   /**
    * Get constraint IDs that are relevant for a specific student
    */
@@ -688,11 +710,10 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     constraints: ConstraintManager
   ): Assignment[] | null {
     const targetStudents = variables.length;
-    const minAcceptableQuality = Math.max(1, Math.floor(targetStudents * 0.7)); // Accept 70% minimum
     let globalBestSolution: Assignment[] = [];
     
     // Stage 1: Try for complete solution with all constraints
-    let bestSolution: Assignment[] = [];
+    const bestSolution: Assignment[] = [];
     const assignments: Assignment[] = [];
     
     this.backtrack(variables, domains, assignments, context, constraints, bestSolution);
@@ -703,14 +724,13 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     
     globalBestSolution = [...bestSolution];
     
-    // Early termination check - if we got 85%+ with stage 1, that's often good enough
-    const qualityThreshold = this.options.optimizationConfig?.earlyTerminationThreshold ?? 75;
-    const actualQuality = (globalBestSolution.length / targetStudents) * 100;
-    if (actualQuality >= qualityThreshold) {
-      return globalBestSolution;
-    }
+    // For debugging: return the best solution found, skip constraint relaxation for now
+    // TODO: Re-enable constraint relaxation after fixing core backtracking
+    return globalBestSolution;
     
+    /* 
     // Stage 2: Relax soft constraints if solution quality is too low
+    const minAcceptableQuality = Math.floor(targetStudents * 0.5); // Accept 50% as minimum
     if (globalBestSolution.length < minAcceptableQuality) {
       const relaxedConstraints = this.createRelaxedConstraints(constraints, 1);
       bestSolution = [];
@@ -748,6 +768,7 @@ class BacktrackingSearchStrategy implements SearchStrategy {
         globalBestSolution = [...bestSolution];
       }
     }
+    */
     
     return globalBestSolution.length > 0 ? globalBestSolution : null;
   }
@@ -844,7 +865,7 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     // Order values using LCV heuristic
     const orderedSlots = this.options.useHeuristics 
       ? this.orderValues(domain.timeSlots, context, constraints)
-      : domain.timeSlots;
+      : this.basicValueOrdering(domain.timeSlots);
 
     // Try each value
     for (const timeSlot of orderedSlots) {
@@ -885,6 +906,7 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       // Add assignment and recurse
       assignment.violationCost = constraints.getViolationCost(violations);
       assignments.push(assignment);
+      this.currentSearchDepth = Math.max(this.currentSearchDepth, assignments.length);
 
       // Update context with the newly added assignment for recursion
       const contextForRecursion = this.updateContext(context, assignments);
@@ -896,6 +918,7 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       assignments.pop();
       stats = this.getStats();
       stats.backtracks++;
+      this.backtrackCount++;
     }
 
     return false;
@@ -915,17 +938,36 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     if (unassigned.length === 0) return null;
 
     if (!this.options.useHeuristics) {
-      return unassigned[0] ?? null;
+      return this.basicVariableOrdering(unassigned, domains);
     }
 
-    // MRV: choose variable with smallest domain
+    // Temporarily disable dynamic heuristic switching for debugging
+    /*
+    const shouldUseFallbackStrategy = this.shouldUseFallbackHeuristic();
+
+    if (shouldUseFallbackStrategy) {
+      return this.basicVariableOrdering(unassigned, domains);
+    }
+    */
+
+    // MRV with degree heuristic tie-breaker: choose variable with smallest domain,
+    // but break ties by choosing the variable that constrains the most other variables
     let minDomainSize = Infinity;
+    let maxDegree = -1;
     let selectedVariable: Variable | null = null;
 
     for (const variable of unassigned) {
       const domain = domains.get(variable.studentId);
-      if (domain && domain.timeSlots.length < minDomainSize) {
-        minDomainSize = domain.timeSlots.length;
+      if (!domain) continue;
+      
+      const domainSize = domain.timeSlots.length;
+      const degree = 0; // Temporarily disable degree calculation
+      
+      // Select if domain is strictly smaller, or if equal domain size but higher degree
+      if (domainSize < minDomainSize || 
+          (domainSize === minDomainSize && degree > maxDegree)) {
+        minDomainSize = domainSize;
+        maxDegree = degree;
         selectedVariable = variable;
       }
     }
@@ -934,19 +976,65 @@ class BacktrackingSearchStrategy implements SearchStrategy {
   }
 
   /**
+   * Calculate the degree of a variable (how many other variables it constrains)
+   */
+  private calculateVariableDegree(
+    variable: Variable, 
+    unassigned: Variable[], 
+    domains: Map<string, Domain>
+  ): number {
+    let degree = 0;
+    const variableDomain = domains.get(variable.studentId);
+    if (!variableDomain) return 0;
+
+    // For each other unassigned variable, count how many of its domain values
+    // would be eliminated if we assign this variable
+    for (const otherVariable of unassigned) {
+      if (otherVariable.studentId === variable.studentId) continue;
+      
+      const otherDomain = domains.get(otherVariable.studentId);
+      if (!otherDomain) continue;
+
+      // Count potential conflicts: slots that would be eliminated
+      for (const slot of variableDomain.timeSlots) {
+        for (const otherSlot of otherDomain.timeSlots) {
+          // Check if these slots would conflict (overlap in time)
+          if (this.slotsOverlap(slot, otherSlot)) {
+            degree++;
+            break; // Count this other variable once
+          }
+        }
+      }
+    }
+
+    return degree;
+  }
+
+  /**
+   * Check if two time slots overlap
+   */
+  private slotsOverlap(slot1: TimeSlot, slot2: TimeSlot): boolean {
+    if (slot1.dayOfWeek !== slot2.dayOfWeek) return false;
+    
+    const slot1End = slot1.startMinute + slot1.durationMinutes;
+    const slot2End = slot2.startMinute + slot2.durationMinutes;
+    
+    return slot1.startMinute < slot2End && slot2.startMinute < slot1End;
+  }
+
+  /**
    * Order values using Least Constraining Value (LCV) heuristic
    */
   private orderValues(
     timeSlots: TimeSlot[],
     context: SolverContext,
-    _constraints: ConstraintManager
+    constraints: ConstraintManager
   ): TimeSlot[] {
     if (!this.options.useHeuristics) {
       return timeSlots;
     }
 
-    // LCV: prefer values that constrain other variables the least
-    // Use context-aware scoring for workload balancing
+    // Temporarily revert to simple scoring
     return timeSlots.map(slot => ({
       ...slot,
       score: this.calculateSlotScore(slot, context)
@@ -954,9 +1042,62 @@ class BacktrackingSearchStrategy implements SearchStrategy {
   }
 
   /**
-   * Calculate a heuristic score for a time slot
+   * Calculate lookahead score: how many future assignments this slot enables
+   */
+  private calculateLookaheadScore(slot: TimeSlot, context: SolverContext): number {
+    // Simple lookahead: estimate remaining capacity after this assignment
+    let score = 0;
+    
+    // Check remaining time capacity on this day
+    const dayAssignments = context.existingAssignments.filter(a => a.dayOfWeek === slot.dayOfWeek);
+    const totalAssignedTime = dayAssignments.reduce((sum, a) => sum + a.durationMinutes, 0);
+    const remainingCapacity = context.teacher.availability.days[slot.dayOfWeek - 1]?.totalTime || 0;
+    const futureCapacity = remainingCapacity - totalAssignedTime - slot.durationMinutes;
+    
+    // Bonus for leaving good capacity for future assignments
+    if (futureCapacity >= 60) { // Room for at least one more hour lesson
+      score += 5;
+    }
+    if (futureCapacity >= 120) { // Room for multiple lessons
+      score += 10;
+    }
+    
+    // Penalty for using up too much of the day's capacity
+    const utilizationRatio = (totalAssignedTime + slot.durationMinutes) / remainingCapacity;
+    if (utilizationRatio > 0.8) {
+      score -= 5; // Penalty for high utilization
+    }
+    
+    // Bonus for creating good spacing (allows for breaks)
+    const slotEnd = slot.startMinute + slot.durationMinutes;
+    const hasSpaceBefore = dayAssignments.every(a => 
+      a.startMinute >= slotEnd || a.startMinute + a.durationMinutes <= slot.startMinute - 15
+    );
+    if (hasSpaceBefore) {
+      score += 3; // Small bonus for good spacing
+    }
+    
+    return score;
+  }
+
+  /**
+   * Calculate a heuristic score for a time slot with caching
    */
   private calculateSlotScore(slot: TimeSlot, context?: SolverContext): number {
+    // Temporarily disable caching to debug the issue
+    // TODO: Re-enable once we fix the core problem
+    /*
+    const contextKey = context ? 
+      `${context.existingAssignments.length}-${context.existingAssignments.map(a => `${a.dayOfWeek}:${a.startMinute}`).sort().join(',')}` : 
+      'no-context';
+    const cacheKey = `${slot.dayOfWeek}:${slot.startMinute}:${slot.durationMinutes}:${contextKey}`;
+    
+    const cached = this.slotScoreCache.get(cacheKey);
+    if (cached !== undefined) {
+      return cached;
+    }
+    */
+    
     let score = 0;
     
     // Prefer mid-day slots (10am-4pm)
@@ -1034,7 +1175,31 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       }
     }
     
+    // Temporarily disable caching
+    // this.slotScoreCache.set(cacheKey, score);
+    
     return score;
+  }
+
+  /**
+   * Determine if we should use fallback heuristic strategy
+   */
+  private shouldUseFallbackHeuristic(): boolean {
+    // Switch to simpler heuristics if we're doing too much backtracking
+    const backtrackRatio = this.backtrackCount / Math.max(this.currentSearchDepth, 1);
+    
+    // If backtracking heavily (>2 backtracks per assignment), try simpler approach
+    if (backtrackRatio > 2.0) {
+      return true;
+    }
+    
+    // If we're very deep in search (>75% of students), use simpler heuristics
+    const stats = this.getStats();
+    if (stats.totalVariables > 0 && this.currentSearchDepth / stats.totalVariables > 0.75) {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
@@ -1104,6 +1269,47 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       ...context,
       existingAssignments: fixedAssignments.concat(currentPathAssignments)
     };
+  }
+
+  /**
+   * Basic variable ordering when heuristics are disabled
+   * Uses Most Constrained Variable (MRV) heuristic for better performance
+   */
+  private basicVariableOrdering(variables: Variable[], domains: Map<string, Domain>): Variable | null {
+    if (variables.length === 0) return null;
+    
+    // Use a balanced approach: prefer students with medium-sized domains
+    // Pure MRV can get stuck on impossible students, pure round-robin is inefficient
+    const variablesWithDomains = variables
+      .map(variable => ({
+        variable,
+        domainSize: domains.get(variable.studentId)?.timeSlots.length ?? 0
+      }))
+      .filter(item => item.domainSize > 0) // Skip students with no options
+      .sort((a, b) => {
+        // Sort by domain size, but prefer medium-sized domains over very small ones
+        // This prevents getting stuck on impossible students
+        if (a.domainSize <= 3 && b.domainSize > 3) return 1; // Prefer b
+        if (b.domainSize <= 3 && a.domainSize > 3) return -1; // Prefer a
+        return a.domainSize - b.domainSize; // Otherwise, MRV
+      });
+    
+    return variablesWithDomains.length > 0 ? (variablesWithDomains[0]?.variable ?? null) : null;
+  }
+
+  /**
+   * Basic value ordering when heuristics are disabled
+   * Still provides reasonable ordering to improve search performance
+   */
+  private basicValueOrdering(timeSlots: TimeSlot[]): TimeSlot[] {
+    // Sort by: 1) day of week, 2) start time
+    // This ensures we try to fill earlier days and times first
+    return [...timeSlots].sort((a, b) => {
+      if (a.dayOfWeek !== b.dayOfWeek) {
+        return a.dayOfWeek - b.dayOfWeek;
+      }
+      return a.startMinute - b.startMinute;
+    });
   }
 }
 

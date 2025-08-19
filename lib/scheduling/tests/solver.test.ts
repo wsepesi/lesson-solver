@@ -7,15 +7,34 @@
  * - Constraint satisfaction
  * - Performance benchmarks
  * - Edge cases and error handling
+ * 
+ * VISUALIZATION USAGE:
+ * To visualize test cases and their solutions:
+ * - Run with: VISUALIZE=true pnpm test (shows visualization for all tests)
+ * - Or use: pnpm test:visual (same as above)
+ * - Individual test files can call enableVisualizationIfRequested() in beforeEach
+ * - Use testWithVisualization() for tests that should show detailed visualizations
+ * 
+ * CLI visualization:
+ * - pnpm visualize --test="test_name" --solve (visualize and solve a specific test)
+ * - See lib/scheduling/visualizer/cli.ts for full options
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
+// Import wrapped solver for automatic visualization when VISUALIZE=true  
 import {
   ScheduleSolver,
   createOptimalSolver,
   solveSchedule,
   validateInputs
-} from '../solver';
+} from '../solver-wrapper';
+
+// Visualization imports - uncomment to enable for specific tests
+import { 
+  enableVisualizationIfRequested,
+  testWithVisualization,
+  shouldVisualize
+} from '../visualizer/test-integration';
 
 import type {
   TimeBlock,
@@ -104,6 +123,9 @@ describe('ScheduleSolver - Basic Functionality', () => {
   let solver: ScheduleSolver;
 
   beforeEach(() => {
+    // Enable visualization if requested via VISUALIZE=true env var or --visualize flag
+    enableVisualizationIfRequested();
+    
     solver = new ScheduleSolver({
       maxTimeMs: 5000,
       logLevel: 'none'
@@ -116,6 +138,18 @@ describe('ScheduleSolver - Basic Functionality', () => {
     
     const stats = defaultSolver.getStats();
     expect(stats.strategy).toBe('backtracking');
+  });
+
+  it('should create solver with explicit heuristic control', () => {
+    const solverWithHeuristics = new ScheduleSolver({ useHeuristics: true });
+    const solverWithoutHeuristics = new ScheduleSolver({ useHeuristics: false });
+    
+    expect(solverWithHeuristics).toBeDefined();
+    expect(solverWithoutHeuristics).toBeDefined();
+    
+    // Both should use backtracking strategy
+    expect(solverWithHeuristics.getStats().strategy).toBe('backtracking');
+    expect(solverWithoutHeuristics.getStats().strategy).toBe('backtracking');
   });
 
   it('should solve simple single student scenario', () => {
@@ -228,6 +262,173 @@ describe('ScheduleSolver - Basic Functionality', () => {
 
     expect(solution.assignments).toHaveLength(0);
     expect(solution.unscheduled).toHaveLength(1);
+  });
+});
+
+// ============================================================================
+// EXPLICIT HEURISTIC CONTROL TESTS
+// ============================================================================
+
+describe('ScheduleSolver - Explicit Heuristic Control', () => {
+  describe('Heuristic Configuration', () => {
+    it('should use heuristics by default', () => {
+      const solver = new ScheduleSolver();
+      const options = (solver as any).options; // Access private options for testing
+      expect(options.useHeuristics).toBe(true);
+    });
+
+    it('should allow disabling heuristics', () => {
+      const solver = new ScheduleSolver({ useHeuristics: false });
+      const options = (solver as any).options;
+      expect(options.useHeuristics).toBe(false);
+    });
+
+    it('should allow explicitly enabling heuristics', () => {
+      const solver = new ScheduleSolver({ useHeuristics: true });
+      const options = (solver as any).options;
+      expect(options.useHeuristics).toBe(true);
+    });
+  });
+
+  describe('Heuristic Behavior Verification', () => {
+    it('should produce valid solutions with and without heuristics', () => {
+      const teacherAvailability = createWeekWithDays([
+        createDayWithBlocks(1, [{ start: 540, duration: 480 }]), // Monday
+        createDayWithBlocks(2, [{ start: 540, duration: 480 }])  // Tuesday
+      ]);
+      const teacher = createTestTeacher(teacherAvailability);
+
+      const students = Array.from({ length: 5 }, (_, i) => {
+        const dayOfWeek = (i % 2) + 1;
+        const startTime = 600 + i * 60;
+        const availability = createWeekWithDays([
+          createDayWithBlocks(dayOfWeek, [{ start: startTime, duration: 120 }])
+        ]);
+        return createTestStudent(`s${i + 1}`, `Student ${i + 1}`, availability, 60);
+      });
+
+      const solverWithHeuristics = new ScheduleSolver({ useHeuristics: true, logLevel: 'none' });
+      const solverWithoutHeuristics = new ScheduleSolver({ useHeuristics: false, logLevel: 'none' });
+
+      const solutionWith = solverWithHeuristics.solve(teacher, students);
+      const solutionWithout = solverWithoutHeuristics.solve(teacher, students);
+
+      // Both should produce valid solutions
+      expect(solutionWith.assignments.length).toBeGreaterThan(0);
+      expect(solutionWithout.assignments.length).toBeGreaterThan(0);
+      
+      // Total assignments + unscheduled should equal total students
+      expect(solutionWith.assignments.length + solutionWith.unscheduled.length).toBe(students.length);
+      expect(solutionWithout.assignments.length + solutionWithout.unscheduled.length).toBe(students.length);
+
+      // Both should respect hard constraints (no overlaps)
+      function validateNoOverlaps(solution: any) {
+        const assignments = solution.assignments.sort((a: any, b: any) => 
+          a.dayOfWeek === b.dayOfWeek ? a.startMinute - b.startMinute : a.dayOfWeek - b.dayOfWeek
+        );
+        
+        for (let i = 1; i < assignments.length; i++) {
+          const prev = assignments[i - 1];
+          const curr = assignments[i];
+          
+          if (prev.dayOfWeek === curr.dayOfWeek) {
+            const prevEnd = prev.startMinute + prev.durationMinutes;
+            expect(curr.startMinute).toBeGreaterThanOrEqual(prevEnd);
+          }
+        }
+      }
+
+      validateNoOverlaps(solutionWith);
+      validateNoOverlaps(solutionWithout);
+    });
+
+    it('should show different performance characteristics with/without heuristics', () => {
+      const teacherAvailability = createWeekWithDays([
+        createDayWithBlocks(1, [{ start: 540, duration: 480 }])
+      ]);
+      const teacher = createTestTeacher(teacherAvailability);
+
+      // Create overlapping students to force search
+      const students = Array.from({ length: 10 }, (_, i) => {
+        const availability = createWeekWithDays([
+          createDayWithBlocks(1, [{ start: 600 + i * 30, duration: 240 }])
+        ]);
+        return createTestStudent(`s${i + 1}`, `Student ${i + 1}`, availability, 60);
+      });
+
+      const solverWithHeuristics = new ScheduleSolver({ 
+        useHeuristics: true, 
+        logLevel: 'none',
+        maxTimeMs: 10000 
+      });
+      const solverWithoutHeuristics = new ScheduleSolver({ 
+        useHeuristics: false, 
+        logLevel: 'none',
+        maxTimeMs: 10000 
+      });
+
+      const start1 = Date.now();
+      const solutionWith = solverWithHeuristics.solve(teacher, students);
+      const time1 = Date.now() - start1;
+
+      const start2 = Date.now();
+      const solutionWithout = solverWithoutHeuristics.solve(teacher, students);
+      const time2 = Date.now() - start2;
+
+      // Both should complete successfully
+      expect(solutionWith).toBeDefined();
+      expect(solutionWithout).toBeDefined();
+      
+      // Performance might differ but both should be reasonable
+      expect(time1).toBeLessThan(10000);
+      expect(time2).toBeLessThan(10000);
+      
+      // Results should be comparable in quality (allow more variation for complex cases)
+      const diff = Math.abs(solutionWith.assignments.length - solutionWithout.assignments.length);
+      expect(diff).toBeLessThanOrEqual(4); // Should be within 4 assignments of each other
+    });
+  });
+
+  describe('Deterministic Behavior Without Heuristics', () => {
+    it('should be deterministic when heuristics are disabled', () => {
+      const teacherAvailability = createWeekWithDays([
+        createDayWithBlocks(1, [{ start: 540, duration: 300 }])
+      ]);
+      const teacher = createTestTeacher(teacherAvailability);
+
+      const students = [
+        createTestStudent('s1', 'Alice', createWeekWithDays([
+          createDayWithBlocks(1, [{ start: 600, duration: 120 }])
+        ]), 60),
+        createTestStudent('s2', 'Bob', createWeekWithDays([
+          createDayWithBlocks(1, [{ start: 660, duration: 120 }])
+        ]), 60),
+        createTestStudent('s3', 'Carol', createWeekWithDays([
+          createDayWithBlocks(1, [{ start: 720, duration: 120 }])
+        ]), 60)
+      ];
+
+      const solver = new ScheduleSolver({ useHeuristics: false, logLevel: 'none' });
+      
+      // Run multiple times to verify determinism
+      const results = [];
+      for (let i = 0; i < 3; i++) {
+        const solution = solver.solve(teacher, students);
+        results.push({
+          assignmentCount: solution.assignments.length,
+          assignments: solution.assignments.map((a: any) => ({
+            studentId: a.studentId,
+            startMinute: a.startMinute,
+            durationMinutes: a.durationMinutes
+          })).sort((a: any, b: any) => a.studentId.localeCompare(b.studentId))
+        });
+      }
+
+      // All results should be identical
+      for (let i = 1; i < results.length; i++) {
+        expect(results[i]).toEqual(results[0]);
+      }
+    });
   });
 });
 
@@ -961,5 +1162,52 @@ describe('ScheduleSolver - Error Handling', () => {
     // Should handle invalid data without crashing
     const solution = new ScheduleSolver({ logLevel: 'none' }).solve(teacher, students);
     expect(solution).toBeDefined();
+  });
+
+  // Example of how to use visualization in tests
+  it('should visualize complex scheduling scenario (when VISUALIZE=true)', async () => {
+    // Create a realistic teacher schedule
+    const teacherAvailability = createWeekWithDays([
+      createDayWithBlocks(1, [{ start: 540, duration: 480 }]), // Monday 9am-5pm
+      createDayWithBlocks(2, [{ start: 600, duration: 360 }]), // Tuesday 10am-4pm  
+      createDayWithBlocks(3, [{ start: 540, duration: 480 }]), // Wednesday 9am-5pm
+    ]);
+    const teacher = createTestTeacher(teacherAvailability);
+
+    // Create multiple students with different availability
+    const students = [
+      createTestStudent('s1', 'Alice Johnson', createWeekWithDays([
+        createDayWithBlocks(1, [{ start: 600, duration: 240 }]) // Mon 10am-2pm
+      ]), 60),
+      createTestStudent('s2', 'Bob Smith', createWeekWithDays([
+        createDayWithBlocks(2, [{ start: 660, duration: 180 }]) // Tue 11am-2pm
+      ]), 45),
+      createTestStudent('s3', 'Carol Davis', createWeekWithDays([
+        createDayWithBlocks(1, [{ start: 780, duration: 120 }]), // Mon 1pm-3pm
+        createDayWithBlocks(3, [{ start: 600, duration: 240 }])  // Wed 10am-2pm
+      ]), 90)
+    ];
+
+    // Run the test with visualization if enabled
+    if (shouldVisualize()) {
+      await testWithVisualization(
+        'Complex Multi-Student Scenario',
+        teacher,
+        students,
+        () => {
+          const localSolver = new ScheduleSolver({ logLevel: 'none' });
+          return localSolver.solve(teacher, students);
+        },
+        {
+          description: 'Testing scheduling with 3 students across multiple days with different lesson lengths'
+        }
+      );
+    } else {
+      // Regular test execution
+      const localSolver = new ScheduleSolver({ logLevel: 'none' });
+      const solution = localSolver.solve(teacher, students);
+      expect(solution.assignments.length).toBeGreaterThan(0);
+      expect(solution.metadata.totalStudents).toBe(3);
+    }
   });
 });

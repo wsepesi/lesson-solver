@@ -26,9 +26,9 @@ export interface Event {
 import { createClient } from "@/utils/supabase/client"
 import { createTeacherConfig, convertScheduleToWeekSchedule } from "lib/scheduling-adapter"
 import type { ScheduleSolution } from 'lib/scheduling/types'
+import { useToast } from "./ui/use-toast"
 
 import { solveSchedule } from 'lib/scheduling/solver'
-const isPaid = true
 
 const lengthOptions: Option[] = [
     { label: "1", value: "1" },
@@ -58,7 +58,8 @@ type Props = {
     taskIdx: number,
     setEvents: React.Dispatch<React.SetStateAction<Event[]>>,
     setStudio: (studio: StudioWithStudents) => void,
-    setResolveOpen?: (open: boolean) => void
+    setResolveOpen?: (open: boolean) => void,
+    setUnscheduledStudents?: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 
@@ -108,11 +109,11 @@ const createEventsFromSolution = (
 export default function SolveScheduleDialog(props: Props) {
     const supabaseClient = createClient()
     const { setEvents } = props
+    const { toast } = useToast()
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("30")
     const [backToBackPreference, setBackToBackPreference] = useState("agnostic")
     const [, setLoading] = useState(false)
-    const [isError, setIsError] = useState(false)
 
     const handleClick = async () => {
         if (!readyToSolve(props.taskStatus)) {
@@ -162,18 +163,28 @@ export default function SolveScheduleDialog(props: Props) {
                 logLevel: 'basic'
             });
             
-            // Check if any students were scheduled
-            if (solution.assignments.length === 0) {
-                throw new Error('No students could be scheduled. Please check availability constraints.');
-            }
+            // Handle both scheduled and unscheduled students
+            console.log(`Scheduling solution: ${solution.assignments.length}/${solution.metadata.totalStudents} students scheduled`);
+            
+            const totalStudents = solution.metadata.totalStudents;
+            const scheduledCount = solution.assignments.length;
+            const unscheduledCount = solution.unscheduled.length;
             
             // Convert solution to InteractiveCalendar events
             const studentList = students.map(config => config.person);
             const eventList = createEventsFromSolution(solution, studentList, props.studio);
             setEvents(eventList);
+            
+            // Update unscheduled students if callback provided
+            if (props.setUnscheduledStudents) {
+                props.setUnscheduledStudents(solution.unscheduled);
+            }
             const updateRes = await supabaseClient
                 .from("studios")
-                .update({ events: eventList })
+                .update({ 
+                    events: eventList,
+                    unscheduled_students: solution.unscheduled 
+                })
                 .eq("id", props.studio.id)
             if (updateRes.error) {
                 console.error(updateRes.error)
@@ -182,8 +193,32 @@ export default function SolveScheduleDialog(props: Props) {
 
             props.setStudio({
                 ...props.studio,
-                events: eventList
+                events: eventList,
+                unscheduled_students: solution.unscheduled
             })
+
+            // Show appropriate toast based on results
+            if (scheduledCount === totalStudents) {
+                // Complete success
+                toast({
+                    title: "Schedule created successfully!",
+                    description: `All ${totalStudents} students have been scheduled.`,
+                });
+            } else if (scheduledCount > 0) {
+                // Partial success
+                toast({
+                    title: "Partial schedule created",
+                    description: `${scheduledCount} of ${totalStudents} students scheduled. ${unscheduledCount} students couldn't be fit into the schedule.`,
+                    variant: "destructive",
+                });
+            } else {
+                // Complete failure - no students scheduled
+                toast({
+                    title: "Unable to create schedule",
+                    description: "No students could be scheduled. Please try adding more available time slots or adjusting student preferences.",
+                    variant: "destructive",
+                });
+            }
 
             if (props.setResolveOpen) {
                 props.setResolveOpen(false)
@@ -191,42 +226,44 @@ export default function SolveScheduleDialog(props: Props) {
 
         } catch (error) {
             console.error('Error solving schedule:', error);
-            setIsError(true);
+            
+            // Show error toast for system failures
+            toast({
+                title: "System error",
+                description: "An unexpected error occurred while solving the schedule. Please try again.",
+                variant: "destructive",
+            });
+            
+            // Close dialog even on errors
+            if (props.setResolveOpen) {
+                props.setResolveOpen(false)
+            }
         }
         
         setLoading(false)
-        if (!isError) {
-            props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
-        }
+        props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
     }
     
     return(
         <>
             <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]">
-                {(!isError) ?
-                <>
-                    <DialogHeader>
-                    <DialogTitle>Schedule your bookings</DialogTitle>
-                    <DialogDescription>
-                        Make sure you&apos;ve onboarded all of your students before you finalize your schedule!
-                        {!isPaid && (
-                            <p className="my-2">On a free plan you only have <strong>ONE</strong> free schedule solve!</p>)}
-                    </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                        <p>Create a schedule with no more than <Combobox value={length} setValue={setLength} options={lengthOptions} /> hours of back-to-back events without a <Combobox value={breakLength} setValue={setBreakLength} options={breakOptions} /> minutes break.</p>
-                        
-                        <p>Back-to-back lesson preference: <Combobox value={backToBackPreference} setValue={setBackToBackPreference} options={backToBackOptions} width="w-[200px]" /></p>
-                    </div>
-                    <DialogFooter>
-                        <Button 
-                            type="submit"
-                            onClick={handleClick}
-                        >Schedule</Button>
-                    </DialogFooter>
-                </>
-                :
-                <p className="flex items-center h-full">There was an error creating your schedule. This is likely due to an impossible configuration of your availabilty and student availability, so please try to add more time and try again.</p>}
+                <DialogHeader>
+                <DialogTitle>Schedule your bookings</DialogTitle>
+                <DialogDescription>
+                    Make sure you&apos;ve onboarded all of your students before you finalize your schedule!
+                </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                    <p>Create a schedule with no more than <Combobox value={length} setValue={setLength} options={lengthOptions} /> hours of back-to-back events without a <Combobox value={breakLength} setValue={setBreakLength} options={breakOptions} /> minutes break.</p>
+                    
+                    <p>Back-to-back lesson preference: <Combobox value={backToBackPreference} setValue={setBackToBackPreference} options={backToBackOptions} width="w-[200px]" /></p>
+                </div>
+                <DialogFooter>
+                    <Button 
+                        type="submit"
+                        onClick={handleClick}
+                    >Schedule</Button>
+                </DialogFooter>
             </DialogContent>
         </>
     )

@@ -149,6 +149,8 @@ interface TimeColumnProps {
   validDropZones?: TimeBlock[];
   teacherAvailability?: WeekSchedule;
   studentAvailabilities?: Map<string, WeekSchedule>;
+  // Display student names on time blocks
+  showStudentNames?: boolean;
 }
 
 const TimeColumn: React.FC<TimeColumnProps> = ({
@@ -171,7 +173,8 @@ const TimeColumn: React.FC<TimeColumnProps> = ({
   mode = 'edit',
   validDropZones = [],
   teacherAvailability: _teacherAvailability,
-  studentAvailabilities: _studentAvailabilities
+  studentAvailabilities: _studentAvailabilities,
+  showStudentNames = false
 }) => {
   const columnRef = useRef<HTMLDivElement>(null);
   const minMinutes = timeStringToMinutes(minTime);
@@ -229,7 +232,7 @@ const TimeColumn: React.FC<TimeColumnProps> = ({
       <div
         key={index}
         className={cn(
-          "absolute left-0 right-0 bg-blue-200 border border-blue-400 rounded-sm opacity-80 cursor-pointer transition-colors",
+          "absolute left-0 right-0 bg-blue-200 border border-blue-400 rounded-sm opacity-80 cursor-pointer transition-colors flex items-center justify-center",
           {
             "hover:bg-blue-300 hover:opacity-90": mode === 'edit',
             "cursor-move hover:bg-blue-300 hover:opacity-90": mode === 'rearrange'
@@ -256,7 +259,13 @@ const TimeColumn: React.FC<TimeColumnProps> = ({
         onMouseMove={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
         title={`${minutesToDisplayTime(block.start)} - ${minutesToDisplayTime(block.start + block.duration)}`}
-      />
+      >
+        {showStudentNames && block.metadata?.studentName && (
+          <span className="text-xs font-medium text-blue-800 px-1 text-center leading-tight truncate">
+            {block.metadata.studentName}
+          </span>
+        )}
+      </div>
     );
   });
 
@@ -365,7 +374,8 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   mode = readOnly ? 'rearrange' : 'edit',
   showWeekends = false,
   teacherAvailability,
-  studentAvailabilities
+  studentAvailabilities,
+  showStudentNames = false
 }) => {
   const [directInputStart, setDirectInputStart] = useState('');
   const [directInputEnd, setDirectInputEnd] = useState('');
@@ -934,6 +944,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
                         validDropZones={validDropZonesByDay.get(day) ?? []}
                         teacherAvailability={teacherAvailability}
                         studentAvailabilities={studentAvailabilities}
+                        showStudentNames={showStudentNames}
                       />
                     </div>
                   );

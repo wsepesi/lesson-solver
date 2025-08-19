@@ -600,13 +600,15 @@ export class CacheManager {
 
   private evictOldestConstraintEntries(): void {
     const entries = Array.from(this.constraintCache.keys());
-    const toRemove = entries.slice(0, Math.floor(this.config.maxCacheSize * 0.2)); // Remove oldest 20%
+    // More conservative eviction: remove only 5% at a time to reduce cache misses
+    const toRemove = entries.slice(0, Math.floor(this.config.maxCacheSize * 0.05)); 
     toRemove.forEach(key => this.constraintCache.delete(key));
   }
 
   private evictOldestDomainEntries(): void {
     const entries = Array.from(this.domainCache.keys());
-    const toRemove = entries.slice(0, Math.floor(this.config.maxCacheSize * 0.1)); // Remove oldest 10%
+    // More conservative eviction: remove only 3% at a time
+    const toRemove = entries.slice(0, Math.floor(this.config.maxCacheSize * 0.03)); 
     toRemove.forEach(key => this.domainCache.delete(key));
   }
 }

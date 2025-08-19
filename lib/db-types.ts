@@ -22,6 +22,10 @@ import type { Schedule } from "./types";
  * - owner_schedule: json
  * - studio_name: text (default 'My Studio')
  * - events: jsonb[]
+ * - allowed_lesson_durations: jsonb (array of allowed durations in minutes)
+ * - allow_custom_duration: boolean (whether students can choose custom durations)
+ * - min_lesson_duration: integer (minimum allowed duration in minutes)
+ * - max_lesson_duration: integer (maximum allowed duration in minutes)
  */
 export interface StudioSchema {
   id: number; // bigint in DB
@@ -31,6 +35,11 @@ export interface StudioSchema {
   owner_schedule: Schedule | null; // json
   studio_name: string | null; // text
   events: unknown[] | null; // jsonb[] - using unknown[] to avoid Event import
+  unscheduled_students: string[] | null; // jsonb array of unscheduled student IDs
+  allowed_lesson_durations: number[] | null; // jsonb array of allowed durations
+  allow_custom_duration: boolean | null; // boolean
+  min_lesson_duration: number | null; // integer
+  max_lesson_duration: number | null; // integer
 }
 
 /**
@@ -44,7 +53,8 @@ export interface StudioSchema {
  * - last_name: text
  * - studio_id: bigint (FK to studios.id)
  * - schedule: json
- * - lesson_length: lesson_length enum ('30' | '60')
+ * - lesson_length: lesson_length enum ('30' | '60') [deprecated, use lesson_duration_minutes]
+ * - lesson_duration_minutes: integer (lesson duration in minutes)
  */
 export interface StudentSchema {
   id: number; // bigint in DB
@@ -54,7 +64,8 @@ export interface StudentSchema {
   last_name: string | null; // text
   studio_id: number; // bigint (FK)
   schedule: Schedule | null; // json
-  lesson_length: "30" | "60" | null; // lesson_length enum
+  lesson_length: "30" | "60" | null; // lesson_length enum (deprecated)
+  lesson_duration_minutes: number | null; // integer - preferred lesson duration in minutes
 }
 
 /**

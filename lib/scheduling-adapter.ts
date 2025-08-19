@@ -24,7 +24,6 @@ import {
 
 import type { 
   Student,
-  LessonLength,
   TimeInterval 
 } from './types';
 
@@ -340,7 +339,7 @@ export function solveStudioSchedule(
       const student: Student = {
         name: `${studentSchema.first_name} ${studentSchema.last_name}`,
         email: studentSchema.email,
-        lessonLength: parseInt(studentSchema.lesson_length ?? '60') as LessonLength
+        lessonLength: studentSchema.lesson_duration_minutes ?? parseInt(studentSchema.lesson_length ?? '60')
       };
       
       const availability = studentSchema.schedule!;

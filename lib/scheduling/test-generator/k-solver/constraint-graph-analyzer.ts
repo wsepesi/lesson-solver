@@ -454,7 +454,10 @@ export class ConstraintGraphAnalyzer {
     
     for (const student of students) {
       const timeSlots = this.generateTimeSlots(teacher, student);
-      max *= Math.max(1, timeSlots.length);
+      if (timeSlots.length === 0) {
+        return 0; // If any student has no slots, max is 0
+      }
+      max *= timeSlots.length;
     }
     
     return max;
@@ -468,6 +471,11 @@ export class ConstraintGraphAnalyzer {
     analysis: ConstraintGraphAnalysis,
     reasoning: string[]
   ): number {
+    // If theoretical max is 0, upper bound must be 0
+    if (theoreticalMax === 0) {
+      return 0;
+    }
+    
     let upperBound = theoreticalMax;
     
     // Apply constraint reduction factor
@@ -547,9 +555,16 @@ export class ConstraintGraphAnalyzer {
   private calculateTotalAvailableTime(teacher: TeacherConfig): number {
     let totalTime = 0;
     
+    // Handle empty availability case
+    if (!teacher.availability.days || teacher.availability.days.length === 0) {
+      return 0;
+    }
+    
     for (const day of teacher.availability.days) {
-      for (const block of day.blocks) {
-        totalTime += block.duration;
+      if (day.blocks) {
+        for (const block of day.blocks) {
+          totalTime += block.duration;
+        }
       }
     }
     
@@ -575,9 +590,9 @@ export class ConstraintGraphAnalyzer {
    * Find maximum clique exactly (for small graphs)
    */
   private findMaxCliqueExact(nodes: ConstraintNode[]): number {
-    // Simplified implementation - returns maximum degree + 1 as approximation
-    const maxDegree = Math.max(...nodes.map(n => n.degree));
-    return Math.min(nodes.length, maxDegree + 1);
+    // Conservative clique estimate capped at student count + 1
+    const studentCount = new Set(nodes.map(n => n.studentId)).size;
+    return Math.min(Math.max(1, Math.ceil(studentCount / 2)), studentCount + 1);
   }
   
   /**
@@ -588,24 +603,12 @@ export class ConstraintGraphAnalyzer {
     const sortedByDegree = nodes.sort((a, b) => b.degree - a.degree);
     const highDegreeNodes = sortedByDegree.slice(0, Math.min(10, nodes.length));
     
-    // Find the largest set where all nodes are connected to each other
-    let maxClique = 1;
+    // For heuristic estimation, use a conservative approach
+    // Just return a reasonable estimate based on student count
+    const studentCount = new Set(nodes.map(n => n.studentId)).size;
     
-    for (let i = 0; i < highDegreeNodes.length; i++) {
-      const node = highDegreeNodes[i]!;
-      let cliqueSize = 1;
-      
-      for (let j = i + 1; j < highDegreeNodes.length; j++) {
-        const other = highDegreeNodes[j]!;
-        if (node.conflicts.has(other.id)) {
-          cliqueSize++;
-        }
-      }
-      
-      maxClique = Math.max(maxClique, cliqueSize);
-    }
-    
-    return maxClique;
+    // Conservative clique size estimate: never exceed studentCount + 1
+    return Math.min(Math.max(1, Math.ceil(studentCount / 2)), studentCount + 1);
   }
   
   /**
@@ -741,8 +744,18 @@ export class ConstraintGraphAnalyzer {
       confidence *= 0.8;
     }
     
-    // Increase confidence for well-structured problems
-    if (analysis.density > 0.1 && analysis.density < 0.5) {
+    // Additional reduction for moderately dense graphs
+    if (analysis.density > 0.5) {
+      confidence *= 0.8;
+    }
+    
+    // Strong reduction for overlapping scenarios (high student count + high density)
+    if (studentCount >= 8 && analysis.density > 0.3) {
+      confidence *= 0.7;
+    }
+    
+    // Increase confidence for well-structured problems ONLY if not dense
+    if (analysis.density > 0.1 && analysis.density < 0.3) {
       confidence *= 1.1;
     }
     

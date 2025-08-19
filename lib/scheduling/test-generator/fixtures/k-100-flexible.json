@@ -3,75 +3,428 @@
   "description": "Flexible scenarios with many possible solutions (k≥100)",
   "cases": [
     {
-      "id": "flexible-001",
-      "description": "High flexibility with many valid arrangements",
+      "id": "tc_mehkm5ei_psw8j",
+      "description": "Generated k-100-flexible test case",
       "teacher": {
         "person": {
-          "id": "teacher-1",
-          "name": "Test Teacher",
-          "email": "teacher@test.com"
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
         },
+        "studioId": "studio-heuristic-test",
         "availability": {
-          "monday": [
-            { "start": 480, "duration": 480 }
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
           ],
-          "tuesday": [
-            { "start": 480, "duration": 480 }
-          ],
-          "wednesday": [
-            { "start": 480, "duration": 480 }
-          ],
-          "thursday": [
-            { "start": 480, "duration": 480 }
-          ],
-          "friday": [
-            { "start": 480, "duration": 360 }
-          ],
-          "saturday": [],
-          "sunday": []
+          "timezone": "UTC"
         },
         "constraints": {
-          "maxStudentsPerSlot": 1,
-          "minBreakBetweenLessons": 15,
-          "maxConsecutiveLessons": 6,
-          "preferredLessonDuration": 60
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
         }
       },
       "students": [
         {
           "person": {
-            "id": "student-1",
-            "name": "Student One",
+            "id": "student_1",
+            "name": "Student 1",
             "email": "student1@test.com"
           },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
           "availability": {
-            "monday": [
-              { "start": 600, "duration": 240 }
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
             ],
-            "tuesday": [
-              { "start": 540, "duration": 300 }
-            ],
-            "wednesday": [
-              { "start": 480, "duration": 360 }
-            ],
-            "thursday": [
-              { "start": 660, "duration": 180 }
-            ],
-            "friday": [
-              { "start": 540, "duration": 240 }
-            ],
-            "saturday": [],
-            "sunday": []
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
           },
-          "constraints": {
-            "preferredLessonDuration": 60,
-            "requiredLessonCount": 1
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 812,
+                    "duration": 192
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
           }
         }
       ],
       "expectedSolutions": 100,
       "difficulty": {
-        "studentCount": 1,
+        "studentCount": 6,
         "overlapRatio": 0.8,
         "fragmentationLevel": 0.2,
         "packingDensity": 0.5,
@@ -79,18 +432,6240 @@
         "constraintTightness": 0.4
       },
       "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
         "category": "easy",
-        "studentCount": 1,
-        "estimatedSolveTimeMs": 50,
-        "constraints": ["high-flexibility", "multi-day"],
-        "tags": ["flexible", "k-100", "easy"],
-        "createdAt": "2025-08-16T00:00:00.000Z",
-        "generatedBy": "manual"
-      }
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.562Z"
+    },
+    {
+      "id": "tc_mehkm5ej_j5ecj",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 817,
+                    "duration": 141
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 862,
+                    "duration": 113
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 866,
+                    "duration": 135
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 856,
+                    "duration": 132
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 856,
+                    "duration": 160
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_01fbz",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 809,
+                    "duration": 187
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_uxlxz",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 835,
+                    "duration": 116
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 804,
+                    "duration": 117
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 860,
+                    "duration": 141
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 853,
+                    "duration": 114
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_qmsfg",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 814,
+                    "duration": 200
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 805,
+                    "duration": 214
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 872,
+                    "duration": 147
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_7mtgd",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 841,
+                    "duration": 152
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 805,
+                    "duration": 183
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 809,
+                    "duration": 207
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_vh7l8",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 808,
+                    "duration": 117
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 816,
+                    "duration": 116
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 820,
+                    "duration": 197
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_7zvh2",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 804,
+                    "duration": 185
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 835,
+                    "duration": 121
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 809,
+                    "duration": 208
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_3b7i9",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 868,
+                    "duration": 130
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ej_0teoh",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 832,
+                    "duration": 171
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 873,
+                    "duration": 111
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.563Z"
+    },
+    {
+      "id": "tc_mehkm5ek_npkzm",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 830,
+                    "duration": 165
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 818,
+                    "duration": 110
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.564Z"
+    },
+    {
+      "id": "tc_mehkm5ek_u9zpa",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 858,
+                    "duration": 135
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 807,
+                    "duration": 118
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 805,
+                    "duration": 185
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.564Z"
+    },
+    {
+      "id": "tc_mehkm5ek_mcu1i",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 804,
+                    "duration": 215
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 814,
+                    "duration": 197
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 817,
+                    "duration": 183
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.564Z"
+    },
+    {
+      "id": "tc_mehkm5ek_lj6tb",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 858,
+                    "duration": 154
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 829,
+                    "duration": 188
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.564Z"
+    },
+    {
+      "id": "tc_mehkm5ek_9hyrs",
+      "description": "Generated k-100-flexible test case",
+      "teacher": {
+        "person": {
+          "id": "teacher-ha-1",
+          "name": "Heuristic Test Teacher",
+          "email": "teacher@heuristictest.com"
+        },
+        "studioId": "studio-heuristic-test",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 192
+                },
+                {
+                  "start": 804,
+                  "duration": 216
+                }
+              ],
+              "metadata": {
+                "totalAvailable": 408,
+                "largestBlock": 216,
+                "fragmentationScore": 0.10346020761245675
+              }
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": [],
+              "metadata": {
+                "totalAvailable": 0,
+                "largestBlock": 0,
+                "fragmentationScore": 0
+              }
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 192,
+          "breakDurationMinutes": 23,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 828,
+                    "duration": 126
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 806,
+                    "duration": 211
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 806,
+                    "duration": 212
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 805,
+                    "duration": 127
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 30,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 240
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 45,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 815,
+                    "duration": 186
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 6,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 0.5,
+        "durationVariety": 1,
+        "constraintTightness": 0.4
+      },
+      "metadata": {
+        "description": "Generated k-100-flexible test case",
+        "expectedSolveTime": 150,
+        "category": "easy",
+        "tags": [
+          "heuristic-pro",
+          "students-6",
+          "solvability-50pct",
+          "k-100"
+        ],
+        "generatorVersion": "1.0.0",
+        "seed": 42
+      },
+      "createdAt": "2025-08-18T20:31:53.564Z"
     }
   ],
-  "totalCases": 1,
+  "totalCases": 15,
   "categories": {
-    "k-100-flexible": 1
-  }
+    "k-100-flexible": 15
+  },
+  "createdAt": "2025-08-18T20:31:53.564Z"
 }

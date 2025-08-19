@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import Navbar from "@/components/Navbar"
 import type { NewStudioInfo } from "lib/types"
 import { useState } from "react";
@@ -35,6 +36,10 @@ export default function NewStudioPage() {
 
     const [formData, setFormData] = useState<NewStudioInfo>({
         name: "",
+        allowedLessonDurations: [30, 60],
+        allowCustomDuration: false,
+        minLessonDuration: 15,
+        maxLessonDuration: 120,
     })
     const { toast } = useToast()
 
@@ -43,6 +48,20 @@ export default function NewStudioPage() {
             toast({
                 title: "Please fill out all fields",
                 description: "Naming the Studio is required",
+            })
+            return
+        }
+        if (formData.allowedLessonDurations.length === 0 && !formData.allowCustomDuration) {
+            toast({
+                title: "Please select lesson durations",
+                description: "Choose at least one preset duration or enable custom durations",
+            })
+            return
+        }
+        if (formData.allowCustomDuration && formData.minLessonDuration >= formData.maxLessonDuration) {
+            toast({
+                title: "Invalid duration range",
+                description: "Minimum duration must be less than maximum duration",
             })
             return
         }
@@ -56,6 +75,10 @@ export default function NewStudioPage() {
                         studio_name: formData.name,
                         user_id: user.id,
                         code: generateRandomCode(),
+                        allowed_lesson_durations: formData.allowedLessonDurations,
+                        allow_custom_duration: formData.allowCustomDuration,
+                        min_lesson_duration: formData.minLessonDuration,
+                        max_lesson_duration: formData.maxLessonDuration,
                     })
                     switch (res.status) {
                         case 201:
@@ -87,7 +110,7 @@ export default function NewStudioPage() {
         <div className="h-screen">
         <Navbar />
         <div className="flex justify-center items-center w-full h-full max-h-[90vh]">
-        <Card className="w-[350px]">
+        <Card className="w-[500px] max-h-[80vh] overflow-y-auto">
             <CardHeader>
                 <CardTitle>Create new Studio</CardTitle>
                 {/* <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription> */}
@@ -98,7 +121,7 @@ export default function NewStudioPage() {
                 >
                 <div className="grid w-full items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name">Studio Name</Label>
                     <Input 
                         id="name" 
                         placeholder="My Spring 2024 Studio" 
@@ -110,6 +133,79 @@ export default function NewStudioPage() {
                         value={formData.name}
                     />
                     </div>
+                    
+                    <div className="flex flex-col space-y-1.5">
+                        <Label>Allowed Lesson Durations (minutes)</Label>
+                        <div className="flex flex-wrap gap-2">
+                            {[15, 30, 45, 60, 90, 120].map((duration) => (
+                                <div key={duration} className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id={`duration-${duration}`}
+                                        checked={formData.allowedLessonDurations.includes(duration)}
+                                        onCheckedChange={(checked) => {
+                                            if (checked) {
+                                                setFormData({
+                                                    ...formData,
+                                                    allowedLessonDurations: [...formData.allowedLessonDurations, duration].sort((a, b) => a - b)
+                                                });
+                                            } else {
+                                                setFormData({
+                                                    ...formData,
+                                                    allowedLessonDurations: formData.allowedLessonDurations.filter(d => d !== duration)
+                                                });
+                                            }
+                                        }}
+                                    />
+                                    <Label htmlFor={`duration-${duration}`} className="text-sm">{duration}min</Label>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                        <Checkbox
+                            id="custom-duration"
+                            checked={formData.allowCustomDuration}
+                            onCheckedChange={(checked) => setFormData({
+                                ...formData,
+                                allowCustomDuration: !!checked
+                            })}
+                        />
+                        <Label htmlFor="custom-duration">Allow students to choose custom durations</Label>
+                    </div>
+                    
+                    {formData.allowCustomDuration && (
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor="min-duration">Min Duration (min)</Label>
+                                <Input
+                                    id="min-duration"
+                                    type="number"
+                                    min="5"
+                                    max="240"
+                                    value={formData.minLessonDuration}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        minLessonDuration: parseInt(e.target.value) || 15
+                                    })}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor="max-duration">Max Duration (min)</Label>
+                                <Input
+                                    id="max-duration"
+                                    type="number"
+                                    min="5"
+                                    max="240"
+                                    value={formData.maxLessonDuration}
+                                    onChange={(e) => setFormData({
+                                        ...formData,
+                                        maxLessonDuration: parseInt(e.target.value) || 120
+                                    })}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
                 </form>
             </CardContent>

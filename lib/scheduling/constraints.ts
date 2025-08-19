@@ -313,7 +313,7 @@ export class PreferredTimeConstraint implements Constraint {
  */
 export class ConsecutiveLimitConstraint implements Constraint {
   readonly id = 'consecutive-limit';
-  readonly type = 'soft' as const;
+  readonly type = 'soft' as const; // Revert to soft - logic fix is what matters
   readonly priority = 70;
 
   evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
@@ -344,10 +344,15 @@ export class ConsecutiveLimitConstraint implements Constraint {
         const prevEnd = prevLesson.startMinute + prevLesson.durationMinutes;
 
         // Check if lessons are consecutive (no gap)
-        if (lesson.startMinute <= prevEnd) {
+        if (lesson.startMinute === prevEnd) {
+          // Truly consecutive lessons - extend current block
           consecutiveMinutes += lesson.durationMinutes;
         } else {
-          // Gap found - start new block
+          // Gap found - check current block before starting new one
+          if (consecutiveMinutes > maxConsecutive) {
+            return false;
+          }
+          // Start new block
           currentBlockStart = lesson.startMinute;
           consecutiveMinutes = lesson.durationMinutes;
         }
@@ -376,7 +381,7 @@ export class ConsecutiveLimitConstraint implements Constraint {
  */
 export class BreakRequirementConstraint implements Constraint {
   readonly id = 'break-requirement';
-  readonly type = 'soft' as const;
+  readonly type = 'soft' as const; // Revert to soft - logic fix is what matters  
   readonly priority = 65;
 
   evaluate(assignment: LessonAssignment, context: SolverContext): boolean {
@@ -432,7 +437,7 @@ export class BreakRequirementConstraint implements Constraint {
       // Check break after existing lesson
       if (existingEnd <= assignment.startMinute) {
         const breakTime = assignment.startMinute - existingEnd;
-        if (breakTime >= 0 && breakTime < requiredBreak) {
+        if (breakTime < requiredBreak) {
           return false;
         }
       }
@@ -440,7 +445,7 @@ export class BreakRequirementConstraint implements Constraint {
       // Check break after new assignment
       if (assignmentEnd <= existing.startMinute) {
         const breakTime = existing.startMinute - assignmentEnd;
-        if (breakTime >= 0 && breakTime < requiredBreak) {
+        if (breakTime < requiredBreak) {
           return false;
         }
       }

@@ -3,7 +3,7 @@
   "description": "Tightly constrained scenarios with exactly one solution (k=1)",
   "cases": [
     {
-      "id": "tc_1755304902857_9qw4s",
+      "id": "tc_1755549113058_rdd0y",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -26,7 +26,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -225,10 +226,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.857Z"
+      "createdAt": "2025-08-18T20:31:53.058Z"
     },
     {
-      "id": "tc_1755304902868_4exqd",
+      "id": "tc_1755549113075_au0c5",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -251,7 +252,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -450,10 +452,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.868Z"
+      "createdAt": "2025-08-18T20:31:53.075Z"
     },
     {
-      "id": "tc_1755304902875_j613a",
+      "id": "tc_1755549113093_uhacq",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -476,7 +478,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -675,10 +678,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.875Z"
+      "createdAt": "2025-08-18T20:31:53.093Z"
     },
     {
-      "id": "tc_1755304902881_53t1d",
+      "id": "tc_1755549113109_zd3f4",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -701,7 +704,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -900,10 +904,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.881Z"
+      "createdAt": "2025-08-18T20:31:53.109Z"
     },
     {
-      "id": "tc_1755304902888_abddb",
+      "id": "tc_1755549113125_96nkg",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -926,7 +930,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -1125,10 +1130,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.888Z"
+      "createdAt": "2025-08-18T20:31:53.125Z"
     },
     {
-      "id": "tc_1755304902894_ue5g0",
+      "id": "tc_1755549113142_voljh",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -1151,7 +1156,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -1350,10 +1356,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.894Z"
+      "createdAt": "2025-08-18T20:31:53.142Z"
     },
     {
-      "id": "tc_1755304902901_18h31",
+      "id": "tc_1755549113158_wvbe8",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -1376,7 +1382,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -1575,10 +1582,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.901Z"
+      "createdAt": "2025-08-18T20:31:53.158Z"
     },
     {
-      "id": "tc_1755304902906_6iilw",
+      "id": "tc_1755549113175_s83v3",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -1601,7 +1608,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -1800,10 +1808,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.906Z"
+      "createdAt": "2025-08-18T20:31:53.175Z"
     },
     {
-      "id": "tc_1755304902912_cm8ys",
+      "id": "tc_1755549113191_jhnh9",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -1826,7 +1834,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -2025,10 +2034,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.912Z"
+      "createdAt": "2025-08-18T20:31:53.191Z"
     },
     {
-      "id": "tc_1755304902918_vvnou",
+      "id": "tc_1755549113207_kjbf7",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -2051,7 +2060,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -2250,10 +2260,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.918Z"
+      "createdAt": "2025-08-18T20:31:53.207Z"
     },
     {
-      "id": "tc_1755304902926_hak36",
+      "id": "tc_1755549113224_p5pj1",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -2276,7 +2286,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -2475,10 +2486,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.926Z"
+      "createdAt": "2025-08-18T20:31:53.224Z"
     },
     {
-      "id": "tc_1755304902932_rog04",
+      "id": "tc_1755549113240_7j8ag",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -2501,7 +2512,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -2700,10 +2712,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.932Z"
+      "createdAt": "2025-08-18T20:31:53.240Z"
     },
     {
-      "id": "tc_1755304902937_dymk5",
+      "id": "tc_1755549113255_ml2es",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -2726,7 +2738,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -2925,10 +2938,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.937Z"
+      "createdAt": "2025-08-18T20:31:53.255Z"
     },
     {
-      "id": "tc_1755304902943_witw2",
+      "id": "tc_1755549113270_l9a12",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -2951,7 +2964,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -3150,10 +3164,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.943Z"
+      "createdAt": "2025-08-18T20:31:53.270Z"
     },
     {
-      "id": "tc_1755304902948_xf2t4",
+      "id": "tc_1755549113285_49up0",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -3176,7 +3190,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -3375,10 +3390,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.948Z"
+      "createdAt": "2025-08-18T20:31:53.285Z"
     },
     {
-      "id": "tc_1755304902953_ogha0",
+      "id": "tc_1755549113302_e3arj",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -3401,7 +3416,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -3600,10 +3616,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.953Z"
+      "createdAt": "2025-08-18T20:31:53.302Z"
     },
     {
-      "id": "tc_1755304902958_5d1xs",
+      "id": "tc_1755549113317_hqbri",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -3626,7 +3642,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -3825,10 +3842,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.958Z"
+      "createdAt": "2025-08-18T20:31:53.317Z"
     },
     {
-      "id": "tc_1755304902964_dmuxw",
+      "id": "tc_1755549113333_ttxel",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -3851,7 +3868,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -4050,10 +4068,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.964Z"
+      "createdAt": "2025-08-18T20:31:53.333Z"
     },
     {
-      "id": "tc_1755304902969_4t0sw",
+      "id": "tc_1755549113348_pbhzl",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -4076,7 +4094,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -4275,10 +4294,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.969Z"
+      "createdAt": "2025-08-18T20:31:53.348Z"
     },
     {
-      "id": "tc_1755304902974_3vbgg",
+      "id": "tc_1755549113368_cj6gq",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -4301,7 +4320,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -4500,10 +4520,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.974Z"
+      "createdAt": "2025-08-18T20:31:53.368Z"
     },
     {
-      "id": "tc_1755304902979_hcszt",
+      "id": "tc_1755549113394_z6ut7",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -4526,7 +4546,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -4725,10 +4746,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.979Z"
+      "createdAt": "2025-08-18T20:31:53.394Z"
     },
     {
-      "id": "tc_1755304902985_lmw7p",
+      "id": "tc_1755549113410_slvzu",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -4751,7 +4772,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -4950,10 +4972,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.985Z"
+      "createdAt": "2025-08-18T20:31:53.410Z"
     },
     {
-      "id": "tc_1755304902989_k994y",
+      "id": "tc_1755549113426_t21cw",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -4976,7 +4998,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -5175,10 +5198,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.989Z"
+      "createdAt": "2025-08-18T20:31:53.426Z"
     },
     {
-      "id": "tc_1755304902994_ma1fc",
+      "id": "tc_1755549113441_t155o",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -5201,7 +5224,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -5400,10 +5424,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.994Z"
+      "createdAt": "2025-08-18T20:31:53.441Z"
     },
     {
-      "id": "tc_1755304902999_n3wca",
+      "id": "tc_1755549113457_x19gb",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -5426,7 +5450,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -5625,10 +5650,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:42.999Z"
+      "createdAt": "2025-08-18T20:31:53.457Z"
     },
     {
-      "id": "tc_1755304903004_i5lle",
+      "id": "tc_1755549113473_l6ar5",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -5651,7 +5676,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -5850,10 +5876,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:43.004Z"
+      "createdAt": "2025-08-18T20:31:53.473Z"
     },
     {
-      "id": "tc_1755304903009_tkccw",
+      "id": "tc_1755549113488_hvkcl",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -5876,7 +5902,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -6075,10 +6102,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:43.009Z"
+      "createdAt": "2025-08-18T20:31:53.488Z"
     },
     {
-      "id": "tc_1755304903014_570xb",
+      "id": "tc_1755549113504_5s5t2",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -6101,7 +6128,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -6300,10 +6328,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:43.014Z"
+      "createdAt": "2025-08-18T20:31:53.504Z"
     },
     {
-      "id": "tc_1755304903019_c9ae7",
+      "id": "tc_1755549113520_h174x",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -6326,7 +6354,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -6525,10 +6554,10 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:43.019Z"
+      "createdAt": "2025-08-18T20:31:53.520Z"
     },
     {
-      "id": "tc_1755304903024_lpzu8",
+      "id": "tc_1755549113536_4v0k9",
       "description": "Generated k-1-unique test case",
       "teacher": {
         "person": {
@@ -6551,7 +6580,8 @@
             45,
             60,
             90
-          ]
+          ],
+          "backToBackPreference": "agnostic"
         }
       },
       "students": [
@@ -6750,4512 +6780,12 @@
         "expectedSolveTime": 500,
         "category": "hard"
       },
-      "createdAt": "2025-08-16T00:41:43.024Z"
-    },
-    {
-      "id": "tc_1755304903029_k7wv6",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.029Z"
-    },
-    {
-      "id": "tc_1755304903034_8aek1",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.034Z"
-    },
-    {
-      "id": "tc_1755304903040_1qd67",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.040Z"
-    },
-    {
-      "id": "tc_1755304903045_44qp1",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.045Z"
-    },
-    {
-      "id": "tc_1755304903050_t6m4h",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.050Z"
-    },
-    {
-      "id": "tc_1755304903055_9m80s",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.055Z"
-    },
-    {
-      "id": "tc_1755304903060_of4d3",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.060Z"
-    },
-    {
-      "id": "tc_1755304903065_vxi5l",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.065Z"
-    },
-    {
-      "id": "tc_1755304903070_2eot4",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.070Z"
-    },
-    {
-      "id": "tc_1755304903075_1n8my",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.075Z"
-    },
-    {
-      "id": "tc_1755304903080_h5enb",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.080Z"
-    },
-    {
-      "id": "tc_1755304903086_bgi7w",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.086Z"
-    },
-    {
-      "id": "tc_1755304903091_be3wq",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.091Z"
-    },
-    {
-      "id": "tc_1755304903096_k91jj",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.096Z"
-    },
-    {
-      "id": "tc_1755304903101_v5m93",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.101Z"
-    },
-    {
-      "id": "tc_1755304903106_odn3h",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.106Z"
-    },
-    {
-      "id": "tc_1755304903111_73d1y",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.111Z"
-    },
-    {
-      "id": "tc_1755304903116_i6izl",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.116Z"
-    },
-    {
-      "id": "tc_1755304903121_3lfla",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.121Z"
-    },
-    {
-      "id": "tc_1755304903126_riwod",
-      "description": "Generated k-1-unique test case",
-      "teacher": {
-        "person": {
-          "id": "teacher_k_test",
-          "name": "K-Test Teacher",
-          "email": "ktest@example.com"
-        },
-        "studioId": "studio_k_test",
-        "availability": {
-          "days": [],
-          "timezone": "UTC"
-        },
-        "constraints": {
-          "maxConsecutiveMinutes": 180,
-          "breakDurationMinutes": 15,
-          "minLessonDuration": 30,
-          "maxLessonDuration": 90,
-          "allowedDurations": [
-            30,
-            45,
-            60,
-            90
-          ]
-        }
-      },
-      "students": [
-        {
-          "person": {
-            "id": "student_k_1",
-            "name": "K-Test Student 1",
-            "email": "ktest1@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_2",
-            "name": "K-Test Student 2",
-            "email": "ktest2@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_3",
-            "name": "K-Test Student 3",
-            "email": "ktest3@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_4",
-            "name": "K-Test Student 4",
-            "email": "ktest4@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_5",
-            "name": "K-Test Student 5",
-            "email": "ktest5@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_6",
-            "name": "K-Test Student 6",
-            "email": "ktest6@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_7",
-            "name": "K-Test Student 7",
-            "email": "ktest7@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_8",
-            "name": "K-Test Student 8",
-            "email": "ktest8@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_9",
-            "name": "K-Test Student 9",
-            "email": "ktest9@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_10",
-            "name": "K-Test Student 10",
-            "email": "ktest10@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_11",
-            "name": "K-Test Student 11",
-            "email": "ktest11@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        },
-        {
-          "person": {
-            "id": "student_k_12",
-            "name": "K-Test Student 12",
-            "email": "ktest12@example.com"
-          },
-          "preferredDuration": 60,
-          "minDuration": 30,
-          "maxDuration": 90,
-          "maxLessonsPerWeek": 1,
-          "availability": {
-            "days": [],
-            "timezone": "UTC"
-          }
-        }
-      ],
-      "expectedSolutions": 1,
-      "difficulty": {
-        "studentCount": 12,
-        "overlapRatio": 0.19999999999999998,
-        "fragmentationLevel": 0.6,
-        "packingDensity": 1,
-        "durationVariety": 2,
-        "constraintTightness": 0.5
-      },
-      "metadata": {
-        "description": "Generated k-1-unique test case",
-        "expectedSolveTime": 500,
-        "category": "hard"
-      },
-      "createdAt": "2025-08-16T00:41:43.126Z"
+      "createdAt": "2025-08-18T20:31:53.536Z"
     }
   ],
-  "totalCases": 50,
+  "totalCases": 30,
   "categories": {
-    "k-1-unique": 50
+    "k-1-unique": 30
   },
-  "createdAt": "2025-08-16T00:41:43.132Z"
+  "createdAt": "2025-08-18T20:31:53.551Z"
 }

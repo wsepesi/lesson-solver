@@ -15,13 +15,14 @@
  */
 
 import { describe, it, expect } from 'vitest';
+// Import wrapped solver for automatic visualization when VISUALIZE=true
 import {
   ScheduleSolver,
   createOptimalSolver,
   solveSchedule,
   type SolverOptions,
   type SolverStats
-} from '../../solver';
+} from '../../solver-wrapper';
 
 import type {
   TimeBlock,
@@ -215,6 +216,7 @@ async function runScalingTest(
     const students = studentGenerator.generateStudents({
       count: studentCount,
       seed: runSeed,
+      allowedDurations: teacher.constraints.allowedDurations, // Respect teacher's allowed durations
       typeDistribution: {
         'flexible': 0.4,
         'morning-person': 0.2,
@@ -557,7 +559,8 @@ describe('Scaling Performance Analysis', () => {
         const studentGenerator = new StudentGenerator(50300);
         const students = studentGenerator.generateStudents({
           count: 20,
-          seed: 50300
+          seed: 50300,
+          allowedDurations: teacher.constraints.allowedDurations
         });
         
         const solver = new ScheduleSolver({
@@ -680,7 +683,11 @@ describe('Scaling Performance Analysis', () => {
         const teacher = createTestTeacher(teacherAvailability);
         
         const studentGenerator = new StudentGenerator(50700);
-        const students = studentGenerator.generateStudents({ count, seed: 50700 });
+        const students = studentGenerator.generateStudents({ 
+          count, 
+          seed: 50700,
+          allowedDurations: teacher.constraints.allowedDurations
+        });
         
         const solver = new ScheduleSolver({
           enableOptimizations: true,

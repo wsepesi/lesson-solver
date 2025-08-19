@@ -188,14 +188,17 @@ export class MonteCarloEstimator {
     const solver = this.createSolver();
     
     // Adaptive sampling
-    let sampleCount = Math.min(targetSamples, this.config.minSamples!);
     let converged = false;
     
-    while (sampleCount <= this.config.maxSamples! && !converged) {
-      // Generate additional samples
-      const batchSize = Math.min(100, sampleCount - samples.length);
+    while (samples.length < this.config.maxSamples! && !converged) {
+      // Calculate batch size ensuring we don't exceed maxSamples
+      const batchSize = Math.min(100, this.config.maxSamples! - samples.length);
+      if (batchSize <= 0) break;
+      
       const newSamples = await this.generateSamples(teacher, students, batchSize, solver);
-      samples.push(...newSamples);
+      // Ensure we don't exceed maxSamples
+      const samplesToAdd = newSamples.slice(0, this.config.maxSamples! - samples.length);
+      samples.push(...samplesToAdd);
       
       // Check convergence every 100 samples
       if (samples.length >= this.config.minSamples! && samples.length % 100 === 0) {
@@ -206,8 +209,6 @@ export class MonteCarloEstimator {
           break;
         }
       }
-      
-      sampleCount += batchSize;
     }
     
     return this.computeEstimate(samples, teacher, students);
@@ -222,17 +223,26 @@ export class MonteCarloEstimator {
     targetSamples: number
   ): Promise<SolutionCountResult> {
     const strata = this.createStrata(teacher, students);
-    const samplesPerStratum = Math.ceil(targetSamples / strata.length);
+    const maxSamples = this.config.maxSamples!;
+    const samplesPerStratum = Math.min(
+      Math.ceil(targetSamples / strata.length),
+      Math.floor(maxSamples / strata.length)
+    );
     const allSamples: SampleResult[] = [];
     
     const solver = this.createSolver();
     
     for (let stratumIndex = 0; stratumIndex < strata.length; stratumIndex++) {
+      if (allSamples.length >= maxSamples) break;
+      
       const stratum = strata[stratumIndex]!;
+      const remainingSamples = maxSamples - allSamples.length;
+      const actualSamplesForStratum = Math.min(samplesPerStratum, remainingSamples);
+      
       const samples = await this.generateStratumSamples(
         teacher,
         stratum.students,
-        samplesPerStratum,
+        actualSamplesForStratum,
         stratumIndex,
         solver
       );
@@ -453,6 +463,18 @@ export class MonteCarloEstimator {
     const theoreticalMax = this.calculateTheoreticalMaxSolutions(teacher, students);
     const estimatedSolutions = theoreticalMax * successRate;
     
+    // Handle impossible cases - if no successful samples, return 0
+    if (successfulSamples === 0) {
+      return {
+        count: 0,
+        isExact: false,
+        timeMs: 0,
+        confidence: this.config.confidenceLevel,
+        samplesUsed: samples.length,
+        confidenceInterval: [0, 0]
+      };
+    }
+    
     // Calculate confidence interval
     const confidenceInterval = this.calculateConfidenceInterval(
       successRate,
@@ -670,7 +692,10 @@ export class MonteCarloEstimator {
     
     for (const student of students) {
       const availableSlots = this.countAvailableSlots(teacher, student);
-      maxSolutions *= Math.max(1, availableSlots);
+      if (availableSlots === 0) {
+        return 0; // If any student has no slots, max is 0
+      }
+      maxSolutions *= availableSlots;
     }
     
     return maxSolutions;

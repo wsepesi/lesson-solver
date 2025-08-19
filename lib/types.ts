@@ -57,10 +57,9 @@ export type Day = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "
 export type Schedule = WeekSchedule;
 
 /**
- * Lesson length in minutes
- * Lesson length using numbers
+ * Lesson length in minutes - now flexible to support any duration
  */
-export type LessonLength = 30 | 60;
+export type LessonLength = number;
 
 /**
  * Student type
@@ -121,6 +120,10 @@ export type ScheduleAndScore = {
  */
 export type NewStudioInfo = {
   name: string;
+  allowedLessonDurations: number[];
+  allowCustomDuration: boolean;
+  minLessonDuration: number;
+  maxLessonDuration: number;
 }
 
 /**

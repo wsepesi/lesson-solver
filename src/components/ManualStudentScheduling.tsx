@@ -71,6 +71,7 @@ export default function ManualStudentScheduling(props: Props) {
             first_name: first,
             last_name: last,
             lesson_length: student.lessonLength === 30 ? "30": "60",
+            lesson_duration_minutes: student.lessonLength,
             schedule: jsonSchedule,
             studio_id: props.studio.id,
             created_at: new Date().toISOString(),
@@ -108,6 +109,7 @@ export default function ManualStudentScheduling(props: Props) {
                     setOpen={props.setOpen}
                     scheduleDisplayText={getScheduleDisplayText()}
                     isScheduleEmpty={isScheduleEmpty}
+                    studio={props.studio}
                 />
             </div>
             <div className="flex-1 min-w-0 overflow-auto">

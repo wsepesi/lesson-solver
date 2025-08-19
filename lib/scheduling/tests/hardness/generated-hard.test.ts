@@ -15,11 +15,12 @@
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
+// Import wrapped solver for automatic visualization when VISUALIZE=true
 import {
   ScheduleSolver,
   createOptimalSolver,
   solveSchedule
-} from '../../solver';
+} from '../../solver-wrapper';
 
 import type {
   TimeBlock,

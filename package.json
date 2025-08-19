@@ -13,7 +13,11 @@
     "test:run": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "visualize": "tsx lib/scheduling/visualizer/cli.ts",
+    "test:visualize": "vitest run --reporter=lib/scheduling/visualizer/test-integration.ts",
+    "test:visual": "VISUALIZE=true vitest run",
+    "test:visual-ui": "VISUALIZE=true vitest --ui"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
@@ -42,7 +46,9 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.0",
     "@t3-oss/env-nextjs": "^0.3.1",
+    "chalk": "^5.5.0",
     "class-variance-authority": "^0.7.0",
+    "cli-table3": "^0.6.5",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
@@ -58,6 +64,8 @@
     "react-hook-form": "^7.52.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.20.4",
+    "yargs": "^18.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
