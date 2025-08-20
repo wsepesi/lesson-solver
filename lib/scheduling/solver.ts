@@ -675,6 +675,8 @@ class BacktrackingSearchStrategy implements SearchStrategy {
   readonly name = 'backtracking';
   
   private startTime = 0;
+  private currentSearchDepth = 0;
+  private backtrackCount = 0;
   
   constructor(
     private options: Required<Omit<SolverOptions, 'optimizationConfig' | 'enabledConstraints'>> & { optimizationConfig?: OptimizationConfig; enabledConstraints?: string[] },
@@ -689,6 +691,8 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     constraints: ConstraintManager
   ): Assignment[] | null {
     this.startTime = Date.now();
+    this.currentSearchDepth = 0;
+    this.backtrackCount = 0;
     const domainMap = new Map<string, Domain>();
     
     // Create domain lookup
@@ -1028,7 +1032,7 @@ class BacktrackingSearchStrategy implements SearchStrategy {
   private orderValues(
     timeSlots: TimeSlot[],
     context: SolverContext,
-    constraints: ConstraintManager
+    _constraints: ConstraintManager
   ): TimeSlot[] {
     if (!this.options.useHeuristics) {
       return timeSlots;
@@ -1051,7 +1055,8 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     // Check remaining time capacity on this day
     const dayAssignments = context.existingAssignments.filter(a => a.dayOfWeek === slot.dayOfWeek);
     const totalAssignedTime = dayAssignments.reduce((sum, a) => sum + a.durationMinutes, 0);
-    const remainingCapacity = context.teacher.availability.days[slot.dayOfWeek - 1]?.totalTime || 0;
+    const daySchedule = context.teacherAvailability.days[slot.dayOfWeek - 1];
+    const remainingCapacity = daySchedule?.blocks.reduce((sum, block) => sum + block.duration, 0) ?? 0;
     const futureCapacity = remainingCapacity - totalAssignedTime - slot.durationMinutes;
     
     // Bonus for leaving good capacity for future assignments
