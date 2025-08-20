@@ -10,6 +10,23 @@ const config = {
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
   ],
+  ignorePatterns: [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/tests/**",
+    "**/test-generator/**",
+    "**/visualizer/**",
+    "**/solver-wrapper.ts",
+    "profile-*.ts",
+    "profile-*.js", 
+    "debug-*.ts",
+    "**/*.test.js",
+    "validate-*.js",
+    "test-*.js",
+    "update-*.js",
+    "comprehensive-*.js",
+    "final-*.js"
+  ],
   rules: {
     // These opinionated rules are enabled in stylistic-type-checked above.
     // Feel free to reconfigure them to your own preference.

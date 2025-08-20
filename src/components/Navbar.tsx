@@ -1,3 +1,5 @@
+"use client";
+
 // import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "./ui/navigation-menu";
 
 // import { Button } from "./ui/button";

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react"
 
 import {
@@ -7,14 +9,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card"
+} from "@/components/ui/card"
 import type { LessonLength, Schedule, Student } from "lib/types"
+import type { StudioSchema } from "lib/db-types"
+import { createEmptyWeekSchedule, weekScheduleToJsonSchedule } from "lib/scheduling/utils"
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
-import { buttonStatesToText, buttonsToSchedule, lessonLengthToString } from "lib/utils"
+import { buttonStatesToText, lessonLengthToString } from "lib/utils"
 
-import { Button } from "~/components/ui/button"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { formatter } from "./CardWithSubmit"
 import { useToast } from "./ui/use-toast"
 
@@ -24,9 +28,11 @@ type Props = {
     minutes: LessonLength
     setMinutes: (minutes: LessonLength) => void
     setOpen: (open: boolean) => void
+    scheduleDisplayText?: string // Optional override for schedule display
+    isScheduleEmpty?: () => boolean // Optional override for schedule validation
+    studio?: StudioSchema // Studio information for dynamic duration settings
 }
 
-const SET_MINUTES = 30
 
 export function OnboardStudentsCard(props: Props) {
     const { minutes, setMinutes } = props
@@ -43,13 +49,15 @@ export function OnboardStudentsCard(props: Props) {
     }
 
     return (
-        <Card className="w-[350px]"> {/* overflow-auto"> */}
+        <Card className="w-[350px] h-[calc(100vh-8rem)] flex flex-col"> {/* overflow-auto"> */}
             <CardHeader>
                 <CardTitle>Add new student</CardTitle>
                 <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription>
             </CardHeader>
-            <CardContent>
-                <div className="mb-3 max-h-[27vh] overflow-auto">{formatter(buttonStatesToText(props.buttonStates))}</div>
+            <CardContent className="flex-1 flex flex-col">
+                <div className="mb-3 flex-1 overflow-auto">
+                    {formatter(props.scheduleDisplayText ?? buttonStatesToText(props.buttonStates))}
+                </div>
                 <form //TODO: rework as zod form
                     onSubmit={() => console.log(formData)}
                 >
@@ -81,17 +89,65 @@ export function OnboardStudentsCard(props: Props) {
                     />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Lesson length</Label>
-                    <RadioGroup defaultValue={"30"} value={lessonLengthToString(minutes)}>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
-                            <Label htmlFor="r1">30 mins</Label>
+                    <Label htmlFor="lesson-duration">Lesson length</Label>
+                    {/* Show preset durations from studio settings */}
+                    {props.studio?.allowed_lesson_durations && props.studio.allowed_lesson_durations.length > 0 && (
+                        <RadioGroup defaultValue={props.studio.allowed_lesson_durations[0]?.toString()} value={minutes.toString()}>
+                            {props.studio.allowed_lesson_durations.map((duration) => (
+                                <div key={duration} className="flex items-center space-x-2">
+                                    <RadioGroupItem 
+                                        value={duration.toString()} 
+                                        id={`duration-${duration}`} 
+                                        onClick={() => handleClick(duration)}
+                                    />
+                                    <Label htmlFor={`duration-${duration}`}>{duration} mins</Label>
+                                </div>
+                            ))}
+                        </RadioGroup>
+                    )}
+                    
+                    {/* Show custom duration input if enabled */}
+                    {props.studio?.allow_custom_duration && (
+                        <div className="flex flex-col space-y-2">
+                            <Label htmlFor="custom-duration">Or choose custom duration:</Label>
+                            <div className="flex items-center space-x-2">
+                                <Input
+                                    id="custom-duration"
+                                    type="number"
+                                    min={props.studio.min_lesson_duration ?? 15}
+                                    max={props.studio.max_lesson_duration ?? 120}
+                                    value={minutes}
+                                    onChange={(e) => {
+                                        const newDuration = parseInt(e.target.value) || 30;
+                                        const min = props.studio?.min_lesson_duration ?? 15;
+                                        const max = props.studio?.max_lesson_duration ?? 120;
+                                        if (newDuration >= min && newDuration <= max) {
+                                            handleClick(newDuration);
+                                        }
+                                    }}
+                                    placeholder="Duration in minutes"
+                                    className="w-32"
+                                />
+                                <span className="text-sm text-gray-500">
+                                    ({props.studio.min_lesson_duration}-{props.studio.max_lesson_duration} min)
+                                </span>
+                            </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
-                            <Label htmlFor="r2">60 mins</Label>
-                        </div>
-                    </RadioGroup>
+                    )}
+                    
+                    {/* Fallback for studios without lesson duration settings */}
+                    {(!props.studio?.allowed_lesson_durations || props.studio.allowed_lesson_durations.length === 0) && !props.studio?.allow_custom_duration && (
+                        <RadioGroup defaultValue={"30"} value={lessonLengthToString(minutes)}>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
+                                <Label htmlFor="r1">30 mins</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
+                                <Label htmlFor="r2">60 mins</Label>
+                            </div>
+                        </RadioGroup>
+                    )}
                     </div>
                 </div>
                 </form>
@@ -106,7 +162,7 @@ export function OnboardStudentsCard(props: Props) {
                         })
                         return
                     }
-                    else if (props.buttonStates.every((row) => row.every((item) => item === false))) {
+                    else if (props.isScheduleEmpty ? props.isScheduleEmpty() : props.buttonStates.every((row) => row.every((item) => item === false))) {
                         toast({
                             title: "Please fill out the calendar",
                             description: "You can't submit an empty calendar",
@@ -114,7 +170,9 @@ export function OnboardStudentsCard(props: Props) {
                         return
                     }
                     else {
-                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, SET_MINUTES))
+                        // Create empty WeekSchedule for students without availability
+                        const emptySchedule = weekScheduleToJsonSchedule(createEmptyWeekSchedule()) as unknown as Schedule
+                        props.addStudentSchedule(formData, emptySchedule)
                         props.setOpen(false)
                         toast({
                             title: "Student added!",
@@ -132,7 +190,7 @@ export function OnboardStudentsCard(props: Props) {
                         })
                         return
                     }
-                    else if (props.buttonStates.every((row) => row.every((item) => item === false))) {
+                    else if (props.isScheduleEmpty ? props.isScheduleEmpty() : props.buttonStates.every((row) => row.every((item) => item === false))) {
                         toast({
                             title: "Please fill out the calendar",
                             description: "You can't submit an empty calendar",
@@ -140,7 +198,9 @@ export function OnboardStudentsCard(props: Props) {
                         return
                     }
                     else {
-                        props.addStudentSchedule(formData, buttonsToSchedule(props.buttonStates, SET_MINUTES))
+                        // Create empty WeekSchedule for students without availability
+                        const emptySchedule = weekScheduleToJsonSchedule(createEmptyWeekSchedule()) as unknown as Schedule
+                        props.addStudentSchedule(formData, emptySchedule)
                         setFormData({
                             name: "",
                             email: "",

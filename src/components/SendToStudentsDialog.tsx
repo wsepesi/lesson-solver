@@ -1,3 +1,5 @@
+"use client";
+
 import {
     DialogContent,
     DialogDescription,
@@ -7,9 +9,7 @@ import {
 } from "./ui/dialog"
 
 import { Button } from "./ui/button"
-import EmailsInput from "./EmailsInput"
-import { useState } from "react"
-import { type StudioWithStudents } from "~/pages/studios/[slug]"
+import { type StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 
 type Props = {
     taskStatus: boolean[],
@@ -20,7 +20,6 @@ type Props = {
 }
 
 export default function SendToStudentsDialog(props: Props) {
-    const [emails, setEmails] = useState<string[]>([])
     const handleClick = () => {
         // if (emails.length === 0) {
         //     alert("Please enter at least one email")
@@ -52,11 +51,15 @@ export default function SendToStudentsDialog(props: Props) {
                 <DialogHeader>
                 <DialogTitle>Send out an availability survey</DialogTitle>
                 <DialogDescription>
-                    Send the following link to your students to fill out their availability, and tell them to use your 5 digit studio code: {props.studio.code}
+                    Send the following link to your students to fill out their availability. The studio code is already included in the link.
                 </DialogDescription>
                 </DialogHeader>
                     {/* <EmailsInput emails={emails} setEmails={setEmails} /> */}
-                    <a href="https://lesson-solver.vercel.app/enroll">lesson-solver.vercel.app/enroll</a>
+                    <div className="my-4 p-3 bg-gray-100 rounded border">
+                        <a href={`https://lesson-solver.vercel.app/enroll?code=${props.studio.code}`} className="text-blue-600 hover:text-blue-800 underline break-all">
+                            lesson-solver.vercel.app/enroll?code={props.studio.code}
+                        </a>
+                    </div>
                 <DialogFooter>
                     <Button 
                         type="submit"

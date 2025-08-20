@@ -1,3 +1,5 @@
+"use client";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -5,23 +7,23 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu"
 
-import { Button } from "~/components/ui/button"
+import { Button } from "@/components/ui/button"
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
     LogOut,
 } from "lucide-react"
-import { useRouter } from "next/router"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { useRouter } from "next/navigation"
+import { createClient } from "@/utils/supabase/client"
 
 export function ProfileDropdown() {
-    const supabaseClient = useSupabaseClient()
+    const supabaseClient = createClient()
     const router = useRouter()
 
     const handleLogout = async () => {
         await supabaseClient.auth.signOut()
-        await router.push("/")
+        router.push("/")
     }
 
     return (

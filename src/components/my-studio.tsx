@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   AlertDialog,
@@ -20,24 +22,36 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
-import { Days, abbrDaytoFull, buttonsToSchedule, eventListToFinalSchedule, finalScheduleToEventList, scheduleToButtons, transpose } from "lib/utils"
+import { abbrDaytoFull } from "lib/utils"
 import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
 import SendToStudentsDialog from "./SendToStudentsDialog"
 import SetAvailabilityDialog from "./SetAvailabilityDialog"
 import SolveScheduleDialog from "./SolveScheduleDialog"
 import { Task } from "./Task"
-import type { StudioWithStudents } from "~/pages/studios/[slug]"
+import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { useState } from "react"
-import { type StudentSchema } from "lib/schema"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { useRouter } from "next/router"
+import type { StudentSchema } from "lib/db-types"
+import { createClient } from "@/utils/supabase/client"
+import { useRouter } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import MiniStudentSchedule from "./MiniStudentSchedule"
-import InteractiveCalendar from "./InteractiveCalendar"
-import type { FinalSchedule } from "lib/heur_solver"
+// InteractiveCalendar removed - legacy component deleted
+import { useSchedule } from "../hooks/useSchedule"
+import { AdaptiveCalendar } from "./scheduling/AdaptiveCalendar"
+import { createEmptyWeekSchedule } from "lib/scheduling/utils"
+import type { WeekSchedule } from "lib/scheduling/types"
+import { convertScheduleToWeekSchedule } from "lib/scheduling-adapter"
 
-import type { Event } from "src/components/InteractiveCalendar"
+// Event type previously from InteractiveCalendar - now defined inline
+export interface Event {
+  id: string;
+  name: string;
+  booking: {
+    day: string;
+    timeInterval: { start: number; duration: number };
+  };
+  student_id: number;
+}
 
 type Props = {
   studio: StudioWithStudents,
@@ -54,9 +68,7 @@ export const SEND_CODE = 1
 export const CREATE_SCHEDULE = 2
 const isPaid = true
 
-const minutes = 30
-const dayLength: number = 12 * 60
-const blocks = dayLength / (minutes)
+// Legacy grid system variables removed
 
 type Progress = "Not Started" | "In Progress" | "Completed"
 
@@ -64,13 +76,22 @@ export const eventListToEltList = (events: Event[]): React.JSX.Element[] => {
   const res = []
   const daysOfWeekAbbv = ["M", "Tu", "W", "Th", "F", "Sa", "Su"];
   
+  // Helper function to convert minutes to time string
+  const minutesToTimeString = (minutes: number): string => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}:${mins.toString().padStart(2, '0')}`;
+  };
+  
   for (let i = 0; i < 7; i++) {
     const day = daysOfWeekAbbv[i]!
     const dayEvents = events.filter(event => event.booking.day === day);
     if (dayEvents.length > 0) {
-      res.push(<p className="font-bold">{abbrDaytoFull(day)}:</p>);
-      dayEvents.forEach(event => {
-        res.push(<div>{event.name}: {event.booking.time_start} - {event.booking.time_end}</div>);
+      res.push(<p key={`${day}-header`} className="font-bold">{abbrDaytoFull(day)}:</p>);
+      dayEvents.forEach((event, index) => {
+        const startTime = minutesToTimeString(event.booking.timeInterval.start);
+        const endTime = minutesToTimeString(event.booking.timeInterval.start + event.booking.timeInterval.duration);
+        res.push(<div key={`${day}-${index}`}>{event.name}: {startTime} - {endTime}</div>);
       });
     }
   }
@@ -81,27 +102,108 @@ const getStudentProgress = (student: StudentSchema) => {
   return student.schedule === null ?  "Not Started" : "Completed"
 }
 
+// Note: Event metadata is now stored directly in TimeBlock.metadata
+
+// Convert Events array to WeekSchedule format for calendar display
+const convertEventsToWeekSchedule = (events: Event[]): WeekSchedule => {
+  const weekSchedule = createEmptyWeekSchedule()
+  const dayAbbrevs = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa']
+  
+  events.forEach(event => {
+    const dayIndex = dayAbbrevs.indexOf(event.booking.day)
+    if (dayIndex >= 0 && weekSchedule.days[dayIndex]) {
+      const block = {
+        start: event.booking.timeInterval.start,
+        duration: event.booking.timeInterval.duration,
+        metadata: {
+          studentId: event.student_id,
+          studentName: event.name,
+          eventId: event.id
+        }
+      }
+      
+      weekSchedule.days[dayIndex].blocks.push(block)
+    }
+  })
+  
+  // Recalculate metadata for each day
+  weekSchedule.days.forEach(day => {
+    day.metadata = {
+      totalAvailable: day.blocks.reduce((sum, block) => sum + block.duration, 0),
+      largestBlock: Math.max(...day.blocks.map(block => block.duration), 0),
+      fragmentationScore: day.blocks.length > 1 ? day.blocks.length - 1 : 0
+    }
+  })
+  
+  return weekSchedule
+}
+
+// Convert WeekSchedule back to Events array
+const convertWeekScheduleToEvents = (weekSchedule: WeekSchedule): Event[] => {
+  const dayAbbrevs = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa']
+  const events: Event[] = []
+  
+  weekSchedule.days.forEach((day, dayIndex) => {
+    day.blocks.forEach(block => {
+      // Use embedded metadata instead of the global map
+      if (block.metadata) {
+        events.push({
+          id: block.metadata.eventId,
+          name: block.metadata.studentName,
+          booking: {
+            day: dayAbbrevs[dayIndex]!,
+            timeInterval: {
+              start: block.start,
+              duration: block.duration
+            }
+          },
+          student_id: block.metadata.studentId
+        })
+      }
+    })
+  })
+  
+  return events
+}
+
+// Note: isTimeSlotValid function removed - validation now handled in AdaptiveCalendar component
+
+
 export function MyStudio(props: Props) {
-  const supabaseClient = useSupabaseClient()
+  const supabaseClient = createClient()
   const router = useRouter()
 
   const { studio, setStudio } = props
 
+  // Use the new TimeBlock-based schedule hook
+  const { 
+    schedule: weekSchedule, 
+    updateSchedule, 
+    saving, 
+    error: scheduleError,
+    saveImmediately 
+  } = useSchedule(studio.user_id ?? "")
+
   // TODO: populate this from DB on boot
   const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, studio.events !== null])
-  const [myAvailability, setMyAvailability] = useState<boolean[][]>((studio.owner_schedule !== null && studio.owner_schedule !== undefined) ?
-    scheduleToButtons(studio.owner_schedule, 30) :
-    Array.from({ length: Days.length }, () => 
-        Array.from({ length: blocks }, () => false)
-    )
-  )
+  
+  // Legacy boolean grid availability removed - using WeekSchedule system instead
+
+  // Note: Task status for availability is only updated on actual database saves,
+  // not on local schedule changes, to prevent progress counter incrementing prematurely
+
+  // Show error if schedule fails to load
+  if (scheduleError) {
+    console.error("Schedule loading error:", scheduleError);
+  }
 
   const [taskOpen, setTaskOpen] = useState<boolean[]>([false, false, false])
   const [resolveOpen, setResolveOpen] = useState<boolean>(false)
+  const [unscheduledStudents, setUnscheduledStudents] = useState<string[]>(studio.unscheduled_students ?? [])
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
 
-  const [schedule, setSchedule] = useState<FinalSchedule | null>(studio.events ? eventListToFinalSchedule(studio.events, studio) : null)
-  const [events, setEvents] = useState<Event[]>(studio.events ? studio.events : [])
+  // Using events directly for schedule display
+  const [events, setEvents] = useState<Event[]>((studio.events as Event[]) ?? [])
 
   const handleSaveSchedule = async () => {
     if (!events) {
@@ -122,19 +224,26 @@ export function MyStudio(props: Props) {
 
   const hasScheduleChanged = JSON.stringify(events) !== JSON.stringify(studio.events)
 
+  // Handle schedule changes from AdaptiveCalendar - validation now handled in calendar component
+  const handleScheduleChange = (newSchedule: WeekSchedule) => {
+    // Convert back to events - AdaptiveCalendar will handle validation internally
+    const newEvents = convertWeekScheduleToEvents(newSchedule)
+    setEvents(newEvents)
+  }
+
   const handleAvailabilitySubmit = async () => {
-    const calendarJson = buttonsToSchedule(myAvailability, 30)
-    const res = await supabaseClient.from("studios").update({
-      owner_schedule: calendarJson
-    }).eq("id", studio.id)
-
-    if (res.error) {
-      console.log(res.error)
-      alert("error, please try again")
+    try {
+      // Force immediate save to ensure data is persisted before updating task status
+      if (weekSchedule && saveImmediately) {
+        await saveImmediately();
+        const hasAvailability = weekSchedule.days.some(day => day.blocks.length > 0);
+        setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? hasAvailability : status))
+      }
+      setTaskOpen(taskOpen.map((status, i) => AVAILABILITY === i ? false : status))
+    } catch (error) {
+      console.error("Error saving availability:", error)
+      alert("Error saving availability, please try again")
     }
-
-    setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? true : status))
-    setTaskOpen(taskOpen.map((status, i) => AVAILABILITY === i ? false : status))
   }
 
   const handleStudentDelete = async (student: StudentSchema) => {
@@ -151,20 +260,19 @@ export function MyStudio(props: Props) {
   }
 
   const handleEditAvailability = async () => {
-    const calendarJson = buttonsToSchedule(myAvailability, 30)
-    const res = await supabaseClient.from("studios").update({
-      owner_schedule: calendarJson
-    }).eq("id", studio.id)
-
-    if (res.error) {
-      console.log(res.error)
-      alert("error, please try again")
-    }
-
-    setEditAvailability(false)
-    // if schedule is empty, set task status to false
-    if (myAvailability.every((day) => day.every((block) => !block))) {
-      setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? false : status))
+    try {
+      // Force immediate save to ensure data is persisted before updating task status
+      if (weekSchedule && saveImmediately) {
+        await saveImmediately();
+        
+        // Update task status based on whether schedule has availability blocks
+        const hasAvailability = weekSchedule.days.some(day => day.blocks.length > 0);
+        setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? hasAvailability : status))
+      }
+      setEditAvailability(false)
+    } catch (error) {
+      console.error("Error updating availability:", error)
+      alert("Error updating availability, please try again")
     }
   }
 
@@ -173,8 +281,9 @@ export function MyStudio(props: Props) {
       name: "Set your availability",
       dialogComponent: <SetAvailabilityDialog 
         handleSubmit={handleAvailabilitySubmit}
-        myAvailability={myAvailability}
-        setMyAvailability={setMyAvailability}
+        schedule={weekSchedule}
+        onScheduleChange={updateSchedule}
+        saving={saving}
       />
     },
     {
@@ -196,10 +305,9 @@ export function MyStudio(props: Props) {
         setTaskStatus={setTaskStatus}
         taskStatus={taskStatus}
         taskIdx={CREATE_SCHEDULE}
-        schedule={schedule}
-        setSchedule={setSchedule}
         setStudio={setStudio}
         setEvents={setEvents}
+        setUnscheduledStudents={setUnscheduledStudents}
       />
     },
   ]
@@ -213,7 +321,7 @@ export function MyStudio(props: Props) {
       alert("error, please try again")
     }
 
-    await router.push("/studios")
+    router.push("/studios")
   }
 
   const isDoneWithTasks = taskStatus.every((status) => status)
@@ -239,20 +347,88 @@ export function MyStudio(props: Props) {
         {isDoneWithTasks ? 
         ( <>
           <div className="space-y-6 w-2/3">
-            {schedule && <InteractiveCalendar 
-              events={events}
-              mySchedule={transpose(myAvailability)}
-              setEvents={setEvents}
-              studio={studio}
-            />}
+            {(() => {
+              // Prepare availability data for drag-and-drop hints
+              const teacherAvailability = convertScheduleToWeekSchedule(studio.owner_schedule);
+              const studentAvailabilities = new Map<string, WeekSchedule>();
+              
+              // Build map of student availabilities
+              studio.students.forEach(student => {
+                if (student.schedule) {
+                  studentAvailabilities.set(
+                    student.id.toString(), 
+                    convertScheduleToWeekSchedule(student.schedule)
+                  );
+                }
+              });
+              
+              return (
+                <div className="h-[60vh]">
+                  <AdaptiveCalendar 
+                    schedule={convertEventsToWeekSchedule(events ?? [])}
+                    onChange={handleScheduleChange}
+                    granularity={15}
+                    mode="rearrange"
+                    teacherAvailability={teacherAvailability}
+                    studentAvailabilities={studentAvailabilities}
+                    showStudentNames={true}
+                  />
+                </div>
+              );
+            })()}
           </div>
-          {schedule && 
+          
+          {/* Unscheduled Students Section */}
+          {unscheduledStudents.length > 0 && (
+            <div className="w-full mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <h3 className="text-lg font-medium text-yellow-800 mb-2">
+                Unscheduled Students ({unscheduledStudents.length})
+              </h3>
+              <p className="text-sm text-yellow-700 mb-3">
+                These students couldn&apos;t be automatically scheduled. Drag them to available time slots on the calendar.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {unscheduledStudents.map((studentId) => {
+                  const student = studio.students.find(s => s.email === studentId);
+                  return student ? (
+                    <div 
+                      key={studentId}
+                      className="px-3 py-2 bg-white border border-yellow-300 rounded-md cursor-move hover:bg-yellow-100 shadow-sm"
+                      draggable
+                      title={`${student.first_name} ${student.last_name} - ${student.lesson_length ?? '60'}min lessons`}
+                    >
+                      <span className="text-sm font-medium text-gray-700">
+                        {student.first_name} {student.last_name}
+                      </span>
+                      <span className="ml-2 text-xs text-gray-500">
+                        ({student.lesson_length ?? '60'}min)
+                      </span>
+                    </div>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          )}
+          {(events && events.length > 0) || unscheduledStudents.length > 0 ? (
           <div className="w-1/4">
             <h3 className="text-lg font-light ">Schedule:</h3>
             <div className="flex flex-col">
-                {eventListToEltList(events ? events : finalScheduleToEventList(schedule, studio)).map((elt) => (
+                {eventListToEltList(events ?? []).map((elt) => (
                     elt
                 ))}
+                {unscheduledStudents.length > 0 && (
+                  <>
+                    <p className="font-bold text-red-600 mt-4">Unscheduled:</p>
+                    {unscheduledStudents.map((studentId) => {
+                      const student = studio.students.find(s => s.email === studentId);
+                      return student ? (
+                        <div key={studentId} className="text-red-600">
+                          {student.first_name} {student.last_name}: Not scheduled
+                        </div>
+                      ) : null;
+                    })}
+                  </>
+                )}
             </div>
             {/* <Button className="mt-4">Download Schedule</Button> */}
             {hasScheduleChanged && 
@@ -263,7 +439,7 @@ export function MyStudio(props: Props) {
                 Save Changes
               </Button>
             }
-          </div>}
+          </div>) : null}
           </>
         ) : 
         (<section className="space-y-6 w-2/3">
@@ -308,7 +484,9 @@ export function MyStudio(props: Props) {
                         <p className="font-mono px-1 border rounded-md border-black cursor-pointer self-start text-left">{student.first_name} {student.last_name}, {student.email}</p>
                       </PopoverTrigger>
                       <PopoverContent className="min-w-[20vw]">
-                        <MiniStudentSchedule student={student} studio={studio} setStudio={setStudio}/>
+                        <div className="p-4">
+                          <p className="text-sm text-gray-600">Student schedule view temporarily unavailable</p>
+                        </div>
                       </PopoverContent>
                     </Popover>
                   </div>
@@ -358,8 +536,9 @@ export function MyStudio(props: Props) {
                 </DialogTrigger>
                 <SetAvailabilityDialog 
                   handleSubmit={handleEditAvailability}
-                  myAvailability={myAvailability}
-                  setMyAvailability={setMyAvailability}
+                  schedule={weekSchedule}
+                  onScheduleChange={updateSchedule}
+                  saving={saving}
                 />
               </Dialog>
               }
@@ -412,11 +591,10 @@ export function MyStudio(props: Props) {
                     setTaskStatus={setTaskStatus}
                     taskStatus={taskStatus}
                     taskIdx={CREATE_SCHEDULE}
-                    schedule={schedule}
-                    setSchedule={setSchedule}
                     setEvents={setEvents}
                     setStudio={setStudio}
                     setResolveOpen={setResolveOpen}
+                    setUnscheduledStudents={setUnscheduledStudents}
                   />
                 </Dialog>
               }

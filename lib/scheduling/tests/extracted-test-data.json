@@ -1,0 +1,2638 @@
+{
+  "generatedAt": "2025-08-18T22:31:32.026Z",
+  "totalTests": 1,
+  "testCases": [
+    {
+      "id": "should-handle-50-students-with-varied-availability-patterns",
+      "name": "should handle 50 students with varied availability patterns",
+      "description": "should handle 50 students with varied availability patterns",
+      "category": "complex",
+      "teacher": {
+        "person": {
+          "id": "teacher-1",
+          "name": "Test Teacher",
+          "email": "test.teacher@test.com"
+        },
+        "studioId": "studio-123",
+        "availability": {
+          "days": [
+            {
+              "dayOfWeek": 0,
+              "blocks": []
+            },
+            {
+              "dayOfWeek": 1,
+              "blocks": [
+                {
+                  "start": 480,
+                  "duration": 360
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 360
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "blocks": [
+                {
+                  "start": 480,
+                  "duration": 360
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "blocks": [
+                {
+                  "start": 540,
+                  "duration": 360
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "blocks": [
+                {
+                  "start": 480,
+                  "duration": 360
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "blocks": []
+            }
+          ],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 120,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ],
+          "backToBackPreference": "agnostic"
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "mega-s1",
+            "name": "Mega Student 1",
+            "email": "mega.student 1@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s2",
+            "name": "Mega Student 2",
+            "email": "mega.student 2@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s3",
+            "name": "Mega Student 3",
+            "email": "mega.student 3@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s4",
+            "name": "Mega Student 4",
+            "email": "mega.student 4@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s5",
+            "name": "Mega Student 5",
+            "email": "mega.student 5@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s6",
+            "name": "Mega Student 6",
+            "email": "mega.student 6@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s7",
+            "name": "Mega Student 7",
+            "email": "mega.student 7@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s8",
+            "name": "Mega Student 8",
+            "email": "mega.student 8@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s9",
+            "name": "Mega Student 9",
+            "email": "mega.student 9@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s10",
+            "name": "Mega Student 10",
+            "email": "mega.student 10@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 540,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s11",
+            "name": "Mega Student 11",
+            "email": "mega.student 11@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s12",
+            "name": "Mega Student 12",
+            "email": "mega.student 12@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s13",
+            "name": "Mega Student 13",
+            "email": "mega.student 13@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s14",
+            "name": "Mega Student 14",
+            "email": "mega.student 14@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s15",
+            "name": "Mega Student 15",
+            "email": "mega.student 15@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s16",
+            "name": "Mega Student 16",
+            "email": "mega.student 16@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s17",
+            "name": "Mega Student 17",
+            "email": "mega.student 17@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s18",
+            "name": "Mega Student 18",
+            "email": "mega.student 18@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s19",
+            "name": "Mega Student 19",
+            "email": "mega.student 19@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s20",
+            "name": "Mega Student 20",
+            "email": "mega.student 20@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 600,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s21",
+            "name": "Mega Student 21",
+            "email": "mega.student 21@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s22",
+            "name": "Mega Student 22",
+            "email": "mega.student 22@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s23",
+            "name": "Mega Student 23",
+            "email": "mega.student 23@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s24",
+            "name": "Mega Student 24",
+            "email": "mega.student 24@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s25",
+            "name": "Mega Student 25",
+            "email": "mega.student 25@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s26",
+            "name": "Mega Student 26",
+            "email": "mega.student 26@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s27",
+            "name": "Mega Student 27",
+            "email": "mega.student 27@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s28",
+            "name": "Mega Student 28",
+            "email": "mega.student 28@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s29",
+            "name": "Mega Student 29",
+            "email": "mega.student 29@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s30",
+            "name": "Mega Student 30",
+            "email": "mega.student 30@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 660,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s31",
+            "name": "Mega Student 31",
+            "email": "mega.student 31@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s32",
+            "name": "Mega Student 32",
+            "email": "mega.student 32@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s33",
+            "name": "Mega Student 33",
+            "email": "mega.student 33@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s34",
+            "name": "Mega Student 34",
+            "email": "mega.student 34@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s35",
+            "name": "Mega Student 35",
+            "email": "mega.student 35@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s36",
+            "name": "Mega Student 36",
+            "email": "mega.student 36@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s37",
+            "name": "Mega Student 37",
+            "email": "mega.student 37@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s38",
+            "name": "Mega Student 38",
+            "email": "mega.student 38@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s39",
+            "name": "Mega Student 39",
+            "email": "mega.student 39@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s40",
+            "name": "Mega Student 40",
+            "email": "mega.student 40@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 720,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s41",
+            "name": "Mega Student 41",
+            "email": "mega.student 41@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s42",
+            "name": "Mega Student 42",
+            "email": "mega.student 42@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s43",
+            "name": "Mega Student 43",
+            "email": "mega.student 43@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s44",
+            "name": "Mega Student 44",
+            "email": "mega.student 44@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s45",
+            "name": "Mega Student 45",
+            "email": "mega.student 45@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s46",
+            "name": "Mega Student 46",
+            "email": "mega.student 46@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s47",
+            "name": "Mega Student 47",
+            "email": "mega.student 47@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s48",
+            "name": "Mega Student 48",
+            "email": "mega.student 48@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 210
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s49",
+            "name": "Mega Student 49",
+            "email": "mega.student 49@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 150
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "mega-s50",
+            "name": "Mega Student 50",
+            "email": "mega.student 50@test.com"
+          },
+          "preferredDuration": 60,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [
+              {
+                "dayOfWeek": 0,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 1,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 2,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 3,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 4,
+                "blocks": []
+              },
+              {
+                "dayOfWeek": 5,
+                "blocks": [
+                  {
+                    "start": 780,
+                    "duration": 180
+                  }
+                ]
+              },
+              {
+                "dayOfWeek": 6,
+                "blocks": []
+              }
+            ],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "solution": {
+        "assignments": [
+          {
+            "studentId": "mega-s1",
+            "dayOfWeek": 1,
+            "startMinute": 540,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s2",
+            "dayOfWeek": 2,
+            "startMinute": 540,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s3",
+            "dayOfWeek": 3,
+            "startMinute": 540,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s4",
+            "dayOfWeek": 4,
+            "startMinute": 540,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s5",
+            "dayOfWeek": 5,
+            "startMinute": 540,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s6",
+            "dayOfWeek": 1,
+            "startMinute": 600,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s7",
+            "dayOfWeek": 2,
+            "startMinute": 600,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s8",
+            "dayOfWeek": 3,
+            "startMinute": 600,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s9",
+            "dayOfWeek": 4,
+            "startMinute": 600,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s10",
+            "dayOfWeek": 5,
+            "startMinute": 600,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s11",
+            "dayOfWeek": 1,
+            "startMinute": 660,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s12",
+            "dayOfWeek": 2,
+            "startMinute": 660,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s13",
+            "dayOfWeek": 3,
+            "startMinute": 660,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s14",
+            "dayOfWeek": 4,
+            "startMinute": 660,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          },
+          {
+            "studentId": "mega-s15",
+            "dayOfWeek": 5,
+            "startMinute": 660,
+            "durationMinutes": 60,
+            "timestamp": "2025-08-18T22:31:32.021Z"
+          }
+        ],
+        "unscheduled": [
+          "mega-s16",
+          "mega-s17",
+          "mega-s18",
+          "mega-s19",
+          "mega-s20",
+          "mega-s21",
+          "mega-s22",
+          "mega-s23",
+          "mega-s24",
+          "mega-s25",
+          "mega-s26",
+          "mega-s27",
+          "mega-s28",
+          "mega-s29",
+          "mega-s30",
+          "mega-s31",
+          "mega-s32",
+          "mega-s33",
+          "mega-s34",
+          "mega-s35",
+          "mega-s36",
+          "mega-s37",
+          "mega-s38",
+          "mega-s39",
+          "mega-s40",
+          "mega-s41",
+          "mega-s42",
+          "mega-s43",
+          "mega-s44",
+          "mega-s45",
+          "mega-s46",
+          "mega-s47",
+          "mega-s48",
+          "mega-s49",
+          "mega-s50"
+        ],
+        "metadata": {
+          "totalStudents": 50,
+          "scheduledStudents": 15,
+          "averageUtilization": 100,
+          "computeTimeMs": 6431
+        }
+      },
+      "expectedResults": {
+        "expectedAssignments": 15,
+        "shouldBeFullySolvable": false,
+        "minAssignments": 15,
+        "maxAssignments": 15,
+        "impossibleStudents": [
+          "mega-s16",
+          "mega-s17",
+          "mega-s18",
+          "mega-s19",
+          "mega-s20",
+          "mega-s21",
+          "mega-s22",
+          "mega-s23",
+          "mega-s24",
+          "mega-s25",
+          "mega-s26",
+          "mega-s27",
+          "mega-s28",
+          "mega-s29",
+          "mega-s30",
+          "mega-s31",
+          "mega-s32",
+          "mega-s33",
+          "mega-s34",
+          "mega-s35",
+          "mega-s36",
+          "mega-s37",
+          "mega-s38",
+          "mega-s39",
+          "mega-s40",
+          "mega-s41",
+          "mega-s42",
+          "mega-s43",
+          "mega-s44",
+          "mega-s45",
+          "mega-s46",
+          "mega-s47",
+          "mega-s48",
+          "mega-s49",
+          "mega-s50"
+        ]
+      }
+    }
+  ]
+}

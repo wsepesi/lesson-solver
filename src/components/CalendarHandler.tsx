@@ -1,3 +1,5 @@
+"use client";
+
 import type { LessonLength, Schedule, State } from "lib/types"
 
 import Calendar from "./Calendar"

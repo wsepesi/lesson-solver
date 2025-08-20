@@ -1,0 +1,1306 @@
+{
+  "name": "pathological-constraints",
+  "description": "Pathological constraint combinations designed to stress the solver",
+  "cases": [
+    {
+      "id": "tc_medjacal_veufz",
+      "description": "Extreme fragmentation - tiny time blocks",
+      "teacher": {
+        "person": {
+          "id": "teacher_1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "studioId": "studio_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Test Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Test Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Test Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Test Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Test Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Test Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_7",
+            "name": "Test Student 7",
+            "email": "student7@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_8",
+            "name": "Test Student 8",
+            "email": "student8@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_9",
+            "name": "Test Student 9",
+            "email": "student9@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_10",
+            "name": "Test Student 10",
+            "email": "student10@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_11",
+            "name": "Test Student 11",
+            "email": "student11@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_12",
+            "name": "Test Student 12",
+            "email": "student12@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_13",
+            "name": "Test Student 13",
+            "email": "student13@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_14",
+            "name": "Test Student 14",
+            "email": "student14@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_15",
+            "name": "Test Student 15",
+            "email": "student15@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_16",
+            "name": "Test Student 16",
+            "email": "student16@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_17",
+            "name": "Test Student 17",
+            "email": "student17@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_18",
+            "name": "Test Student 18",
+            "email": "student18@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_19",
+            "name": "Test Student 19",
+            "email": "student19@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_20",
+            "name": "Test Student 20",
+            "email": "student20@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_21",
+            "name": "Test Student 21",
+            "email": "student21@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_22",
+            "name": "Test Student 22",
+            "email": "student22@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_23",
+            "name": "Test Student 23",
+            "email": "student23@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_24",
+            "name": "Test Student 24",
+            "email": "student24@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_25",
+            "name": "Test Student 25",
+            "email": "student25@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 100,
+      "difficulty": {
+        "studentCount": 25,
+        "overlapRatio": 0.8,
+        "fragmentationLevel": 0.95,
+        "packingDensity": 0.3,
+        "durationVariety": 4,
+        "constraintTightness": 0.3
+      },
+      "metadata": {
+        "description": "Extreme fragmentation - tiny time blocks",
+        "expectedSolveTime": 1250,
+        "category": "medium",
+        "generatorVersion": "1.0.0",
+        "seed": 1755305018300,
+        "scenario": "Extreme fragmentation - tiny time blocks",
+        "expectedBehavior": "solvable",
+        "extremeCategory": "pathological-constraints"
+      },
+      "createdAt": "2025-08-16T00:43:38.301Z"
+    },
+    {
+      "id": "tc_medjacal_3m06a",
+      "description": "Duration variety nightmare - all different lesson lengths",
+      "teacher": {
+        "person": {
+          "id": "teacher_1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "studioId": "studio_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Test Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Test Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Test Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Test Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Test Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Test Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_7",
+            "name": "Test Student 7",
+            "email": "student7@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_8",
+            "name": "Test Student 8",
+            "email": "student8@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_9",
+            "name": "Test Student 9",
+            "email": "student9@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_10",
+            "name": "Test Student 10",
+            "email": "student10@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_11",
+            "name": "Test Student 11",
+            "email": "student11@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_12",
+            "name": "Test Student 12",
+            "email": "student12@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_13",
+            "name": "Test Student 13",
+            "email": "student13@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_14",
+            "name": "Test Student 14",
+            "email": "student14@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_15",
+            "name": "Test Student 15",
+            "email": "student15@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_16",
+            "name": "Test Student 16",
+            "email": "student16@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_17",
+            "name": "Test Student 17",
+            "email": "student17@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_18",
+            "name": "Test Student 18",
+            "email": "student18@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_19",
+            "name": "Test Student 19",
+            "email": "student19@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_20",
+            "name": "Test Student 20",
+            "email": "student20@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 25,
+      "difficulty": {
+        "studentCount": 20,
+        "overlapRatio": 0.6,
+        "fragmentationLevel": 0.4,
+        "packingDensity": 0.7,
+        "durationVariety": 4,
+        "constraintTightness": 0.7
+      },
+      "metadata": {
+        "description": "Duration variety nightmare - all different lesson lengths",
+        "expectedSolveTime": 800,
+        "category": "medium",
+        "generatorVersion": "1.0.0",
+        "seed": 1755305018300,
+        "scenario": "Duration variety nightmare - all different lesson lengths",
+        "expectedBehavior": "solvable",
+        "extremeCategory": "pathological-constraints"
+      },
+      "createdAt": "2025-08-16T00:43:38.301Z"
+    },
+    {
+      "id": "tc_medjacal_pwi25",
+      "description": "Perfect packing puzzle - exactly full utilization",
+      "teacher": {
+        "person": {
+          "id": "teacher_1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "studioId": "studio_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Test Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Test Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Test Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Test Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Test Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Test Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_7",
+            "name": "Test Student 7",
+            "email": "student7@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_8",
+            "name": "Test Student 8",
+            "email": "student8@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_9",
+            "name": "Test Student 9",
+            "email": "student9@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_10",
+            "name": "Test Student 10",
+            "email": "student10@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_11",
+            "name": "Test Student 11",
+            "email": "student11@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_12",
+            "name": "Test Student 12",
+            "email": "student12@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_13",
+            "name": "Test Student 13",
+            "email": "student13@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_14",
+            "name": "Test Student 14",
+            "email": "student14@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_15",
+            "name": "Test Student 15",
+            "email": "student15@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_16",
+            "name": "Test Student 16",
+            "email": "student16@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 1,
+      "difficulty": {
+        "studentCount": 16,
+        "overlapRatio": 0.4,
+        "fragmentationLevel": 0.2,
+        "packingDensity": 1,
+        "durationVariety": 2,
+        "constraintTightness": 0.8
+      },
+      "metadata": {
+        "description": "Perfect packing puzzle - exactly full utilization",
+        "expectedSolveTime": 512.0000000000001,
+        "category": "medium",
+        "generatorVersion": "1.0.0",
+        "seed": 1755305018300,
+        "scenario": "Perfect packing puzzle - exactly full utilization",
+        "expectedBehavior": "solvable",
+        "extremeCategory": "pathological-constraints"
+      },
+      "createdAt": "2025-08-16T00:43:38.301Z"
+    },
+    {
+      "id": "tc_medjacal_54f8o",
+      "description": "Constraint cascade - extremely tight everything",
+      "teacher": {
+        "person": {
+          "id": "teacher_1",
+          "name": "Test Teacher",
+          "email": "teacher@test.com"
+        },
+        "studioId": "studio_test",
+        "availability": {
+          "days": [],
+          "timezone": "UTC"
+        },
+        "constraints": {
+          "maxConsecutiveMinutes": 180,
+          "breakDurationMinutes": 15,
+          "minLessonDuration": 30,
+          "maxLessonDuration": 90,
+          "allowedDurations": [
+            30,
+            45,
+            60,
+            90
+          ]
+        }
+      },
+      "students": [
+        {
+          "person": {
+            "id": "student_1",
+            "name": "Test Student 1",
+            "email": "student1@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_2",
+            "name": "Test Student 2",
+            "email": "student2@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_3",
+            "name": "Test Student 3",
+            "email": "student3@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_4",
+            "name": "Test Student 4",
+            "email": "student4@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_5",
+            "name": "Test Student 5",
+            "email": "student5@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_6",
+            "name": "Test Student 6",
+            "email": "student6@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_7",
+            "name": "Test Student 7",
+            "email": "student7@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_8",
+            "name": "Test Student 8",
+            "email": "student8@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_9",
+            "name": "Test Student 9",
+            "email": "student9@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_10",
+            "name": "Test Student 10",
+            "email": "student10@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_11",
+            "name": "Test Student 11",
+            "email": "student11@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        },
+        {
+          "person": {
+            "id": "student_12",
+            "name": "Test Student 12",
+            "email": "student12@test.com"
+          },
+          "preferredDuration": 60,
+          "minDuration": 30,
+          "maxDuration": 90,
+          "maxLessonsPerWeek": 1,
+          "availability": {
+            "days": [],
+            "timezone": "UTC"
+          }
+        }
+      ],
+      "expectedSolutions": 0,
+      "difficulty": {
+        "studentCount": 12,
+        "overlapRatio": 0.1,
+        "fragmentationLevel": 0.9,
+        "packingDensity": 1.05,
+        "durationVariety": 4,
+        "constraintTightness": 0.98
+      },
+      "metadata": {
+        "description": "Constraint cascade - extremely tight everything",
+        "expectedSolveTime": 28.8,
+        "category": "impossible",
+        "generatorVersion": "1.0.0",
+        "seed": 1755305018300,
+        "scenario": "Constraint cascade - extremely tight everything",
+        "expectedBehavior": "impossible",
+        "extremeCategory": "pathological-constraints"
+      },
+      "createdAt": "2025-08-16T00:43:38.301Z"
+    }
+  ],
+  "totalCases": 4,
+  "categories": {
+    "pathological-constraints": 4
+  },
+  "createdAt": "2025-08-16T00:43:38.301Z"
+}

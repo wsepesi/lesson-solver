@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react"
 
 import {
@@ -7,11 +9,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/components/ui/card"
+} from "@/components/ui/card"
 import type { Schedule, State } from "lib/types"
-import { buttonStatesToText, buttonsToSchedule } from "lib/utils"
+import { buttonStatesToText } from "lib/utils"
+import { createEmptyWeekSchedule } from "lib/scheduling/utils"
+// buttonsToSchedule removed - component needs migration to minute-based format
 
-import { Button } from "~/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { useToast } from "./ui/use-toast"
 
 type Props = {
@@ -26,19 +30,23 @@ export const formatter = (str: string): React.ReactElement[] => {
     const lines = str.split("\n");
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        const parts = line!.split(/[;,]/); // Split on commas and semicolons
-        const formattedParts: React.ReactNode[] = [];
-  
-        for (let j = 0; j < parts.length; j++) {
-            const part = parts[j]!.trim();
-            if (j === 0) {
-                formattedParts.push(<p key={j}><strong>{part}</strong></p>);
-            } else {
-                formattedParts.push(<p key={j}>{part}</p>);
-            }
+        const colonIndex = line!.indexOf(':');
+        
+        if (colonIndex !== -1) {
+            // Day name and times are on same line
+            const dayName = line!.substring(0, colonIndex + 1);
+            const times = line!.substring(colonIndex + 1).trim();
+            
+            ps.push(
+                <div className="my-1 text-sm" key={i}>
+                    <span className="font-semibold">{dayName}</span>
+                    <span className="ml-1">{times}</span>
+                </div>
+            );
+        } else {
+            // Handle "No availability set" case
+            ps.push(<div className="my-1 text-sm" key={i}>{line}</div>);
         }
-  
-        ps.push(<div className="my-2" key={i}>{formattedParts}</div>);
     }
     return ps;
   }
@@ -59,9 +67,9 @@ export function CardWithSubmit(props: Props) {
                 <Button 
                 className="w-full"
                 onClick={() => {
-                    props.setTeacherSchedule(
-                        buttonsToSchedule(props.buttonStates, 30)
-                    )
+                    // TODO: Migrate to minute-based TimeInterval format
+                    // For now, create empty schedule as placeholder
+                    props.setTeacherSchedule(createEmptyWeekSchedule())
                     props.setState("student")
                     toast({
                         title: "Schedule added!",

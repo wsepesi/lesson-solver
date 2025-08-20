@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import * as z from 'zod';
 
@@ -6,22 +8,24 @@ import * as z from 'zod';
  * @see https://v0.dev/t/XChuqWMY264
  */
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "src/components/ui/card"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
-import type { OnboardingState, RouterSchema } from '~/pages/enroll';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import type { OnboardingState, RouterSchema } from '@/app/enroll/page';
 import { useEffect, useState } from 'react';
 
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { useToast } from '@/components/ui/use-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { type StudioSchema } from 'lib/schema';
+import { createClient } from '@/utils/supabase/client';
+import { type StudioSchema } from 'lib/db-types';
 
 const formSchema = z.object({
-    first_name: z.string().min(1).max(50),
-    last_name: z.string().min(1).max(50),
-    email: z.string().email(),
-    studioCode: z.string().min(5).max(5)
+    first_name: z.string().trim().min(1).max(50),
+    last_name: z.string().trim().min(1).max(50),
+    email: z.string().trim().email(),
+    studioCode: z.string().trim().min(5).max(5)
 });
 
 export type FormSchema = z.infer<typeof formSchema>;
@@ -34,17 +38,11 @@ type Props = {
     studio: StudioSchema | null
 }
 
-export function Enrollment(props: Props) { // TODO: fix code autopopulation
-  const sb = useSupabaseClient();
+export function Enrollment(props: Props) {
+  const sb = createClient();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const code = props.query ? props.query.code : "";
-
-  const [defaultCode, setDefaultCode] = useState<string>("");
-
-  useEffect(() => {
-    if (code) {
-      setDefaultCode(code);
-    }
-  }, [code]);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -52,39 +50,64 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
       first_name: "",
       last_name: "",
       email: "",
-      studioCode: code,
+      studioCode: code ?? "", // Initialize with code from query params
     },
   });
 
+  useEffect(() => {
+    if (code) {
+      form.setValue("studioCode", code);
+    }
+  }, [code, form]);
+
   const onSubmit = async (data: FormSchema) => {
+    setLoading(true);
     props.setFormData(data);
-    // get studio from code, if it exists. throw an alert if it doesn't
-    // first check if the code is valid
-    // console.log(data.studioCode)
-    const codeRes = await sb.from("studios").select("*").eq("code", data.studioCode);
-    console.log(codeRes)
-    if (codeRes.error) {
-      alert("error with fetching the studio code");
-      console.log(codeRes.error);
-      return;
-    } else {
+    
+    try {
+      const codeRes = await sb.from("studios").select("*").eq("code", data.studioCode);
+      console.log(codeRes);
+      
+      if (codeRes.error) {
+        toast({
+          variant: "destructive",
+          title: "Database error",
+          description: "Unable to verify studio code. Please try again."
+        });
+        console.log(codeRes.error);
+        setLoading(false);
+        return;
+      }
+      
       const resdata = codeRes.data;
       if (resdata.length === 0) {
-        alert("Invalid code, please check that it's correct"); //FIXME:
+        toast({
+          variant: "destructive",
+          title: "Invalid studio code",
+          description: "No studio found with that code. Please check and try again."
+        });
+        setLoading(false);
         return;
       }
 
-      const res = await sb.from("studios").select("*").eq("code", data.studioCode)
-      if (res.error) {
-        alert("error with fetching the studio code")
-        console.log(res.error)
-        return
-    } else {
+      // Success! Studio found
+      toast({
+        title: "Studio found!",
+        description: `Enrolling in ${(resdata[0] as StudioSchema).studio_name}...`
+      });
+      
       props.setState("schedule");
-      props.setStudio(res.data[0] as StudioSchema)
+      props.setStudio(resdata[0] as StudioSchema);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Unexpected error",
+        description: "Something went wrong. Please try again."
+      });
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-    }
-    
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -105,7 +128,7 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="First" {...field} />
+                      <Input placeholder="First" disabled={loading} {...field} />
                     </FormControl>
                     {/* <FormDescription>
                       Your full name as you would like it to appear to the studio.
@@ -121,7 +144,7 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
                 <FormItem>
                   <FormLabel>Last Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Last" {...field} />
+                    <Input placeholder="Last" disabled={loading} {...field} />
                   </FormControl>
                   <FormDescription>
                     Your full name as you would like it to appear to the studio.
@@ -137,7 +160,7 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@gmail.com" {...field} />
+                      <Input placeholder="name@gmail.com" disabled={loading} {...field} />
                     </FormControl>
                     <FormDescription>
                       Your email to save for future communication.
@@ -149,12 +172,11 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
                 <FormField
                 control={form.control}
                 name="studioCode"
-                defaultValue={defaultCode}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Studio Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="12345" {...field} />
+                      <Input placeholder="12345" disabled={loading} {...field} />
                     </FormControl>
                     <FormDescription>
                       The 5 digit studio code sent to you by your teacher.
@@ -163,8 +185,8 @@ export function Enrollment(props: Props) { // TODO: fix code autopopulation
                   </FormItem>
                 )}
                 />
-              <Button className="w-full" type="submit">
-                Go
+              <Button className="w-full min-h-[40px]" type="submit" disabled={loading}>
+                {loading ? <LoadingSpinner size="sm" /> : "Enroll"}
               </Button>
             </form>
           </Form>

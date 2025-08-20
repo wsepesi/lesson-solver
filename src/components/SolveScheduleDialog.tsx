@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
     DialogContent,
@@ -10,15 +12,23 @@ import {
 import { Button } from "./ui/button"
 import { Combobox, type Option } from "./Combobox"
 import { useState } from "react"
-import { type StudioWithStudents } from "~/pages/studios/[slug]"
-import type { StudentSchema } from "lib/schema"
-import type { Student } from "lib/types"
-import { type FinalSchedule, scheduleToButtons, solve } from "lib/heur_solver"
+import { type StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
+// Event type previously from InteractiveCalendar - now defined inline
+export interface Event {
+  id: string;
+  name: string;
+  booking: {
+    day: string;
+    timeInterval: { start: number; duration: number };
+  };
+  student_id: number;
+}
+import { createClient } from "@/utils/supabase/client"
+import { createTeacherConfig, convertScheduleToWeekSchedule } from "lib/scheduling-adapter"
+import type { ScheduleSolution } from 'lib/scheduling/types'
+import { useToast } from "./ui/use-toast"
 
-import type { Event } from "src/components/InteractiveCalendar"
-import { finalScheduleToEventList } from "lib/utils"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
-const isPaid = true
+import { solveSchedule } from 'lib/scheduling/solver'
 
 const lengthOptions: Option[] = [
     { label: "1", value: "1" },
@@ -35,28 +45,23 @@ const breakOptions: Option[] = [
     { label: "60", value: "60" },
 ]
 
+const backToBackOptions: Option[] = [
+    { label: "Agnostic (Current)", value: "agnostic" },
+    { label: "Maximize Back-to-Back", value: "maximize" },
+    { label: "Minimize Back-to-Back", value: "minimize" },
+]
+
 type Props = {
     studio: StudioWithStudents,
     taskStatus: boolean[],
     setTaskStatus: React.Dispatch<React.SetStateAction<boolean[]>>,
     taskIdx: number,
-    schedule: FinalSchedule | null,
-    setSchedule: React.Dispatch<React.SetStateAction<FinalSchedule | null>>,
     setEvents: React.Dispatch<React.SetStateAction<Event[]>>,
     setStudio: (studio: StudioWithStudents) => void,
-    setResolveOpen?: (open: boolean) => void
+    setResolveOpen?: (open: boolean) => void,
+    setUnscheduledStudents?: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const getOriginalStudentSchemaMatchByEmail = (student: Student, students: StudentSchema[]): StudentSchema => {
-    const filtered = students.filter((s) => s.email === student.email)
-    if (filtered.length > 1) {
-        throw new Error(`Multiple students with email ${student.email} found in the studio`)
-    }
-    if (filtered.length === 0) {
-        throw new Error(`No student with email ${student.email} found in the studio`)
-    }
-    return filtered[0] ? filtered[0] : students[0]!
-}
 
 const readyToSolve = (taskStatus: boolean[]): boolean => {
     // true if 0 and 1 are true
@@ -66,13 +71,49 @@ const readyToSolve = (taskStatus: boolean[]): boolean => {
     return !!taskStatus[0] && !!taskStatus[1]
 }
 
+
+// Create events directly from ScheduleSolution with day information
+const createEventsFromSolution = (
+    solution: ScheduleSolution,
+    students: { id: string; name: string; email: string }[],
+    studio: StudioWithStudents
+): Event[] => {
+    const studentLookup = new Map<string, { id: string; name: string; email: string }>();
+    for (const student of students) {
+        studentLookup.set(student.email, student);
+    }
+    
+    const dayAbbrevs = ['Sun', 'M', 'Tu', 'W', 'Th', 'F', 'Sat'];
+    
+    return solution.assignments.map((assignment, index) => {
+        const student = studentLookup.get(assignment.studentId);
+        if (!student) throw new Error(`Student not found: ${assignment.studentId}`);
+        
+        const studioStudent = studio.students?.find((s) => s.email === student.email);
+        
+        return {
+            id: index.toString(),
+            name: student.name,
+            booking: {
+                day: dayAbbrevs[assignment.dayOfWeek] ?? 'M',
+                timeInterval: {
+                    start: assignment.startMinute,
+                    duration: assignment.durationMinutes
+                }
+            },
+            student_id: studioStudent?.id ?? 0
+        };
+    });
+}
+
 export default function SolveScheduleDialog(props: Props) {
-    const supabaseClient = useSupabaseClient()
-    const { schedule, setSchedule, setEvents } = props
+    const supabaseClient = createClient()
+    const { setEvents } = props
+    const { toast } = useToast()
     const [length, setLength] = useState("1")
     const [breakLength, setBreakLength] = useState("30")
-    const [loading, setLoading] = useState(false)
-    const [isError, setIsError] = useState(false)
+    const [backToBackPreference, setBackToBackPreference] = useState("agnostic")
+    const [, setLoading] = useState(false)
 
     const handleClick = async () => {
         if (!readyToSolve(props.taskStatus)) {
@@ -81,39 +122,69 @@ export default function SolveScheduleDialog(props: Props) {
         }
         setLoading(true)
         try {
-            const res = solve(
-                props.studio.students.map((student) => (
-                    {
-                    student: {
-                        email: student.email,
-                        name: student.first_name!,
-                        lessonLength: student.lesson_length === "30" ? 30 : 60,
-                    },
-                    schedule: student.schedule,
-                    }
-                )), 
-                props.studio.owner_schedule, 
-                {
-                    numConsecHalfHours: Number(length) * 2,
-                    breakLenInHalfHours: Number(breakLength) / 30
-                }
-            )
-            const finalSchedOriginalAvail: FinalSchedule = {
-                assignments: res.assignments.map((assignment, i) => ({
-                    student: {
-                        ...assignment.student,
-                        schedule: getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule,
-                        bsched: scheduleToButtons(getOriginalStudentSchemaMatchByEmail(assignment.student.student, props.studio.students).schedule)
-                    },
-                    time: assignment.time
-                }))
+            // Convert studio data to WeekSchedule format
+            const teacherSchedule = convertScheduleToWeekSchedule(props.studio.owner_schedule);
+            
+            // Create teacher config with constraints
+            const teacher = createTeacherConfig(teacherSchedule, props.studio.id.toString());
+            teacher.constraints.maxConsecutiveMinutes = Number(length) * 60; // Convert hours to minutes
+            teacher.constraints.breakDurationMinutes = Number(breakLength); // Already in minutes
+            teacher.constraints.backToBackPreference = backToBackPreference as 'maximize' | 'minimize' | 'agnostic';
+            
+            // Convert students to StudentConfig format
+            const students = props.studio.students
+                .filter(student => student.schedule) // Only students with availability
+                .map(studentSchema => {
+                    const studentPerson = {
+                        id: studentSchema.email,
+                        name: studentSchema.first_name!,
+                        email: studentSchema.email
+                    };
+                    
+                    const availability = convertScheduleToWeekSchedule(studentSchema.schedule);
+                    const lessonLength = studentSchema.lesson_length === "30" ? 30 : 60;
+                    
+                    return {
+                        person: studentPerson,
+                        preferredDuration: lessonLength,
+                        maxLessonsPerWeek: 1,
+                        availability
+                    };
+                });
+            
+            // Solve using CSP solver
+            const solution = solveSchedule(teacher, students, {
+                maxTimeMs: 10000,
+                maxBacktracks: 1000,
+                useConstraintPropagation: true,
+                useHeuristics: true,
+                searchStrategy: 'backtracking',
+                optimizeForQuality: true,
+                logLevel: 'basic'
+            });
+            
+            // Handle both scheduled and unscheduled students
+            console.log(`Scheduling solution: ${solution.assignments.length}/${solution.metadata.totalStudents} students scheduled`);
+            
+            const totalStudents = solution.metadata.totalStudents;
+            const scheduledCount = solution.assignments.length;
+            const unscheduledCount = solution.unscheduled.length;
+            
+            // Convert solution to InteractiveCalendar events
+            const studentList = students.map(config => config.person);
+            const eventList = createEventsFromSolution(solution, studentList, props.studio);
+            setEvents(eventList);
+            
+            // Update unscheduled students if callback provided
+            if (props.setUnscheduledStudents) {
+                props.setUnscheduledStudents(solution.unscheduled);
             }
-            setSchedule(finalSchedOriginalAvail)
-            const eventList = finalScheduleToEventList(finalSchedOriginalAvail, props.studio)
-            setEvents(eventList)
             const updateRes = await supabaseClient
                 .from("studios")
-                .update({ events: eventList })
+                .update({ 
+                    events: eventList,
+                    unscheduled_students: solution.unscheduled 
+                })
                 .eq("id", props.studio.id)
             if (updateRes.error) {
                 console.error(updateRes.error)
@@ -122,48 +193,77 @@ export default function SolveScheduleDialog(props: Props) {
 
             props.setStudio({
                 ...props.studio,
-                events: eventList
+                events: eventList,
+                unscheduled_students: solution.unscheduled
             })
+
+            // Show appropriate toast based on results
+            if (scheduledCount === totalStudents) {
+                // Complete success
+                toast({
+                    title: "Schedule created successfully!",
+                    description: `All ${totalStudents} students have been scheduled.`,
+                });
+            } else if (scheduledCount > 0) {
+                // Partial success
+                toast({
+                    title: "Partial schedule created",
+                    description: `${scheduledCount} of ${totalStudents} students scheduled. ${unscheduledCount} students couldn't be fit into the schedule.`,
+                    variant: "destructive",
+                });
+            } else {
+                // Complete failure - no students scheduled
+                toast({
+                    title: "Unable to create schedule",
+                    description: "No students could be scheduled. Please try adding more available time slots or adjusting student preferences.",
+                    variant: "destructive",
+                });
+            }
 
             if (props.setResolveOpen) {
                 props.setResolveOpen(false)
             }
 
         } catch (error) {
-            setIsError(true)
+            console.error('Error solving schedule:', error);
+            
+            // Show error toast for system failures
+            toast({
+                title: "System error",
+                description: "An unexpected error occurred while solving the schedule. Please try again.",
+                variant: "destructive",
+            });
+            
+            // Close dialog even on errors
+            if (props.setResolveOpen) {
+                props.setResolveOpen(false)
+            }
         }
         
         setLoading(false)
-        if (!isError) {
-            props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
-        }
+        props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
     }
     
     return(
         <>
             <DialogContent className="sm:max-w-[425px] md:max-w-[80vw] w-[40vw] h-[40vh]">
-                {(!isError) ?
-                <>
-                    <DialogHeader>
-                    <DialogTitle>Schedule your bookings</DialogTitle>
-                    <DialogDescription>
-                        Make sure you&apos;ve onboarded all of your students before you finalize your schedule!
-                        {!isPaid && (
-                            <p className="my-2">On a free plan you only have <strong>ONE</strong> free schedule solve!</p>)}
-                    </DialogDescription>
-                    </DialogHeader>
-                    <div className="">
-                        <p>Create a schedule with no more than <Combobox value={length} setValue={setLength} options={lengthOptions} /> hours of back-to-back events without a <Combobox value={breakLength} setValue={setBreakLength} options={breakOptions} /> minutes break.</p>
-                    </div>
-                    <DialogFooter>
-                        <Button 
-                            type="submit"
-                            onClick={handleClick}
-                        >Schedule</Button>
-                    </DialogFooter>
-                </>
-                :
-                <p className="flex items-center h-full">There was an error creating your schedule. This is likely due to an impossible configuration of your availabilty and student availability, so please try to add more time and try again.</p>}
+                <DialogHeader>
+                <DialogTitle>Schedule your bookings</DialogTitle>
+                <DialogDescription>
+                    Make sure you&apos;ve onboarded all of your students before you finalize your schedule!
+                </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                    <p>Create a schedule with no more than <Combobox value={length} setValue={setLength} options={lengthOptions} /> hours of back-to-back events without a <Combobox value={breakLength} setValue={setBreakLength} options={breakOptions} /> minutes break.</p>
+                    
+                    <p>Back-to-back lesson preference: <Combobox value={backToBackPreference} setValue={setBackToBackPreference} options={backToBackOptions} width="w-[200px]" /></p>
+                </div>
+                <DialogFooter>
+                    <Button 
+                        type="submit"
+                        onClick={handleClick}
+                    >Schedule</Button>
+                </DialogFooter>
             </DialogContent>
         </>
     )
