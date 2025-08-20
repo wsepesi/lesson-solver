@@ -3,11 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function EnrollLoading() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md mx-auto">
+    <div className="flex justify-center items-center min-h-screen bg-landing-background font-arimo">
+      <Card className="w-full max-w-md mx-auto bg-white border border-landing-blue/20">
         <CardHeader>
-          <CardTitle className="text-center">Loading...</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-center text-landing-blue">Loading...</CardTitle>
+          <CardDescription className="text-center text-landing-blue/70">
             Please wait while we prepare the enrollment form
           </CardDescription>
         </CardHeader>

@@ -60,13 +60,13 @@ export default function StudioDetailPage({
     }, [supabaseClient, router, slug])
 
     return (
-        <>
+        <div className="min-h-screen bg-landing-background font-arimo">
             <Navbar />
             {studio ? 
                 <MyStudio 
                     studio={studio} 
                     setStudio={setStudio}
                 /> : <StudioSkeleton />}
-        </>
+        </div>
     )
 }

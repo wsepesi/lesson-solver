@@ -39,7 +39,7 @@ export default function ManualScheduleDialog(props: Props) {
         }}
       >
         <DialogTrigger asChild>
-          <Button className="w-full">Add Student Schedules Manually</Button>
+          <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Add Student Schedules Manually</Button>
         </DialogTrigger>
         {uploading ? (
           <DialogContent className="max-w-[95vw] w-[95vw] max-h-[95vh] h-[95vh] p-4">
@@ -71,7 +71,7 @@ export default function ManualScheduleDialog(props: Props) {
           <div className="gap-4 py-4 flex flex-row justify-center items-center">
             <div className="flex-col">
                 <Label>Use Calendar</Label>
-                <Button className="w-full" onClick={() => {setUploading(true)}}>Go</Button>
+                <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover" onClick={() => {setUploading(true)}}>Go</Button>
             </div>
             {/* <h3 className="font-thin px-5">OR</h3>
             <div className="flex-col">

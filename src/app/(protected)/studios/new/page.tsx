@@ -110,7 +110,7 @@ export default function NewStudioPage() {
         }
     }
     return (
-        <div className="h-screen">
+        <div className="h-screen bg-landing-background font-arimo">
         <Navbar />
         <div className="flex justify-center items-center w-full h-full max-h-[90vh]">
         <Card className="w-[500px] max-h-[80vh] overflow-y-auto">
@@ -233,7 +233,7 @@ export default function NewStudioPage() {
                                 </Label>
                             </div>
                         </RadioGroup>
-                        <p className="text-xs text-gray-600">
+                        <p className="text-xs text-landing-blue/60">
                             Choose which days to show in calendar views throughout your studio
                         </p>
                     </div>

@@ -22,7 +22,7 @@ export default function StudentSchedule(props: Props) {
     const { schedule, onScheduleChange, setState, minutes, setMinutes } = props
     
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <div className="min-h-screen bg-landing-background font-arimo py-8">
             <div className="max-w-none mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row gap-6 w-full">
                     <div className="lg:w-auto flex-shrink-0">
@@ -36,7 +36,7 @@ export default function StudentSchedule(props: Props) {
                         />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <div className="bg-white rounded-lg shadow-sm border p-4">
+                        <div className="bg-white rounded-lg shadow-sm border border-landing-blue/20 p-4">
                             <AdaptiveCalendar 
                                 schedule={schedule}
                                 onChange={onScheduleChange}

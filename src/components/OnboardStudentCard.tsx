@@ -125,17 +125,17 @@ export function OnboardStudentCard(props: Props) {
         }
     }
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[350px] bg-white border border-landing-blue/20">
             <CardHeader>
-                <CardTitle>Welcome {props.studentInfo.first_name} {props.studentInfo.last_name}</CardTitle>
-                <CardDescription>Fill out your availability on the calendar</CardDescription>
+                <CardTitle className="text-landing-blue">Welcome {props.studentInfo.first_name} {props.studentInfo.last_name}</CardTitle>
+                <CardDescription className="text-landing-blue/70">Fill out your availability on the calendar</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="pb-3 max-h-32 overflow-y-auto">{formatter(formatWeekScheduleDisplay(props.schedule).join('\n'))}</div>
                 <form>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="lesson-duration">Lesson length</Label>
+                        <Label htmlFor="lesson-duration" className="text-landing-blue font-medium">Lesson length</Label>
                         {/* Show preset durations from studio settings */}
                         {props.studio?.allowed_lesson_durations && props.studio.allowed_lesson_durations.length > 0 && (
                             <RadioGroup defaultValue={props.studio.allowed_lesson_durations[0]?.toString()} value={minutes.toString()}>
@@ -146,7 +146,7 @@ export function OnboardStudentCard(props: Props) {
                                             id={`duration-${duration}`} 
                                             onClick={() => handleClick(duration)}
                                         />
-                                        <Label htmlFor={`duration-${duration}`}>{duration} mins</Label>
+                                        <Label htmlFor={`duration-${duration}`} className="text-landing-blue/70">{duration} mins</Label>
                                     </div>
                                 ))}
                             </RadioGroup>
@@ -155,7 +155,7 @@ export function OnboardStudentCard(props: Props) {
                         {/* Show custom duration input if enabled */}
                         {props.studio?.allow_custom_duration && (
                             <div className="flex flex-col space-y-2">
-                                <Label htmlFor="custom-duration">Or choose custom duration:</Label>
+                                <Label htmlFor="custom-duration" className="text-landing-blue font-medium">Or choose custom duration:</Label>
                                 <div className="flex items-center space-x-2">
                                     <Input
                                         id="custom-duration"
@@ -174,7 +174,7 @@ export function OnboardStudentCard(props: Props) {
                                         placeholder="Duration in minutes"
                                         className="w-32"
                                     />
-                                    <span className="text-sm text-gray-500">
+                                    <span className="text-sm text-landing-blue/60">
                                         ({props.studio.min_lesson_duration}-{props.studio.max_lesson_duration} min)
                                     </span>
                                 </div>
@@ -186,11 +186,11 @@ export function OnboardStudentCard(props: Props) {
                             <RadioGroup defaultValue="30" value={minutes.toString()}>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
-                                    <Label htmlFor="r1">30 mins</Label>
+                                    <Label htmlFor="r1" className="text-landing-blue/70">30 mins</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
-                                    <Label htmlFor="r2">60 mins</Label>
+                                    <Label htmlFor="r2" className="text-landing-blue/70">60 mins</Label>
                                 </div>
                             </RadioGroup>
                         )}
@@ -201,7 +201,7 @@ export function OnboardStudentCard(props: Props) {
             <CardFooter className="flex justify-between">
                 <Button 
                     disabled={loading}
-                    className="min-w-[100px]"
+                    className="min-w-[100px] bg-landing-blue text-white hover:bg-landing-blue-hover"
                     onClick={() => {
                         // Check if schedule has any availability
                         const hasAvailability = props.schedule.days.some(day => day.blocks.length > 0);

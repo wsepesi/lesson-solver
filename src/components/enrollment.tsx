@@ -110,11 +110,11 @@ export function Enrollment(props: Props) {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md mx-auto">
+    <div className="flex justify-center items-center min-h-screen bg-landing-background font-arimo">
+      <Card className="w-full max-w-md mx-auto bg-white border border-landing-blue/20">
         <CardHeader>
-          <CardTitle className="text-center">Enroll in a Studio</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-center text-landing-blue">Enroll in a Studio</CardTitle>
+          <CardDescription className="text-center text-landing-blue/70">
             Enter your name, email and studio code to enroll.
           </CardDescription>
         </CardHeader>
@@ -126,9 +126,9 @@ export function Enrollment(props: Props) {
                 name="first_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel className="text-landing-blue font-medium">First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="First" disabled={loading} {...field} />
+                      <Input placeholder="First" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                     </FormControl>
                     {/* <FormDescription>
                       Your full name as you would like it to appear to the studio.
@@ -142,11 +142,11 @@ export function Enrollment(props: Props) {
               name="last_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel className="text-landing-blue font-medium">Last Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Last" disabled={loading} {...field} />
+                    <Input placeholder="Last" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                   </FormControl>
-                  <FormDescription>
+                  <FormDescription className="text-landing-blue/60">
                     Your full name as you would like it to appear to the studio.
                   </FormDescription>
                   <FormMessage />
@@ -158,11 +158,11 @@ export function Enrollment(props: Props) {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-landing-blue font-medium">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@gmail.com" disabled={loading} {...field} />
+                      <Input placeholder="name@gmail.com" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-landing-blue/60">
                       Your email to save for future communication.
                     </FormDescription>
                     <FormMessage />
@@ -174,18 +174,18 @@ export function Enrollment(props: Props) {
                 name="studioCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Studio Code</FormLabel>
+                    <FormLabel className="text-landing-blue font-medium">Studio Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="12345" disabled={loading} {...field} />
+                      <Input placeholder="12345" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-landing-blue/60">
                       The 5 digit studio code sent to you by your teacher.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
                 />
-              <Button className="w-full min-h-[40px]" type="submit" disabled={loading}>
+              <Button className="w-full min-h-[40px] bg-landing-blue text-white hover:bg-landing-blue-hover" type="submit" disabled={loading}>
                 {loading ? <LoadingSpinner size="sm" /> : "Enroll"}
               </Button>
             </form>

@@ -524,27 +524,27 @@ export function MyStudio(props: Props) {
   const isDoneWithTasks = taskStatus.every((status) => status)
 
   return (
-    <main className="w-full h-full py-1 px-4 md:py-1 md:px-8">
+    <main className="container mx-auto px-4 py-4">
       {!isDoneWithTasks && (
-        <section className="mt-4 mb-2">
+        <section className="mt-2 mb-2">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Progress</h2>
-            <Badge>{taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0)}/3</Badge>
+            <h2 className="text-2xl font-bold text-landing-blue">Progress</h2>
+            <Badge className="border-landing-blue text-landing-blue">{taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0)}/3</Badge>
           </div>
           <Progress className="mt-2" value={
           (taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0) / taskStatus.length) * 100
         }/>
         </section>)
       }
-      <header className="mb-8 flex flex-row items-end justify-between">
-        <h1 className="text-4xl font-bold tracking-tight mt-4">{studio.studio_name}</h1>
-        <h3 className="text-xl tracking-tight font-light text-gray-500">Studio Code: {studio.code}</h3>
+      <header className="mb-4 flex flex-row items-end justify-between">
+        <h1 className="text-4xl font-bold tracking-tight text-landing-blue">{studio.studio_name}</h1>
+        <h3 className="text-xl tracking-tight font-light text-landing-blue/70">Studio Code: {studio.code}</h3>
       </header>
       <div className="flex space-x-10">
         {isDoneWithTasks ? 
         ( <>
           <div className="space-y-6 w-2/3">
-            <div className="h-[60vh]">
+            <div className="h-[45vh]">
               <AdaptiveCalendar 
                 schedule={convertEventsToWeekSchedule(events ?? [])}
                 onChange={handleScheduleChange}
@@ -597,11 +597,11 @@ export function MyStudio(props: Props) {
                       }}
                     >
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium text-gray-700">
+                        <span className="text-sm font-medium text-landing-blue/70">
                           {student.first_name} {student.last_name}
                         </span>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-landing-blue/60">
                             ({student.lesson_length ?? '60'}min)
                           </span>
                           <span className="text-xs text-red-500 ml-2">
@@ -617,7 +617,7 @@ export function MyStudio(props: Props) {
           )}
           {(events && events.length > 0) || unscheduledStudents.length > 0 ? (
           <div className="w-1/4">
-            <h3 className="text-lg font-light ">Schedule:</h3>
+            <h3 className="text-lg font-light text-landing-blue">Schedule:</h3>
             <div className="flex flex-col">
                 {eventListToEltList(events ?? []).map((elt) => (
                     elt
@@ -639,7 +639,7 @@ export function MyStudio(props: Props) {
             {/* <Button className="mt-4">Download Schedule</Button> */}
             {hasScheduleChanged && 
               <Button 
-                className={`mt-4`}
+                className="mt-4 bg-landing-blue text-white hover:bg-landing-blue-hover"
                 onClick={handleSaveSchedule}
               >
                 Save Changes
@@ -666,13 +666,13 @@ export function MyStudio(props: Props) {
           ))}
         </section>)}
         <aside className="w-1/3 space-y-6">
-          <section className="bg-gray-100 p-4 rounded-md">
+          <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
             <div className="flex flex-row w-full mb-4">
-              <h2 className="text-xl font-bold w-full">Enrolled Students</h2>
-              <p className="text-right w-full">{studio.students.length} / {isPaid ? 50 : 5} students</p>
+              <h2 className="text-xl font-bold w-full text-landing-blue">Enrolled Students</h2>
+              <p className="text-right w-full text-landing-blue/70">{studio.students.length} / {isPaid ? 50 : 5} students</p>
               {/* TODO: add a tooltip to explain the limit if the user isnt premium */}
             </div>
-            <ul className="space-y-2 flex flex-col">
+            <ul className="space-y-2 flex flex-col max-h-[40vh] overflow-y-auto">
               {studio.students.length ? (studio.students.map((student) => {
                 const progress = getStudentProgress(student)
                 return (
@@ -680,18 +680,18 @@ export function MyStudio(props: Props) {
                   <div className="flex flex-row justify-start items-center">
                     {/* make sure the border has a thin radius and is a circle */}
                     <div 
-                      className="w-5 h-5 cursor-pointer hover:bg-slate-200 flex flex-row items-center p-1 border border-gray-300 rounded-full mr-1"
+                      className="w-5 h-5 cursor-pointer hover:bg-landing-blue/10 flex flex-row items-center p-1 border border-landing-blue/30 rounded-full mr-1"
                       onClick={() => handleStudentDelete(student)}
                     >
                       <Cross1Icon className="" />
                     </div>
                     <Popover>
                       <PopoverTrigger>
-                        <p className="font-mono px-1 border rounded-md border-black cursor-pointer self-start text-left">{student.first_name} {student.last_name}, {student.email}</p>
+                        <p className="font-mono px-1 border rounded-md border-landing-blue/20 cursor-pointer self-start text-left text-landing-blue">{student.first_name} {student.last_name}, {student.email}</p>
                       </PopoverTrigger>
                       <PopoverContent className="min-w-[20vw]">
                         <div className="p-4">
-                          <div className="text-sm text-gray-700 whitespace-pre-line font-mono">
+                          <div className="text-sm text-landing-blue/70 whitespace-pre-line font-mono">
                             {formatStudentAvailability(student)}
                           </div>
                         </div>
@@ -699,16 +699,16 @@ export function MyStudio(props: Props) {
                     </Popover>
                   </div>
                   <Badge 
-                  className={`min-w-[6.5vw] flex flex-row justify-center ml-4 h-6 self-center
-                  ${progress === "Completed" && "bg-emerald-600"}
-                  `} // ${progress === "In Progress" && "bg-yellow-500"}
+                  className={`min-w-[6.5vw] flex flex-row justify-center ml-4 h-6 self-center border-landing-blue text-landing-blue
+                  ${progress === "Completed" && "bg-landing-blue text-white"}
+                  `}
                   >{progress}</Badge>
                 </li>
-              )})) : <p className="text-center">No students have been invited or enrolled yet!</p>}
+              )})) : <p className="text-center text-landing-blue/70">No students have been invited or enrolled yet!</p>}
             </ul>
           </section>
-          <section className="bg-gray-100 p-4 rounded-md">
-            <h2 className="text-xl font-bold mb-4">Admin Tasks</h2>
+          <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
+            <h2 className="text-xl font-bold mb-4 text-landing-blue">Admin Tasks</h2>
             <div className="space-y-2">
               <Dialog 
                 open={taskOpen[SEND_CODE]} 
@@ -717,7 +717,7 @@ export function MyStudio(props: Props) {
                 }}
               >
                 <DialogTrigger asChild>
-                  <Button className="w-full">Invite Students</Button>
+                  <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Invite Students</Button>
                 </DialogTrigger>
                 <SendToStudentsDialog 
                   taskStatus={taskStatus} 
@@ -740,7 +740,7 @@ export function MyStudio(props: Props) {
               {taskStatus[AVAILABILITY] && 
               <Dialog open={editAvailability} onOpenChange={setEditAvailability}>
                 <DialogTrigger asChild>
-                  <Button className="w-full">Edit Your Availability</Button>
+                  <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Edit Your Availability</Button>
                 </DialogTrigger>
                 <SetAvailabilityDialog 
                   handleSubmit={handleEditAvailability}
@@ -753,7 +753,7 @@ export function MyStudio(props: Props) {
               }
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button className="w-full">Manage Studio</Button>
+                  <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Manage Studio</Button>
                 </DialogTrigger>
                 <DialogContent className="w-[50vw] max-h-[50vh] flex flex-col justify-center items-center">
                   <DialogHeader>
@@ -793,7 +793,7 @@ export function MyStudio(props: Props) {
               {taskStatus[CREATE_SCHEDULE] && 
                 <Dialog open={resolveOpen} onOpenChange={setResolveOpen}>
                   <DialogTrigger asChild>
-                    <Button className="w-full">Re-Solve Schedule</Button>
+                    <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Re-Solve Schedule</Button>
                   </DialogTrigger>
                   <SolveScheduleDialog 
                     studio={studio}

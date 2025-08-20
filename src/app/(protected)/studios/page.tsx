@@ -57,7 +57,7 @@ export default function StudiosPage() {
     }, [supabaseClient, user, toast])
 
     return (
-        <>
+        <div className="min-h-screen bg-landing-background font-arimo">
             {(loading || !user) ? <StudiosLoading /> : 
             <>
                 <Navbar />
@@ -66,6 +66,6 @@ export default function StudiosPage() {
                     user={user}
                 />
             </>}
-        </>
+        </div>
     )
 }

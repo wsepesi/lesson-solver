@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar"
 
 export default function StudioDetailLoading() {
   return (
-    <>
+    <div className="min-h-screen bg-landing-background font-arimo">
       <Navbar />
       <main className="w-full h-full py-1 px-4 md:py-1 md:px-8">
         {/* Progress section skeleton */}
@@ -25,7 +25,7 @@ export default function StudioDetailLoading() {
           {/* Main content skeleton (tasks) */}
           <section className="space-y-6 w-2/3">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="border rounded-lg p-6 space-y-4">
+              <div key={i} className="border border-landing-blue/20 rounded-lg p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <Skeleton className="h-6 w-48" />
                   <Skeleton className="h-5 w-5 rounded-full" />
@@ -39,7 +39,7 @@ export default function StudioDetailLoading() {
           {/* Sidebar skeleton */}
           <aside className="w-1/3 space-y-6">
             {/* Enrolled Students section */}
-            <section className="bg-gray-100 p-4 rounded-md">
+            <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
               <div className="flex flex-row w-full mb-4">
                 <Skeleton className="h-6 w-32" />
                 <Skeleton className="h-4 w-16 ml-auto" />
@@ -58,7 +58,7 @@ export default function StudioDetailLoading() {
             </section>
 
             {/* Admin Tasks section */}
-            <section className="bg-gray-100 p-4 rounded-md">
+            <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
               <Skeleton className="h-6 w-32 mb-4" />
               <div className="space-y-2">
                 {Array.from({ length: 4 }).map((_, i) => (
@@ -69,6 +69,6 @@ export default function StudioDetailLoading() {
           </aside>
         </div>
       </main>
-    </>
+    </div>
   )
 }

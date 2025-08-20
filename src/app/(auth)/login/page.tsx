@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 
 // check if we are on the dev env or prod, and assign BASE accordingly
 const BASE = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "TODO"; //FIXME:
@@ -146,57 +147,86 @@ export default function LoginPage() {
     };
 
     return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center ">
-        <div className="max-w-sm rounded-lg shadow-lg bg-white p-6 space-y-6 border border-gray-200 dark:border-gray-700 w-[40vw]">
-            <div className="space-y-2 text-center">
-                <h1 className="text-3xl font-bold">Log In</h1>
-                <p className="text-zinc-500 dark:text-zinc-400">
-                {sent ? "Enter the one-time code sent to your email" : "Enter your email to log in"}
-                </p>
+    <div className="min-h-screen bg-landing-background font-arimo flex flex-col">
+        {/* Header */}
+        <header className="bg-landing-blue text-white border-b border-landing-blue">
+            <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+                <Link href="/" className="text-lg font-medium hover:opacity-80 transition-opacity">
+                    Lesson Solver
+                </Link>
+                <nav className="flex items-center gap-3">
+                    <span className="text-white/60 text-sm">Already have an account?</span>
+                    <Link href="/signup">
+                        <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-landing-blue text-sm px-3 py-1">
+                            Sign Up
+                        </Button>
+                    </Link>
+                </nav>
             </div>
-            <div className="space-y-4">
-                <div className="space-y-2">
-                    <Label htmlFor="email">{sent ? "One-Time Code" : "Email"}</Label>
-                    <div className="flex flex-row">
-                        {sent ? 
-                            <>
-                                <Input 
-                                    id="code" 
-                                    placeholder={"123456"} 
-                                    required 
-                                    type="text" 
-                                    value={code} 
-                                    onChange={(e) => setCode(e.target.value)} 
-                                    disabled={loading}
-                                    onKeyDown={(e) => e.key === "Enter" && !loading && handleCodeSubmit()}
-                                />
-                                <Button 
-                                    className="mx-2 min-w-[80px]" 
-                                    onClick={handleCodeSubmit}
-                                    disabled={loading}
-                                >
-                                    {loading ? <LoadingSpinner size="sm" /> : "Verify"}
-                                </Button>
-                            </> :
-                        <>
-                            <Input 
-                                id="email" 
-                                placeholder={"m@example.com"} 
-                                required 
-                                type="email" 
-                                value={email} 
-                                onChange={handleChange} 
-                                disabled={loading}
-                                onKeyDown={(e) => e.key === "Enter" && !loading && handleClick()}
-                            />
-                            <Button 
-                                className="mx-2 min-w-[80px]" 
-                                onClick={handleClick}
-                                disabled={loading}
-                            >
-                                {loading ? <LoadingSpinner size="sm" /> : "Send Code"}
-                            </Button>
-                        </>}
+        </header>
+
+        <div className="flex-1 flex items-center justify-center px-4">
+            <div className="max-w-md w-full">
+                <div className="bg-white border border-landing-blue/20 p-8 space-y-6">
+                    <div className="space-y-2 text-center">
+                        <h1 className="text-3xl font-bold text-landing-blue">Log In</h1>
+                        <p className="text-landing-blue/70">
+                        {sent ? "Enter the one-time code sent to your email" : "Enter your email to log in"}
+                        </p>
+                    </div>
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-landing-blue font-medium">{sent ? "One-Time Code" : "Email"}</Label>
+                            <div className="flex flex-row gap-2">
+                                {sent ? 
+                                    <>
+                                        <Input 
+                                            id="code" 
+                                            placeholder={"123456"} 
+                                            required 
+                                            type="text" 
+                                            value={code} 
+                                            onChange={(e) => setCode(e.target.value)} 
+                                            disabled={loading}
+                                            onKeyDown={(e) => e.key === "Enter" && !loading && handleCodeSubmit()}
+                                            className="border-landing-blue/20 focus:border-landing-blue"
+                                        />
+                                        <Button 
+                                            className="bg-landing-blue text-white hover:bg-landing-blue-hover min-w-[80px]" 
+                                            onClick={handleCodeSubmit}
+                                            disabled={loading}
+                                        >
+                                            {loading ? <LoadingSpinner size="sm" /> : "Verify"}
+                                        </Button>
+                                    </> :
+                                <>
+                                    <Input 
+                                        id="email" 
+                                        placeholder={"m@example.com"} 
+                                        required 
+                                        type="email" 
+                                        value={email} 
+                                        onChange={handleChange} 
+                                        disabled={loading}
+                                        onKeyDown={(e) => e.key === "Enter" && !loading && handleClick()}
+                                        className="border-landing-blue/20 focus:border-landing-blue"
+                                    />
+                                    <Button 
+                                        className="bg-landing-blue text-white hover:bg-landing-blue-hover min-w-[80px]" 
+                                        onClick={handleClick}
+                                        disabled={loading}
+                                    >
+                                        {loading ? <LoadingSpinner size="sm" /> : "Send Code"}
+                                    </Button>
+                                </>}
+                            </div>
+                        </div>
+                        <div className="text-center text-sm">
+                            <span className="text-landing-blue/60">Don&apos;t have an account? </span>
+                            <Link href="/signup" className="text-landing-blue hover:text-landing-blue-hover font-medium">
+                                Sign up here
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -26,13 +26,13 @@ export default function StudioCard(props: Props) {
     const progress: Progress = determineProgress(props.studio)
     return (
         <Link href={`/studios/${code}`}>
-            <Card className="cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-gray-50 h-[20vh]">
+            <Card className="cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-landing-blue/5 h-[20vh] bg-white border border-landing-blue/20">
                 <CardContent className="grid gap-2 p-4 h-full flex flex-col justify-center">
-                    <CardTitle>{studio_name}</CardTitle>
-                    <CardDescription>Students Enrolled: {numEnrolled}</CardDescription>
-                    <CardDescription>Studio Code: {code}</CardDescription>
+                    <CardTitle className="text-landing-blue">{studio_name}</CardTitle>
+                    <CardDescription className="text-landing-blue/70">Students Enrolled: {numEnrolled}</CardDescription>
+                    <CardDescription className="text-landing-blue/70">Studio Code: {code}</CardDescription>
                     <div className="flex items-center gap-2">
-                        <Badge variant="outline">{progress}</Badge>
+                        <Badge variant="outline" className="border-landing-blue text-landing-blue">{progress}</Badge>
                     </div>
                 </CardContent>
             </Card>

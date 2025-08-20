@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-landing-background font-arimo">
       {/* Header */}
       <header className="bg-landing-blue text-white border-b border-landing-blue">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -24,7 +24,7 @@ export default function TermsPage() {
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <h1 className="text-3xl font-bold text-landing-blue mb-8">Terms of Service</h1>
         
-        <div className="prose prose-lg max-w-none text-gray-700">
+        <div className="prose prose-lg max-w-none text-landing-blue/70">
           <p className="text-lg mb-6">
             Last updated: {new Date().toLocaleDateString()}
           </p>
@@ -129,7 +129,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Changes to Terms</h2>
             <p className="mb-4">
-              We reserve the right to modify these terms at any time. We will notify users of any material changes by posting the new Terms of Service on this page and updating the "last updated" date.
+              We reserve the right to modify these terms at any time. We will notify users of any material changes by posting the new Terms of Service on this page and updating the &ldquo;last updated&rdquo; date.
             </p>
           </section>
 

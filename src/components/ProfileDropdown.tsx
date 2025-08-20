@@ -29,11 +29,11 @@ export function ProfileDropdown() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button >Settings</Button>
+          <Button className="bg-transparent border-white text-white hover:bg-white hover:text-landing-blue">Settings</Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
+        <DropdownMenuContent className="w-56 bg-white border border-landing-blue/20">
+          <DropdownMenuLabel className="text-landing-blue font-medium">My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-landing-blue/20" />
           {/* <DropdownMenuGroup> */}
             {/* <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
@@ -105,7 +105,7 @@ export function ProfileDropdown() {
             <span>API</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator /> */}
-          <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuItem onClick={handleLogout} className="text-landing-blue hover:bg-landing-blue/10 focus:bg-landing-blue/10">
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
             {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
