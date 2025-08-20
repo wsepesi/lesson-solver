@@ -30,7 +30,7 @@ import SetAvailabilityDialog from "./SetAvailabilityDialog"
 import SolveScheduleDialog from "./SolveScheduleDialog"
 import { Task } from "./Task"
 import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import type { StudentSchema } from "lib/db-types"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
@@ -229,6 +229,14 @@ export function MyStudio(props: Props) {
   const [resolveOpen, setResolveOpen] = useState<boolean>(false)
   const [unscheduledStudents, setUnscheduledStudents] = useState<string[]>(studio.unscheduled_students ?? [])
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
+  
+  // State for tracking dragged student from unscheduled list
+  const [draggedStudent, setDraggedStudent] = useState<{
+    studentId: string;
+    studentName: string;
+    lessonDuration: number;
+    studentDbId: number;
+  } | null>(null)
 
   // Using events directly for schedule display
   const [events, setEvents] = useState<Event[]>((studio.events as Event[]) ?? [])
@@ -251,6 +259,47 @@ export function MyStudio(props: Props) {
   }
 
   const hasScheduleChanged = JSON.stringify(events) !== JSON.stringify(studio.events)
+
+  // Helper function to check why a student can't be scheduled
+  const getUnscheduledReason = (studentEmail: string): string => {
+    const student = studio.students.find(s => s.email === studentEmail);
+    if (!student?.schedule) return "No availability set";
+    
+    if (!weekSchedule) return "Teacher availability not set";
+    
+    // Check for overlapping availability
+    const studentSchedule = convertScheduleToWeekSchedule(student.schedule);
+    let hasAnyOverlap = false;
+    
+    for (let day = 0; day < 7; day++) {
+      const teacherBlocks = weekSchedule.days[day]?.blocks ?? [];
+      const studentBlocks = studentSchedule.days[day]?.blocks ?? [];
+      
+      for (const teacherBlock of teacherBlocks) {
+        for (const studentBlock of studentBlocks) {
+          const overlapStart = Math.max(teacherBlock.start, studentBlock.start);
+          const overlapEnd = Math.min(
+            teacherBlock.start + teacherBlock.duration,
+            studentBlock.start + studentBlock.duration
+          );
+          const lessonDuration = parseInt(student.lesson_length ?? '60');
+          
+          if (overlapEnd > overlapStart && (overlapEnd - overlapStart) >= lessonDuration) {
+            hasAnyOverlap = true;
+            break;
+          }
+        }
+        if (hasAnyOverlap) break;
+      }
+      if (hasAnyOverlap) break;
+    }
+    
+    if (!hasAnyOverlap) {
+      return "No overlapping time with teacher availability";
+    }
+    
+    return "Scheduling conflict with other students";
+  }
 
   // Handle schedule changes from AdaptiveCalendar - validation now handled in calendar component
   const handleScheduleChange = (newSchedule: WeekSchedule) => {
@@ -402,6 +451,27 @@ export function MyStudio(props: Props) {
     }
   }
 
+  // Memoize availability data to prevent infinite re-renders
+  const { teacherAvailability, studentAvailabilities } = useMemo(() => {
+    const teacherAvail = studio.owner_schedule ? convertScheduleToWeekSchedule(studio.owner_schedule) : undefined;
+    const studentAvail = new Map<string, WeekSchedule>();
+    
+    // Build map of student availabilities
+    studio.students.forEach(student => {
+      if (student.schedule) {
+        studentAvail.set(
+          student.id.toString(),
+          convertScheduleToWeekSchedule(student.schedule)
+        );
+      }
+    });
+    
+    return {
+      teacherAvailability: teacherAvail,
+      studentAvailabilities: studentAvail
+    };
+  }, [studio.owner_schedule, studio.students]);
+
   const tasks: Task[] = [
     {
       name: "Set your availability",
@@ -473,36 +543,19 @@ export function MyStudio(props: Props) {
         {isDoneWithTasks ? 
         ( <>
           <div className="space-y-6 w-2/3">
-            {(() => {
-              // Prepare availability data for drag-and-drop hints
-              const teacherAvailability = convertScheduleToWeekSchedule(studio.owner_schedule);
-              const studentAvailabilities = new Map<string, WeekSchedule>();
-              
-              // Build map of student availabilities
-              studio.students.forEach(student => {
-                if (student.schedule) {
-                  studentAvailabilities.set(
-                    student.id.toString(), 
-                    convertScheduleToWeekSchedule(student.schedule)
-                  );
-                }
-              });
-              
-              return (
-                <div className="h-[60vh]">
-                  <AdaptiveCalendar 
-                    schedule={convertEventsToWeekSchedule(events ?? [])}
-                    onChange={handleScheduleChange}
-                    granularity={15}
-                    mode="rearrange"
-                    teacherAvailability={teacherAvailability}
-                    studentAvailabilities={studentAvailabilities}
-                    showStudentNames={true}
-                    onStudentDrop={handleStudentDrop}
-                  />
-                </div>
-              );
-            })()}
+            <div className="h-[60vh]">
+              <AdaptiveCalendar 
+                schedule={convertEventsToWeekSchedule(events ?? [])}
+                onChange={handleScheduleChange}
+                granularity={15}
+                mode="rearrange"
+                teacherAvailability={teacherAvailability}
+                studentAvailabilities={studentAvailabilities}
+                showStudentNames={true}
+                onStudentDrop={handleStudentDrop}
+                draggedStudent={draggedStudent}
+              />
+            </div>
           </div>
           
           {/* Unscheduled Students Section */}
@@ -511,8 +564,11 @@ export function MyStudio(props: Props) {
               <h3 className="text-lg font-medium text-yellow-800 mb-2">
                 Unscheduled Students ({unscheduledStudents.length})
               </h3>
-              <p className="text-sm text-yellow-700 mb-3">
+              {/* <p className="text-sm text-yellow-700 mb-3">
                 These students couldn&apos;t be automatically scheduled. Drag them to available time slots on the calendar.
+              </p> */}
+              <p className="text-sm text-yellow-700 mb-3">
+                These students couldn&apos;t be automatically scheduled.
               </p>
               <div className="flex flex-wrap gap-2">
                 {unscheduledStudents.map((studentId) => {
@@ -522,23 +578,35 @@ export function MyStudio(props: Props) {
                       key={studentId}
                       className="px-3 py-2 bg-white border border-yellow-300 rounded-md cursor-move hover:bg-yellow-100 shadow-sm"
                       draggable
-                      title={`${student.first_name} ${student.last_name} - ${student.lesson_length ?? '60'}min lessons`}
+                      title={`${student.first_name} ${student.last_name} - ${student.lesson_length ?? '60'}min lessons\nReason: ${getUnscheduledReason(student.email)}`}
                       onDragStart={(e) => {
-                        e.dataTransfer.setData("application/json", JSON.stringify({
+                        const studentData = {
                           studentId: student.email,
                           studentName: `${student.first_name} ${student.last_name}`,
                           lessonDuration: parseInt(student.lesson_length ?? '60'),
                           studentDbId: student.id
-                        }));
+                        };
+                        e.dataTransfer.setData("application/json", JSON.stringify(studentData));
                         e.dataTransfer.effectAllowed = "move";
+                        setDraggedStudent(studentData);
+                      }}
+                      onDragEnd={() => {
+                        setDraggedStudent(null);
                       }}
                     >
-                      <span className="text-sm font-medium text-gray-700">
-                        {student.first_name} {student.last_name}
-                      </span>
-                      <span className="ml-2 text-xs text-gray-500">
-                        ({student.lesson_length ?? '60'}min)
-                      </span>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-gray-700">
+                          {student.first_name} {student.last_name}
+                        </span>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-500">
+                            ({student.lesson_length ?? '60'}min)
+                          </span>
+                          <span className="text-xs text-red-500 ml-2">
+                            {getUnscheduledReason(student.email)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   ) : null;
                 })}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -376,7 +376,8 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   teacherAvailability,
   studentAvailabilities,
   showStudentNames = false,
-  onStudentDrop
+  onStudentDrop,
+  draggedStudent
 }) => {
   const [directInputStart, setDirectInputStart] = useState('');
   const [directInputEnd, setDirectInputEnd] = useState('');
@@ -405,20 +406,11 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   // State for valid drop zones (per day) during dragging
   const [validDropZonesByDay, setValidDropZonesByDay] = useState<Map<number, TimeBlock[]>>(new Map());
   
-  // State for student drag from unscheduled list
-  const [isDraggingStudent, setIsDraggingStudent] = useState(false);
-  const [draggedStudentData, setDraggedStudentData] = useState<{
-    studentId: string;
-    studentName: string;
-    lessonDuration: number;
-    studentDbId: number;
-  } | null>(null);
-  
   const { isDragging, dragStart, dragEnd, startDrag, updateDrag, endDrag } = useDragSelection();
   
-  const displayDays = showWeekends ? 
+  const displayDays = useMemo(() => showWeekends ? 
     Array.from({ length: 7 }, (_, i) => i) : 
-    Array.from({ length: 5 }, (_, i) => i + 1); // Mon-Fri
+    Array.from({ length: 5 }, (_, i) => i + 1), [showWeekends]); // Mon-Fri
 
   // Generate hour markers for the time column (every hour for 24-hour display)
   const minMinutes = timeStringToMinutes(minTime);
@@ -741,58 +733,19 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
     }
   }, [minMinutes]);
 
-  // Listen for drag events to detect student dragging
+  // Calculate valid drop zones when a student is being dragged
   useEffect(() => {
-    const handleDragEnter = (e: DragEvent) => {
-      const studentData = e.dataTransfer?.getData?.("application/json");
-      if (studentData) {
-        try {
-          const data = JSON.parse(studentData) as unknown;
-          if (typeof data === 'object' && data !== null && 
-              'studentId' in data && 'lessonDuration' in data && 
-              'studentName' in data && 'studentDbId' in data) {
-            const typedData = data as {
-              studentId: string;
-              studentName: string;
-              lessonDuration: number;
-              studentDbId: number;
-            };
-            setIsDraggingStudent(true);
-            setDraggedStudentData(typedData);
-            // Calculate valid drop zones for all days
-            const validZones = new Map<number, TimeBlock[]>();
-            displayDays.forEach(day => {
-              const zones = getValidDropZones(day, typedData.lessonDuration, typedData.studentId, teacherAvailability, studentAvailabilities);
-              validZones.set(day, zones);
-            });
-            setValidDropZonesByDay(validZones);
-          }
-        } catch {
-          // Ignore parsing errors for non-student drag events
-        }
-      }
-    };
-    
-    const handleDragLeave = (e: DragEvent) => {
-      // Only reset if we're leaving the entire component
-      if (!e.relatedTarget || !(e.target as Element).contains(e.relatedTarget as Node)) {
-        setIsDraggingStudent(false);
-        setDraggedStudentData(null);
-        setValidDropZonesByDay(new Map());
-      }
-    };
-    
-    const calendarEl = document.getElementById('adaptive-calendar');
-    if (calendarEl) {
-      calendarEl.addEventListener('dragenter', handleDragEnter);
-      calendarEl.addEventListener('dragleave', handleDragLeave);
-      
-      return () => {
-        calendarEl.removeEventListener('dragenter', handleDragEnter);
-        calendarEl.removeEventListener('dragleave', handleDragLeave);
-      };
+    if (draggedStudent) {
+      const validZones = new Map<number, TimeBlock[]>();
+      displayDays.forEach(day => {
+        const zones = getValidDropZones(day, draggedStudent.lessonDuration, draggedStudent.studentId, teacherAvailability, studentAvailabilities);
+        validZones.set(day, zones);
+      });
+      setValidDropZonesByDay(validZones);
+    } else {
+      setValidDropZonesByDay(new Map());
     }
-  }, [displayDays, teacherAvailability, studentAvailabilities]);
+  }, [draggedStudent, displayDays, teacherAvailability, studentAvailabilities]);
 
   // Validation
   const validation = validateWeekScheduleDetailed(schedule);
@@ -1023,7 +976,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
                       ))}
                       
                       {/* Valid drop zones for student dragging */}
-                      {isDraggingStudent && draggedStudentData && validDropZonesByDay.has(day) && (
+                      {draggedStudent && validDropZonesByDay.has(day) && (
                         <>
                           {validDropZonesByDay.get(day)!.map((zone, zoneIndex) => (
                             <div

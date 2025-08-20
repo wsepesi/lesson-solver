@@ -264,7 +264,9 @@ export class ScheduleSolver {
       }
       
       // Debug domain sizes
+      console.log(`[Solver] Domain sizes after preprocessing:`);
       for (const domain of domains) {
+        console.log(`[Solver]   Student ${domain.variableId}: ${domain.timeSlots.length} time slots available`);
         this.log('detailed', `Student ${domain.variableId}: ${domain.timeSlots.length} time slots available`);
       }
 
@@ -720,7 +722,9 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     const bestSolution: Assignment[] = [];
     const assignments: Assignment[] = [];
     
+    console.log(`[Solver] Stage 1: Attempting full solve with all constraints for ${targetStudents} students`);
     this.backtrack(variables, domains, assignments, context, constraints, bestSolution);
+    console.log(`[Solver] Stage 1 result: ${bestSolution.length}/${targetStudents} students scheduled`);
     
     if (bestSolution.length >= targetStudents) {
       return bestSolution; // Perfect solution found
@@ -730,41 +734,77 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     
     // Stage 2: Relax soft constraints if solution quality is too low
     const minAcceptableQuality = Math.floor(targetStudents * 0.5); // Accept 50% as minimum
+    console.log(`[Solver] Min acceptable quality: ${minAcceptableQuality} students`);
+    
     if (globalBestSolution.length < minAcceptableQuality) {
+      console.log(`[Solver] Stage 2: Relaxing soft constraints (level 1)`);
       const relaxedConstraints = this.createRelaxedConstraints(constraints, 1);
       const bestSolution2: Assignment[] = [];
       const assignments2: Assignment[] = [];
       
       this.backtrack(variables, domains, assignments2, context, relaxedConstraints, bestSolution2);
+      console.log(`[Solver] Stage 2 result: ${bestSolution2.length}/${targetStudents} students scheduled`);
       
       if (bestSolution2.length > globalBestSolution.length) {
         globalBestSolution = [...bestSolution2];
+        console.log(`[Solver] Stage 2 improved solution to ${globalBestSolution.length} students`);
       }
     }
     
     // Stage 3: Further relax constraints if still not good enough
     if (globalBestSolution.length < minAcceptableQuality) {
+      console.log(`[Solver] Stage 3: Further relaxing constraints (level 2)`);
       const veryRelaxedConstraints = this.createRelaxedConstraints(constraints, 2);
       const bestSolution3: Assignment[] = [];
       const assignments3: Assignment[] = [];
       
       this.backtrack(variables, domains, assignments3, context, veryRelaxedConstraints, bestSolution3);
+      console.log(`[Solver] Stage 3 result: ${bestSolution3.length}/${targetStudents} students scheduled`);
       
       if (bestSolution3.length > globalBestSolution.length) {
         globalBestSolution = [...bestSolution3];
+        console.log(`[Solver] Stage 3 improved solution to ${globalBestSolution.length} students`);
       }
     }
     
     // Stage 4: Emergency fallback - relax almost everything except availability
     if (globalBestSolution.length < Math.max(1, Math.floor(targetStudents * 0.4))) {
+      console.log(`[Solver] Stage 4: Emergency constraint relaxation`);
       const emergencyConstraints = this.createEmergencyConstraints(constraints);
       const bestSolution4: Assignment[] = [];
       const assignments4: Assignment[] = [];
       
       this.backtrack(variables, domains, assignments4, context, emergencyConstraints, bestSolution4);
+      console.log(`[Solver] Stage 4 result: ${bestSolution4.length}/${targetStudents} students scheduled`);
       
       if (bestSolution4.length > globalBestSolution.length) {
         globalBestSolution = [...bestSolution4];
+        console.log(`[Solver] Stage 4 improved solution to ${globalBestSolution.length} students`);
+      }
+    }
+    
+    // Stage 5: Greedy fallback - schedule all students with non-empty domains
+    if (globalBestSolution.length < targetStudents) {
+      console.log(`[Solver] Stage 5: Greedy fallback for unscheduled students`);
+      
+      // Reconstruct teacher config from context
+      const teacher: TeacherConfig = {
+        person: { 
+          id: 'teacher', 
+          name: 'Teacher',
+          email: 'teacher@example.com'
+        }, // Placeholder - not used in greedy scheduling
+        studioId: 'placeholder',
+        availability: context.teacherAvailability,
+        constraints: context.constraints
+      };
+      
+      const greedyAssignments = this.greedySchedule(variables, domains, context, constraints, teacher);
+      console.log(`[Solver] Stage 5 result: ${greedyAssignments.length}/${targetStudents} students scheduled`);
+      
+      if (greedyAssignments.length > globalBestSolution.length) {
+        globalBestSolution = [...greedyAssignments];
+        console.log(`[Solver] Stage 5 improved solution to ${globalBestSolution.length} students`);
       }
     }
     
@@ -821,6 +861,117 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     }
     
     return emergencyManager;
+  }
+
+  /**
+   * Greedy scheduling fallback - place students one by one without backtracking
+   * Works independently by calculating fresh mutual availability
+   */
+  private greedySchedule(
+    variables: Variable[],
+    _domains: Map<string, Domain>,
+    context: SolverContext,
+    _constraints: ConstraintManager,
+    teacher: TeacherConfig
+  ): Assignment[] {
+    const assignments: Assignment[] = [];
+    
+    for (const variable of variables) {
+      const student = variable.studentConfig;
+      
+      // Calculate fresh mutual availability for this student
+      const mutualSlots = this.calculateMutualAvailability(teacher, student);
+      
+      if (mutualSlots.length === 0) {
+        console.log(`[Solver] Greedy: Student ${variable.studentId} has no mutual availability with teacher`);
+        continue;
+      }
+      
+      console.log(`[Solver] Greedy: Student ${variable.studentId} has ${mutualSlots.length} potential slots`);
+      
+      // Try to place the student in a valid slot that doesn't conflict
+      let placed = false;
+      for (const slot of mutualSlots) {
+        // Check if this slot conflicts with already scheduled students
+        const hasConflict = assignments.some(existing => {
+          return this.slotsOverlap(existing.timeSlot, slot);
+        });
+        
+        if (!hasConflict) {
+          const assignment: Assignment = {
+            variable,
+            timeSlot: slot,
+            violationCost: 0 // Minimal cost for greedy placement
+          };
+          
+          assignments.push(assignment);
+          console.log(`[Solver] Greedy: Scheduled student ${variable.studentId} at day ${slot.dayOfWeek}, ${slot.startMinute}-${slot.startMinute + slot.durationMinutes}`);
+          placed = true;
+          break;
+        }
+      }
+      
+      if (!placed) {
+        console.log(`[Solver] Greedy: Could not place student ${variable.studentId} - all slots conflict`);
+      }
+    }
+    
+    return assignments;
+  }
+
+  /**
+   * Calculate mutual availability between teacher and student
+   */
+  private calculateMutualAvailability(teacher: TeacherConfig, student: StudentConfig): TimeSlot[] {
+    const mutualSlots: TimeSlot[] = [];
+    const duration = student.preferredDuration || 60;
+    
+    // Check each day of the week
+    for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+      const teacherDay = teacher.availability.days[dayOfWeek];
+      const studentDay = student.availability.days[dayOfWeek];
+      
+      if (!teacherDay || !studentDay || 
+          !teacherDay.blocks || teacherDay.blocks.length === 0 ||
+          !studentDay.blocks || studentDay.blocks.length === 0) {
+        continue;
+      }
+      
+      // Find overlapping time blocks
+      for (const teacherBlock of teacherDay.blocks) {
+        for (const studentBlock of studentDay.blocks) {
+          const overlapStart = Math.max(teacherBlock.start, studentBlock.start);
+          const teacherEnd = teacherBlock.start + teacherBlock.duration;
+          const studentEnd = studentBlock.start + studentBlock.duration;
+          const overlapEnd = Math.min(teacherEnd, studentEnd);
+          
+          // Check if there's enough overlap for the lesson duration
+          if (overlapEnd - overlapStart >= duration) {
+            // Generate possible starting times within the overlap (every 15 minutes)
+            for (let startTime = overlapStart; startTime <= overlapEnd - duration; startTime += 15) {
+              mutualSlots.push({
+                dayOfWeek,
+                startMinute: startTime,
+                durationMinutes: duration
+              });
+            }
+          }
+        }
+      }
+    }
+    
+    // Shuffle for randomness
+    for (let i = mutualSlots.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = mutualSlots[i];
+      const elementJ = mutualSlots[j];
+      if (temp && elementJ) {
+        mutualSlots[i] = elementJ;
+        mutualSlots[j] = temp;
+      }
+    }
+    
+    return mutualSlots;
   }
 
   private backtrack(
@@ -959,6 +1110,10 @@ class BacktrackingSearchStrategy implements SearchStrategy {
       if (!domain) continue;
       
       const domainSize = domain.timeSlots.length;
+      
+      // Skip students with no available time slots to prevent immediate failure
+      if (domainSize === 0) continue;
+      
       const degree = 0; // Temporarily disable degree calculation
       
       // Select if domain is strictly smaller, or if equal domain size but higher degree

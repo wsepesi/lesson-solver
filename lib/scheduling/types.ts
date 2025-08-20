@@ -125,6 +125,13 @@ export type CalendarProps = {
     lessonDuration: number;
     studentDbId: number;
   }, dayIndex: number, startMinute: number) => void;
+  // Currently dragged student (for visual feedback)
+  draggedStudent?: {
+    studentId: string;
+    studentName: string;
+    lessonDuration: number;
+    studentDbId: number;
+  } | null;
 }
 
 // Time selection and interaction types
