@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -72,5 +74,141 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+  
+  .animate-music-drift-gentle {
+    animation: music-drift-gentle 28s ease-in infinite;
+  }
+  
+  .animate-music-drift-flutter {
+    animation: music-drift-flutter 19s ease-out infinite;
+  }
+  
+  .animate-music-drift-drift {
+    animation: music-drift-drift 21s linear infinite;
+  }
+  
+  .animate-music-drift-erratic {
+    animation: music-drift-erratic 18s ease-in-out infinite;
+  }
+  
+  .animate-music-drift-jittery {
+    animation: music-drift-jittery 22s ease-out infinite;
+  }
+  
+  .animate-music-drift-random {
+    animation: music-drift-random 16s linear infinite;
+  }
+  
+  .animate-music-drift-chaotic {
+    animation: music-drift-chaotic 14s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  }
+  
+  .animate-music-drift-glide {
+    animation: music-drift-glide 26s ease-in-out infinite;
+  }
+  
+  .animate-music-drift-flow {
+    animation: music-drift-flow 23s ease-in infinite;
+  }
+  
+  .animate-music-drift-whisper {
+    animation: music-drift-whisper 30s linear infinite;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @keyframes music-drift-gentle {
+    0% { transform: translateX(135%); opacity: 0.1; }
+    25% { transform: translateX(90%); opacity: 0.3; }
+    50% { transform: translateX(45%); opacity: 0.2; }
+    75% { transform: translateX(5%); opacity: 0.4; }
+    100% { transform: translateX(-135%); opacity: 0.1; }
+  }
+  
+  @keyframes music-drift-flutter {
+    0% { transform: translateX(125%) scale(0.9); }
+    20% { transform: translateX(95%) scale(1.1); }
+    40% { transform: translateX(65%) scale(0.8); }
+    60% { transform: translateX(35%) scale(1.2); }
+    80% { transform: translateX(5%) scale(0.9); }
+    100% { transform: translateX(-125%) scale(1.0); }
+  }
+  
+  @keyframes music-drift-drift {
+    0% { transform: translateX(120%); }
+    30% { transform: translateX(70%); }
+    70% { transform: translateX(20%); }
+    100% { transform: translateX(-120%); }
+  }
+  
+  @keyframes music-drift-erratic {
+    0% { transform: translateX(120%); }
+    15% { transform: translateX(90%) scale(1.1); }
+    35% { transform: translateX(50%) scale(0.9); }
+    55% { transform: translateX(20%) scale(1.05); }
+    75% { transform: translateX(-10%) scale(0.95); }
+    100% { transform: translateX(-120%); }
+  }
+  
+  @keyframes music-drift-jittery {
+    0% { transform: translateX(110%); }
+    20% { transform: translateX(75%) scale(1.05); }
+    40% { transform: translateX(45%) scale(0.95); }
+    60% { transform: translateX(15%) scale(1.1); }
+    80% { transform: translateX(-15%) scale(0.9); }
+    100% { transform: translateX(-110%); }
+  }
+  
+  @keyframes music-drift-random {
+    0% { transform: translateX(115%); opacity: 0.6; }
+    25% { transform: translateX(80%); opacity: 0.8; }
+    50% { transform: translateX(30%); opacity: 0.9; }
+    75% { transform: translateX(-20%); opacity: 0.7; }
+    100% { transform: translateX(-115%); opacity: 0.5; }
+  }
+  
+  @keyframes music-drift-chaotic {
+    0% { transform: translateX(130%) scale(0.8); }
+    15% { transform: translateX(95%) scale(1.2); }
+    30% { transform: translateX(70%) scale(0.7); }
+    45% { transform: translateX(40%) scale(1.1); }
+    60% { transform: translateX(10%) scale(0.9); }
+    75% { transform: translateX(-25%) scale(1.3); }
+    90% { transform: translateX(-60%) scale(0.6); }
+    100% { transform: translateX(-130%) scale(0.8); }
+  }
+  
+  @keyframes music-drift-glide {
+    0% { transform: translateX(140%); opacity: 0.2; }
+    40% { transform: translateX(60%); opacity: 0.4; }
+    60% { transform: translateX(40%); opacity: 0.3; }
+    100% { transform: translateX(-140%); opacity: 0.1; }
+  }
+  
+  @keyframes music-drift-flow {
+    0% { transform: translateX(130%) scale(0.95); }
+    30% { transform: translateX(80%) scale(1.05); }
+    70% { transform: translateX(20%) scale(0.9); }
+    100% { transform: translateX(-130%) scale(1.0); }
+  }
+  
+  @keyframes music-drift-whisper {
+    0% { transform: translateX(150%); opacity: 0.05; }
+    50% { transform: translateX(25%); opacity: 0.15; }
+    100% { transform: translateX(-150%); opacity: 0.05; }
   }
 }

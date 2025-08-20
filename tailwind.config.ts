@@ -53,6 +53,15 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Landing page specific colors
+        landing: {
+          blue: "#021093",
+          "blue-hover": "#010c7a",
+          background: "#fffcf9",
+        },
+      },
+      fontFamily: {
+        arimo: ['Arimo', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

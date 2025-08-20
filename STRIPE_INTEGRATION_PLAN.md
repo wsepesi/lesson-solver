@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This document outlines the complete implementation plan for integrating Stripe payments and implementing a free/pro tier system for the Lesson Solver application. The plan is designed for parallel execution across a development team with clear dependencies and timelines.
+This document outlines the complete implementation plan for integrating Stripe payments and implementing a three-tier system for the Lesson Solver application. The pricing strategy is optimized for real music studios (5+ students) with semester-based usage patterns (typically 2x per year). The free tier serves as a demo for teachers to evaluate the software before committing to paid plans.
 
 ## Current Architecture Analysis
 
@@ -15,14 +15,15 @@ This document outlines the complete implementation plan for integrating Stripe p
 
 ## Proposed Tier Structure
 
-| Feature | Free | Pro ($19/mo) | Enterprise ($99/mo) |
-|---------|------|--------------|-------------------|
-| Studios | 1 | 5 | Unlimited |
-| Students per studio | 10 | 100 | Unlimited |
+| Feature | Free | Pro ($50/year) | Enterprise (Custom) |
+|---------|------|---------------|-------------------|
+| Studios | 1 | 50 | Unlimited |
+| Students per studio | 5 | 50 | Unlimited |
+| Solves per year | 3 | 100 | Unlimited |
 | Advanced scheduling | Basic | ✓ | ✓ |
 | Analytics dashboard | Basic | Advanced | Advanced + Custom |
 | API access | ❌ | Limited | Full |
-| Priority support | ❌ | Email | Phone + Email |
+| Priority support | Basic | Email | Dedicated + Phone |
 | Custom branding | ❌ | ❌ | ✓ |
 | Export formats | CSV | CSV + PDF | All formats |
 | Bulk operations | ❌ | ✓ | ✓ |
@@ -66,6 +67,7 @@ This document outlines the complete implementation plan for integrating Stripe p
     tier subscription_tier PRIMARY KEY,
     max_studios INTEGER,
     max_students_per_studio INTEGER,
+    max_solves_per_year INTEGER,
     api_access BOOLEAN DEFAULT FALSE,
     advanced_features JSONB DEFAULT '{}'
   );
@@ -131,6 +133,7 @@ This document outlines the complete implementation plan for integrating Stripe p
     tier: SubscriptionTier;
     max_studios: number | null; // null = unlimited
     max_students_per_studio: number | null;
+    max_solves_per_year: number | null;
     api_access: boolean;
     advanced_features: Record<string, boolean>;
   }
@@ -213,7 +216,7 @@ This document outlines the complete implementation plan for integrating Stripe p
 - [ ] Test webhook handling with Stripe CLI
 
 ### Phase 4: Subscription Management APIs (Week 2-3)
-**Estimated Time**: 3 days  
+**Estimated Time**: 4 days  
 **Team Members**: 2 (Backend)
 
 #### 4.1 Subscription API Routes
@@ -250,23 +253,139 @@ This document outlines the complete implementation plan for integrating Stripe p
 - [ ] Implement usage tracking functions
 - [ ] Add usage increment functions (called on resource creation)
 
+#### 4.3 Homepage Integration API Endpoints
+**Assignee**: Backend Engineer  
+**Duration**: 1 day  
+**Dependencies**: Subscription API routes
+
+- [ ] Create `src/app/api/contact/enterprise/route.ts`
+  - [ ] POST: Handle enterprise inquiry form submissions
+  - [ ] Send email notifications to sales team
+  - [ ] Store inquiries in database for follow-up
+  - [ ] Return confirmation message
+
+- [ ] Update `src/app/api/subscriptions/checkout/route.ts`
+  - [ ] Add tier validation (ensure only 'pro' tier for now)
+  - [ ] Handle unauthenticated users (return 401 with clear message)
+  - [ ] Add success/cancel URL configuration
+  - [ ] Set up proper metadata for tracking conversions
+
+- [ ] Create user profile initialization endpoint
+  - [ ] Auto-assign free tier on new user registration
+  - [ ] Handle tier parameter from signup flow
+  - [ ] Initialize usage tracking for new users
+
 ### Phase 5: Frontend Subscription Management (Week 3-4)
-**Estimated Time**: 4-5 days  
+**Estimated Time**: 5-6 days  
 **Team Members**: 2 (Frontend)
 
-#### 5.1 Pricing Page
+#### 5.1 Homepage Button Integration
+**Assignee**: Frontend Engineer  
+**Duration**: 1 day  
+**Dependencies**: Authentication system, API routes
+
+- [ ] Update homepage pricing buttons with proper click handlers
+  ```typescript
+  // Try Free Button Flow
+  const handleTryFree = () => {
+    // Redirect to signup with free tier parameter
+    router.push('/signup?tier=free');
+  };
+  
+  // Get Pro Button Flow  
+  const handleGetPro = async () => {
+    if (!user) {
+      // Store intent and redirect to login
+      localStorage.setItem('pendingSubscription', 'pro');
+      router.push('/login?redirect=checkout');
+    } else {
+      // Create checkout session and redirect to Stripe
+      const response = await fetch('/api/subscriptions/checkout', {
+        method: 'POST',
+        body: JSON.stringify({ tier: 'pro' })
+      });
+      const { url } = await response.json();
+      window.location.href = url;
+    }
+  };
+  
+  // Contact Sales Button Flow
+  const handleContactSales = () => {
+    // Redirect to enterprise contact form
+    router.push('/contact?plan=enterprise');
+  };
+  ```
+
+- [ ] Add loading states to buttons during checkout creation
+- [ ] Add error handling for failed checkout creation
+- [ ] Update button styles to indicate clickable actions
+
+#### 5.2 Authentication Flow Integration
+**Assignee**: Frontend Engineer  
+**Duration**: 1 day  
+**Dependencies**: Homepage button integration
+
+- [ ] Update signup flow to handle tier parameter
+  ```typescript
+  // In signup page: /signup?tier=free
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tier = urlParams.get('tier');
+    if (tier === 'free') {
+      // Pre-select free tier and auto-assign after signup
+      setSelectedTier('free');
+    }
+  }, []);
+  ```
+
+- [ ] Update login flow to handle pending subscriptions
+  ```typescript
+  // In login success callback
+  useEffect(() => {
+    const pendingSubscription = localStorage.getItem('pendingSubscription');
+    if (pendingSubscription && user) {
+      localStorage.removeItem('pendingSubscription');
+      // Redirect to checkout for the pending subscription
+      router.push(`/checkout?tier=${pendingSubscription}`);
+    }
+  }, [user]);
+  ```
+
+- [ ] Create post-signup tier assignment logic
+- [ ] Add tier assignment to user profile creation
+
+#### 5.3 Enterprise Contact Form
+**Assignee**: Frontend Engineer  
+**Duration**: 1 day  
+**Dependencies**: Basic form infrastructure
+
+- [ ] Create `src/app/contact/page.tsx`
+- [ ] Design enterprise inquiry form with fields:
+  - [ ] Name, Email, Company/Institution
+  - [ ] Number of instructors/departments
+  - [ ] Estimated student count
+  - [ ] Current scheduling solution
+  - [ ] Timeline for implementation
+  - [ ] Additional requirements/notes
+
+- [ ] Add form validation with Zod
+- [ ] Create API endpoint for form submission
+- [ ] Set up email notifications for enterprise inquiries
+- [ ] Add confirmation page/message after submission
+
+#### 5.4 Pricing Page
 **Assignee**: Frontend Lead  
 **Duration**: 2 days  
-**Dependencies**: Types, API routes
+**Dependencies**: Types, API routes, button integration
 
 - [ ] Create `src/app/pricing/page.tsx`
 - [ ] Design responsive pricing table
 - [ ] Add feature comparison matrix
-- [ ] Implement "Choose Plan" buttons with Stripe Checkout
-- [ ] Add FAQ section
+- [ ] Implement "Choose Plan" buttons with same logic as homepage
+- [ ] Add FAQ section addressing common pricing questions
 - [ ] Add testimonials/social proof
 
-#### 5.2 Subscription Management UI
+#### 5.5 Subscription Management UI
 **Assignee**: Frontend Engineer  
 **Duration**: 3 days  
 **Dependencies**: Pricing page, API routes
@@ -288,7 +407,7 @@ This document outlines the complete implementation plan for integrating Stripe p
 
 - [ ] Add billing management to user dropdown/profile
 
-#### 5.3 Upgrade Prompts & Tier Gates
+#### 5.6 Upgrade Prompts & Tier Gates
 **Assignee**: Frontend Engineer  
 **Duration**: 2 days  
 **Dependencies**: Subscription management UI
@@ -470,26 +589,31 @@ Week 2: Stripe Integration Core
 ├── Day 5: Usage Tracking APIs (Backend Engineer)
 
 Week 3: Frontend Foundation
-├── Days 1-2: Pricing Page (Frontend Lead)
+├── Day 1: Homepage Button Integration (Frontend Engineer)
+├── Day 2: Authentication Flow Integration (Frontend Engineer)
+├── Day 3: Enterprise Contact Form (Frontend Engineer)
+├── Days 4-5: Pricing Page (Frontend Lead)
+
+Week 4: Frontend Subscription Management
 ├── Days 1-3: Subscription Management UI (Frontend Engineer)
 ├── Days 4-5: Upgrade Prompts & Tier Gates (Frontend Engineer)
 
-Week 4: Feature Implementation
+Week 5: Feature Implementation
 ├── Days 1-2: Server-Side Enforcement (Full-stack Engineer)
 ├── Days 1-2: Client-Side Feature Gating (Frontend Engineer)
 ├── Days 3-4: Advanced Features by Tier (Full-stack Engineer)
 
-Week 5: Analytics & Polish
+Week 6: Analytics & Polish
 ├── Days 1-2: Usage Analytics (Full-stack Engineer)
 ├── Day 3: Monitoring & Alerting (DevOps Engineer)
 ├── Days 4-5: UI Polish & Edge Cases (Frontend Team)
 
-Week 6: Testing Phase
+Week 7: Testing Phase
 ├── Days 1-2: Integration Testing (All team members)
 ├── Days 3-4: End-to-End Testing (QA Engineer)
 ├── Day 5: Edge Case Testing (All team members)
 
-Week 7: Documentation & Launch
+Week 8: Documentation & Launch
 ├── Days 1-2: Documentation (Technical Writer)
 ├── Day 3: Production Deployment (DevOps)
 ├── Days 4-5: Launch Monitoring & Bug Fixes (All team members)
@@ -576,11 +700,17 @@ To begin implementation:
 3. **Daily standups**: Track progress against this timeline
 4. **Weekly reviews**: Assess progress and adjust timelines as needed
 
-**Estimated Total Effort**: 35-40 developer days across 7 weeks
+**Estimated Total Effort**: 40-45 developer days across 8 weeks
 
 **Estimated Budget**: 
 - Development: $50,000-70,000 (depending on team rates)
 - Stripe fees: 2.9% + 30¢ per transaction
 - Infrastructure: ~$500-1000/month additional costs
+
+**Pricing Strategy Notes**:
+- Free tier (5 students, 3 solves) positioned as demo for teachers
+- Pro tier ($50/year) targets individual teachers with realistic studio sizes
+- Enterprise tier targets music departments and larger institutions
+- Annual billing aligns with semester-based usage patterns (typically 2x/year)
 
 This plan provides a comprehensive roadmap for implementing a production-ready Stripe integration with a robust tier system that can scale with your business growth.
