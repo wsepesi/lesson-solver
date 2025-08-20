@@ -52,6 +52,7 @@
     "**/test-generator/**",
     "**/visualizer/**",
     "**/solver-wrapper.ts",
+    "debugging-scripts/**",
     "debug-*.ts",
     "profile-*.ts",
     "validate-*.js",

@@ -1,10 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import type { StudentConfig } from '../lib/scheduling/types';
 
 // Load the extracted test data
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const testDataPath = path.join(__dirname, 'lib/scheduling/tests/extracted-test-data.json');
+const testDataPath = path.join(__dirname, '../lib/scheduling/tests/extracted-test-data.json');
 const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf8'));
 
 const testCase = testData.testCases[0];
@@ -27,7 +28,7 @@ for (let dayOfWeek = 1; dayOfWeek <= 5; dayOfWeek++) {
   console.log(`Teacher available: ${teacherBlock.start}-${teacherBlock.start + teacherBlock.duration} (${teacherBlock.duration} minutes)`);
   
   // Get students available on this day
-  const studentsOnDay = testCase.students.filter(student => 
+  const studentsOnDay = testCase.students.filter((student: StudentConfig) => 
     student.availability.days.some(day => day.dayOfWeek === dayOfWeek && day.blocks.length > 0)
   );
   
@@ -44,7 +45,7 @@ for (let dayOfWeek = 1; dayOfWeek <= 5; dayOfWeek++) {
   // Count how many students are available for each slot
   let filledSlots = 0;
   possibleSlots.forEach((slot, i) => {
-    const availableStudents = studentsOnDay.filter(student => {
+    const availableStudents = studentsOnDay.filter((student: StudentConfig) => {
       const studentDay = student.availability.days.find(day => day.dayOfWeek === dayOfWeek);
       if (!studentDay || studentDay.blocks.length === 0) return false;
       

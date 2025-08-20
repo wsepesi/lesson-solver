@@ -3,9 +3,9 @@
  * Profiles different stages by running targeted tests
  */
 
-import { ScheduleSolver } from './lib/scheduling/solver';
-import { StudentGenerator } from './lib/scheduling/test-generator/generators';
-import type { TeacherConfig, StudentConfig, Person, SchedulingConstraints } from './lib/scheduling/types';
+import { ScheduleSolver } from '../lib/scheduling/solver';
+import { StudentGenerator } from '../lib/scheduling/test-generator/generators';
+import type { TeacherConfig, StudentConfig, Person, SchedulingConstraints } from '../lib/scheduling/types';
 
 // Timing utilities
 interface TimingResult {

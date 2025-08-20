@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { ScheduleSolver } from './lib/scheduling/solver-wrapper.ts';
+import { ScheduleSolver } from '../lib/scheduling/solver-wrapper';
 
 // Load the extracted test data
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const testDataPath = path.join(__dirname, 'lib/scheduling/tests/extracted-test-data.json');
+const testDataPath = path.join(__dirname, '../lib/scheduling/tests/extracted-test-data.json');
 const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf8'));
 
 const testCase = testData.testCases[0];

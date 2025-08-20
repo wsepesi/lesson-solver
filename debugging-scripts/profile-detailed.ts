@@ -3,9 +3,9 @@
  * Breaks down execution time by component for flamegraph-like analysis
  */
 
-import { ScheduleSolver } from './lib/scheduling/solver';
-import { StudentGenerator } from './lib/scheduling/test-generator/generators';
-import type { TeacherConfig, StudentConfig, WeekSchedule, SchedulingConstraints, Person } from './lib/scheduling/types';
+import { ScheduleSolver } from '../lib/scheduling/solver';
+import { StudentGenerator } from '../lib/scheduling/test-generator/generators';
+import type { TeacherConfig, StudentConfig, WeekSchedule, SchedulingConstraints, Person } from '../lib/scheduling/types';
 
 // Performance tracking utilities
 class PerformanceProfiler {
