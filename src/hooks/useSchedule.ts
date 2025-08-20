@@ -81,7 +81,7 @@ export type ScheduleError = {
  * Schedule persistence hook for managing TimeBlock-based schedules
  * Provides auto-save functionality with debouncing and optimistic updates
  */
-export function useSchedule(ownerId: string) {
+export function useSchedule(studioId: string | number) {
   const [schedule, setSchedule] = useState<WeekSchedule | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -96,18 +96,17 @@ export function useSchedule(ownerId: string) {
    * Save schedule to Supabase using existing schema
    * This bridges the gap until Phase 1.2 schema is implemented
    */
-  const saveScheduleToSupabase = useCallback(async (schedule: WeekSchedule, ownerId: string) => {
+  const saveScheduleToSupabase = useCallback(async (schedule: WeekSchedule, studioId: string | number) => {
     // Convert WeekSchedule to JSON format for storage
     const jsonSchedule = convertWeekScheduleToJson(schedule);
     
-    // For now, we'll store in the studios table as teacher schedules
-    // TODO: Add logic to determine teacher vs student and route accordingly
+    // Store in the specific studio's owner_schedule field
     const { error: updateError } = await supabaseClient
       .from('studios')
       .update({ 
         owner_schedule: jsonSchedule
       })
-      .eq('user_id', ownerId);
+      .eq('id', studioId);
 
     if (updateError) {
       throw new Error(`Database update failed: ${updateError.message}`);
@@ -134,7 +133,7 @@ export function useSchedule(ownerId: string) {
         }
 
         // Save to database
-        await saveScheduleToSupabase(newSchedule, ownerId);
+        await saveScheduleToSupabase(newSchedule, studioId);
         
         lastSavedScheduleRef.current = cloneWeekSchedule(newSchedule);
         setHasUnsavedChanges(false);
@@ -152,16 +151,16 @@ export function useSchedule(ownerId: string) {
       }
       })();
     }, 1000);
-  }, [ownerId, saveScheduleToSupabase]);
+  }, [studioId, saveScheduleToSupabase]);
 
   /**
    * Load schedule from Supabase
    */
-  const loadScheduleFromSupabase = useCallback(async (ownerId: string): Promise<WeekSchedule> => {
+  const loadScheduleFromSupabase = useCallback(async (studioId: string | number): Promise<WeekSchedule> => {
     const { data, error: fetchError } = await supabaseClient
       .from('studios')
       .select('owner_schedule')
-      .eq('user_id', ownerId)
+      .eq('id', studioId)
       .single();
 
     if (fetchError) {
@@ -244,10 +243,10 @@ export function useSchedule(ownerId: string) {
   };
 
   /**
-   * Load schedule on mount and when ownerId changes
+   * Load schedule on mount and when studioId changes
    */
   useEffect(() => {
-    if (!ownerId) {
+    if (!studioId) {
       setLoading(false);
       return;
     }
@@ -257,7 +256,7 @@ export function useSchedule(ownerId: string) {
         setLoading(true);
         setError(null);
         
-        const loadedSchedule = await loadScheduleFromSupabase(ownerId);
+        const loadedSchedule = await loadScheduleFromSupabase(studioId);
         setSchedule(loadedSchedule);
         lastSavedScheduleRef.current = cloneWeekSchedule(loadedSchedule);
         setHasUnsavedChanges(false);
@@ -282,7 +281,7 @@ export function useSchedule(ownerId: string) {
     };
 
     void loadInitialSchedule();
-  }, [ownerId, supabaseClient, loadScheduleFromSupabase]);
+  }, [studioId, supabaseClient, loadScheduleFromSupabase]);
 
   /**
    * Update schedule with optimistic updates and auto-save
@@ -327,7 +326,7 @@ export function useSchedule(ownerId: string) {
       setSaving(true);
       setError(null);
       
-      await saveScheduleToSupabase(schedule, ownerId);
+      await saveScheduleToSupabase(schedule, studioId);
       lastSavedScheduleRef.current = cloneWeekSchedule(schedule);
       setHasUnsavedChanges(false);
       
@@ -342,7 +341,7 @@ export function useSchedule(ownerId: string) {
     } finally {
       setSaving(false);
     }
-  }, [schedule, ownerId, saveScheduleToSupabase]);
+  }, [schedule, studioId, saveScheduleToSupabase]);
 
   /**
    * Reset schedule to last saved state

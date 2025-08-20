@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
+    Dialog,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -63,12 +64,53 @@ type Props = {
 }
 
 
-const readyToSolve = (taskStatus: boolean[]): boolean => {
-    // true if 0 and 1 are true
-    if (taskStatus.length < 2) {
-        throw new Error("Task status must have length 2")
+type ValidationResult = {
+    canSolve: boolean;
+    errors: string[];
+    warnings: string[];
+    studentsWithoutSchedules: number;
+    totalStudents: number;
+}
+
+const validateSolveConditions = (studio: StudioWithStudents): ValidationResult => {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    
+    // Check if teacher has set availability
+    if (!studio.owner_schedule) {
+        errors.push("No teacher availability set. Please set your availability first.");
     }
-    return !!taskStatus[0] && !!taskStatus[1]
+    
+    // Check if any students are onboarded
+    if (!studio.students || studio.students.length === 0) {
+        errors.push("No students onboarded. Please share your studio code with students first.");
+        return {
+            canSolve: false,
+            errors,
+            warnings,
+            studentsWithoutSchedules: 0,
+            totalStudents: 0
+        };
+    }
+    
+    // Check student schedules
+    const totalStudents = studio.students.length;
+    const studentsWithSchedules = studio.students.filter(student => student.schedule).length;
+    const studentsWithoutSchedules = totalStudents - studentsWithSchedules;
+    
+    if (studentsWithSchedules === 0) {
+        errors.push("No student schedules found. Students need to set their availability before you can create a schedule.");
+    } else if (studentsWithoutSchedules > 0) {
+        warnings.push(`${studentsWithoutSchedules} of ${totalStudents} students haven't set their availability yet and won't be scheduled.`);
+    }
+    
+    return {
+        canSolve: errors.length === 0,
+        errors,
+        warnings,
+        studentsWithoutSchedules,
+        totalStudents: studentsWithSchedules
+    };
 }
 
 
@@ -114,12 +156,36 @@ export default function SolveScheduleDialog(props: Props) {
     const [breakLength, setBreakLength] = useState("30")
     const [backToBackPreference, setBackToBackPreference] = useState("agnostic")
     const [, setLoading] = useState(false)
+    const [showWarningDialog, setShowWarningDialog] = useState(false)
+    const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
 
     const handleClick = async () => {
-        if (!readyToSolve(props.taskStatus)) {
-            alert("Please fill out student schedules and your schedule before generating a final schedule.")
-            return
+        const validation = validateSolveConditions(props.studio);
+        
+        // Show errors if validation fails
+        if (!validation.canSolve) {
+            validation.errors.forEach(error => {
+                toast({
+                    title: "Cannot solve schedule",
+                    description: error,
+                    variant: "destructive",
+                });
+            });
+            return;
         }
+        
+        // Show warnings and get user confirmation if needed
+        if (validation.warnings.length > 0) {
+            setValidationResult(validation);
+            setShowWarningDialog(true);
+            return;
+        }
+        
+        // Proceed with solving if no errors or warnings
+        await executeSolve();
+    }
+
+    const executeSolve = async () => {
         setLoading(true)
         try {
             // Convert studio data to WeekSchedule format
@@ -265,6 +331,37 @@ export default function SolveScheduleDialog(props: Props) {
                     >Schedule</Button>
                 </DialogFooter>
             </DialogContent>
+            
+            {/* Warning dialog for incomplete student schedules */}
+            <Dialog open={showWarningDialog} onOpenChange={setShowWarningDialog}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Some Students Haven&apos;t Set Availability</DialogTitle>
+                        <DialogDescription>
+                            Not all students have set their availability. These students won&apos;t be included in the schedule.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                        {validationResult?.warnings.map((warning, index) => (
+                            <p key={index} className="text-sm text-muted-foreground">{warning}</p>
+                        ))}
+                        <p className="text-sm font-medium">
+                            Only {validationResult?.totalStudents} students will be scheduled.
+                        </p>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowWarningDialog(false)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={async () => {
+                            setShowWarningDialog(false);
+                            await executeSolve();
+                        }}>
+                            Continue Anyway
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     )
 }

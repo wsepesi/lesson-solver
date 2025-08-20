@@ -41,6 +41,7 @@ import { AdaptiveCalendar } from "./scheduling/AdaptiveCalendar"
 import { createEmptyWeekSchedule } from "lib/scheduling/utils"
 import type { WeekSchedule } from "lib/scheduling/types"
 import { convertScheduleToWeekSchedule } from "lib/scheduling-adapter"
+import { dayNames, timeBlockToString } from "lib/scheduling/display-utils"
 
 // Event type previously from InteractiveCalendar - now defined inline
 export interface Event {
@@ -100,6 +101,33 @@ export const eventListToEltList = (events: Event[]): React.JSX.Element[] => {
 
 const getStudentProgress = (student: StudentSchema) => {
   return student.schedule === null ?  "Not Started" : "Completed"
+}
+
+const formatStudentAvailability = (student: StudentSchema) => {
+  if (!student.schedule) {
+    return "No availability set"
+  }
+
+  const weekSchedule = convertScheduleToWeekSchedule(student.schedule)
+  const availableDays: string[] = []
+
+  weekSchedule.days.forEach((day, index) => {
+    if (day.blocks && day.blocks.length > 0) {
+      const dayName = dayNames[index]
+      const timeRanges = day.blocks.map(block => timeBlockToString(block)).join(", ")
+      availableDays.push(`${dayName}: ${timeRanges}`)
+    }
+  })
+
+  if (availableDays.length === 0) {
+    return "No availability set"
+  }
+
+  const lessonDuration = student.lesson_duration_minutes 
+    ? `${student.lesson_duration_minutes} min lessons`
+    : student.lesson_length === "30" ? "30 min lessons" : "60 min lessons"
+
+  return `${availableDays.join('\n')}\n\nPreferred: ${lessonDuration}`
 }
 
 // Note: Event metadata is now stored directly in TimeBlock.metadata
@@ -182,7 +210,7 @@ export function MyStudio(props: Props) {
     saving, 
     error: scheduleError,
     saveImmediately 
-  } = useSchedule(studio.user_id ?? "")
+  } = useSchedule(studio.id)
 
   // TODO: populate this from DB on boot
   const [taskStatus, setTaskStatus] = useState<boolean[]>([(studio.owner_schedule !== null && studio.owner_schedule !== undefined), studio.students.length !== 0, studio.events !== null])
@@ -231,6 +259,63 @@ export function MyStudio(props: Props) {
     setEvents(newEvents)
   }
 
+  // Handle dropping a student from unscheduled list onto calendar
+  const handleStudentDrop = async (studentData: {
+    studentId: string;
+    studentName: string;
+    lessonDuration: number;
+    studentDbId: number;
+  }, dayIndex: number, startMinute: number) => {
+    try {
+      // Create new event
+      const dayAbbrevs = ['Sun', 'M', 'Tu', 'W', 'Th', 'F', 'Sat'];
+      const newEvent: Event = {
+        id: Date.now().toString(),
+        name: studentData.studentName,
+        booking: {
+          day: dayAbbrevs[dayIndex] ?? 'M',
+          timeInterval: {
+            start: startMinute,
+            duration: studentData.lessonDuration
+          }
+        },
+        student_id: studentData.studentDbId
+      };
+
+      // Add to events
+      const updatedEvents = [...events, newEvent];
+      setEvents(updatedEvents);
+
+      // Remove from unscheduled list
+      const updatedUnscheduled = unscheduledStudents.filter(id => id !== studentData.studentId);
+      setUnscheduledStudents(updatedUnscheduled);
+
+      // Update in database
+      const updateRes = await supabaseClient
+        .from("studios")
+        .update({ 
+          events: updatedEvents,
+          unscheduled_students: updatedUnscheduled 
+        })
+        .eq("id", studio.id);
+
+      if (updateRes.error) {
+        console.error(updateRes.error);
+        throw new Error("Error updating studio with new schedule");
+      }
+
+      setStudio({
+        ...studio,
+        events: updatedEvents,
+        unscheduled_students: updatedUnscheduled
+      });
+
+    } catch (error) {
+      console.error('Error scheduling student:', error);
+      // TODO: Add toast notification for error
+    }
+  }
+
   const handleAvailabilitySubmit = async () => {
     try {
       // Force immediate save to ensure data is persisted before updating task status
@@ -247,15 +332,56 @@ export function MyStudio(props: Props) {
   }
 
   const handleStudentDelete = async (student: StudentSchema) => {
+    console.log("Attempting to delete student:", student.id, student.email)
     const res = await supabaseClient.from("students").delete().eq("id", student.id)
 
+    console.log("Delete result:", res)
     if (res.error) {
-      console.log(res.error)
-      alert("error, please try again")
+      console.error("Delete error:", res.error)
+      alert(`Error deleting student: ${res.error.message}`)
+      return
     }
 
+    // Check if any rows were actually deleted
+    if (res.count === 0) {
+      console.error("No rows were deleted - likely RLS policy issue")
+      alert("Failed to delete student - permission denied")
+      return
+    }
+
+    // Remove student from students array
     const newStudents = studio.students.filter((s) => s.id !== student.id)
-    const newStudio = { ...studio, students: newStudents }
+    
+    // Remove any events for this student
+    const filteredEvents = events.filter((event) => event.student_id !== student.id)
+    
+    // Remove student from unscheduled list if they're there
+    const filteredUnscheduled = unscheduledStudents.filter((email) => email !== student.email)
+
+    // Update database with cleaned data
+    const updateRes = await supabaseClient
+      .from("studios")
+      .update({ 
+        events: filteredEvents,
+        unscheduled_students: filteredUnscheduled 
+      })
+      .eq("id", studio.id)
+
+    if (updateRes.error) {
+      console.error(updateRes.error)
+      alert("Error updating studio data, please try again")
+      return
+    }
+
+    // Update all local state
+    setEvents(filteredEvents)
+    setUnscheduledStudents(filteredUnscheduled)
+    const newStudio = { 
+      ...studio, 
+      students: newStudents,
+      events: filteredEvents,
+      unscheduled_students: filteredUnscheduled
+    }
     props.setStudio(newStudio)
   }
 
@@ -372,6 +498,7 @@ export function MyStudio(props: Props) {
                     teacherAvailability={teacherAvailability}
                     studentAvailabilities={studentAvailabilities}
                     showStudentNames={true}
+                    onStudentDrop={handleStudentDrop}
                   />
                 </div>
               );
@@ -396,6 +523,15 @@ export function MyStudio(props: Props) {
                       className="px-3 py-2 bg-white border border-yellow-300 rounded-md cursor-move hover:bg-yellow-100 shadow-sm"
                       draggable
                       title={`${student.first_name} ${student.last_name} - ${student.lesson_length ?? '60'}min lessons`}
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData("application/json", JSON.stringify({
+                          studentId: student.email,
+                          studentName: `${student.first_name} ${student.last_name}`,
+                          lessonDuration: parseInt(student.lesson_length ?? '60'),
+                          studentDbId: student.id
+                        }));
+                        e.dataTransfer.effectAllowed = "move";
+                      }}
                     >
                       <span className="text-sm font-medium text-gray-700">
                         {student.first_name} {student.last_name}
@@ -485,7 +621,9 @@ export function MyStudio(props: Props) {
                       </PopoverTrigger>
                       <PopoverContent className="min-w-[20vw]">
                         <div className="p-4">
-                          <p className="text-sm text-gray-600">Student schedule view temporarily unavailable</p>
+                          <div className="text-sm text-gray-700 whitespace-pre-line font-mono">
+                            {formatStudentAvailability(student)}
+                          </div>
                         </div>
                       </PopoverContent>
                     </Popover>

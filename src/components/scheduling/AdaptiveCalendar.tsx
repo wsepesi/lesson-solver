@@ -375,7 +375,8 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   showWeekends = false,
   teacherAvailability,
   studentAvailabilities,
-  showStudentNames = false
+  showStudentNames = false,
+  onStudentDrop
 }) => {
   const [directInputStart, setDirectInputStart] = useState('');
   const [directInputEnd, setDirectInputEnd] = useState('');
@@ -403,6 +404,15 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   
   // State for valid drop zones (per day) during dragging
   const [validDropZonesByDay, setValidDropZonesByDay] = useState<Map<number, TimeBlock[]>>(new Map());
+  
+  // State for student drag from unscheduled list
+  const [isDraggingStudent, setIsDraggingStudent] = useState(false);
+  const [draggedStudentData, setDraggedStudentData] = useState<{
+    studentId: string;
+    studentName: string;
+    lessonDuration: number;
+    studentDbId: number;
+  } | null>(null);
   
   const { isDragging, dragStart, dragEnd, startDrag, updateDrag, endDrag } = useDragSelection();
   
@@ -731,11 +741,64 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
     }
   }, [minMinutes]);
 
+  // Listen for drag events to detect student dragging
+  useEffect(() => {
+    const handleDragEnter = (e: DragEvent) => {
+      const studentData = e.dataTransfer?.getData?.("application/json");
+      if (studentData) {
+        try {
+          const data = JSON.parse(studentData) as unknown;
+          if (typeof data === 'object' && data !== null && 
+              'studentId' in data && 'lessonDuration' in data && 
+              'studentName' in data && 'studentDbId' in data) {
+            const typedData = data as {
+              studentId: string;
+              studentName: string;
+              lessonDuration: number;
+              studentDbId: number;
+            };
+            setIsDraggingStudent(true);
+            setDraggedStudentData(typedData);
+            // Calculate valid drop zones for all days
+            const validZones = new Map<number, TimeBlock[]>();
+            displayDays.forEach(day => {
+              const zones = getValidDropZones(day, typedData.lessonDuration, typedData.studentId, teacherAvailability, studentAvailabilities);
+              validZones.set(day, zones);
+            });
+            setValidDropZonesByDay(validZones);
+          }
+        } catch {
+          // Ignore parsing errors for non-student drag events
+        }
+      }
+    };
+    
+    const handleDragLeave = (e: DragEvent) => {
+      // Only reset if we're leaving the entire component
+      if (!e.relatedTarget || !(e.target as Element).contains(e.relatedTarget as Node)) {
+        setIsDraggingStudent(false);
+        setDraggedStudentData(null);
+        setValidDropZonesByDay(new Map());
+      }
+    };
+    
+    const calendarEl = document.getElementById('adaptive-calendar');
+    if (calendarEl) {
+      calendarEl.addEventListener('dragenter', handleDragEnter);
+      calendarEl.addEventListener('dragleave', handleDragLeave);
+      
+      return () => {
+        calendarEl.removeEventListener('dragenter', handleDragEnter);
+        calendarEl.removeEventListener('dragleave', handleDragLeave);
+      };
+    }
+  }, [displayDays, teacherAvailability, studentAvailabilities]);
+
   // Validation
   const validation = validateWeekScheduleDetailed(schedule);
 
   return (
-    <div className="flex">
+    <div className="flex" id="adaptive-calendar">
       {/* Sidebar for direct entry or editing - hidden in rearrange mode */}
       {mode === 'edit' && (
         <div className="w-64 px-3 border-r bg-gray-50 space-y-3 pt-3">
@@ -913,7 +976,43 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
                 {displayDays.map(day => {
                   const daySchedule = schedule.days[day] ?? { blocks: [] };
                   return (
-                    <div key={day} className="flex-1 relative">
+                    <div 
+                      key={day} 
+                      className="flex-1 relative"
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = "move";
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        const studentData = e.dataTransfer.getData("application/json");
+                        if (studentData && onStudentDrop) {
+                          try {
+                            const data = JSON.parse(studentData) as unknown;
+                            if (typeof data === 'object' && data !== null && 
+                                'studentId' in data && 'lessonDuration' in data && 
+                                'studentName' in data && 'studentDbId' in data) {
+                              const typedData = data as {
+                                studentId: string;
+                                studentName: string;
+                                lessonDuration: number;
+                                studentDbId: number;
+                              };
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              const y = e.clientY - rect.top;
+                              const minute = Math.round(((y / 53) * 60 + minMinutes) / 15) * 15; // Snap to 15-minute intervals
+                              
+                              // Validate if this is a good drop zone
+                              if (isValidDropZone(day, minute, typedData.lessonDuration, typedData.studentId, teacherAvailability, studentAvailabilities)) {
+                                onStudentDrop(typedData, day, minute);
+                              }
+                            }
+                          } catch (error) {
+                            console.error("Error parsing student data:", error);
+                          }
+                        }
+                      }}
+                    >
                       {/* Hour lines */}
                       {hourMarkers.map(({ minute }, index) => (
                         <div
@@ -922,6 +1021,22 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
                           style={{ top: `${getYPixels(minute)}px` }}
                         />
                       ))}
+                      
+                      {/* Valid drop zones for student dragging */}
+                      {isDraggingStudent && draggedStudentData && validDropZonesByDay.has(day) && (
+                        <>
+                          {validDropZonesByDay.get(day)!.map((zone, zoneIndex) => (
+                            <div
+                              key={`dropzone-${zoneIndex}`}
+                              className="absolute left-0 right-0 bg-green-100 border-2 border-dashed border-green-400 opacity-60 pointer-events-none"
+                              style={{
+                                top: `${((zone.start - minMinutes) / 60) * 53}px`,
+                                height: `${(zone.duration / 60) * 53}px`
+                              }}
+                            />
+                          ))}
+                        </>
+                      )}
                       
                       <TimeColumn
                         day={day}

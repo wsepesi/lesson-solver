@@ -118,6 +118,13 @@ export type CalendarProps = {
   studentAvailabilities?: Map<string, WeekSchedule>;
   // Display student names on time blocks (for final schedule view)
   showStudentNames?: boolean;
+  // Handler for dropping unscheduled students onto the calendar
+  onStudentDrop?: (studentData: {
+    studentId: string;
+    studentName: string;
+    lessonDuration: number;
+    studentDbId: number;
+  }, dayIndex: number, startMinute: number) => void;
 }
 
 // Time selection and interaction types

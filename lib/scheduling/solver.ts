@@ -728,51 +728,45 @@ class BacktrackingSearchStrategy implements SearchStrategy {
     
     globalBestSolution = [...bestSolution];
     
-    // For debugging: return the best solution found, skip constraint relaxation for now
-    // TODO: Re-enable constraint relaxation after fixing core backtracking
-    return globalBestSolution;
-    
-    /* 
     // Stage 2: Relax soft constraints if solution quality is too low
     const minAcceptableQuality = Math.floor(targetStudents * 0.5); // Accept 50% as minimum
     if (globalBestSolution.length < minAcceptableQuality) {
       const relaxedConstraints = this.createRelaxedConstraints(constraints, 1);
-      bestSolution = [];
-      assignments.length = 0;
+      const bestSolution2: Assignment[] = [];
+      const assignments2: Assignment[] = [];
       
-      this.backtrack(variables, domains, assignments, context, relaxedConstraints, bestSolution);
+      this.backtrack(variables, domains, assignments2, context, relaxedConstraints, bestSolution2);
       
-      if (bestSolution.length > globalBestSolution.length) {
-        globalBestSolution = [...bestSolution];
+      if (bestSolution2.length > globalBestSolution.length) {
+        globalBestSolution = [...bestSolution2];
       }
     }
     
     // Stage 3: Further relax constraints if still not good enough
     if (globalBestSolution.length < minAcceptableQuality) {
       const veryRelaxedConstraints = this.createRelaxedConstraints(constraints, 2);
-      bestSolution = [];
-      assignments.length = 0;
+      const bestSolution3: Assignment[] = [];
+      const assignments3: Assignment[] = [];
       
-      this.backtrack(variables, domains, assignments, context, veryRelaxedConstraints, bestSolution);
+      this.backtrack(variables, domains, assignments3, context, veryRelaxedConstraints, bestSolution3);
       
-      if (bestSolution.length > globalBestSolution.length) {
-        globalBestSolution = [...bestSolution];
+      if (bestSolution3.length > globalBestSolution.length) {
+        globalBestSolution = [...bestSolution3];
       }
     }
     
     // Stage 4: Emergency fallback - relax almost everything except availability
     if (globalBestSolution.length < Math.max(1, Math.floor(targetStudents * 0.4))) {
       const emergencyConstraints = this.createEmergencyConstraints(constraints);
-      bestSolution = [];
-      assignments.length = 0;
+      const bestSolution4: Assignment[] = [];
+      const assignments4: Assignment[] = [];
       
-      this.backtrack(variables, domains, assignments, context, emergencyConstraints, bestSolution);
+      this.backtrack(variables, domains, assignments4, context, emergencyConstraints, bestSolution4);
       
-      if (bestSolution.length > globalBestSolution.length) {
-        globalBestSolution = [...bestSolution];
+      if (bestSolution4.length > globalBestSolution.length) {
+        globalBestSolution = [...bestSolution4];
       }
     }
-    */
     
     return globalBestSolution.length > 0 ? globalBestSolution : null;
   }
