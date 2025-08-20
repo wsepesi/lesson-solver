@@ -41,6 +41,7 @@ export default function StudentSchedule(props: Props) {
                                 schedule={schedule}
                                 onChange={onScheduleChange}
                                 granularity={15}
+                                showWeekends={props.studio?.calendar_days === 'full_week'}
                             />
                         </div>
                     </div>

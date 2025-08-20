@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Navbar from "@/components/Navbar"
 import type { NewStudioInfo } from "lib/types"
 import { useState } from "react";
@@ -40,6 +41,7 @@ export default function NewStudioPage() {
         allowCustomDuration: false,
         minLessonDuration: 15,
         maxLessonDuration: 120,
+        calendarDays: 'full_week',
     })
     const { toast } = useToast()
 
@@ -79,6 +81,7 @@ export default function NewStudioPage() {
                         allow_custom_duration: formData.allowCustomDuration,
                         min_lesson_duration: formData.minLessonDuration,
                         max_lesson_duration: formData.maxLessonDuration,
+                        calendar_days: formData.calendarDays,
                     })
                     switch (res.status) {
                         case 201:
@@ -206,6 +209,34 @@ export default function NewStudioPage() {
                             </div>
                         </div>
                     )}
+                    
+                    <div className="flex flex-col space-y-1.5">
+                        <Label>Calendar Display</Label>
+                        <RadioGroup
+                            value={formData.calendarDays}
+                            onValueChange={(value: 'weekdays' | 'full_week') => setFormData({
+                                ...formData,
+                                calendarDays: value
+                            })}
+                            className="flex flex-col space-y-2"
+                        >
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="weekdays" id="weekdays" />
+                                <Label htmlFor="weekdays" className="text-sm font-normal">
+                                    Weekdays only (Monday - Friday)
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="full_week" id="full_week" />
+                                <Label htmlFor="full_week" className="text-sm font-normal">
+                                    Full week (Monday - Sunday)
+                                </Label>
+                            </div>
+                        </RadioGroup>
+                        <p className="text-xs text-gray-600">
+                            Choose which days to show in calendar views throughout your studio
+                        </p>
+                    </div>
                 </div>
                 </form>
             </CardContent>

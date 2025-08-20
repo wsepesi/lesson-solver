@@ -11,12 +11,16 @@ type Props = {
     buttonStates: boolean[][]
     setButtonStates: (buttonStates: boolean[][]) => void
     blocks: number
+    showWeekends?: boolean
 }
 
 export default function Calendar(props: Props) {
-    const { buttonStates, setButtonStates, blocks } = props
+    const { buttonStates, setButtonStates, blocks, showWeekends = true } = props
     // const minutes = 30
     const [isSelecting, setSelecting] = useState(false)
+    
+    // Filter days based on showWeekends preference
+    const displayDays = showWeekends ? Days : Days.slice(0, 5) // Mon-Fri only
 
     const handleClick = (i: number, j: number) => {
         const newButtonStates = [...buttonStates]
@@ -46,8 +50,8 @@ export default function Calendar(props: Props) {
                 <TableHeader>
                     <TableRow>
                         <TableHead></TableHead>
-                        {Days.map((day, i) => (
-                            <TableHead className={`w-[7rem] px-2 ${i === Days.length ? "text-right" : ""} text-center`} key={i}>{day}</TableHead>
+                        {displayDays.map((day, i) => (
+                            <TableHead className={`w-[7rem] px-2 ${i === displayDays.length ? "text-right" : ""} text-center`} key={i}>{day}</TableHead>
                         ))}
                     </TableRow>
                 </TableHeader>     
@@ -58,7 +62,7 @@ export default function Calendar(props: Props) {
                                 {/* {minutes === 60 ? `${9 + i}:00` : `${!(i % 2) ? `${9 + (i / 2)}:00` : `${9 + Math.floor(i / 2)}:30`}`} */}
                                 {`${!(i % 2) ? `${9 + (i / 2)}:00` : `${9 + Math.floor(i / 2)}:30`}`}
                             </TableCell>
-                            {Days.map((_, j) => (
+                            {displayDays.map((_, j) => (
                                 <TableCell key={j} className="p-0 m-0 h-full">
                                     <Toggle 
                                         className="data-[state=on]:bg-emerald-600 w-full rounded-none px-0 m-0 py-0 min-h-full"

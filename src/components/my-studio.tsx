@@ -480,6 +480,7 @@ export function MyStudio(props: Props) {
         schedule={weekSchedule}
         onScheduleChange={updateSchedule}
         saving={saving}
+        showWeekends={studio.calendar_days === 'full_week'}
       />
     },
     {
@@ -549,6 +550,7 @@ export function MyStudio(props: Props) {
                 onChange={handleScheduleChange}
                 granularity={15}
                 mode="rearrange"
+                showWeekends={studio.calendar_days === 'full_week'}
                 teacherAvailability={teacherAvailability}
                 studentAvailabilities={studentAvailabilities}
                 showStudentNames={true}
@@ -745,6 +747,7 @@ export function MyStudio(props: Props) {
                   schedule={weekSchedule}
                   onScheduleChange={updateSchedule}
                   saving={saving}
+                  showWeekends={studio.calendar_days === 'full_week'}
                 />
               </Dialog>
               }

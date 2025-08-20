@@ -80,6 +80,36 @@ function isValidDropZone(
   );
 }
 
+// Helper function to check if a block would overlap with existing blocks
+function wouldOverlapExistingBlocks(
+  daySchedule: { blocks: TimeBlock[] },
+  newBlock: TimeBlock,
+  excludeBlockIndex?: number
+): boolean {
+  const newStart = newBlock.start;
+  const newEnd = newBlock.start + newBlock.duration;
+  
+  for (let i = 0; i < daySchedule.blocks.length; i++) {
+    // Skip the block we're moving (when dragging)
+    if (excludeBlockIndex !== undefined && i === excludeBlockIndex) {
+      continue;
+    }
+    
+    const existing = daySchedule.blocks[i];
+    if (!existing) continue;
+    
+    const existingStart = existing.start;
+    const existingEnd = existing.start + existing.duration;
+    
+    // Check for overlap: blocks overlap if one starts before the other ends
+    if (newStart < existingEnd && newEnd > existingStart) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
 // Custom hook for drag selection
 function useDragSelection() {
   const [isDragging, setIsDragging] = useState(false);
@@ -531,7 +561,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
     if (!draggedBlock) return;
     
     // Check if the drop is valid when availability data is provided
-    const isValidDrop = mode === 'rearrange' && teacherAvailability && studentAvailabilities && draggedBlock.block.metadata?.studentId
+    const isValidAvailability = mode === 'rearrange' && teacherAvailability && studentAvailabilities && draggedBlock.block.metadata?.studentId
       ? isValidDropZone(
           draggedBlock.currentDay,
           draggedBlock.block.start,
@@ -541,6 +571,17 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
           studentAvailabilities
         )
       : true; // Allow move if no availability data (backward compatibility)
+    
+    // Check if the new position would overlap with existing lessons
+    const targetDaySchedule = schedule.days[draggedBlock.currentDay];
+    const excludeIndex = draggedBlock.originalDay === draggedBlock.currentDay ? draggedBlock.blockIndex : undefined;
+    const wouldOverlap = targetDaySchedule ? wouldOverlapExistingBlocks(
+      targetDaySchedule,
+      draggedBlock.block,
+      excludeIndex
+    ) : false;
+    
+    const isValidDrop = isValidAvailability && !wouldOverlap;
     
     if (isValidDrop) {
       // Valid drop - perform the move

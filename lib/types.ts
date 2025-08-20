@@ -124,6 +124,7 @@ export type NewStudioInfo = {
   allowCustomDuration: boolean;
   minLessonDuration: number;
   maxLessonDuration: number;
+  calendarDays: 'weekdays' | 'full_week';
 }
 
 /**

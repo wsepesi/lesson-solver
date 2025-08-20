@@ -26,6 +26,7 @@ import type { Schedule } from "./types";
  * - allow_custom_duration: boolean (whether students can choose custom durations)
  * - min_lesson_duration: integer (minimum allowed duration in minutes)
  * - max_lesson_duration: integer (maximum allowed duration in minutes)
+ * - calendar_days: text (calendar display preference: 'weekdays' or 'full_week')
  */
 export interface StudioSchema {
   id: number; // bigint in DB
@@ -40,6 +41,7 @@ export interface StudioSchema {
   allow_custom_duration: boolean | null; // boolean
   min_lesson_duration: number | null; // integer
   max_lesson_duration: number | null; // integer
+  calendar_days: 'weekdays' | 'full_week' | null; // text - calendar display preference
 }
 
 /**

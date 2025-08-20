@@ -15,10 +15,11 @@ type Props = {
     schedule: WeekSchedule | null,
     onScheduleChange: (schedule: WeekSchedule) => void,
     saving?: boolean,
+    showWeekends?: boolean,
 }
 
 export default function SetAvailabilityDialog(props: Props) {
-    const { schedule, onScheduleChange, handleSubmit, saving } = props;
+    const { schedule, onScheduleChange, handleSubmit, saving, showWeekends } = props;
 
     if (!schedule) {
         return (
@@ -44,6 +45,7 @@ export default function SetAvailabilityDialog(props: Props) {
                         schedule={schedule}
                         onChange={onScheduleChange}
                         granularity={15}
+                        showWeekends={showWeekends}
                     />
                 </div>
                 <DialogFooter className="p-6 pt-0">

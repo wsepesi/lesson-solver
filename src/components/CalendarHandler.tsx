@@ -12,6 +12,7 @@ type Props = {
     handleSubmit: () => void
     setButtonStates: (buttonStates: boolean[][]) => void
     buttonStates: boolean[][]
+    showWeekends?: boolean
 }
 
 const dayLength: number = 12 * 60
@@ -20,7 +21,7 @@ export default function CalendarHandler(props: Props) {
     const minutes = props.minutes
     const blocks = dayLength / (minutes)
 
-    const { buttonStates, setButtonStates } = props
+    const { buttonStates, setButtonStates, showWeekends } = props
 
     return(
         <div className="flex flex-row w-full max-h-[85vh]">
@@ -35,6 +36,7 @@ export default function CalendarHandler(props: Props) {
                 buttonStates={buttonStates}
                 setButtonStates={setButtonStates}
                 blocks={blocks}
+                showWeekends={showWeekends}
             />
         </div>
     )
