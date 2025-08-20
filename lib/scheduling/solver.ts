@@ -236,15 +236,20 @@ export class ScheduleSolver {
         }
       }
 
-      // Convert to CSP representation
-      let variables = this.createVariables(students);
-      let domains = this.createDomains(teacher, students);
-      const context = this.createSolverContext(teacher, students, reusableAssignments);
+      // Preflight check: separate students with no teacher overlap
+      const preflightResult = this.preflightCheckNoOverlap(teacher, students);
+      const solvableStudents = preflightResult.solvableStudents;
+      const unsolvableStudents = preflightResult.unsolvableStudents;
+
+      // Convert to CSP representation (only solvable students)
+      let variables = this.createVariables(solvableStudents);
+      let domains = this.createDomains(teacher, solvableStudents);
+      const context = this.createSolverContext(teacher, solvableStudents, reusableAssignments);
 
       this.stats.totalVariables = variables.length;
       this.stats.totalDomainSize = domains.reduce((sum, d) => sum + d.timeSlots.length, 0);
 
-      this.log('detailed', `Created ${variables.length} variables, total domain size: ${this.stats.totalDomainSize}`);
+      this.log('detailed', `Created ${variables.length} variables (${unsolvableStudents.length} students filtered out), total domain size: ${this.stats.totalDomainSize}`);
 
       // Apply preprocessing optimizations
       if (this.preprocessing) {
@@ -285,7 +290,7 @@ export class ScheduleSolver {
       }
 
       // Build and return solution
-      const solution = this.buildSolution(assignments, students, fixedAssignments);
+      const solution = this.buildSolution(assignments, solvableStudents, fixedAssignments, unsolvableStudents);
       
       this.stats.timeMs = Date.now() - this.startTime;
       this.stats.solutionQuality = this.calculateSolutionQuality(solution);
@@ -307,7 +312,7 @@ export class ScheduleSolver {
         );
       }
       
-      this.log('basic', `Solution found: ${solution.assignments.length}/${students.length} students scheduled`);
+      this.log('basic', `Solution found: ${solution.assignments.length}/${students.length} students scheduled (${unsolvableStudents.length} had no overlap)`);
       
       return solution;
 
@@ -315,8 +320,85 @@ export class ScheduleSolver {
       this.log('basic', `Solver error: ${error instanceof Error ? error.message : 'Unknown error'}`);
       
       // Return empty solution on error
-      return this.buildSolution(null, students, []);
+      return this.buildSolution(null, students, [], []);
     }
+  }
+
+  /**
+   * Preflight check to identify students with no mutual overlap with teacher availability.
+   * This optimization separates students into solvable and unsolvable groups before CSP solving.
+   */
+  private preflightCheckNoOverlap(
+    teacher: TeacherConfig,
+    students: StudentConfig[]
+  ): { solvableStudents: StudentConfig[], unsolvableStudents: StudentConfig[] } {
+    const solvableStudents: StudentConfig[] = [];
+    const unsolvableStudents: StudentConfig[] = [];
+
+    for (const student of students) {
+      let hasOverlap = false;
+      
+      // Get all possible durations for this student (same logic as createDomains)
+      let durations: number[];
+      if (teacher.constraints.allowedDurations.length > 0) {
+        // Check if student preference is allowed
+        if (student.preferredDuration && teacher.constraints.allowedDurations.includes(student.preferredDuration)) {
+          durations = [student.preferredDuration];
+        } else {
+          // Student preference not allowed or missing - pick best default from allowed durations
+          const allowedSorted = [...teacher.constraints.allowedDurations].sort((a, b) => a - b);
+          const preferredFallback = allowedSorted.includes(60) ? 60 : (allowedSorted[Math.floor(allowedSorted.length / 2)] ?? 60);
+          durations = [preferredFallback];
+        }
+      } else {
+        // No specific allowed durations, but respect min/max constraints
+        const minDuration = teacher.constraints.minLessonDuration || 30;
+        const maxDuration = teacher.constraints.maxLessonDuration || 120;
+        
+        let candidateDuration = student.preferredDuration || 60;
+        
+        // Adjust candidate duration to fit within min/max bounds
+        candidateDuration = Math.max(candidateDuration, minDuration);
+        candidateDuration = Math.min(candidateDuration, maxDuration);
+        
+        durations = [candidateDuration];
+      }
+      
+      // Check each possible duration for any overlap
+      durationLoop: for (const duration of durations) {
+        // Check each day of the week
+        for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+          const teacherDay = teacher.availability.days[dayOfWeek];
+          const studentDay = student.availability.days[dayOfWeek];
+          
+          if (!teacherDay || !studentDay) {
+            continue;
+          }
+
+          // Find available slots for teacher
+          const teacherSlots = findAvailableSlots(teacherDay, duration, this.options.slotGranularityMinutes);
+          
+          // Check if student is available for any of the teacher's slots
+          for (const slot of teacherSlots) {
+            if (isTimeAvailable(studentDay, slot.start, duration)) {
+              hasOverlap = true;
+              break durationLoop;
+            }
+          }
+        }
+      }
+      
+      if (hasOverlap) {
+        solvableStudents.push(student);
+      } else {
+        unsolvableStudents.push(student);
+        this.log('basic', `Student ${student.person.id} has no overlap with teacher - moving to unsolvable`);
+      }
+    }
+
+    this.log('basic', `Preflight check: ${solvableStudents.length} solvable, ${unsolvableStudents.length} unsolvable students`);
+    
+    return { solvableStudents, unsolvableStudents };
   }
 
   /**
@@ -538,13 +620,14 @@ export class ScheduleSolver {
   private buildSolution(
     assignments: Assignment[] | null,
     students: StudentConfig[],
-    fixedAssignments: LessonAssignment[] = []
+    fixedAssignments: LessonAssignment[] = [],
+    unsolvableStudents: StudentConfig[] = []
   ): ScheduleSolution {
     const solution: ScheduleSolution = {
       assignments: [],
       unscheduled: [],
       metadata: {
-        totalStudents: students.length,
+        totalStudents: students.length + unsolvableStudents.length,
         scheduledStudents: 0,
         averageUtilization: 0,
         computeTimeMs: Date.now() - this.startTime
@@ -579,9 +662,16 @@ export class ScheduleSolver {
       scheduled.add(assignment.variable.studentId);
     }
 
-    // Find unscheduled students
+    // Find unscheduled students (both from failed solver and preflight check)
     for (const student of students) {
       if (!scheduled.has(student.person.id)) {
+        solution.unscheduled.push(student.person.id);
+      }
+    }
+
+    // Add unsolvable students from preflight check
+    for (const student of unsolvableStudents) {
+      if (!scheduled.has(student.person.id) && !solution.unscheduled.includes(student.person.id)) {
         solution.unscheduled.push(student.person.id);
       }
     }
