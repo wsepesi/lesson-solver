@@ -258,9 +258,10 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {/* Free Plan */}
             <div className="border border-landing-blue/20 p-6 text-center">
-              <div className="text-xl font-semibold text-landing-blue mb-2">Free</div>
+              <div className="text-xl font-semibold text-landing-blue mb-2">Trial</div>
               <div className="text-3xl font-bold text-landing-blue mb-4">$0</div>
               <ul className="text-sm space-y-2 mb-6 text-landing-blue">
+                <li className="italic">Get started with the trial plan:</li>
                 <li>Up to 5 students</li>
                 <li>1 studio</li>
                 <li>3 solves</li>
@@ -279,6 +280,7 @@ export default function HomePage() {
               <div className="text-xl font-semibold text-landing-blue mb-2">Pro</div>
               <div className="text-3xl font-bold text-landing-blue mb-4">$50 / year</div>
               <ul className="text-sm space-y-2 mb-6 text-landing-blue">
+                <li className="italic">Save time and energy with Pro:</li>
                 <li>50 studios</li>
                 <li>50 students per studio</li>
                 <li>100 solves per year</li>
@@ -294,6 +296,7 @@ export default function HomePage() {
               <div className="text-xl font-semibold text-landing-blue mb-2">Enterprise</div>
               <div className="text-3xl font-bold text-landing-blue mb-4">Custom</div>
               <ul className="text-sm space-y-2 mb-6 text-landing-blue">
+                <li className="italic">Bring ease to the whole department:</li>
                 <li>Unlimited studios & students</li>
                 <li>Unlimited solves</li>
                 <li>Dedicated support</li>
