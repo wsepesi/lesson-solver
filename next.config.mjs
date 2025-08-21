@@ -4,14 +4,23 @@
  */
 await import("./src/env.mjs");
 
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  webpack: (config) => {
-    // Suppress webpack warnings about dynamic imports in @supabase/realtime-js
-    config.module.exprContextCritical = false;
-    return config;
-  },
+  // Only include webpack config for production builds
+  ...(process.env.NODE_ENV === 'production' && {
+    webpack: (config) => {
+      // Suppress webpack warnings about dynamic imports in @supabase/realtime-js
+      config.module.exprContextCritical = false;
+      return config;
+    },
+  }),
 };
 
-export default config;
+export default withBundleAnalyzer(config);

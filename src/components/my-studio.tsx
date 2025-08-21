@@ -23,21 +23,40 @@ import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
 import { abbrDaytoFull } from "lib/utils"
-import ManualScheduleDialog from "./ManualScheduleDialog"
 import { Progress } from "./ui/progress"
-import SendToStudentsDialog from "./SendToStudentsDialog"
-import SetAvailabilityDialog from "./SetAvailabilityDialog"
-import SolveScheduleDialog from "./SolveScheduleDialog"
+
+// Dynamic imports for dialog components
+const ManualScheduleDialog = dynamic(() => import("./ManualScheduleDialog"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+})
+const SendToStudentsDialog = dynamic(() => import("./SendToStudentsDialog"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+})
+const SetAvailabilityDialog = dynamic(() => import("./SetAvailabilityDialog"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+})
+const SolveScheduleDialog = dynamic(() => import("./SolveScheduleDialog"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+})
 import { Task } from "./Task"
 import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
 import { useState, useMemo } from "react"
+import dynamic from "next/dynamic"
 import type { StudentSchema } from "lib/db-types"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 // InteractiveCalendar removed - legacy component deleted
 import { useSchedule } from "../hooks/useSchedule"
-import { AdaptiveCalendar } from "./scheduling/AdaptiveCalendar"
+
+// Dynamic import for heavy AdaptiveCalendar component
+const AdaptiveCalendar = dynamic(
+  () => import("./scheduling/AdaptiveCalendar").then(mod => ({ default: mod.AdaptiveCalendar })),
+  {
+    loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />,
+    ssr: false
+  }
+)
 import { createEmptyWeekSchedule } from "lib/scheduling/utils"
 import type { WeekSchedule } from "lib/scheduling/types"
 import type { Schedule } from "lib/types"
@@ -577,7 +596,23 @@ export function MyStudio(props: Props) {
     router.push("/studios")
   }
 
-  const isDoneWithTasks = taskStatus.every((status) => status)
+  // Memoize expensive computations
+  const isDoneWithTasks = useMemo(() => taskStatus.every((status) => status), [taskStatus])
+  
+  const taskProgress = useMemo(() => {
+    const completed = taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0)
+    return {
+      completed,
+      percentage: (completed / taskStatus.length) * 100
+    }
+  }, [taskStatus])
+  
+  const scheduledEvents = useMemo(() => events ?? [], [events])
+  
+  const scheduleWeek = useMemo(() => 
+    convertEventsToWeekSchedule(scheduledEvents),
+    [scheduledEvents]
+  )
 
   return (
     <main className="container mx-auto px-4 py-4">
@@ -585,15 +620,16 @@ export function MyStudio(props: Props) {
         <section className="mt-2 mb-2">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-landing-blue">Progress</h2>
-            <Badge className="bg-landing-blue text-white">{taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0)}/3</Badge>
+            <Badge className="bg-landing-blue text-white">{taskProgress.completed}/3</Badge>
           </div>
-          <Progress className="mt-2" value={
-          (taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0) / taskStatus.length) * 100
+          <Progress className="mt-2" value={taskProgress.percentage
         }/>
         </section>)
       }
       <header className="mb-4 flex flex-row items-end justify-between">
-        <h1 className="text-4xl font-bold tracking-tight text-landing-blue">{studio.studio_name}</h1>
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight text-landing-blue">{studio.studio_name}</h1>
+        </div>
         <h3 className="text-xl tracking-tight font-light text-landing-blue/70">Studio Code: {studio.code}</h3>
       </header>
       <div className="flex space-x-10">
@@ -602,7 +638,7 @@ export function MyStudio(props: Props) {
           <div className="space-y-6 w-2/3">
             <div className="h-[45vh]">
               <AdaptiveCalendar 
-                schedule={convertEventsToWeekSchedule(events ?? [])}
+                schedule={scheduleWeek}
                 onChange={handleScheduleChange}
                 granularity={15}
                 mode="rearrange"

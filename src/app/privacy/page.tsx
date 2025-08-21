@@ -135,7 +135,7 @@ export default function PrivacyPage() {
               <a href="mailto:willsepesi@gmail.com" className="text-white/80 hover:text-white transition-colors">Contact</a>
             </div>
             <div className="text-white/60">
-              © 2024 Lesson Solver
+              {/* © 2024 Lesson Solver */}
             </div>
           </div>
         </div>

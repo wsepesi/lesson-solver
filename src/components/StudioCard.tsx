@@ -25,7 +25,7 @@ export default function StudioCard(props: Props) {
     const numEnrolled = props.studio.students.length
     const progress: Progress = determineProgress(props.studio)
     return (
-        <Link href={`/studios/${code}`}>
+        <Link href={`/studios/${code}`} prefetch={true}>
             <Card className="cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-landing-blue/5 h-[20vh] bg-white border border-landing-blue/20">
                 <CardContent className="grid gap-2 p-4 h-full flex flex-col justify-center">
                     <CardTitle className="text-landing-blue">{studio_name}</CardTitle>
