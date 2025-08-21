@@ -77,8 +77,12 @@ const validateSolveConditions = (studio: StudioWithStudents): ValidationResult =
     const warnings: string[] = [];
     
     // Check if teacher has set availability
+    console.log("Validating solve conditions - studio.owner_schedule:", studio.owner_schedule);
     if (!studio.owner_schedule) {
+        console.error("Solve validation failed: No teacher schedule found in studio state");
         errors.push("No teacher availability set. Please set your availability first.");
+    } else {
+        console.log("Teacher schedule found, validation passed");
     }
     
     // Check if any students are onboarded
@@ -189,7 +193,9 @@ export default function SolveScheduleDialog(props: Props) {
         setLoading(true)
         try {
             // Convert studio data to WeekSchedule format
+            console.log("Converting teacher schedule from JSON to WeekSchedule:", props.studio.owner_schedule);
             const teacherSchedule = convertScheduleToWeekSchedule(props.studio.owner_schedule);
+            console.log("Converted teacher schedule:", teacherSchedule);
             
             // Create teacher config with constraints
             const teacher = createTeacherConfig(teacherSchedule, props.studio.id.toString());

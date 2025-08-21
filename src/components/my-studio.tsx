@@ -40,6 +40,7 @@ import { useSchedule } from "../hooks/useSchedule"
 import { AdaptiveCalendar } from "./scheduling/AdaptiveCalendar"
 import { createEmptyWeekSchedule } from "lib/scheduling/utils"
 import type { WeekSchedule } from "lib/scheduling/types"
+import type { Schedule } from "lib/types"
 import { convertScheduleToWeekSchedule } from "lib/scheduling-adapter"
 import { dayNames, timeBlockToString } from "lib/scheduling/display-utils"
 
@@ -196,6 +197,38 @@ const convertWeekScheduleToEvents = (weekSchedule: WeekSchedule): Event[] => {
 
 // Note: isTimeSlotValid function removed - validation now handled in AdaptiveCalendar component
 
+// Helper function to convert WeekSchedule to JSON format for database storage
+const convertWeekScheduleToJson = (weekSchedule: WeekSchedule): Record<string, unknown> => {
+  const jsonSchedule: Record<string, unknown> = {
+    Monday: undefined,
+    Tuesday: undefined,
+    Wednesday: undefined,
+    Thursday: undefined,
+    Friday: undefined,
+    Saturday: undefined,
+    Sunday: undefined,
+  };
+
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+  weekSchedule.days.forEach((day) => {
+    const dayName = dayNames[day.dayOfWeek];
+    if (dayName && day.blocks.length > 0) {
+      jsonSchedule[dayName] = day.blocks.map(block => ({
+        start: {
+          hour: Math.floor(block.start / 60),
+          minute: block.start % 60
+        },
+        end: {
+          hour: Math.floor((block.start + block.duration) / 60),
+          minute: (block.start + block.duration) % 60
+        }
+      }));
+    }
+  });
+
+  return jsonSchedule;
+};
 
 export function MyStudio(props: Props) {
   const supabaseClient = createClient()
@@ -370,6 +403,18 @@ export function MyStudio(props: Props) {
       // Force immediate save to ensure data is persisted before updating task status
       if (weekSchedule && saveImmediately) {
         await saveImmediately();
+        
+        // Convert WeekSchedule to JSON format for studio state sync
+        const jsonSchedule = convertWeekScheduleToJson(weekSchedule);
+        
+        // Update local studio state to include the saved schedule
+        setStudio({
+          ...studio,
+          owner_schedule: jsonSchedule as Schedule
+        });
+        
+        console.log("Synced studio state with saved teacher schedule", jsonSchedule);
+        
         const hasAvailability = weekSchedule.days.some(day => day.blocks.length > 0);
         setTaskStatus(taskStatus.map((status, i) => AVAILABILITY === i ? hasAvailability : status))
       }
@@ -439,6 +484,17 @@ export function MyStudio(props: Props) {
       // Force immediate save to ensure data is persisted before updating task status
       if (weekSchedule && saveImmediately) {
         await saveImmediately();
+        
+        // Convert WeekSchedule to JSON format for studio state sync
+        const jsonSchedule = convertWeekScheduleToJson(weekSchedule);
+        
+        // Update local studio state to include the saved schedule
+        setStudio({
+          ...studio,
+          owner_schedule: jsonSchedule as Schedule
+        });
+        
+        console.log("Synced studio state with updated teacher schedule", jsonSchedule);
         
         // Update task status based on whether schedule has availability blocks
         const hasAvailability = weekSchedule.days.some(day => day.blocks.length > 0);
@@ -528,8 +584,8 @@ export function MyStudio(props: Props) {
       {!isDoneWithTasks && (
         <section className="mt-2 mb-2">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-landing-blue">Progress</h2>
-            <Badge className="border-landing-blue text-landing-blue">{taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0)}/3</Badge>
+            <h2 className="text-lg font-bold text-landing-blue">Progress</h2>
+            <Badge className="bg-landing-blue text-white">{taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0)}/3</Badge>
           </div>
           <Progress className="mt-2" value={
           (taskStatus.reduce((acc, curr) => acc + (curr ? 1 : 0), 0) / taskStatus.length) * 100

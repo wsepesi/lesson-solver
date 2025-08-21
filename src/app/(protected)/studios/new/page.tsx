@@ -41,7 +41,7 @@ export default function NewStudioPage() {
         allowCustomDuration: false,
         minLessonDuration: 15,
         maxLessonDuration: 120,
-        calendarDays: 'full_week',
+        calendarDays: 'weekdays',
     })
     const { toast } = useToast()
 
@@ -127,7 +127,7 @@ export default function NewStudioPage() {
                     <Label htmlFor="name">Studio Name</Label>
                     <Input 
                         id="name" 
-                        placeholder="My Spring 2024 Studio" 
+                        placeholder="My New Studio" 
                         onChange={(e) => 
                             setFormData({
                                 ...formData,
