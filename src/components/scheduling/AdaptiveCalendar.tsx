@@ -20,7 +20,7 @@ import {
   mergeTimeBlocks
 } from 'lib/scheduling/utils';
 
-// Helper function to calculate valid drop zones for a lesson
+// Helper function to calculate valid drop zones for a lesson (merged blocks for visual hints)
 function getValidDropZones(
   dayIndex: number,
   lessonDuration: number,
@@ -62,6 +62,47 @@ function getValidDropZones(
   
   // Merge overlapping zones and remove duplicates
   return mergeTimeBlocks(validZones);
+}
+
+// Helper function to get individual valid drop positions for smart snapping
+function getValidDropPositions(
+  dayIndex: number,
+  lessonDuration: number,
+  studentId: string,
+  teacherAvailability?: WeekSchedule,
+  studentAvailabilities?: Map<string, WeekSchedule>
+): number[] {
+  if (!teacherAvailability || !studentAvailabilities) return [];
+  
+  const teacherDay = teacherAvailability.days[dayIndex];
+  const studentSchedule = studentAvailabilities.get(studentId);
+  const studentDay = studentSchedule?.days[dayIndex];
+  
+  if (!teacherDay || !studentDay) return [];
+  
+  const validPositions: number[] = [];
+  
+  // Find intersections of teacher and student availability
+  for (const teacherBlock of teacherDay.blocks) {
+    for (const studentBlock of studentDay.blocks) {
+      // Calculate overlap between teacher and student blocks
+      const overlapStart = Math.max(teacherBlock.start, studentBlock.start);
+      const overlapEnd = Math.min(
+        teacherBlock.start + teacherBlock.duration,
+        studentBlock.start + studentBlock.duration
+      );
+      
+      if (overlapEnd > overlapStart && (overlapEnd - overlapStart) >= lessonDuration) {
+        // Create time slots within this overlap where lesson can be placed
+        for (let start = overlapStart; start <= overlapEnd - lessonDuration; start += 15) {
+          validPositions.push(start);
+        }
+      }
+    }
+  }
+  
+  // Remove duplicates and sort
+  return [...new Set(validPositions)].sort((a, b) => a - b);
 }
 
 // Helper function to check if a specific time slot is valid
@@ -111,26 +152,37 @@ function wouldOverlapExistingBlocks(
 }
 
 // Custom hook for drag selection
-function useDragSelection() {
+function useDragSelection(snapMode: SnapMode) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<{ day: number; minute: number } | null>(null);
   const [dragEnd, setDragEnd] = useState<{ day: number; minute: number } | null>(null);
 
+  const applyCreationSnapping = useCallback((minute: number): number => {
+    switch (snapMode) {
+      case 'grid':
+        // Snap to nearest 15 minutes
+        return Math.round(minute / 15) * 15;
+      case 'precise':
+        // No snapping: return exact minute
+        return Math.round(minute);
+      default:
+        return Math.round(minute / 15) * 15;
+    }
+  }, [snapMode]);
+
   const startDrag = useCallback((day: number, minute: number) => {
-    // Snap to nearest 15 minutes
-    const snappedMinute = Math.round(minute / 15) * 15;
+    const snappedMinute = applyCreationSnapping(minute);
     setIsDragging(true);
     setDragStart({ day, minute: snappedMinute });
     setDragEnd({ day, minute: snappedMinute });
-  }, []);
+  }, [applyCreationSnapping]);
 
   const updateDrag = useCallback((day: number, minute: number) => {
     if (isDragging && dragStart) {
-      // Snap to nearest 15 minutes
-      const snappedMinute = Math.round(minute / 15) * 15;
+      const snappedMinute = applyCreationSnapping(minute);
       setDragEnd({ day: dragStart.day, minute: snappedMinute }); // Keep same day during drag
     }
-  }, [isDragging, dragStart]);
+  }, [isDragging, dragStart, applyCreationSnapping]);
 
   const endDrag = useCallback(() => {
     setIsDragging(false);
@@ -181,6 +233,8 @@ interface TimeColumnProps {
   studentAvailabilities?: Map<string, WeekSchedule>;
   // Display student names on time blocks
   showStudentNames?: boolean;
+  // Snap mode for visual indicators
+  snapMode?: SnapMode;
 }
 
 const TimeColumn: React.FC<TimeColumnProps> = ({
@@ -204,7 +258,8 @@ const TimeColumn: React.FC<TimeColumnProps> = ({
   validDropZones = [],
   teacherAvailability: _teacherAvailability,
   studentAvailabilities: _studentAvailabilities,
-  showStudentNames = false
+  showStudentNames = false,
+  snapMode = 'grid'
 }) => {
   const columnRef = useRef<HTMLDivElement>(null);
   const minMinutes = timeStringToMinutes(minTime);
@@ -335,6 +390,39 @@ const TimeColumn: React.FC<TimeColumnProps> = ({
     ))
   ) : null;
 
+  // Generate visual grid indicators based on snap mode
+  const snapIndicators = useMemo(() => {
+    if (snapMode === 'precise') {
+      // Show 5-minute marks for precise mode
+      const indicators = [];
+      for (let minute = minMinutes; minute < maxMinutes; minute += 5) {
+        indicators.push(
+          <div
+            key={minute}
+            className="absolute left-0 right-0 border-t border-gray-100 pointer-events-none"
+            style={{
+              top: `${getYPixels(minute)}px`,
+            }}
+          />
+        );
+      }
+      return indicators;
+    } else if (snapMode === 'smart' && draggedBlock && validDropZones.length > 0) {
+      // Show available time slot markers for smart mode
+      return validDropZones.map((zone, index) => (
+        <div
+          key={`smart-${index}`}
+          className="absolute left-0 w-1 bg-green-400 pointer-events-none opacity-60"
+          style={{
+            top: `${getYPixels(zone.start)}px`,
+            height: `${(zone.duration / 60) * 53}px`,
+          }}
+        />
+      ));
+    }
+    return null;
+  }, [snapMode, minMinutes, maxMinutes, getYPixels, draggedBlock, validDropZones]);
+
   return (
     <div
       ref={columnRef}
@@ -357,6 +445,7 @@ const TimeColumn: React.FC<TimeColumnProps> = ({
       role="gridcell"
       aria-label={`${getDayName(day)} time column`}
     >
+      {snapIndicators}
       {timeBlocks.filter(block => block !== null)}
       {availabilityHints}
       {dragPreview}
@@ -392,6 +481,9 @@ const TimeInput: React.FC<TimeInputProps> = ({ value, onChange, placeholder, err
   );
 };
 
+// Snap mode types for drag operations
+type SnapMode = 'grid' | 'precise' | 'smart';
+
 // Main AdaptiveCalendar component
 export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   schedule,
@@ -412,6 +504,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   const [directInputStart, setDirectInputStart] = useState('');
   const [directInputEnd, setDirectInputEnd] = useState('');
   const [selectedDay, setSelectedDay] = useState(1); // Default to Monday
+  const [snapMode, setSnapMode] = useState<SnapMode>('smart');
   const [inputError, setInputError] = useState('');
   
   // State for time block editing (inline in sidebar)
@@ -436,7 +529,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   // State for valid drop zones (per day) during dragging
   const [validDropZonesByDay, setValidDropZonesByDay] = useState<Map<number, TimeBlock[]>>(new Map());
   
-  const { isDragging, dragStart, dragEnd, startDrag, updateDrag, endDrag } = useDragSelection();
+  const { isDragging, dragStart, dragEnd, startDrag, updateDrag, endDrag } = useDragSelection(snapMode);
   
   const displayDays = useMemo(() => showWeekends ? 
     Array.from({ length: 7 }, (_, i) => i) : 
@@ -535,6 +628,47 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
     }
   }, [mode, teacherAvailability, studentAvailabilities, displayDays]);
 
+  // Helper function to apply snapping based on current snap mode
+  const applySnapping = useCallback((targetStart: number, day: number): number => {
+    switch (snapMode) {
+      case 'grid':
+        // Original behavior: snap to 15-minute intervals
+        return Math.round(targetStart / 15) * 15;
+        
+      case 'precise':
+        // No snapping: return exact minute
+        return Math.round(targetStart);
+        
+      case 'smart':
+        // Snap to nearest valid drop position if available
+        if (draggedBlock && teacherAvailability && studentAvailabilities && draggedBlock.block.metadata?.studentId) {
+          const studentId = draggedBlock.block.metadata.studentId.toString();
+          const validPositions = getValidDropPositions(
+            day,
+            draggedBlock.block.duration,
+            studentId,
+            teacherAvailability,
+            studentAvailabilities
+          );
+          
+          if (validPositions.length > 0) {
+            // Find the closest valid position
+            const closestPosition = validPositions.reduce((closest, position) => {
+              const currentDistance = Math.abs(position - targetStart);
+              const closestDistance = Math.abs(closest - targetStart);
+              return currentDistance < closestDistance ? position : closest;
+            });
+            return closestPosition;
+          }
+        }
+        // Fallback to grid snapping if no valid positions
+        return Math.round(targetStart / 15) * 15;
+        
+      default:
+        return Math.round(targetStart / 15) * 15;
+    }
+  }, [snapMode, draggedBlock, teacherAvailability, studentAvailabilities]);
+
   // Handle block drag (rearrange mode)
   const handleBlockDrag = useCallback((day: number, minute: number) => {
     if (!draggedBlock) return;
@@ -542,8 +676,8 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
     // Calculate new start time based on mouse position minus offset
     const newStart = Math.max(0, Math.min(1439 - draggedBlock.block.duration, minute));
     
-    // Snap to 15-minute intervals
-    const snappedStart = Math.round(newStart / 15) * 15;
+    // Apply snapping based on current snap mode
+    const snappedStart = applySnapping(newStart, day);
     
     // Update the dragged block position
     setDraggedBlock(prev => prev ? {
@@ -554,7 +688,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
         start: snappedStart
       }
     } : null);
-  }, [draggedBlock]);
+  }, [draggedBlock, applySnapping]);
 
   // Handle block drag end (rearrange mode)
   const handleBlockDragEnd = useCallback(() => {
@@ -793,10 +927,10 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
 
   return (
     <div className="flex" id="adaptive-calendar">
-      {/* Sidebar for direct entry or editing - hidden in rearrange mode */}
+      {/* Sidebar for direct entry and editing - edit mode only */}
       {mode === 'edit' && (
         <div className="w-64 px-3 border-r bg-gray-50 space-y-3 pt-3">
-        {selectedBlock ? (
+          {selectedBlock ? (
           // Edit mode
           <div className="space-y-4">
             <div className="space-y-2">
@@ -934,8 +1068,23 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
 
       {/* Main calendar */}
       <div className="flex-1 p-2 space-y-3">
-        <div className="text-sm text-gray-600">
-          {mode === 'edit' ? 'Click and drag to select time blocks.' : 'Drag lessons to reschedule them.'}
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">
+            {mode === 'edit' ? 'Click and drag to select time blocks.' : 'Drag lessons to reschedule them.'}
+          </span>
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-gray-500">Snap:</label>
+            <Select value={snapMode} onValueChange={(value: SnapMode) => setSnapMode(value)}>
+              <SelectTrigger className="h-8 w-28 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="grid">15min grid</SelectItem>
+                <SelectItem value="precise">Precise</SelectItem>
+                {mode === 'rearrange' && <SelectItem value="smart">Smart</SelectItem>}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         
         <div className="border rounded-lg h-[calc(100%-3rem)] flex flex-col">
@@ -950,7 +1099,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
           </div>
           
           {/* Scrollable Calendar content */}
-          <div className="overflow-y-auto" style={{ height: '550px' }} id="calendar-scroll-container">
+          <div className="overflow-y-auto" style={{ height: '535px' }} id="calendar-scroll-container">
             <div className="flex relative" style={{ height: `${calendarHeight}px` }}>
               {/* Time labels column */}
               <div className="w-20 border-r bg-gray-50 relative" style={{ height: `${calendarHeight}px` }}>
@@ -1054,6 +1203,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
                         teacherAvailability={teacherAvailability}
                         studentAvailabilities={studentAvailabilities}
                         showStudentNames={showStudentNames}
+                        snapMode={snapMode}
                       />
                     </div>
                   );
