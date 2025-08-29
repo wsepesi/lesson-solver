@@ -1072,19 +1072,21 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
           <span className="text-sm text-gray-600">
             {mode === 'edit' ? 'Click and drag to select time blocks.' : 'Drag lessons to reschedule them.'}
           </span>
-          <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-500">Snap:</label>
-            <Select value={snapMode} onValueChange={(value: SnapMode) => setSnapMode(value)}>
-              <SelectTrigger className="h-8 w-28 text-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="grid">15min grid</SelectItem>
-                <SelectItem value="precise">Precise</SelectItem>
-                {mode === 'rearrange' && <SelectItem value="smart">Smart</SelectItem>}
-              </SelectContent>
-            </Select>
-          </div>
+          {mode === 'rearrange' && (
+            <div className="flex items-center gap-2">
+              <label className="text-xs text-gray-500">Snap:</label>
+              <Select value={snapMode} onValueChange={(value: SnapMode) => setSnapMode(value)}>
+                <SelectTrigger className="h-8 w-28 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="grid">15min grid</SelectItem>
+                  <SelectItem value="precise">Precise</SelectItem>
+                  <SelectItem value="smart">Smart</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
         
         <div className="border rounded-lg h-[calc(100%-3rem)] flex flex-col">

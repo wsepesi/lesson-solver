@@ -22,6 +22,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "src/components/ui/badge"
 import { Button } from "src/components/ui/button"
 import { Cross1Icon } from "@radix-ui/react-icons"
+import { Pencil } from "lucide-react"
 import { abbrDaytoFull } from "lib/utils"
 import { Progress } from "./ui/progress"
 
@@ -36,6 +37,9 @@ const SetAvailabilityDialog = dynamic(() => import("./SetAvailabilityDialog"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
 })
 const SolveScheduleDialog = dynamic(() => import("./SolveScheduleDialog"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+})
+const EditStudentScheduleDialog = dynamic(() => import("./EditStudentScheduleDialog"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
 })
 import { Task } from "./Task"
@@ -281,6 +285,7 @@ export function MyStudio(props: Props) {
   const [resolveOpen, setResolveOpen] = useState<boolean>(false)
   const [unscheduledStudents, setUnscheduledStudents] = useState<string[]>(studio.unscheduled_students ?? [])
   const [editAvailability, setEditAvailability] = useState<boolean>(false)
+  const [editingStudent, setEditingStudent] = useState<StudentSchema | null>(null)
   
   // State for tracking dragged student from unscheduled list
   const [draggedStudent, setDraggedStudent] = useState<{
@@ -790,11 +795,22 @@ export function MyStudio(props: Props) {
                       </PopoverContent>
                     </Popover>
                   </div>
-                  <Badge 
-                  className={`min-w-[6.5vw] flex flex-row justify-center ml-4 h-6 self-center border-landing-blue text-landing-blue
-                  ${progress === "Completed" && "bg-landing-blue text-white"}
-                  `}
-                  >{progress}</Badge>
+                  <div className="flex flex-row items-center gap-2">
+                    <Badge 
+                    className={`min-w-[6.5vw] flex flex-row justify-center h-6 self-center border-landing-blue text-landing-blue
+                    ${progress === "Completed" && "bg-landing-blue text-white"}
+                    `}
+                    >{progress}</Badge>
+                    {progress === "Completed" && (
+                      <button
+                        onClick={() => setEditingStudent(student)}
+                        className="w-5 h-5 flex items-center justify-center hover:bg-landing-blue/10 rounded-sm transition-colors"
+                        title="Edit student schedule"
+                      >
+                        <Pencil className="w-3 h-3 text-landing-blue/70 hover:text-landing-blue" />
+                      </button>
+                    )}
+                  </div>
                 </li>
               )})) : <p className="text-center text-landing-blue/70">No students have been invited or enrolled yet!</p>}
             </ul>
@@ -903,6 +919,20 @@ export function MyStudio(props: Props) {
           </section>
         </aside>
       </div>
+      
+      {/* Edit Student Schedule Dialog */}
+      {editingStudent && (
+        <EditStudentScheduleDialog
+          student={editingStudent}
+          studio={studio}
+          setStudio={setStudio}
+          events={events}
+          setEvents={setEvents}
+          setUnscheduledStudents={setUnscheduledStudents}
+          open={!!editingStudent}
+          onClose={() => setEditingStudent(null)}
+        />
+      )}
     </main>
   )
 }
