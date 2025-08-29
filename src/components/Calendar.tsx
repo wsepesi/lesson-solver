@@ -4,7 +4,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { Days } from "lib/utils"
 import { Toggle } from "./ui/toggle"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
 type Props = {
     minutes: number
@@ -18,6 +18,7 @@ export default function Calendar(props: Props) {
     const { buttonStates, setButtonStates, blocks, showWeekends = true } = props
     // const minutes = 30
     const [isSelecting, setSelecting] = useState(false)
+    const scrollContainerRef = useRef<HTMLDivElement>(null)
     
     // Filter days based on showWeekends preference
     const displayDays = showWeekends ? Days : Days.slice(0, 5) // Mon-Fri only
@@ -40,9 +41,16 @@ export default function Calendar(props: Props) {
     const handleMouseOver = (i: number, j: number) => {
         if (isSelecting) handleClick(i, j)
     }
+
+    // Auto-scroll to top on mount to show 9am (calendar starts at 9am)
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+        }
+    }, []);
     
     return (
-        <div className="px-5 overflow-auto h-full mr-4">
+        <div ref={scrollContainerRef} className="px-5 overflow-auto h-full mr-4">
             {/* <Table className="max-w-[50vw]">
              */}
              <Table className="w-full">

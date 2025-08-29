@@ -529,6 +529,10 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   // State for valid drop zones (per day) during dragging
   const [validDropZonesByDay, setValidDropZonesByDay] = useState<Map<number, TimeBlock[]>>(new Map());
   
+  // Refs for auto-scroll functionality
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const hasScrolledRef = useRef(false);
+  
   const { isDragging, dragStart, dragEnd, startDrag, updateDrag, endDrag } = useDragSelection(snapMode);
   
   const displayDays = useMemo(() => showWeekends ? 
@@ -897,16 +901,34 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [mode, isDragging, endDrag, schedule, selectedDay, onChange]);
 
-  // Default scroll position to center on 7am-7pm
+  // Auto-scroll to 9am when calendar becomes visible using IntersectionObserver
   useEffect(() => {
-    const scrollContainer = document.getElementById('calendar-scroll-container');
-    if (scrollContainer) {
-      // Calculate position for 7:00am (420 minutes from midnight) to show less early morning
-      const targetMinutes = 420; // 7 * 60 = 7:00am
-      const scrollPosition = ((targetMinutes - minMinutes) / 60) * 53 - 100; // 53px per hour, smaller offset
-      scrollContainer.scrollTop = Math.max(0, scrollPosition);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // When calendar becomes visible and we haven't scrolled yet
+          if (entry.isIntersecting && !hasScrolledRef.current) {
+            const targetMinutes = 540; // 9 * 60 = 9:00am
+            const scrollPosition = ((targetMinutes - minMinutes) / 60) * 53 - 100; // 53px per hour, smaller offset
+            (entry.target as HTMLDivElement).scrollTop = Math.max(0, scrollPosition);
+            hasScrolledRef.current = true;
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 10% of calendar is visible
+    );
+
+    if (scrollContainerRef.current) {
+      observer.observe(scrollContainerRef.current);
     }
+
+    return () => observer.disconnect();
   }, [minMinutes]);
+
+  // Reset scroll flag when schedule changes (e.g., dialog reopens)
+  useEffect(() => {
+    hasScrolledRef.current = false;
+  }, [schedule]);
 
   // Calculate valid drop zones when a student is being dragged
   useEffect(() => {
@@ -1070,7 +1092,15 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
       <div className="flex-1 p-2 space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">
-            {mode === 'edit' ? 'Click and drag to select time blocks.' : 'Drag lessons to reschedule them.'}
+            {mode === 'edit' ? (
+              <>
+                <span className="font-bold text-landing-blue">Click</span> and <span className="font-bold text-landing-blue">drag</span> to select time blocks.
+              </>
+            ) : (
+              <>
+                <span className="font-bold text-landing-blue">Drag</span> lessons to reschedule them.
+              </>
+            )}
           </span>
           {mode === 'rearrange' && (
             <div className="flex items-center gap-2">
@@ -1101,7 +1131,12 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
           </div>
           
           {/* Scrollable Calendar content */}
-          <div className="overflow-y-auto" style={{ height: '535px' }} id="calendar-scroll-container">
+          <div 
+            ref={scrollContainerRef}
+            className="overflow-y-auto" 
+            style={{ height: '535px' }} 
+            id="calendar-scroll-container"
+          >
             <div className="flex relative" style={{ height: `${calendarHeight}px` }}>
               {/* Time labels column */}
               <div className="w-20 border-r bg-gray-50 relative" style={{ height: `${calendarHeight}px` }}>
