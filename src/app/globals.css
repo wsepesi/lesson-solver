@@ -79,7 +79,7 @@
 
 @layer utilities {
   .animate-scroll {
-    animation: scroll 30s linear infinite;
+    animation: scroll 90s linear infinite;
   }
   
   .animate-music-drift-gentle {
@@ -127,7 +127,7 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translateX(-25%);
     }
   }
   

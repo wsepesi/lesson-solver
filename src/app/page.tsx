@@ -231,13 +231,32 @@ export default function HomePage() {
       <section className="py-4 border-t border-b border-landing-blue">
         <div className="overflow-hidden">
           <div className="flex animate-scroll whitespace-nowrap">
-            <div className="flex items-center space-x-12 px-8">
+            {/* Original set */}
+            <div className="flex items-center space-x-12 px-8 shrink-0">
               <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
-              {/* Duplicate for seamless loop */}
+            </div>
+            {/* Duplicate set 1 */}
+            <div className="flex items-center space-x-12 px-8 shrink-0">
+              <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
+            </div>
+            {/* Duplicate set 2 */}
+            <div className="flex items-center space-x-12 px-8 shrink-0">
+              <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
+            </div>
+            {/* Duplicate set 3 */}
+            <div className="flex items-center space-x-12 px-8 shrink-0">
               <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
