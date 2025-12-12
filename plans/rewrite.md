@@ -91,7 +91,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
 export const metadata = {
-  title: 'Lesson Solver',
+  title: 'Cadenza',
   description: 'Many-to-one lesson scheduling made easy',
 }
 

@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This document outlines the complete implementation plan for integrating Stripe payments and implementing a three-tier system for the Lesson Solver application. The pricing strategy is optimized for real music studios (5+ students) with semester-based usage patterns (typically 2x per year). The free tier serves as a demo for teachers to evaluate the software before committing to paid plans.
+This document outlines the complete implementation plan for integrating Stripe payments and implementing a three-tier system for the Cadenza application. The pricing strategy is optimized for real music studios (5+ students) with semester-based usage patterns (typically 2x per year). The free tier serves as a demo for teachers to evaluate the software before committing to paid plans.
 
 ## Current Architecture Analysis
 

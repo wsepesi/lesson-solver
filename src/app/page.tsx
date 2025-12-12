@@ -7,7 +7,7 @@ export default function HomePage() {
       {/* Header */}
       <header className="bg-landing-blue text-white border-b border-landing-blue">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-          <div className="text-lg font-medium">Lesson Solver</div>
+          <div className="text-lg font-medium">Cadenza</div>
           <nav className="flex items-center gap-3">
             <Link href="/login" className="text-white/90 hover:text-white transition-colors text-sm">
               Login
@@ -276,54 +276,66 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {/* Free Plan */}
-            <div className="border border-landing-blue/20 p-6 text-center">
-              <div className="text-xl font-semibold text-landing-blue mb-2">Trial</div>
-              <div className="text-3xl font-bold text-landing-blue mb-4">$0</div>
-              <ul className="text-sm space-y-2 mb-6 text-landing-blue">
-                <li className="italic">Get started with the trial plan:</li>
-                <li>Up to 5 students</li>
-                <li>1 studio</li>
-                <li>3 solves</li>
-                <li>Basic support</li>
-              </ul>
-              <Button variant="outline" className="w-full border-landing-blue text-landing-blue hover:bg-landing-blue hover:text-white">
-                Try Free
-              </Button>
+            <div className="border border-landing-blue/20 p-6 text-center flex flex-col h-full">
+              <div className="flex-grow">
+                <div className="text-xl font-semibold text-landing-blue mb-2">Trial</div>
+                <div className="text-3xl font-bold text-landing-blue mb-4">$0</div>
+                <ul className="text-sm space-y-2 mb-6 text-landing-blue">
+                  <li className="italic">Get started with the trial plan:</li>
+                  <li>Up to 5 students</li>
+                  <li>1 studio</li>
+                  <li>3 solves</li>
+                  <li>Basic support</li>
+                </ul>
+              </div>
+              <Link href="/login">
+                <Button variant="outline" className="w-full border-landing-blue text-landing-blue hover:bg-landing-blue hover:text-white mt-auto">
+                  Try Free
+                </Button>
+              </Link>
             </div>
 
             {/* Pro Plan */}
-            <div className="border-2 border-landing-blue p-6 text-center relative">
+            <div className="border-2 border-landing-blue p-6 text-center relative flex flex-col h-full">
               <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
                 <span className="bg-landing-blue text-white px-3 py-1 text-xs">Popular</span>
               </div>
-              <div className="text-xl font-semibold text-landing-blue mb-2">Pro</div>
-              <div className="text-3xl font-bold text-landing-blue mb-4">$50 / year</div>
-              <ul className="text-sm space-y-2 mb-6 text-landing-blue">
-                <li className="italic">Save time and energy with Pro:</li>
-                <li>50 studios</li>
-                <li>50 students per studio</li>
-                <li>100 solves per year</li>
-                <li>Priority support</li>
-              </ul>
-              <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">
-                Get Pro
-              </Button>
+              <div className="flex-grow">
+                <div className="text-xl font-semibold text-landing-blue mb-2">Pro</div>
+                <div className="text-3xl font-bold text-landing-blue mb-4">$50 / year</div>
+                <ul className="text-sm space-y-2 mb-6 text-landing-blue">
+                  <li className="italic">Save time and energy with Pro:</li>
+                  <li>50 studios</li>
+                  <li>50 students per studio</li>
+                  <li>100 solves per year</li>
+                  <li>Priority support</li>
+                </ul>
+              </div>
+              <Link href="/login">
+                <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover mt-auto">
+                  Get Pro
+                </Button>
+              </Link>
             </div>
 
             {/* Enterprise Plan */}
-            <div className="border border-landing-blue/20 p-6 text-center">
-              <div className="text-xl font-semibold text-landing-blue mb-2">Enterprise</div>
-              <div className="text-3xl font-bold text-landing-blue mb-4">Custom</div>
-              <ul className="text-sm space-y-2 mb-6 text-landing-blue">
-                <li className="italic">Bring ease to the whole department:</li>
-                <li>Unlimited studios & students</li>
-                <li>Unlimited solves</li>
-                <li>Dedicated support</li>
-                <li>Custom integrations</li>
-              </ul>
-              <Button variant="outline" className="w-full border-landing-blue text-landing-blue hover:bg-landing-blue hover:text-white">
-                Contact Sales
-              </Button>
+            <div className="border border-landing-blue/20 p-6 text-center flex flex-col h-full">
+              <div className="flex-grow">
+                <div className="text-xl font-semibold text-landing-blue mb-2">Enterprise</div>
+                <div className="text-3xl font-bold text-landing-blue mb-4">Custom</div>
+                <ul className="text-sm space-y-2 mb-6 text-landing-blue">
+                  <li className="italic">Bring ease to the whole department:</li>
+                  <li>Unlimited studios & students</li>
+                  <li>Unlimited solves</li>
+                  <li>Dedicated support</li>
+                  <li>Custom integrations</li>
+                </ul>
+              </div>
+              <a href="mailto:hello@william.computer">
+                <Button variant="outline" className="w-full border-landing-blue text-landing-blue hover:bg-landing-blue hover:text-white mt-auto">
+                  Contact Sales
+                </Button>
+              </a>
             </div>
           </div>
         </div>
@@ -339,7 +351,7 @@ export default function HomePage() {
               <a href="mailto:willsepesi@gmail.com" className="text-white/80 hover:text-white transition-colors">Contact</a>
             </div>
             <div className="text-white/60">
-              {/* © 2024 Lesson Solver */}
+              {/* © 2024 Cadenza */}
             </div>
           </div>
         </div>

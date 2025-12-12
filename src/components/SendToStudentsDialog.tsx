@@ -56,8 +56,8 @@ export default function SendToStudentsDialog(props: Props) {
                 </DialogHeader>
                     {/* <EmailsInput emails={emails} setEmails={setEmails} /> */}
                     <div className="my-4 p-3 bg-gray-100 rounded border">
-                        <a href={`https://lesson-solver.vercel.app/enroll?code=${props.studio.code}`} className="text-blue-600 hover:text-blue-800 underline break-all">
-                            lesson-solver.vercel.app/enroll?code={props.studio.code}
+                        <a href={`https://usecadenza.com/enroll?code=${props.studio.code}`} className="text-blue-600 hover:text-blue-800 underline break-all">
+                            usecadenza.com/enroll?code={props.studio.code}
                         </a>
                     </div>
                 <DialogFooter>

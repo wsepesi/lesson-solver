@@ -11,7 +11,7 @@ export default function Navbar() {
         <header className="bg-landing-blue text-white border-b border-landing-blue">
             <div className="container mx-auto px-4 py-2 flex justify-between items-center">
                 <Link href="/" className="text-lg font-medium hover:opacity-80 transition-opacity">
-                    Lesson Solver
+                    Cadenza
                 </Link>
                 <nav className="flex items-center gap-6">
                     <Link 

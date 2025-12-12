@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import MobileDetector from "@/components/MobileDetector";
 
 export const metadata: Metadata = {
-  title: "Lesson Solver",
+  title: "Cadenza",
   description: "Schedule lessons with ease",
 };
 

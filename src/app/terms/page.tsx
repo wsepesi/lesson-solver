@@ -7,7 +7,7 @@ export default function TermsPage() {
       <header className="bg-landing-blue text-white border-b border-landing-blue">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <Link href="/" className="text-lg font-medium hover:text-white/90 transition-colors">
-            Lesson Solver
+            Cadenza
           </Link>
           <nav className="flex items-center gap-3">
             <Link href="/login" className="text-white/90 hover:text-white transition-colors text-sm">
@@ -32,14 +32,14 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Agreement to Terms</h2>
             <p className="mb-4">
-              By accessing and using Lesson Solver, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+              By accessing and using Cadenza, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Description of Service</h2>
             <p className="mb-4">
-              Lesson Solver is a web-based scheduling application that helps teachers and instructors organize lesson schedules for their students using constraint satisfaction algorithms.
+              Cadenza is a web-based scheduling application that helps teachers and instructors organize lesson schedules for their students using constraint satisfaction algorithms.
             </p>
           </section>
 
@@ -101,14 +101,14 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Intellectual Property</h2>
             <p className="mb-4">
-              The service and its original content, features, and functionality are owned by Lesson Solver and are protected by international copyright, trademark, and other intellectual property laws.
+              The service and its original content, features, and functionality are owned by Cadenza and are protected by international copyright, trademark, and other intellectual property laws.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Limitation of Liability</h2>
             <p className="mb-4">
-              In no event shall Lesson Solver be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the service.
+              In no event shall Cadenza be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the service.
             </p>
           </section>
 
@@ -122,7 +122,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Governing Law</h2>
             <p className="mb-4">
-              These Terms shall be interpreted and governed by the laws of the jurisdiction in which Lesson Solver operates, without regard to conflict of law provisions.
+              These Terms shall be interpreted and governed by the laws of the jurisdiction in which Cadenza operates, without regard to conflict of law provisions.
             </p>
           </section>
 
@@ -155,7 +155,7 @@ export default function TermsPage() {
               <a href="mailto:willsepesi@gmail.com" className="text-white/80 hover:text-white transition-colors">Contact</a>
             </div>
             <div className="text-white/60">
-              {/* © 2024 Lesson Solver */}
+              {/* © 2024 Cadenza */}
             </div>
           </div>
         </div>

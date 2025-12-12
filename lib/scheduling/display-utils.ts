@@ -272,7 +272,7 @@ export const generateICS = (
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Lesson Solver//Lesson Solver//EN',
+    'PRODID:-//Cadenza//Cadenza//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-TIMEZONE:${timezone}`

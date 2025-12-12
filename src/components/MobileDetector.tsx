@@ -9,7 +9,7 @@ export default function MobileDetector() {
           Please view this site on a desktop or laptop computer for the best experience.
         </p>
         <p className="text-sm text-gray-500">
-          Lesson Solver requires a larger screen for optimal scheduling functionality.
+          Cadenza requires a larger screen for optimal scheduling functionality.
         </p>
       </div>
     </div>

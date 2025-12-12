@@ -7,7 +7,7 @@ export default function PrivacyPage() {
       <header className="bg-landing-blue text-white border-b border-landing-blue">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <Link href="/" className="text-lg font-medium hover:text-white/90 transition-colors">
-            Lesson Solver
+            Cadenza
           </Link>
           <nav className="flex items-center gap-3">
             <Link href="/login" className="text-white/90 hover:text-white transition-colors text-sm">
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-landing-blue mb-4">Our Commitment to Your Privacy</h2>
             <p className="mb-4">
-              At Lesson Solver, we take your privacy seriously. We are committed to protecting your personal information and being transparent about how we collect, use, and protect your data.
+              At Cadenza, we take your privacy seriously. We are committed to protecting your personal information and being transparent about how we collect, use, and protect your data.
             </p>
           </section>
 
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
               <a href="mailto:willsepesi@gmail.com" className="text-white/80 hover:text-white transition-colors">Contact</a>
             </div>
             <div className="text-white/60">
-              {/* © 2024 Lesson Solver */}
+              {/* © 2024 Cadenza */}
             </div>
           </div>
         </div>
