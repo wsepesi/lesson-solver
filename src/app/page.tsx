@@ -21,8 +21,10 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="py-16 text-center border-b border-landing-blue/20">
+      {/* Above the fold wrapper */}
+      <div className="min-h-[calc(100vh-48px)] flex flex-col">
+        {/* Hero Section */}
+        <section className="py-16 text-center">
         <div className="container mx-auto px-4 max-w-3xl">
           <h1 className="text-4xl font-bold text-landing-blue mb-8">
             Many-to-one scheduling made easy
@@ -218,14 +220,16 @@ export default function HomePage() {
                 Get Started
               </Button>
             </Link>
-            <Link href="/login">
+            <a href="#demo">
               <Button variant="outline" className="border-landing-blue text-landing-blue hover:bg-landing-blue hover:text-white px-6 py-2">
-                Log In
+                Watch Demo
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </section>
+
+        <div className="flex-1"></div>
 
       {/* Testimonials Strip */}
       <section className="py-4 border-t border-b border-landing-blue">
@@ -266,9 +270,28 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+        <div className="flex-[3]"></div>
+      </div>
+
+      {/* Demo Video Section */}
+      <section id="demo" className="py-16 bg-white border-t-2 border-b-2 border-landing-blue">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <h2 className="text-2xl font-bold text-landing-blue text-center mb-8">
+            See It in Action
+          </h2>
+          <div className="border border-landing-blue/20 overflow-hidden" style={{ position: 'relative', paddingBottom: '57.81584582441114%', height: 0 }}>
+            <iframe
+              src="https://www.loom.com/embed/592328a819ca4cbc9505cea46a63672c"
+              frameBorder="0"
+              allowFullScreen
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Pricing Section */}
-      <section className="py-16 border-t border-landing-blue">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold text-landing-blue text-center mb-12">
             Pricing
