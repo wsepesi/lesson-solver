@@ -19,7 +19,6 @@ import { useToast } from "@/components/ui/use-toast"
 import { type User } from "@supabase/supabase-js"
 import { createClient } from "@/utils/supabase/client"
 import { useUser } from "@/hooks/useUser"
-import { useRouter } from "next/navigation"
 
 const generateRandomCode = (len = 5) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -32,8 +31,7 @@ const generateRandomCode = (len = 5) => {
 
 export default function NewStudioPage() {
     const supabaseClient = createClient()
-    const { user }: { user: User | null } = useUser()
-    const router = useRouter()
+    const { user, loading }: { user: User | null; loading: boolean } = useUser()
 
     const [formData, setFormData] = useState<NewStudioInfo>({
         name: "",
@@ -43,9 +41,25 @@ export default function NewStudioPage() {
         maxLessonDuration: 120,
         calendarDays: 'weekdays',
     })
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const { toast } = useToast()
 
     const handleClick = async() => {
+        if (loading) {
+            toast({
+                title: "Please wait",
+                description: "Loading user data...",
+            })
+            return
+        }
+        if (!user) {
+            toast({
+                variant: "destructive",
+                title: "Not logged in",
+                description: "Please log in to create a studio",
+            })
+            return
+        }
         if (formData.name === "") {
             toast({
                 title: "Please fill out all fields",
@@ -67,46 +81,57 @@ export default function NewStudioPage() {
             })
             return
         }
+        
+        setIsSubmitting(true)
         try {
-            if (user) {
-                let success = false
+            let success = false
 
-                // try generating a unique code until we get one
-                while (!success) {
-                    const res = await supabaseClient.from("studios").insert({
-                        studio_name: formData.name,
-                        user_id: user.id,
-                        code: generateRandomCode(),
-                        allowed_lesson_durations: formData.allowedLessonDurations,
-                        allow_custom_duration: formData.allowCustomDuration,
-                        min_lesson_duration: formData.minLessonDuration,
-                        max_lesson_duration: formData.maxLessonDuration,
-                        calendar_days: formData.calendarDays,
-                    })
-                    switch (res.status) {
-                        case 201:
-                            success = true
-                            break
-                        case 409:
-                            // code already exists, try again
-                            break
-                        default:
-                            console.log(res)
-                            alert("error, please try again")
-                            return
-                    }
-                }
-
-                // confirm success with user and redirect
-                toast({
-                    title: "Studio created!",
-                    description: "Redirecting...",
+            // try generating a unique code until we get one
+            while (!success) {
+                const res = await supabaseClient.from("studios").insert({
+                    studio_name: formData.name,
+                    user_id: user.id,
+                    code: generateRandomCode(),
+                    allowed_lesson_durations: formData.allowedLessonDurations,
+                    allow_custom_duration: formData.allowCustomDuration,
+                    min_lesson_duration: formData.minLessonDuration,
+                    max_lesson_duration: formData.maxLessonDuration,
+                    calendar_days: formData.calendarDays,
                 })
-                router.push("/studios")
+                switch (res.status) {
+                    case 201:
+                        success = true
+                        break
+                    case 409:
+                        // code already exists, try again
+                        break
+                    default:
+                        console.log(res)
+                        toast({
+                            variant: "destructive",
+                            title: "Error",
+                            description: "Failed to create studio. Please try again.",
+                        })
+                        setIsSubmitting(false)
+                        return
+                }
             }
+
+            // confirm success with user and redirect
+            toast({
+                title: "Studio created!",
+                description: "Redirecting...",
+            })
+            // Hard redirect to ensure fresh data and reliable navigation
+            window.location.href = "/studios"
         } catch (e) {
             console.log(e)
-            alert("error, please try again")
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Failed to create studio. Please try again.",
+            })
+            setIsSubmitting(false)
         }
     }
     return (
@@ -241,25 +266,12 @@ export default function NewStudioPage() {
                 </form>
             </CardContent>
             <CardFooter className="flex justify-between">
-                <Button onClick={() => {
-                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                    void handleClick()
-                    // check we have a name and email
-                    if (formData.name === "") {
-                        toast({
-                            title: "Please fill out all fields",
-                            description: "Naming the Studio is required",
-                        })
-                        return
-                    }
-                    toast({
-                        title: "Studio created!",
-                        description: "Submitting data...",
-                    }) // FIXME: not showing up for whatever reason idk
-                    // TODO: await send to DB
-                    // redirect to studio page
-                }
-                }>Continue</Button>
+                <Button 
+                    onClick={() => void handleClick()}
+                    disabled={isSubmitting || loading}
+                >
+                    {isSubmitting ? "Creating..." : "Continue"}
+                </Button>
             </CardFooter>
         </Card>
         </div>
