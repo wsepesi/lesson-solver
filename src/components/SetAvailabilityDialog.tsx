@@ -40,7 +40,7 @@ export default function SetAvailabilityDialog(props: Props) {
                 <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Set Availability</DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 overflow-hidden min-h-0 max-h-[calc(100vh-10rem)] pt-2 pl-2">
                     <AdaptiveCalendar 
                         schedule={schedule}
                         onChange={onScheduleChange}
@@ -48,7 +48,7 @@ export default function SetAvailabilityDialog(props: Props) {
                         showWeekends={showWeekends}
                     />
                 </div>
-                <DialogFooter className="p-6 pt-0">
+                <DialogFooter className="p-6 pt-4 flex-shrink-0">
                     <Button 
                         onClick={handleSubmit} 
                         disabled={saving}

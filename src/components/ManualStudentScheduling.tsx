@@ -112,7 +112,7 @@ export default function ManualStudentScheduling(props: Props) {
                     studio={props.studio}
                 />
             </div>
-            <div className="flex-1 min-w-0 overflow-auto">
+            <div className="flex-1 min-w-0 overflow-auto max-h-[calc(100vh-8rem)]">
                 <AdaptiveCalendar 
                     schedule={weekSchedule}
                     onChange={setWeekSchedule}

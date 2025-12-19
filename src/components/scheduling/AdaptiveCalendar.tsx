@@ -908,7 +908,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
         entries.forEach((entry) => {
           // When calendar becomes visible and we haven't scrolled yet
           if (entry.isIntersecting && !hasScrolledRef.current) {
-            const targetMinutes = 540; // 9 * 60 = 9:00am
+            const targetMinutes = 420; // 7 * 60 = 7:00am
             const scrollPosition = ((targetMinutes - minMinutes) / 60) * 53 - 100; // 53px per hour, smaller offset
             (entry.target as HTMLDivElement).scrollTop = Math.max(0, scrollPosition);
             hasScrolledRef.current = true;
@@ -948,10 +948,11 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   const validation = validateWeekScheduleDetailed(schedule);
 
   return (
-    <div className="flex" id="adaptive-calendar">
+    <div className="flex h-full min-h-0" id="adaptive-calendar">
       {/* Sidebar for direct entry and editing - edit mode only */}
       {mode === 'edit' && (
-        <div className="w-64 px-3 border-r bg-gray-50 space-y-3 pt-3">
+        <div className="w-64 border rounded-lg bg-gray-50 flex flex-col h-full min-h-0">
+          <div className="flex-1 min-h-0 px-3 py-3 space-y-3 overflow-y-auto">
           {selectedBlock ? (
           // Edit mode
           <div className="space-y-4">
@@ -1085,11 +1086,12 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
             </div>
           </div>
         )}
+          </div>
         </div>
       )}
 
       {/* Main calendar */}
-      <div className="flex-1 p-2 space-y-3">
+      <div className="flex-1 px-2 space-y-3 overflow-hidden h-full flex flex-col min-h-0">
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">
             {mode === 'edit' ? (
@@ -1119,24 +1121,22 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
           )}
         </div>
         
-        <div className="border rounded-lg h-[calc(100%-3rem)] flex flex-col">
-          {/* Sticky Header */}
-          <div className="sticky top-0 z-10 flex bg-gray-50 border-b">
-            <div className="w-20 p-3 text-sm font-medium border-r">Time</div>
-            {displayDays.map(day => (
-              <div key={day} className="flex-1 p-3 text-sm font-medium text-center border-r last:border-r-0">
-                {getDayName(day)}
-              </div>
-            ))}
-          </div>
-          
-          {/* Scrollable Calendar content */}
-          <div 
+        <div className="border rounded-lg flex-1 overflow-hidden min-h-0">
+          {/* Scrollable Calendar content - header inside for alignment */}
+          <div
             ref={scrollContainerRef}
-            className="overflow-y-auto" 
-            style={{ height: '535px' }} 
+            className="overflow-y-auto h-full"
             id="calendar-scroll-container"
           >
+            {/* Sticky Header */}
+            <div className="sticky top-0 z-10 flex bg-gray-50 border-b">
+              <div className="w-20 p-3 text-sm font-medium border-r">Time</div>
+              {displayDays.map(day => (
+                <div key={day} className="flex-1 p-3 text-sm font-medium text-center border-r last:border-r-0">
+                  {getDayName(day)}
+                </div>
+              ))}
+            </div>
             <div className="flex relative" style={{ height: `${calendarHeight}px` }}>
               {/* Time labels column */}
               <div className="w-20 border-r bg-gray-50 relative" style={{ height: `${calendarHeight}px` }}>
