@@ -34,6 +34,7 @@ type Props = {
     events: Event[]
     taskStatus: boolean[]
     setTaskStatus: (taskStatus: boolean[]) => void
+    isChamberMode?: boolean
 }
 
 const getSplitName = (name: string): [string, string] => {
@@ -48,7 +49,11 @@ export default function ManualStudentScheduling(props: Props) {
     const taskStatus = props.taskStatus
     const setTaskStatus = props.setTaskStatus
     const sb = createClient()
-    const [minutes, setMinutes] = useState<LessonLength>(30)
+    // For chamber mode, use the fixed rehearsal duration; otherwise default to 30
+    const defaultDuration = props.isChamberMode
+        ? (props.studio.rehearsal_duration_minutes ?? 60)
+        : 30
+    const [minutes, setMinutes] = useState<LessonLength>(defaultDuration)
     const [weekSchedule, setWeekSchedule] = useState<WeekSchedule>(createEmptyWeekSchedule())
 
     // Get formatted display text for the week schedule
@@ -99,7 +104,7 @@ export default function ManualStudentScheduling(props: Props) {
     return(
         <div className="flex flex-col lg:flex-row w-full h-[calc(100vh-4rem)] gap-8 p-2">
             <div className="lg:w-80 lg:flex-shrink-0 mr-4">
-                <OnboardStudentsCard 
+                <OnboardStudentsCard
                     buttonStates={[]} // Legacy prop - no longer used with new system
                     minutes={minutes}
                     setMinutes={setMinutes}
@@ -110,6 +115,7 @@ export default function ManualStudentScheduling(props: Props) {
                     scheduleDisplayText={getScheduleDisplayText()}
                     isScheduleEmpty={isScheduleEmpty}
                     studio={props.studio}
+                    isChamberMode={props.isChamberMode}
                 />
             </div>
             <div className="flex-1 min-w-0 overflow-auto max-h-[calc(100vh-8rem)]">

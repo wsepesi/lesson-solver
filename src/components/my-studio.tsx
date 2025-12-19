@@ -42,9 +42,12 @@ const SolveScheduleDialog = dynamic(() => import("./SolveScheduleDialog"), {
 const EditStudentScheduleDialog = dynamic(() => import("./EditStudentScheduleDialog"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
 })
+const FindRehearsalDialog = dynamic(() => import("./FindRehearsalDialog"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+})
 import { Task } from "./Task"
 import type { StudioWithStudents } from "@/app/(protected)/studios/[slug]/page"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import dynamic from "next/dynamic"
 import type { StudentSchema } from "lib/db-types"
 import { createClient } from "@/utils/supabase/client"
@@ -64,7 +67,7 @@ const AdaptiveCalendar = dynamic(
 import { createEmptyWeekSchedule } from "lib/scheduling/utils"
 import type { WeekSchedule } from "lib/scheduling/types"
 import type { Schedule } from "lib/types"
-import { convertScheduleToWeekSchedule } from "lib/scheduling-adapter"
+import { convertScheduleToWeekSchedule, solveChamberStudioSchedule, chamberSolutionToWeekSchedule } from "lib/scheduling-adapter"
 import { dayNames, timeBlockToString } from "lib/scheduling/display-utils"
 
 // Event type previously from InteractiveCalendar - now defined inline
@@ -297,6 +300,9 @@ export function MyStudio(props: Props) {
 
   // Using events directly for schedule display
   const [events, setEvents] = useState<Event[]>((studio.events as Event[]) ?? [])
+
+  // Chamber music mode: track mutual overlap schedule for drag constraints
+  const [chamberOverlapSchedule, setChamberOverlapSchedule] = useState<WeekSchedule | null>(null)
 
   const handleSaveSchedule = async () => {
     if (!events) {
@@ -552,10 +558,27 @@ export function MyStudio(props: Props) {
     };
   }, [studio.owner_schedule, studio.students]);
 
-  const tasks: Task[] = [
+  // Check if this is a chamber music studio
+  const isChamberMode = studio.studio_mode === 'chamber_music';
+
+  // Recalculate chamber overlap on mount if in chamber mode with existing rehearsal
+  // This is needed because chamberOverlapSchedule is only set when FindRehearsalDialog runs,
+  // but if tasks are already complete (page reload), we need to recalculate for drag constraints
+  useEffect(() => {
+    if (isChamberMode && events.length > 0 && !chamberOverlapSchedule) {
+      const result = solveChamberStudioSchedule(studio, studio.students);
+      if (result.mutualSlots.length > 0) {
+        const overlapSchedule = chamberSolutionToWeekSchedule(result);
+        setChamberOverlapSchedule(overlapSchedule);
+      }
+    }
+  }, [isChamberMode, events.length, chamberOverlapSchedule, studio]);
+
+  // Tasks for individual lessons mode (default)
+  const individualTasks: Task[] = [
     {
       name: "Set your availability",
-      dialogComponent: <SetAvailabilityDialog 
+      dialogComponent: <SetAvailabilityDialog
         handleSubmit={handleAvailabilitySubmit}
         schedule={weekSchedule}
         onScheduleChange={updateSchedule}
@@ -565,8 +588,8 @@ export function MyStudio(props: Props) {
     },
     {
       name: "Send out code to students",
-      dialogComponent: <SendToStudentsDialog 
-        taskStatus={taskStatus} 
+      dialogComponent: <SendToStudentsDialog
+        taskStatus={taskStatus}
         setTaskStatus={setTaskStatus}
         taskIdx={SEND_CODE}
         setOpen={(input: boolean) => {
@@ -577,7 +600,7 @@ export function MyStudio(props: Props) {
     },
     {
       name: "Create your schedule",
-      dialogComponent: <SolveScheduleDialog 
+      dialogComponent: <SolveScheduleDialog
         studio={studio}
         setTaskStatus={setTaskStatus}
         taskStatus={taskStatus}
@@ -587,7 +610,49 @@ export function MyStudio(props: Props) {
         setUnscheduledStudents={setUnscheduledStudents}
       />
     },
-  ]
+  ];
+
+  // Tasks for chamber music mode
+  const chamberTasks: Task[] = [
+    {
+      name: "Set your availability",
+      dialogComponent: <SetAvailabilityDialog
+        handleSubmit={handleAvailabilitySubmit}
+        schedule={weekSchedule}
+        onScheduleChange={updateSchedule}
+        saving={saving}
+        showWeekends={studio.calendar_days === 'full_week'}
+      />
+    },
+    {
+      name: "Send code to participants",
+      dialogComponent: <SendToStudentsDialog
+        taskStatus={taskStatus}
+        setTaskStatus={setTaskStatus}
+        taskIdx={SEND_CODE}
+        setOpen={(input: boolean) => {
+          setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
+        }}
+        studio={studio}
+        isChamberMode={true}
+        />
+    },
+    {
+      name: "Select rehearsal time",
+      dialogComponent: <FindRehearsalDialog
+        studio={studio}
+        setTaskStatus={setTaskStatus}
+        taskStatus={taskStatus}
+        taskIdx={CREATE_SCHEDULE}
+        setStudio={setStudio}
+        setEvents={setEvents}
+        setChamberOverlap={setChamberOverlapSchedule}
+      />
+    },
+  ];
+
+  // Select tasks based on mode
+  const tasks = isChamberMode ? chamberTasks : individualTasks;
 
   const handleStudioDelete = async () => {
     
@@ -635,24 +700,25 @@ export function MyStudio(props: Props) {
         <div>
           <h1 className="text-4xl font-bold tracking-tight text-landing-blue">{studio.studio_name}</h1>
         </div>
-        <h3 className="text-xl tracking-tight font-light text-landing-blue/70">Studio Code: {studio.code}</h3>
+        <h3 className="text-xl tracking-tight font-light text-landing-blue/70">{isChamberMode ? 'Group Code' : 'Studio Code'}: {studio.code}</h3>
       </header>
       <div className="flex space-x-10">
         {isDoneWithTasks ? 
         ( <>
           <div className="space-y-6 w-2/3">
-            <div className="h-[45vh]">
-              <AdaptiveCalendar 
+            <div className="h-[calc(100vh-10rem)]">
+              <AdaptiveCalendar
                 schedule={scheduleWeek}
                 onChange={handleScheduleChange}
                 granularity={15}
                 mode="rearrange"
                 showWeekends={studio.calendar_days === 'full_week'}
-                teacherAvailability={teacherAvailability}
-                studentAvailabilities={studentAvailabilities}
-                showStudentNames={true}
+                teacherAvailability={isChamberMode ? (chamberOverlapSchedule ?? undefined) : teacherAvailability}
+                studentAvailabilities={isChamberMode ? undefined : studentAvailabilities}
+                showStudentNames={!isChamberMode}
                 onStudentDrop={handleStudentDrop}
                 draggedStudent={draggedStudent}
+                isChamberMode={isChamberMode}
               />
             </div>
           </div>
@@ -765,8 +831,12 @@ export function MyStudio(props: Props) {
         <aside className="w-1/3 space-y-6">
           <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
             <div className="flex flex-row w-full mb-4">
-              <h2 className="text-xl font-bold w-full text-landing-blue">Enrolled Students</h2>
-              <p className="text-right w-full text-landing-blue/70">{studio.students.length} / {isPaid ? 50 : 10} students</p>
+              <h2 className="text-xl font-bold w-full text-landing-blue">
+                {isChamberMode ? "Group Members" : "Enrolled Students"}
+              </h2>
+              <p className="text-right w-full text-landing-blue/70">
+                {studio.students.length} / {isPaid ? 50 : 10} {isChamberMode ? "members" : "students"}
+              </p>
               {/* TODO: add a tooltip to explain the limit if the user isnt premium */}
             </div>
             <ul className="space-y-2 flex flex-col max-h-[40vh] overflow-y-auto">
@@ -776,7 +846,7 @@ export function MyStudio(props: Props) {
                 <li key={student.id} className="flex flex-row w-full justify-between">
                   <div className="flex flex-row justify-start items-center">
                     {/* make sure the border has a thin radius and is a circle */}
-                    <div 
+                    <div
                       className="w-5 h-5 cursor-pointer hover:bg-landing-blue/10 flex flex-row items-center p-1 border border-landing-blue/30 rounded-full mr-1"
                       onClick={() => handleStudentDelete(student)}
                     >
@@ -796,12 +866,12 @@ export function MyStudio(props: Props) {
                     </Popover>
                   </div>
                   <div className="flex flex-row items-center gap-2">
-                    <Badge 
+                    <Badge
                     className={`min-w-[6.5vw] flex flex-row justify-center h-6 self-center border-landing-blue text-landing-blue
                     ${progress === "Completed" && "bg-landing-blue text-white"}
                     `}
                     >{progress}</Badge>
-                    {progress === "Completed" && (
+                    {progress === "Completed" && !isChamberMode && (
                       <button
                         onClick={() => setEditingStudent(student)}
                         className="w-5 h-5 flex items-center justify-center hover:bg-landing-blue/10 rounded-sm transition-colors"
@@ -812,32 +882,39 @@ export function MyStudio(props: Props) {
                     )}
                   </div>
                 </li>
-              )})) : <p className="text-center text-landing-blue/70">No students have been invited or enrolled yet!</p>}
+              )})) : <p className="text-center text-landing-blue/70">
+                {isChamberMode
+                  ? "No members have joined yet. Share your group code!"
+                  : "No students have been invited or enrolled yet!"}
+              </p>}
             </ul>
           </section>
           <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
             <h2 className="text-xl font-bold mb-4 text-landing-blue">Admin Tasks</h2>
             <div className="space-y-2">
-              <Dialog 
-                open={taskOpen[SEND_CODE]} 
+              <Dialog
+                open={taskOpen[SEND_CODE]}
                 onOpenChange={(input: boolean) => {
                   setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
                 }}
               >
                 <DialogTrigger asChild>
-                  <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Invite Students</Button>
+                  <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">
+                    {isChamberMode ? "Invite Members" : "Invite Students"}
+                  </Button>
                 </DialogTrigger>
-                <SendToStudentsDialog 
-                  taskStatus={taskStatus} 
+                <SendToStudentsDialog
+                  taskStatus={taskStatus}
                   setTaskStatus={setTaskStatus}
                   taskIdx={SEND_CODE}
                   setOpen={(input: boolean) => {
                     setTaskOpen(taskOpen.map((status, i) => SEND_CODE === i ? input : status))
                   }}
                   studio={studio}
+                  isChamberMode={isChamberMode}
                 />
               </Dialog>
-              <ManualScheduleDialog 
+              <ManualScheduleDialog
                 studio={studio}
                 setStudio={props.setStudio}
                 events={events}
@@ -898,23 +975,37 @@ export function MyStudio(props: Props) {
                   </AlertDialog>
                 </DialogContent>
               </Dialog>
-              {taskStatus[CREATE_SCHEDULE] && 
+              {taskStatus[CREATE_SCHEDULE] && (
                 <Dialog open={resolveOpen} onOpenChange={setResolveOpen}>
                   <DialogTrigger asChild>
-                    <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Re-Solve Schedule</Button>
+                    <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">
+                      {isChamberMode ? "Change Rehearsal Time" : "Re-Solve Schedule"}
+                    </Button>
                   </DialogTrigger>
-                  <SolveScheduleDialog 
-                    studio={studio}
-                    setTaskStatus={setTaskStatus}
-                    taskStatus={taskStatus}
-                    taskIdx={CREATE_SCHEDULE}
-                    setEvents={setEvents}
-                    setStudio={setStudio}
-                    setResolveOpen={setResolveOpen}
-                    setUnscheduledStudents={setUnscheduledStudents}
-                  />
+                  {isChamberMode ? (
+                    <FindRehearsalDialog
+                      studio={studio}
+                      setTaskStatus={setTaskStatus}
+                      taskStatus={taskStatus}
+                      taskIdx={CREATE_SCHEDULE}
+                      setEvents={setEvents}
+                      setStudio={setStudio}
+                      setChamberOverlap={setChamberOverlapSchedule}
+                    />
+                  ) : (
+                    <SolveScheduleDialog
+                      studio={studio}
+                      setTaskStatus={setTaskStatus}
+                      taskStatus={taskStatus}
+                      taskIdx={CREATE_SCHEDULE}
+                      setEvents={setEvents}
+                      setStudio={setStudio}
+                      setResolveOpen={setResolveOpen}
+                      setUnscheduledStudents={setUnscheduledStudents}
+                    />
+                  )}
                 </Dialog>
-              }
+              )}
             </div>
           </section>
         </aside>

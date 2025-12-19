@@ -26,18 +26,36 @@ function getValidDropZones(
   lessonDuration: number,
   studentId: string,
   teacherAvailability?: WeekSchedule,
-  studentAvailabilities?: Map<string, WeekSchedule>
+  studentAvailabilities?: Map<string, WeekSchedule>,
+  isChamberMode?: boolean
 ): TimeBlock[] {
-  if (!teacherAvailability || !studentAvailabilities) return [];
-  
+  if (!teacherAvailability) return [];
+
+  // Chamber mode: teacherAvailability IS the mutual overlap (valid zones)
+  if (isChamberMode) {
+    const daySchedule = teacherAvailability.days[dayIndex];
+    if (!daySchedule) return [];
+    const validZones: TimeBlock[] = [];
+    for (const block of daySchedule.blocks) {
+      // Create slots where rehearsal can be placed within this overlap block
+      for (let start = block.start; start <= block.start + block.duration - lessonDuration; start += 15) {
+        validZones.push({ start, duration: lessonDuration });
+      }
+    }
+    return mergeTimeBlocks(validZones);
+  }
+
+  // Regular mode: intersection of teacher and student availability
+  if (!studentAvailabilities) return [];
+
   const teacherDay = teacherAvailability.days[dayIndex];
   const studentSchedule = studentAvailabilities.get(studentId);
   const studentDay = studentSchedule?.days[dayIndex];
-  
+
   if (!teacherDay || !studentDay) return [];
-  
+
   const validZones: TimeBlock[] = [];
-  
+
   // Find intersections of teacher and student availability
   for (const teacherBlock of teacherDay.blocks) {
     for (const studentBlock of studentDay.blocks) {
@@ -47,7 +65,7 @@ function getValidDropZones(
         teacherBlock.start + teacherBlock.duration,
         studentBlock.start + studentBlock.duration
       );
-      
+
       if (overlapEnd > overlapStart && (overlapEnd - overlapStart) >= lessonDuration) {
         // Create time slots within this overlap where lesson can be placed
         for (let start = overlapStart; start <= overlapEnd - lessonDuration; start += 15) {
@@ -59,7 +77,7 @@ function getValidDropZones(
       }
     }
   }
-  
+
   // Merge overlapping zones and remove duplicates
   return mergeTimeBlocks(validZones);
 }
@@ -70,18 +88,35 @@ function getValidDropPositions(
   lessonDuration: number,
   studentId: string,
   teacherAvailability?: WeekSchedule,
-  studentAvailabilities?: Map<string, WeekSchedule>
+  studentAvailabilities?: Map<string, WeekSchedule>,
+  isChamberMode?: boolean
 ): number[] {
-  if (!teacherAvailability || !studentAvailabilities) return [];
-  
+  if (!teacherAvailability) return [];
+
+  // Chamber mode: teacherAvailability IS the mutual overlap (valid positions)
+  if (isChamberMode) {
+    const daySchedule = teacherAvailability.days[dayIndex];
+    if (!daySchedule) return [];
+    const validPositions: number[] = [];
+    for (const block of daySchedule.blocks) {
+      for (let start = block.start; start <= block.start + block.duration - lessonDuration; start += 15) {
+        validPositions.push(start);
+      }
+    }
+    return [...new Set(validPositions)].sort((a, b) => a - b);
+  }
+
+  // Regular mode: intersection of teacher and student availability
+  if (!studentAvailabilities) return [];
+
   const teacherDay = teacherAvailability.days[dayIndex];
   const studentSchedule = studentAvailabilities.get(studentId);
   const studentDay = studentSchedule?.days[dayIndex];
-  
+
   if (!teacherDay || !studentDay) return [];
-  
+
   const validPositions: number[] = [];
-  
+
   // Find intersections of teacher and student availability
   for (const teacherBlock of teacherDay.blocks) {
     for (const studentBlock of studentDay.blocks) {
@@ -91,7 +126,7 @@ function getValidDropPositions(
         teacherBlock.start + teacherBlock.duration,
         studentBlock.start + studentBlock.duration
       );
-      
+
       if (overlapEnd > overlapStart && (overlapEnd - overlapStart) >= lessonDuration) {
         // Create time slots within this overlap where lesson can be placed
         for (let start = overlapStart; start <= overlapEnd - lessonDuration; start += 15) {
@@ -100,7 +135,7 @@ function getValidDropPositions(
       }
     }
   }
-  
+
   // Remove duplicates and sort
   return [...new Set(validPositions)].sort((a, b) => a - b);
 }
@@ -112,11 +147,12 @@ function isValidDropZone(
   duration: number,
   studentId: string,
   teacherAvailability?: WeekSchedule,
-  studentAvailabilities?: Map<string, WeekSchedule>
+  studentAvailabilities?: Map<string, WeekSchedule>,
+  isChamberMode?: boolean
 ): boolean {
-  const validZones = getValidDropZones(dayIndex, duration, studentId, teacherAvailability, studentAvailabilities);
-  return validZones.some(zone => 
-    startMinute >= zone.start && 
+  const validZones = getValidDropZones(dayIndex, duration, studentId, teacherAvailability, studentAvailabilities, isChamberMode);
+  return validZones.some(zone =>
+    startMinute >= zone.start &&
     (startMinute + duration) <= (zone.start + zone.duration)
   );
 }
@@ -499,7 +535,8 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   studentAvailabilities,
   showStudentNames = false,
   onStudentDrop,
-  draggedStudent
+  draggedStudent,
+  isChamberMode = false
 }) => {
   const [directInputStart, setDirectInputStart] = useState('');
   const [directInputEnd, setDirectInputEnd] = useState('');
@@ -607,13 +644,18 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   // Handle block drag start (rearrange mode)
   const handleBlockDragStart = useCallback((day: number, blockIndex: number, block: TimeBlock, offsetY: number) => {
     setDraggedBlock({ originalDay: day, currentDay: day, blockIndex, block, offsetY });
-    
+
     // Calculate valid drop zones for this lesson if availability data is provided
-    if (mode === 'rearrange' && teacherAvailability && studentAvailabilities && block.metadata?.studentId) {
-      const studentId = block.metadata.studentId.toString();
+    // Chamber mode: only need teacherAvailability (which is the mutual overlap)
+    // Regular mode: need both teacherAvailability and studentAvailabilities
+    if (mode === 'rearrange' && teacherAvailability && (!!studentAvailabilities || isChamberMode)) {
+      // For chamber mode, use dummy studentId; for regular mode, use actual studentId
+      const studentId = isChamberMode ? 'chamber' : block.metadata?.studentId?.toString() ?? '';
+      if (!studentId && !isChamberMode) return; // Skip if no studentId in non-chamber mode
+
       const lessonDuration = block.duration;
       const validZonesMap = new Map<number, TimeBlock[]>();
-      
+
       // Calculate valid zones for each day
       displayDays.forEach(dayIndex => {
         const validZones = getValidDropZones(
@@ -621,16 +663,17 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
           lessonDuration,
           studentId,
           teacherAvailability,
-          studentAvailabilities
+          studentAvailabilities,
+          isChamberMode
         );
         if (validZones.length > 0) {
           validZonesMap.set(dayIndex, validZones);
         }
       });
-      
+
       setValidDropZonesByDay(validZonesMap);
     }
-  }, [mode, teacherAvailability, studentAvailabilities, displayDays]);
+  }, [mode, teacherAvailability, studentAvailabilities, displayDays, isChamberMode]);
 
   // Helper function to apply snapping based on current snap mode
   const applySnapping = useCallback((targetStart: number, day: number): number => {
@@ -638,23 +681,28 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
       case 'grid':
         // Original behavior: snap to 15-minute intervals
         return Math.round(targetStart / 15) * 15;
-        
+
       case 'precise':
         // No snapping: return exact minute
         return Math.round(targetStart);
-        
+
       case 'smart':
         // Snap to nearest valid drop position if available
-        if (draggedBlock && teacherAvailability && studentAvailabilities && draggedBlock.block.metadata?.studentId) {
-          const studentId = draggedBlock.block.metadata.studentId.toString();
+        // Chamber mode: only need teacherAvailability; Regular mode: need both
+        if (draggedBlock && teacherAvailability && (studentAvailabilities || isChamberMode)) {
+          const studentId = isChamberMode ? 'chamber' : draggedBlock.block.metadata?.studentId?.toString() ?? '';
+          if (!studentId && !isChamberMode) {
+            return Math.round(targetStart / 15) * 15;
+          }
           const validPositions = getValidDropPositions(
             day,
             draggedBlock.block.duration,
             studentId,
             teacherAvailability,
-            studentAvailabilities
+            studentAvailabilities,
+            isChamberMode
           );
-          
+
           if (validPositions.length > 0) {
             // Find the closest valid position
             const closestPosition = validPositions.reduce((closest, position) => {
@@ -667,11 +715,11 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
         }
         // Fallback to grid snapping if no valid positions
         return Math.round(targetStart / 15) * 15;
-        
+
       default:
         return Math.round(targetStart / 15) * 15;
     }
-  }, [snapMode, draggedBlock, teacherAvailability, studentAvailabilities]);
+  }, [snapMode, draggedBlock, teacherAvailability, studentAvailabilities, isChamberMode]);
 
   // Handle block drag (rearrange mode)
   const handleBlockDrag = useCallback((day: number, minute: number) => {
@@ -697,19 +745,25 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
   // Handle block drag end (rearrange mode)
   const handleBlockDragEnd = useCallback(() => {
     if (!draggedBlock) return;
-    
+
     // Check if the drop is valid when availability data is provided
-    const isValidAvailability = mode === 'rearrange' && teacherAvailability && studentAvailabilities && draggedBlock.block.metadata?.studentId
+    // Chamber mode: only need teacherAvailability; Regular mode: need both
+    const hasAvailabilityData = mode === 'rearrange' && teacherAvailability && (!!studentAvailabilities || isChamberMode);
+    const studentId = isChamberMode ? 'chamber' : draggedBlock.block.metadata?.studentId?.toString() ?? '';
+    const canValidate = hasAvailabilityData && (isChamberMode || studentId);
+
+    const isValidAvailability = canValidate
       ? isValidDropZone(
           draggedBlock.currentDay,
           draggedBlock.block.start,
           draggedBlock.block.duration,
-          draggedBlock.block.metadata.studentId.toString(),
+          studentId,
           teacherAvailability,
-          studentAvailabilities
+          studentAvailabilities,
+          isChamberMode
         )
       : true; // Allow move if no availability data (backward compatibility)
-    
+
     // Check if the new position would overlap with existing lessons
     const targetDaySchedule = schedule.days[draggedBlock.currentDay];
     const excludeIndex = draggedBlock.originalDay === draggedBlock.currentDay ? draggedBlock.blockIndex : undefined;
@@ -718,48 +772,48 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
       draggedBlock.block,
       excludeIndex
     ) : false;
-    
+
     const isValidDrop = isValidAvailability && !wouldOverlap;
-    
+
     if (isValidDrop) {
       // Valid drop - perform the move
       const newSchedule = { ...schedule };
-      
+
       // Get original day schedule where block started
       const originalDay = draggedBlock.originalDay;
       const targetDay = draggedBlock.currentDay;
-      
+
       const originalDaySchedule = newSchedule.days[originalDay];
       const targetDaySchedule = newSchedule.days[targetDay];
-      
+
       if (originalDaySchedule && targetDaySchedule) {
         // Remove block from original position (using the original block index)
         originalDaySchedule.blocks.splice(draggedBlock.blockIndex, 1);
-        
+
         // Add block to new position with updated start time, preserving metadata
         targetDaySchedule.blocks.push({
           start: draggedBlock.block.start,
           duration: draggedBlock.block.duration,
           metadata: draggedBlock.block.metadata // Preserve metadata during move
         });
-        
+
         // Re-sort blocks in target day (don't merge - each block is a separate lesson)
         targetDaySchedule.blocks.sort((a, b) => a.start - b.start);
-        
+
         // If it was a cross-day move, also clean up the original day (don't merge)
         if (originalDay !== targetDay) {
           originalDaySchedule.blocks.sort((a, b) => a.start - b.start);
         }
-        
+
         onChange(newSchedule);
       }
     }
     // If invalid drop, the block will just return to its original position (no action needed)
-    
+
     // Clear drag state and valid zones
     setDraggedBlock(null);
     setValidDropZonesByDay(new Map());
-  }, [draggedBlock, schedule, onChange, mode, teacherAvailability, studentAvailabilities]);
+  }, [draggedBlock, schedule, onChange, mode, teacherAvailability, studentAvailabilities, isChamberMode]);
 
   // Handle block edit
   const handleBlockEdit = useCallback(() => {
@@ -1100,7 +1154,7 @@ export const AdaptiveCalendar: React.FC<CalendarProps> = ({
               </>
             ) : (
               <>
-                <span className="font-bold text-landing-blue">Drag</span> lessons to reschedule them.
+                <span className="font-bold text-landing-blue">Drag</span> {isChamberMode ? 'the time to reschedule it.' : 'lessons to reschedule them.'}
               </>
             )}
           </span>

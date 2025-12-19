@@ -116,14 +116,24 @@ export type ScheduleAndScore = {
 }
 
 /**
+ * Studio mode - individual lessons or chamber music group
+ */
+export type StudioMode = 'individual_lessons' | 'chamber_music';
+
+/**
  * Studio creation info
  */
 export type NewStudioInfo = {
   name: string;
+  mode: StudioMode;
+  // Individual lessons mode fields
   allowedLessonDurations: number[];
   allowCustomDuration: boolean;
   minLessonDuration: number;
   maxLessonDuration: number;
+  // Chamber music mode field
+  rehearsalDurationMinutes: number;
+  // Common fields
   calendarDays: 'weekdays' | 'full_week';
 }
 

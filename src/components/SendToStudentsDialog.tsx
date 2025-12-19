@@ -16,52 +16,42 @@ type Props = {
     setTaskStatus: React.Dispatch<React.SetStateAction<boolean[]>>,
     taskIdx: number,
     setOpen: (input: boolean) => void,
-    studio: StudioWithStudents
+    studio: StudioWithStudents,
+    isChamberMode?: boolean
 }
 
 export default function SendToStudentsDialog(props: Props) {
+    const { isChamberMode = false } = props;
+
     const handleClick = () => {
-        // if (emails.length === 0) {
-        //     alert("Please enter at least one email")
-        // } else {
-        //     console.log(emails)
-        //     props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
-        //     setEmails([])
-        //     props.setOpen(false)
-        // }
         props.setTaskStatus(props.taskStatus.map((status, i) => props.taskIdx === i ? true : status))
         props.setOpen(false)
     }
+
     return(
         <>
             <DialogContent className="sm:max-w-[425px]">
-                {/* <DialogHeader>
-                <DialogTitle>Send out an availability survey</DialogTitle>
-                <DialogDescription>
-                    Enter your student&apos;s emails below and we&apos;ll send them a survey to fill out their availability.
-                </DialogDescription>
-                </DialogHeader>
-                    <EmailsInput emails={emails} setEmails={setEmails} />
-                <DialogFooter>
-                    <Button 
-                        type="submit"
-                        onClick={handleClick}
-                    >Send</Button>
-                </DialogFooter> */}
                 <DialogHeader>
-                <DialogTitle>Send out an availability survey</DialogTitle>
+                <DialogTitle>
+                    {isChamberMode ? "Invite group members" : "Send out an availability survey"}
+                </DialogTitle>
                 <DialogDescription>
-                    Send the following link to your students to fill out their availability. The studio code is already included in the link.
+                    {isChamberMode
+                        ? "Share the following link with your chamber group members so they can enter their availability."
+                        : "Send the following link to your students to fill out their availability. The studio code is already included in the link."
+                    }
                 </DialogDescription>
                 </DialogHeader>
-                    {/* <EmailsInput emails={emails} setEmails={setEmails} /> */}
                     <div className="my-4 p-3 bg-gray-100 rounded border">
                         <a href={`https://usecadenza.com/enroll?code=${props.studio.code}`} className="text-blue-600 hover:text-blue-800 underline break-all">
                             usecadenza.com/enroll?code={props.studio.code}
                         </a>
                     </div>
+                    <p className="text-sm text-gray-600">
+                        {isChamberMode ? "Group" : "Studio"} code: <span className="font-mono font-bold">{props.studio.code}</span>
+                    </p>
                 <DialogFooter>
-                    <Button 
+                    <Button
                         type="submit"
                         onClick={handleClick}
                     >Done!</Button>

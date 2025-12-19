@@ -132,6 +132,8 @@ export type CalendarProps = {
     lessonDuration: number;
     studentDbId: number;
   } | null;
+  // Chamber music mode - shows different UI copy
+  isChamberMode?: boolean;
 }
 
 // Time selection and interaction types
