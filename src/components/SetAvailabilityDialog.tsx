@@ -35,12 +35,12 @@ export default function SetAvailabilityDialog(props: Props) {
     }
 
     return (
-        <DialogContent className="w-[95vw] h-[95vh] max-w-[95vw] max-h-[95vh] p-0">
+        <DialogContent className="w-[calc(100vw-48px)] h-[calc(100vh-48px)] max-w-[calc(100vw-48px)] max-h-[calc(100vh-48px)] p-0">
             <div className="h-full flex flex-col">
                 <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Set Availability</DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 overflow-hidden min-h-0 max-h-[calc(100vh-10rem)] pt-2 pl-2">
+                <div className="flex-1 overflow-hidden min-h-0 pt-2 pl-2 max-h-[calc(100vh-10rem)]">
                     <AdaptiveCalendar 
                         schedule={schedule}
                         onChange={onScheduleChange}
