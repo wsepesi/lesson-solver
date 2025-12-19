@@ -766,7 +766,7 @@ export function MyStudio(props: Props) {
           <section className="bg-white border border-landing-blue/20 p-4 rounded-md">
             <div className="flex flex-row w-full mb-4">
               <h2 className="text-xl font-bold w-full text-landing-blue">Enrolled Students</h2>
-              <p className="text-right w-full text-landing-blue/70">{studio.students.length} / {isPaid ? 50 : 5} students</p>
+              <p className="text-right w-full text-landing-blue/70">{studio.students.length} / {isPaid ? 50 : 10} students</p>
               {/* TODO: add a tooltip to explain the limit if the user isnt premium */}
             </div>
             <ul className="space-y-2 flex flex-col max-h-[40vh] overflow-y-auto">

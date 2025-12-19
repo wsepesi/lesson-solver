@@ -234,7 +234,7 @@ export default function HomePage() {
             {/* Original set */}
             <div className="flex items-center space-x-12 px-8 shrink-0">
               <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
-              <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Perfect for studios of any size&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
@@ -242,7 +242,7 @@ export default function HomePage() {
             {/* Duplicate set 1 */}
             <div className="flex items-center space-x-12 px-8 shrink-0">
               <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
-              <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Perfect for studios of any size&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
@@ -250,7 +250,7 @@ export default function HomePage() {
             {/* Duplicate set 2 */}
             <div className="flex items-center space-x-12 px-8 shrink-0">
               <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
-              <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Perfect for studios of any size&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
@@ -258,7 +258,7 @@ export default function HomePage() {
             {/* Duplicate set 3 */}
             <div className="flex items-center space-x-12 px-8 shrink-0">
               <span className="text-landing-blue text-sm">&ldquo;Saved me hours every week&rdquo;</span>
-              <span className="text-landing-blue text-sm">&ldquo;Perfect for 40+ students&rdquo;</span>
+              <span className="text-landing-blue text-sm">&ldquo;Perfect for studios of any size&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Finally understands teaching constraints&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Brilliant constraint solving&rdquo;</span>
               <span className="text-landing-blue text-sm">&ldquo;Automatic scheduling is incredible&rdquo;</span>
@@ -282,7 +282,7 @@ export default function HomePage() {
                 <div className="text-3xl font-bold text-landing-blue mb-4">$0</div>
                 <ul className="text-sm space-y-2 mb-6 text-landing-blue">
                   <li className="italic">Get started with the trial plan:</li>
-                  <li>Up to 5 students</li>
+                  <li>Up to 10 students</li>
                   <li>1 studio</li>
                   <li>3 solves</li>
                   <li>Basic support</li>

@@ -18,7 +18,7 @@ This document outlines the complete implementation plan for integrating Stripe p
 | Feature | Free | Pro ($50/year) | Enterprise (Custom) |
 |---------|------|---------------|-------------------|
 | Studios | 1 | 50 | Unlimited |
-| Students per studio | 5 | 50 | Unlimited |
+| Students per studio | 10 | 50 | Unlimited |
 | Solves per year | 3 | 100 | Unlimited |
 | Advanced scheduling | Basic | ✓ | ✓ |
 | Analytics dashboard | Basic | Advanced | Advanced + Custom |
@@ -708,7 +708,7 @@ To begin implementation:
 - Infrastructure: ~$500-1000/month additional costs
 
 **Pricing Strategy Notes**:
-- Free tier (5 students, 3 solves) positioned as demo for teachers
+- Free tier (10 students, 3 solves) positioned as demo for teachers
 - Pro tier ($50/year) targets individual teachers with realistic studio sizes
 - Enterprise tier targets music departments and larger institutions
 - Annual billing aligns with semester-based usage patterns (typically 2x/year)
