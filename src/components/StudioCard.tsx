@@ -21,16 +21,23 @@ const determineProgress = (studio: StudioWithStudents): Progress => {
 }
 
 export default function StudioCard(props: Props) {
-    const { studio_name, code } = props.studio
-    const numEnrolled = props.studio.students.length
-    const progress: Progress = determineProgress(props.studio)
+    const { studio } = props
+    const { studio_name, code } = studio
+    const numEnrolled = studio.students.length
+    const progress: Progress = determineProgress(studio)
+    const isChamberMode = studio.studio_mode === 'chamber_music'
+
     return (
         <Link href={`/studios/${code}`} prefetch={true}>
             <Card className="cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-landing-blue/5 h-[20vh] bg-white border border-landing-blue/20">
                 <CardContent className="grid gap-2 p-4 h-full flex flex-col justify-center">
                     <CardTitle className="text-landing-blue">{studio_name}</CardTitle>
-                    <CardDescription className="text-landing-blue/70">Students Enrolled: {numEnrolled}</CardDescription>
-                    <CardDescription className="text-landing-blue/70">Studio Code: {code}</CardDescription>
+                    <CardDescription className="text-landing-blue/70">
+                        {isChamberMode ? 'Participants' : 'Students Enrolled'}: {numEnrolled}
+                    </CardDescription>
+                    <CardDescription className="text-landing-blue/70">
+                        {isChamberMode ? 'Group Code' : 'Studio Code'}: {code}
+                    </CardDescription>
                     <div className="flex items-center gap-2">
                         <Badge variant="outline" className="border-landing-blue text-landing-blue">{progress}</Badge>
                     </div>

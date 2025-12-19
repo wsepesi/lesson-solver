@@ -365,10 +365,86 @@ export function solveStudioSchedule(
 }
 
 // ============================================================================
+// CHAMBER MUSIC SOLVER FUNCTIONS
+// ============================================================================
+
+import {
+  findMutualOverlap,
+  chamberSolutionToWeekSchedule,
+  isSlotValid,
+  findNearestValidSlot,
+  type ChamberConfig,
+  type ChamberSolution
+} from './scheduling/chamber-solver';
+
+/**
+ * Solve mutual overlap for chamber music groups
+ * Returns all time slots where all participants are available
+ */
+export function solveChamberOverlap(
+  leaderAvailability: WeekSchedule,
+  participantAvailabilities: WeekSchedule[],
+  rehearsalDuration: number
+): ChamberSolution {
+  const config: ChamberConfig = {
+    leaderAvailability,
+    participantAvailabilities,
+    rehearsalDuration
+  };
+
+  return findMutualOverlap(config);
+}
+
+/**
+ * Solve chamber music schedule from database schemas
+ */
+export function solveChamberStudioSchedule(
+  studio: StudioSchema,
+  students: StudentSchema[]
+): ChamberSolution {
+  // Get leader availability (owner_schedule) and convert to WeekSchedule format
+  if (!studio.owner_schedule) {
+    return {
+      mutualSlots: [],
+      metadata: {
+        totalParticipants: students.length + 1,
+        participantsWithAvailability: 0,
+        computeTimeMs: 0
+      }
+    };
+  }
+
+  // Convert raw database schedules to WeekSchedule format
+  // Database stores: {Monday: [{start: {hour, minute}, end: {hour, minute}}], ...}
+  // Solver expects: {days: [{dayOfWeek, blocks: [{start, duration}]}], timezone}
+  const leaderAvailability = convertScheduleToWeekSchedule(studio.owner_schedule);
+
+  // Get participant availabilities and convert each one
+  const participantAvailabilities = students
+    .filter(s => s.schedule)
+    .map(s => convertScheduleToWeekSchedule(s.schedule));
+
+  // Get rehearsal duration (default to 60 if not set)
+  const rehearsalDuration = studio.rehearsal_duration_minutes ?? 60;
+
+  return solveChamberOverlap(
+    leaderAvailability,
+    participantAvailabilities,
+    rehearsalDuration
+  );
+}
+
+// ============================================================================
 // EXPORT FUNCTIONS
 // ============================================================================
 
 export {
   solveSchedule,
-  createEmptyWeekSchedule
+  createEmptyWeekSchedule,
+  // Chamber solver exports
+  chamberSolutionToWeekSchedule,
+  isSlotValid,
+  findNearestValidSlot
 };
+
+export type { ChamberSolution };

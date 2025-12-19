@@ -109,13 +109,21 @@ export function Enrollment(props: Props) {
       setLoading(false);
     }
   };
+  // Check if the studio is a chamber music group (once loaded)
+  const isChamberMode = props.studio?.studio_mode === 'chamber_music';
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-landing-background font-arimo">
       <Card className="w-full max-w-md mx-auto bg-white border border-landing-blue/20">
         <CardHeader>
-          <CardTitle className="text-center text-landing-blue">Enroll in a Studio</CardTitle>
+          <CardTitle className="text-center text-landing-blue">
+            {isChamberMode ? "Join a Chamber Group" : "Enroll in a Studio"}
+          </CardTitle>
           <CardDescription className="text-center text-landing-blue/70">
-            Enter your name, email and studio code to enroll.
+            {isChamberMode
+              ? "Enter your name, email and group code to join."
+              : "Enter your name, email and studio code to enroll."
+            }
           </CardDescription>
         </CardHeader>
         <CardContent className="">
@@ -130,9 +138,6 @@ export function Enrollment(props: Props) {
                     <FormControl>
                       <Input placeholder="First" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                     </FormControl>
-                    {/* <FormDescription>
-                      Your full name as you would like it to appear to the studio.
-                    </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -147,7 +152,7 @@ export function Enrollment(props: Props) {
                     <Input placeholder="Last" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                   </FormControl>
                   <FormDescription className="text-landing-blue/60">
-                    Your full name as you would like it to appear to the studio.
+                    Your full name as you would like it to appear to the {isChamberMode ? "group" : "studio"}.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -174,19 +179,21 @@ export function Enrollment(props: Props) {
                 name="studioCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-landing-blue font-medium">Studio Code</FormLabel>
+                    <FormLabel className="text-landing-blue font-medium">
+                      {isChamberMode ? "Group Code" : "Studio Code"}
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="12345" disabled={loading} {...field} className="border-landing-blue/20 focus:border-landing-blue" />
                     </FormControl>
                     <FormDescription className="text-landing-blue/60">
-                      The 5 digit studio code sent to you by your teacher.
+                      The 5 character code sent to you by your {isChamberMode ? "group leader" : "teacher"}.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
                 />
               <Button className="w-full min-h-[40px] bg-landing-blue text-white hover:bg-landing-blue-hover" type="submit" disabled={loading}>
-                {loading ? <LoadingSpinner size="sm" /> : "Enroll"}
+                {loading ? <LoadingSpinner size="sm" /> : (isChamberMode ? "Join Group" : "Enroll")}
               </Button>
             </form>
           </Form>

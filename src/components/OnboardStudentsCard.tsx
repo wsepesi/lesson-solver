@@ -31,11 +31,12 @@ type Props = {
     scheduleDisplayText?: string // Optional override for schedule display
     isScheduleEmpty?: () => boolean // Optional override for schedule validation
     studio?: StudioSchema // Studio information for dynamic duration settings
+    isChamberMode?: boolean // Whether this is a chamber music group
 }
 
 
 export function OnboardStudentsCard(props: Props) {
-    const { minutes, setMinutes } = props
+    const { minutes, setMinutes, isChamberMode } = props
     const [formData, setFormData] = React.useState<Student>({
         name: "",
         email: "",
@@ -51,7 +52,7 @@ export function OnboardStudentsCard(props: Props) {
     return (
         <Card className="w-[350px] h-[calc(100vh-8rem)] flex flex-col"> {/* overflow-auto"> */}
             <CardHeader>
-                <CardTitle>Add new student</CardTitle>
+                <CardTitle>{isChamberMode ? 'Add new participant' : 'Add new student'}</CardTitle>
                 <CardDescription>Make sure to fill out the calendar before you submit!</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
@@ -64,10 +65,10 @@ export function OnboardStudentsCard(props: Props) {
                 <div className="grid w-full items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="name">Name</Label>
-                    <Input 
-                        id="name" 
-                        placeholder="Name of student" 
-                        onChange={(e) => 
+                    <Input
+                        id="name"
+                        placeholder={isChamberMode ? "Name of participant" : "Name of student"}
+                        onChange={(e) =>
                             setFormData({
                                 ...formData,
                                 name: e.target.value
@@ -76,11 +77,11 @@ export function OnboardStudentsCard(props: Props) {
                     />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Email</Label>
-                    <Input 
-                        id="name" 
-                        placeholder="Student's email" 
-                        onChange={(e) => 
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                        id="email"
+                        placeholder={isChamberMode ? "Participant's email" : "Student's email"}
+                        onChange={(e) =>
                             setFormData({
                                 ...formData,
                                 email: e.target.value
@@ -88,67 +89,77 @@ export function OnboardStudentsCard(props: Props) {
                         value={formData.email}
                     />
                     </div>
-                    <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="lesson-duration">Lesson length</Label>
-                    {/* Show preset durations from studio settings */}
-                    {props.studio?.allowed_lesson_durations && props.studio.allowed_lesson_durations.length > 0 && (
-                        <RadioGroup defaultValue={props.studio.allowed_lesson_durations[0]?.toString()} value={minutes.toString()}>
-                            {props.studio.allowed_lesson_durations.map((duration) => (
-                                <div key={duration} className="flex items-center space-x-2">
-                                    <RadioGroupItem 
-                                        value={duration.toString()} 
-                                        id={`duration-${duration}`} 
-                                        onClick={() => handleClick(duration)}
+                    {/* For chamber mode, show fixed rehearsal duration (set by leader) */}
+                    {isChamberMode ? (
+                        <div className="flex flex-col space-y-1.5">
+                            <Label>Rehearsal duration</Label>
+                            <p className="text-sm text-gray-600">
+                                {props.studio?.rehearsal_duration_minutes ?? 60} minutes (set by group leader)
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="lesson-duration">Lesson length</Label>
+                        {/* Show preset durations from studio settings */}
+                        {props.studio?.allowed_lesson_durations && props.studio.allowed_lesson_durations.length > 0 && (
+                            <RadioGroup defaultValue={props.studio.allowed_lesson_durations[0]?.toString()} value={minutes.toString()}>
+                                {props.studio.allowed_lesson_durations.map((duration) => (
+                                    <div key={duration} className="flex items-center space-x-2">
+                                        <RadioGroupItem
+                                            value={duration.toString()}
+                                            id={`duration-${duration}`}
+                                            onClick={() => handleClick(duration)}
+                                        />
+                                        <Label htmlFor={`duration-${duration}`}>{duration} mins</Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                        )}
+
+                        {/* Show custom duration input if enabled */}
+                        {props.studio?.allow_custom_duration && (
+                            <div className="flex flex-col space-y-2">
+                                <Label htmlFor="custom-duration">Or choose custom duration:</Label>
+                                <div className="flex items-center space-x-2">
+                                    <Input
+                                        id="custom-duration"
+                                        type="number"
+                                        min={props.studio.min_lesson_duration ?? 15}
+                                        max={props.studio.max_lesson_duration ?? 120}
+                                        value={minutes}
+                                        onChange={(e) => {
+                                            const newDuration = parseInt(e.target.value) || 30;
+                                            const min = props.studio?.min_lesson_duration ?? 15;
+                                            const max = props.studio?.max_lesson_duration ?? 120;
+                                            if (newDuration >= min && newDuration <= max) {
+                                                handleClick(newDuration);
+                                            }
+                                        }}
+                                        placeholder="Duration in minutes"
+                                        className="w-32"
                                     />
-                                    <Label htmlFor={`duration-${duration}`}>{duration} mins</Label>
+                                    <span className="text-sm text-gray-500">
+                                        ({props.studio.min_lesson_duration}-{props.studio.max_lesson_duration} min)
+                                    </span>
                                 </div>
-                            ))}
-                        </RadioGroup>
-                    )}
-                    
-                    {/* Show custom duration input if enabled */}
-                    {props.studio?.allow_custom_duration && (
-                        <div className="flex flex-col space-y-2">
-                            <Label htmlFor="custom-duration">Or choose custom duration:</Label>
-                            <div className="flex items-center space-x-2">
-                                <Input
-                                    id="custom-duration"
-                                    type="number"
-                                    min={props.studio.min_lesson_duration ?? 15}
-                                    max={props.studio.max_lesson_duration ?? 120}
-                                    value={minutes}
-                                    onChange={(e) => {
-                                        const newDuration = parseInt(e.target.value) || 30;
-                                        const min = props.studio?.min_lesson_duration ?? 15;
-                                        const max = props.studio?.max_lesson_duration ?? 120;
-                                        if (newDuration >= min && newDuration <= max) {
-                                            handleClick(newDuration);
-                                        }
-                                    }}
-                                    placeholder="Duration in minutes"
-                                    className="w-32"
-                                />
-                                <span className="text-sm text-gray-500">
-                                    ({props.studio.min_lesson_duration}-{props.studio.max_lesson_duration} min)
-                                </span>
                             </div>
+                        )}
+
+                        {/* Fallback for studios without lesson duration settings */}
+                        {(!props.studio?.allowed_lesson_durations || props.studio.allowed_lesson_durations.length === 0) && !props.studio?.allow_custom_duration && (
+                            <RadioGroup defaultValue={"30"} value={lessonLengthToString(minutes)}>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
+                                    <Label htmlFor="r1">30 mins</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
+                                    <Label htmlFor="r2">60 mins</Label>
+                                </div>
+                            </RadioGroup>
+                        )}
                         </div>
                     )}
-                    
-                    {/* Fallback for studios without lesson duration settings */}
-                    {(!props.studio?.allowed_lesson_durations || props.studio.allowed_lesson_durations.length === 0) && !props.studio?.allow_custom_duration && (
-                        <RadioGroup defaultValue={"30"} value={lessonLengthToString(minutes)}>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
-                                <Label htmlFor="r1">30 mins</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
-                                <Label htmlFor="r2">60 mins</Label>
-                            </div>
-                        </RadioGroup>
-                    )}
-                    </div>
                 </div>
                 </form>
             </CardContent>
@@ -175,7 +186,7 @@ export function OnboardStudentsCard(props: Props) {
                         props.addStudentSchedule(formData, emptySchedule)
                         props.setOpen(false)
                         toast({
-                            title: "Student added!",
+                            title: isChamberMode ? "Participant added!" : "Student added!",
                             description: "Submitting data...",
                         })
                     }
@@ -207,8 +218,8 @@ export function OnboardStudentsCard(props: Props) {
                             lessonLength: minutes,
                         })
                         toast({
-                            title: "Student added!",
-                            description: "You can add another student or end.",
+                            title: isChamberMode ? "Participant added!" : "Student added!",
+                            description: isChamberMode ? "You can add another participant or end." : "You can add another student or end.",
                         })
                     }
                     

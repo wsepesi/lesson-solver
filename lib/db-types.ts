@@ -42,6 +42,8 @@ export interface StudioSchema {
   min_lesson_duration: number | null; // integer
   max_lesson_duration: number | null; // integer
   calendar_days: 'weekdays' | 'full_week' | null; // text - calendar display preference
+  studio_mode: 'individual_lessons' | 'chamber_music' | null; // text - studio type (individual lessons or chamber music group)
+  rehearsal_duration_minutes: number | null; // integer - fixed rehearsal duration for chamber music mode
 }
 
 /**

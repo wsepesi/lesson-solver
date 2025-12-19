@@ -45,6 +45,9 @@ export function OnboardStudentCard(props: Props) {
     const { toast } = useToast()
     const [loading, setLoading] = useState(false)
 
+    // Check if this is a chamber music group
+    const isChamberMode = props.studio?.studio_mode === 'chamber_music';
+
     const handleClick = (minutes: LessonLength) => {
         setMinutes(minutes)
     }
@@ -53,8 +56,8 @@ export function OnboardStudentCard(props: Props) {
         if (!studio) {
             toast({
                 variant: "destructive",
-                title: "Studio error",
-                description: "Studio information is missing. Please try again."
+                title: isChamberMode ? "Group error" : "Studio error",
+                description: "Group information is missing. Please try again."
             })
             return
         }
@@ -65,12 +68,17 @@ export function OnboardStudentCard(props: Props) {
             // Convert WeekSchedule to JSON format for database storage
             const jsonSchedule = weekScheduleToJsonSchedule(schedule);
 
+            // For chamber mode, use the fixed rehearsal duration
+            const effectiveDuration = isChamberMode
+                ? (studio.rehearsal_duration_minutes ?? 60)
+                : minutes;
+
             const dbStudent: InsertStudent = {
                 email: studentInfo.email,
                 first_name: studentInfo.first_name,
                 last_name: studentInfo.last_name,
-                lesson_length: minutes === 30 ? "30": "60", // Keep for backward compatibility
-                lesson_duration_minutes: minutes, // New flexible duration field
+                lesson_length: effectiveDuration === 30 ? "30": "60", // Keep for backward compatibility
+                lesson_duration_minutes: effectiveDuration, // New flexible duration field
                 schedule: jsonSchedule as unknown as Schedule,
                 studio_id: studio.id,
             }
@@ -93,11 +101,17 @@ export function OnboardStudentCard(props: Props) {
                 // More specific error messages
                 let errorMessage = "Unable to complete enrollment. Please try again."
                 if (error.code === "42501") {
-                    errorMessage = "Permission denied. Please check if the studio code is valid and try again."
+                    errorMessage = isChamberMode
+                        ? "Permission denied. Please check if the group code is valid and try again."
+                        : "Permission denied. Please check if the studio code is valid and try again."
                 } else if (error.code === "23503") {
-                    errorMessage = "Invalid studio code. Please verify the code and try again."
+                    errorMessage = isChamberMode
+                        ? "Invalid group code. Please verify the code and try again."
+                        : "Invalid studio code. Please verify the code and try again."
                 } else if (error.message.includes("duplicate")) {
-                    errorMessage = "You are already enrolled in this studio."
+                    errorMessage = isChamberMode
+                        ? "You are already a member of this group."
+                        : "You are already enrolled in this studio."
                 }
 
                 toast({
@@ -110,8 +124,10 @@ export function OnboardStudentCard(props: Props) {
             }
 
             toast({
-                title: "Enrollment successful!",
-                description: "You've been enrolled in the studio."
+                title: isChamberMode ? "Joined successfully!" : "Enrollment successful!",
+                description: isChamberMode
+                    ? "You've joined the chamber group."
+                    : "You've been enrolled in the studio."
             })
         } catch (error: unknown) {
             toast({
@@ -128,75 +144,90 @@ export function OnboardStudentCard(props: Props) {
         <Card className="w-[350px] bg-white border border-landing-blue/20">
             <CardHeader>
                 <CardTitle className="text-landing-blue">Welcome {props.studentInfo.first_name} {props.studentInfo.last_name}</CardTitle>
-                <CardDescription className="text-landing-blue/70">Fill out your availability on the calendar</CardDescription>
+                <CardDescription className="text-landing-blue/70">
+                    {isChamberMode
+                        ? "Mark your availability for rehearsals on the calendar"
+                        : "Fill out your availability on the calendar"
+                    }
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="pb-3 max-h-32 overflow-y-auto">{formatter(formatWeekScheduleDisplay(props.schedule).join('\n'))}</div>
-                <form>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="lesson-duration" className="text-landing-blue font-medium">Lesson length</Label>
-                        {/* Show preset durations from studio settings */}
-                        {props.studio?.allowed_lesson_durations && props.studio.allowed_lesson_durations.length > 0 && (
-                            <RadioGroup defaultValue={props.studio.allowed_lesson_durations[0]?.toString()} value={minutes.toString()}>
-                                {props.studio.allowed_lesson_durations.map((duration) => (
-                                    <div key={duration} className="flex items-center space-x-2">
-                                        <RadioGroupItem 
-                                            value={duration.toString()} 
-                                            id={`duration-${duration}`} 
-                                            onClick={() => handleClick(duration)}
-                                        />
-                                        <Label htmlFor={`duration-${duration}`} className="text-landing-blue/70">{duration} mins</Label>
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                        )}
-                        
-                        {/* Show custom duration input if enabled */}
-                        {props.studio?.allow_custom_duration && (
-                            <div className="flex flex-col space-y-2">
-                                <Label htmlFor="custom-duration" className="text-landing-blue font-medium">Or choose custom duration:</Label>
-                                <div className="flex items-center space-x-2">
-                                    <Input
-                                        id="custom-duration"
-                                        type="number"
-                                        min={props.studio.min_lesson_duration ?? 15}
-                                        max={props.studio.max_lesson_duration ?? 120}
-                                        value={minutes}
-                                        onChange={(e) => {
-                                            const newDuration = parseInt(e.target.value) || 30;
-                                            const min = props.studio?.min_lesson_duration ?? 15;
-                                            const max = props.studio?.max_lesson_duration ?? 120;
-                                            if (newDuration >= min && newDuration <= max) {
-                                                handleClick(newDuration);
-                                            }
-                                        }}
-                                        placeholder="Duration in minutes"
-                                        className="w-32"
-                                    />
-                                    <span className="text-sm text-landing-blue/60">
-                                        ({props.studio.min_lesson_duration}-{props.studio.max_lesson_duration} min)
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-                        
-                        {/* Fallback for studios without lesson duration settings */}
-                        {(!props.studio?.allowed_lesson_durations || props.studio.allowed_lesson_durations.length === 0) && !props.studio?.allow_custom_duration && (
-                            <RadioGroup defaultValue="30" value={minutes.toString()}>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
-                                    <Label htmlFor="r1" className="text-landing-blue/70">30 mins</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
-                                    <Label htmlFor="r2" className="text-landing-blue/70">60 mins</Label>
-                                </div>
-                            </RadioGroup>
-                        )}
-                        </div>
+
+                {/* For chamber mode, show fixed rehearsal duration info instead of selection */}
+                {isChamberMode ? (
+                    <div className="py-2">
+                        <p className="text-sm text-landing-blue/70">
+                            Rehearsal duration: <span className="font-semibold">{props.studio?.rehearsal_duration_minutes ?? 60} minutes</span>
+                        </p>
                     </div>
-                </form>
+                ) : (
+                    <form>
+                        <div className="grid w-full items-center gap-4">
+                            <div className="flex flex-col space-y-1.5">
+                            <Label htmlFor="lesson-duration" className="text-landing-blue font-medium">Lesson length</Label>
+                            {/* Show preset durations from studio settings */}
+                            {props.studio?.allowed_lesson_durations && props.studio.allowed_lesson_durations.length > 0 && (
+                                <RadioGroup defaultValue={props.studio.allowed_lesson_durations[0]?.toString()} value={minutes.toString()}>
+                                    {props.studio.allowed_lesson_durations.map((duration) => (
+                                        <div key={duration} className="flex items-center space-x-2">
+                                            <RadioGroupItem
+                                                value={duration.toString()}
+                                                id={`duration-${duration}`}
+                                                onClick={() => handleClick(duration)}
+                                            />
+                                            <Label htmlFor={`duration-${duration}`} className="text-landing-blue/70">{duration} mins</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            )}
+
+                            {/* Show custom duration input if enabled */}
+                            {props.studio?.allow_custom_duration && (
+                                <div className="flex flex-col space-y-2">
+                                    <Label htmlFor="custom-duration" className="text-landing-blue font-medium">Or choose custom duration:</Label>
+                                    <div className="flex items-center space-x-2">
+                                        <Input
+                                            id="custom-duration"
+                                            type="number"
+                                            min={props.studio.min_lesson_duration ?? 15}
+                                            max={props.studio.max_lesson_duration ?? 120}
+                                            value={minutes}
+                                            onChange={(e) => {
+                                                const newDuration = parseInt(e.target.value) || 30;
+                                                const min = props.studio?.min_lesson_duration ?? 15;
+                                                const max = props.studio?.max_lesson_duration ?? 120;
+                                                if (newDuration >= min && newDuration <= max) {
+                                                    handleClick(newDuration);
+                                                }
+                                            }}
+                                            placeholder="Duration in minutes"
+                                            className="w-32"
+                                        />
+                                        <span className="text-sm text-landing-blue/60">
+                                            ({props.studio.min_lesson_duration}-{props.studio.max_lesson_duration} min)
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Fallback for studios without lesson duration settings */}
+                            {(!props.studio?.allowed_lesson_durations || props.studio.allowed_lesson_durations.length === 0) && !props.studio?.allow_custom_duration && (
+                                <RadioGroup defaultValue="30" value={minutes.toString()}>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="30" id="r1" onClick={() => handleClick(30)}/>
+                                        <Label htmlFor="r1" className="text-landing-blue/70">30 mins</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="60" id="r2" onClick={() => handleClick(60)}/>
+                                        <Label htmlFor="r2" className="text-landing-blue/70">60 mins</Label>
+                                    </div>
+                                </RadioGroup>
+                            )}
+                            </div>
+                        </div>
+                    </form>
+                )}
             </CardContent>
             <CardFooter className="flex justify-between">
                 <Button 

@@ -26,6 +26,7 @@ type Props = {
 }
 export default function ManualScheduleDialog(props: Props) {
   const [open, setOpen] = useState(false)
+  const isChamberMode = props.studio.studio_mode === 'chamber_music'
 
     return (
       <Dialog
@@ -33,13 +34,15 @@ export default function ManualScheduleDialog(props: Props) {
         onOpenChange={setOpen}
       >
         <DialogTrigger asChild>
-          <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">Add Student Schedules Manually</Button>
+          <Button className="w-full bg-landing-blue text-white hover:bg-landing-blue-hover">
+            {isChamberMode ? 'Add Participant Schedules Manually' : 'Add Student Schedules Manually'}
+          </Button>
         </DialogTrigger>
         <DialogContent className="max-w-[95vw] w-[95vw] max-h-[95vh] h-[95vh] p-4">
           <DialogHeader>
             <DialogTitle>Manual Schedule Entry</DialogTitle>
           </DialogHeader>
-          <ManualStudentScheduling 
+          <ManualStudentScheduling
             studio={props.studio}
             setStudio={props.setStudio}
             setOpen={() => setOpen(false)}
@@ -47,6 +50,7 @@ export default function ManualScheduleDialog(props: Props) {
             setEvents={props.setEvents}
             taskStatus={props.taskStatus}
             setTaskStatus={props.setTaskStatus}
+            isChamberMode={isChamberMode}
           />
         </DialogContent>
       </Dialog>
